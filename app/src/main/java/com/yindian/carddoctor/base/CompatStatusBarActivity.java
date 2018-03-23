@@ -1,12 +1,9 @@
 package com.yindian.carddoctor.base;
 
-import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,44 +14,33 @@ import android.widget.FrameLayout;
 
 import com.yindian.carddoctor.R;
 
-import org.w3c.dom.Attr;
-
-import butterknife.ButterKnife;
-
 /**
- * 统一Activity，所有activity继承该activity
+ * 透明状态栏适配
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class CompatStatusBarActivity extends BaseActivity {
 
-    private View viewStatusBarPlace;
-    private FrameLayout frameLayoutContent;
+    private FrameLayout mFrameLayoutContent;
+    private View mViewStatusBarPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resetDensity();
         super.setContentView(R.layout.activity_compat_status_bar);
-        viewStatusBarPlace = findViewById(R.id.view_status_bar_place);
-        frameLayoutContent = findViewById(R.id.frame_layout_content_place);
-        ViewGroup.LayoutParams params = viewStatusBarPlace.getLayoutParams();
+
+        mViewStatusBarPlace = findViewById(R.id.view_status_bar_place);
+        mFrameLayoutContent = findViewById(R.id.frame_layout_content_place);
+        ViewGroup.LayoutParams params = mViewStatusBarPlace.getLayoutParams();
         params.height = getStatusBarHeight();
-        viewStatusBarPlace.setLayoutParams(params);
-        setContentView(getLayoutId());
-        ButterKnife.bind(this);
-        initialize();
+        mViewStatusBarPlace.setLayoutParams(params);
     }
-
-    protected abstract int getLayoutId();
-
-    public abstract void initialize();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         View contentView = LayoutInflater.from(this).inflate(layoutResID, null);
-        frameLayoutContent.addView(contentView);
+        mFrameLayoutContent.addView(contentView);
     }
 
-    //******** 获取状态栏高度 ********
+    //******** 动态设置状态栏高度 ********
     public int getStatusBarHeight() {
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -71,8 +57,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setStatusBarPlaceColor(int statusColor) {
-        if (viewStatusBarPlace != null) {
-            viewStatusBarPlace.setBackgroundColor(statusColor);
+        if (mViewStatusBarPlace != null) {
+            mViewStatusBarPlace.setBackgroundColor(statusColor);
         }
     }
 
@@ -90,19 +76,4 @@ public abstract class BaseActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        resetDensity();
-    }
-
-    public final static float DESIGN_WIDTH = 375;
-
-    public void resetDensity() {
-        Point size = new Point();
-        ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(size);
-        getResources().getDisplayMetrics().xdpi = size.x / DESIGN_WIDTH * 72f;
-    }
-
 }

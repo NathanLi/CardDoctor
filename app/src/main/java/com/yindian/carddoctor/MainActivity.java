@@ -1,64 +1,55 @@
 package com.yindian.carddoctor;
 
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yindian.carddoctor.adapter.HomeTabAdapter;
+import com.yindian.carddoctor.adapter.MainTabAdapter;
 import com.yindian.carddoctor.base.BaseActivity;
-import com.yindian.carddoctor.base.CompatStatusBarActivity;
-import com.yindian.carddoctor.common.view.SimpleToolbar;
 import com.yindian.carddoctor.home.ui.HomeFragment;
-import com.yindian.carddoctor.home.ui.Tab2Fragment;
-import com.yindian.carddoctor.home.ui.Tab3Fragment;
-import com.yindian.carddoctor.home.ui.Tab4Fragment;
-import com.yindian.carddoctor.home.ui.Tab5Fragment;
+import com.yindian.carddoctor.bill.BillFragment;
+import com.yindian.carddoctor.test.CardTestFragment;
+import com.yindian.carddoctor.share.ShareFragment;
+import com.yindian.carddoctor.mine.MineFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
+/**
+ * 主页框架
+ */
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-
-    private List<Fragment> fragments;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private List<Fragment> mFragments;
 
     @Override
-    public void initialize() {
-        setImmersiveStatusBar(getResources().getColor(R.color.colorPrimary));
-        fragments = new ArrayList<>();
-        fragments.add(HomeFragment.getInstance("HomeFragment"));
-        fragments.add(Tab2Fragment.getInstance("Tab2Fragment"));
-        fragments.add(Tab3Fragment.getInstance("Tab3Fragment"));
-        fragments.add(Tab4Fragment.getInstance("Tab4Fragment"));
-        fragments.add(Tab5Fragment.getInstance("Tab5Fragment"));
+    public void initData() {
+        mFragments = new ArrayList<>();
+        mFragments.add(HomeFragment.getInstance("HomeFragment"));
+        mFragments.add(BillFragment.getInstance("BillFragment"));
+        mFragments.add(CardTestFragment.getInstance("CardTestFragment"));
+        mFragments.add(ShareFragment.getInstance("ShareFragment"));
+        mFragments.add(MineFragment.getInstance("MineFragment"));
 
         int[] tabImgs = {R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
                 R.drawable.ic_launcher, R.drawable.ic_launcher};
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};
 
         //******** 设置适配器、关联ViewPager ********
-        HomeTabAdapter mAdapter = new HomeTabAdapter(getSupportFragmentManager(), this, fragments, tabImgs, tabTitles);
-        viewPager.setAdapter(mAdapter);
-        viewPager.setCurrentItem(0);
-        tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setCustomView(mAdapter.getTabView(i));
+        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), this, mFragments, tabImgs, tabTitles);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setCurrentItem(0);
+        mTabLayout.setupWithViewPager(mViewPager);
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            mTabLayout.getTabAt(i).setCustomView(mAdapter.getTabView(i));
         }
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 setTabSelectedState(tab);
@@ -74,6 +65,13 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public void initView() {
+        setImmersiveStatusBar(getResources().getColor(R.color.colorPrimary));
+        mViewPager = findViewById(R.id.view_pager);
+        mTabLayout = findViewById(R.id.tab_layout);
     }
 
     //******** 设置选中tab状态 ********

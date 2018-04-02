@@ -18,45 +18,45 @@ import java.util.List;
  * Created by pc1994 on 2018/3/22.
  */
 
-public class HomeTabAdapter extends FragmentPagerAdapter {
+public class MainTabAdapter extends FragmentPagerAdapter {
 
-    private Context context;
-    private List<Fragment> fragments;
-    private final int[] tabImgs;
-    private final String[] tabTitles;
+    private Context mContext;
+    private List<Fragment> mFragments;
+    private final int[] mTabImgs;
+    private final String[] mTabTitles;
 
-    public HomeTabAdapter(FragmentManager fm, Context context, List<Fragment> fragments, int[] tabImgs, String[] tabTitles) {
+    public MainTabAdapter(FragmentManager fm, Context context, List<Fragment> fragments, int[] tabImgs, String[] tabTitles) {
         super(fm);
-        this.context = context;
-        this.fragments = fragments;
-        this.tabImgs = tabImgs;
-        this.tabTitles = tabTitles;
+        this.mContext = context;
+        this.mFragments = fragments;
+        this.mTabImgs = tabImgs;
+        this.mTabTitles = tabTitles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        return mFragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return mFragments.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitles[position];
+        return mTabTitles[position];
     }
 
     public View getTabView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_main_tab_item, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_list_item_main_tab, null);
         ImageView tabIcon = view.findViewById(R.id.iv_tab_icon);
         TextView tabName =  view.findViewById(R.id.tv_tab_name);
-        tabIcon.setImageResource(tabImgs[position]);
-        tabName.setText(tabTitles[position]);
+        tabIcon.setImageResource(mTabImgs[position]);
+        tabName.setText(mTabTitles[position]);
         if (0 == position) {
             tabIcon.setImageResource(R.drawable.ic_home_selected);
-            tabName.setTextColor(ContextCompat.getColor(context, R.color.tab_text_select_blue));
+            tabName.setTextColor(ContextCompat.getColor(mContext, R.color.tab_text_select_blue));
         }
         return view;
     }

@@ -1,4 +1,4 @@
-package com.yindian.carddoctor.home.ui;
+package com.yindian.carddoctor.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +14,11 @@ import com.yindian.carddoctor.common.view.SimpleToolbar;
  * Created by pc1994 on 2018/3/22.
  */
 
-public class Tab5Fragment extends Fragment {
+public class CardTestFragment extends Fragment {
 
 
     public static Fragment getInstance(String data){
-        Tab5Fragment f = new Tab5Fragment();
+        CardTestFragment f = new CardTestFragment();
         Bundle bundle = new Bundle();
         bundle.putString("data",data);
         f.setArguments(bundle);
@@ -27,13 +27,12 @@ public class Tab5Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
-        toolbar.setTitleName(getString(R.string.tab_item_me));
+        toolbar.setTitleName(getString(R.string.tab_item_card_test));
         TextView tv = view.findViewById(R.id.tv);
         tv.setText(getArguments().getString("data"));
         return view;
     }
-
 
 }

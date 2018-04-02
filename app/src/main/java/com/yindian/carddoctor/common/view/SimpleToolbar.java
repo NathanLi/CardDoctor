@@ -15,36 +15,34 @@ import com.yindian.carddoctor.R;
  */
 public class SimpleToolbar extends LinearLayout {
 
-    private Context context;
-    private TextView title;
-    private ImageView rightIcon;
-    private String TAG = "simpletoolbar";
-
+    private Context mContext;
+    private TextView mTitle;
+    private ImageView mRightIcon;
 
     public SimpleToolbar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
+        this.mContext = context;
         init();
     }
     
     public void init() {
-        LayoutInflater.from(context).inflate(R.layout.simple_toolbar, this);
-        title = findViewById(R.id.tv_toolbar_title);
-        rightIcon = findViewById(R.id.iv_toolbar_right_icon);
+        LayoutInflater.from(mContext).inflate(R.layout.layout_simple_toolbar, this);
+        mTitle = findViewById(R.id.tv_toolbar_title);
+        mRightIcon = findViewById(R.id.iv_toolbar_right_icon);
     }
 
     public SimpleToolbar setTitleName(String titleName) {
-        title.setText(titleName);
+        mTitle.setText(titleName);
         return this;
     }
 
     public SimpleToolbar setRightIcon(int imgRes) {
-        rightIcon.setImageResource(imgRes);
+        mRightIcon.setImageResource(imgRes);
         return this;
     }
 
     public SimpleToolbar setRightIconClickListener(OnClickListener listener) {
-        rightIcon.setOnClickListener(listener);
+        mRightIcon.setOnClickListener(listener);
         return this;
     }
 }

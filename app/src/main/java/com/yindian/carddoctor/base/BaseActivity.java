@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,41 +16,37 @@ import android.widget.FrameLayout;
 
 import com.yindian.carddoctor.R;
 
-import org.w3c.dom.Attr;
-
-import butterknife.ButterKnife;
-
 /**
  * 统一Activity，所有activity继承该activity
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private View viewStatusBarPlace;
-    private FrameLayout frameLayoutContent;
+    private View mViewStatusBarPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resetDensity();
         super.setContentView(R.layout.activity_compat_status_bar);
-        viewStatusBarPlace = findViewById(R.id.view_status_bar_place);
-        frameLayoutContent = findViewById(R.id.frame_layout_content_place);
-        ViewGroup.LayoutParams params = viewStatusBarPlace.getLayoutParams();
+        mViewStatusBarPlace = findViewById(R.id.view_status_bar_place);
+        ViewGroup.LayoutParams params = mViewStatusBarPlace.getLayoutParams();
         params.height = getStatusBarHeight();
-        viewStatusBarPlace.setLayoutParams(params);
+        mViewStatusBarPlace.setLayoutParams(params);
         setContentView(getLayoutId());
-        ButterKnife.bind(this);
-        initialize();
+        initView();
+        initData();
     }
 
-    protected abstract int getLayoutId();
+    public abstract void initData();
 
-    public abstract void initialize();
+    public abstract void initView();
+
+    protected abstract int getLayoutId();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         View contentView = LayoutInflater.from(this).inflate(layoutResID, null);
-        frameLayoutContent.addView(contentView);
+        ((FrameLayout) findViewById(R.id.frame_layout_content_place)).addView(contentView);
     }
 
     //******** 获取状态栏高度 ********
@@ -71,8 +66,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setStatusBarPlaceColor(int statusColor) {
-        if (viewStatusBarPlace != null) {
-            viewStatusBarPlace.setBackgroundColor(statusColor);
+        if (mViewStatusBarPlace != null) {
+            mViewStatusBarPlace.setBackgroundColor(statusColor);
         }
     }
 

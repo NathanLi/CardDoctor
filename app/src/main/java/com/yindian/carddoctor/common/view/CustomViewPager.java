@@ -35,4 +35,14 @@ public class CustomViewPager extends ViewPager {
         return mIsCanScroll && super.onTouchEvent(ev);
 
     }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item,false);
+    }
+
+    @Override
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        super.setCurrentItem(item, smoothScroll);
+    }
 }

@@ -5,6 +5,7 @@ package com.yunkahui.datacubeper.common.bean;
  */
 public class MineItem {
 
+    private int id;
     private int icon;
     private String title;
     private String detail;
@@ -21,6 +22,14 @@ public class MineItem {
         this.title = title;
         this.detail = detail;
         this.isShow = isShow;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isShow() {

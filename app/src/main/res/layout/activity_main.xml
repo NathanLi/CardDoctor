@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yindian.carddoctor.MainActivity">
+    tools:context="com.yunkahui.datacubeper.MainActivity">
 
-    <com.yindian.carddoctor.common.view.CustomViewPager
+    <com.yunkahui.datacubeper.common.view.CustomViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

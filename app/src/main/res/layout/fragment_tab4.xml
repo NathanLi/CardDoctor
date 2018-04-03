@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.yindian.carddoctor.common.view.SimpleToolbar
+    <com.yunkahui.datacubeper.common.view.SimpleToolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -31,7 +31,7 @@
                     android:layout_marginLeft="16pt"
                     android:layout_marginTop="16pt"
                     android:layout_marginBottom="16pt"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/tv_bank_name"

@@ -4,12 +4,12 @@ package com.yunkahui.datacubeper.common.bean;
  * Created by pc1994 on 2018/3/23.
  */
 
-public class HomeFeature {
+public class HomeItem {
 
     private int imgRes;
     private String title;
 
-    public HomeFeature(int imgRes, String title) {
+    public HomeItem(int imgRes, String title) {
         this.imgRes = imgRes;
         this.title = title;
     }

@@ -16,22 +16,13 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 
 public class CardTestFragment extends Fragment {
 
-
-    public static Fragment getInstance(String data){
-        CardTestFragment f = new CardTestFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("data",data);
-        f.setArguments(bundle);
-        return f;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.tab_item_card_test));
         TextView tv = view.findViewById(R.id.tv);
-        tv.setText(getArguments().getString("data"));
+        tv.setText("CardTestFragment");
         return view;
     }
 

@@ -1,14 +1,13 @@
 package com.yunkahui.datacubeper.home.ui;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.home.adapter.HomeFeatureAdapter;
+import com.yunkahui.datacubeper.home.adapter.HomeItemAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
-import com.yunkahui.datacubeper.common.bean.HomeFeature;
+import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
 
@@ -22,33 +21,25 @@ public class HomeFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
 
-    public static Fragment getInstance(String data){
-        HomeFragment f = new HomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("data",data);
-        f.setArguments(bundle);
-        return f;
-    }
-
     @Override
     public void initData() {
         String[] titles = new String[] { "今日操作", "实名认证", "升级加盟", "申请POS",
                 "个人征信", "借贷黑名单", "失信黑名单", "违章查询",
                 "一键办卡", "贷款专区", "保险服务", "更多"};
-        Integer[] imgs = { R.drawable.ic_today_operation, R.drawable.ic_name_authentication,
-                R.drawable.ic_upgrade_and_join, R.drawable.ic_apply_pos,
-                R.drawable.ic_personal_credit, R.drawable.ic_blacklist_lending,
-                R.drawable.ic_discredit_carried_out, R.drawable.ic_query_car_illegal,
-                R.drawable.ic_one_key_card, R.drawable.ic_launcher,
-                R.drawable.ic_insurance_service, R.drawable.ic_launcher, };
-        HomeFeature feature = null;
-        List<HomeFeature> featureList = new ArrayList<>();
+        Integer[] imgs = { R.mipmap.ic_today_operation, R.mipmap.ic_name_verify,
+                R.mipmap.ic_upgrade_and_join, R.mipmap.ic_apply_pos,
+                R.mipmap.ic_personal_credit, R.mipmap.ic_blacklist_lending,
+                R.mipmap.ic_discredit_carried_out, R.mipmap.ic_query_car_illegal,
+                R.mipmap.ic_one_key_card, R.mipmap.ic_launcher,
+                R.mipmap.ic_insurance_service, R.mipmap.ic_launcher, };
+        HomeItem feature = null;
+        List<HomeItem> featureList = new ArrayList<>();
         for (int i = 0; i < imgs.length; i++) {
-            feature = new HomeFeature(imgs[i], titles[i]);
+            feature = new HomeItem(imgs[i], titles[i]);
             featureList.add(feature);
         }
         mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(getActivity(), 4));
-        mRecyclerView.setAdapter(new HomeFeatureAdapter(getActivity(), featureList));
+        mRecyclerView.setAdapter(new HomeItemAdapter(getActivity(), featureList));
     }
 
     @Override

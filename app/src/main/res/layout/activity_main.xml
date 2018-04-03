@@ -18,14 +18,44 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
-        android:layout_height="49pt"
-        app:tabTextColor="#ccc"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabBackground="@color/white"
-        app:tabMode="fixed"
-        app:tabIndicatorHeight="0dp"/>
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            android:text="首页"
+            android:checked="true"
+            android:drawableTop="@drawable/main_tab_home_selector"
+            style="@style/MainRadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/rb_bill"
+            android:text="账单"
+            android:drawableTop="@drawable/main_tab_bill_selector"
+            style="@style/MainRadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/rb_card_test"
+            android:text="卡·测评"
+            android:drawableTop="@drawable/main_tab_card_test_selector"
+            style="@style/MainRadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/rb_share"
+            android:text="分享"
+            android:drawableTop="@drawable/main_tab_share_selector"
+            style="@style/MainRadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            android:text="我的"
+            android:drawableTop="@drawable/main_tab_mine_selector"
+            style="@style/MainRadioButtonStyle" />
+
+    </RadioGroup>
 
 </LinearLayout>

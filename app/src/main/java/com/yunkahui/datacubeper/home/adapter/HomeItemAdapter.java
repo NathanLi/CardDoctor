@@ -10,31 +10,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.common.bean.HomeFeature;
+import com.yunkahui.datacubeper.common.bean.HomeItem;
 
 import java.util.List;
 
 /**
  * Created by pc1994 on 2018/3/23
  */
-public class HomeFeatureAdapter extends RecyclerView.Adapter<HomeFeatureAdapter.MyViewHolder> {
+public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.MyViewHolder> {
 
     private LayoutInflater mLayoutInflater;
-    private List<HomeFeature> mFeatureList;
+    private List<HomeItem> mFeatureList;
 
-    public HomeFeatureAdapter(Context context, List<HomeFeature> featureList) {
+    public HomeItemAdapter(Context context, List<HomeItem> featureList) {
         mLayoutInflater = LayoutInflater.from(context);
         this.mFeatureList = featureList;
     }
 
     @Override
-    public HomeFeatureAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HomeItemAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.inflate(R.layout.layout_list_item_home_feature, null, false));
     }
 
     @Override
-    public void onBindViewHolder(HomeFeatureAdapter.MyViewHolder holder, int position) {
-        HomeFeature feature = mFeatureList.get(position);
+    public void onBindViewHolder(HomeItemAdapter.MyViewHolder holder, int position) {
+        HomeItem feature = mFeatureList.get(position);
         holder.img.setImageResource(feature.getImgRes());
         holder.title.setText(feature.getTitle());
         holder.featureLayout.setOnClickListener(new View.OnClickListener() {

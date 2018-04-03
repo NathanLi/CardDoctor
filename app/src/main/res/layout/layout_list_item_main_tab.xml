@@ -9,7 +9,7 @@
         android:id="@+id/iv_tab_icon"
         android:layout_width="30pt"
         android:layout_height="30pt"
-        android:src="@drawable/ic_launcher"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="fitXY"
         android:padding="1pt"/>
 

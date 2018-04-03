@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:padding="20pt">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56pt">
+
+        <ImageView
+            android:id="@+id/iv_user_icon"
+            android:layout_width="56pt"
+            android:layout_height="match_parent"
+            android:background="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20pt"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="岑年"
+                android:textColor="@color/white"
+                android:textSize="16pt" />
+
+            <TextView
+                android:id="@+id/tv_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4pt"
+                android:text="14123432532"
+                android:textColor="@color/white"
+                android:textSize="16pt" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1pt"
+        android:layout_marginTop="20pt"
+        android:background="#f99b41" />
+
+    <LinearLayout
+        android:layout_marginTop="20pt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16pt"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐码：" />
+
+        <TextView
+            android:id="@+id/tv_recommand_code"
+            android:textSize="16pt"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3423534" />
+
+        <TextView
+            android:layout_marginLeft="72pt"
+            android:textSize="16pt"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐人：" />
+
+        <TextView
+            android:id="@+id/tv_referee"
+            android:textSize="16pt"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文艺范" />
+    </LinearLayout>
+</LinearLayout>

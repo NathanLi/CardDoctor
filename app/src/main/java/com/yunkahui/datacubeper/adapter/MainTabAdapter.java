@@ -48,16 +48,4 @@ public class MainTabAdapter extends FragmentPagerAdapter {
         return mTabTitles[position];
     }
 
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_list_item_main_tab, null);
-        ImageView tabIcon = view.findViewById(R.id.iv_tab_icon);
-        TextView tabName =  view.findViewById(R.id.tv_tab_name);
-        tabIcon.setImageResource(mTabImgs[position]);
-        tabName.setText(mTabTitles[position]);
-        if (0 == position) {
-            tabIcon.setImageResource(R.drawable.ic_home_selected);
-            tabName.setTextColor(ContextCompat.getColor(mContext, R.color.tab_text_select_blue));
-        }
-        return view;
-    }
 }

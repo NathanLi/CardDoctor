@@ -8,6 +8,4 @@ import android.app.Application;
 
 public class CardDoctorApplication extends Application {
 
-
-
 }

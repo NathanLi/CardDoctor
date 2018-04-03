@@ -19,7 +19,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
     }
 
     @Override
@@ -32,6 +32,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mTextViewForgetPassword=findViewById(R.id.text_view_forget_password);
 
         findViewById(R.id.button_login).setOnClickListener(this);
+        findViewById(R.id.button_register).setOnClickListener(this);
         mTextViewForgetPassword.setOnClickListener(this);
     }
 
@@ -48,6 +49,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.button_login:
                 startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.button_register:
+                startActivity(new Intent(this, RegisterActivity.class));
                 break;
         }
     }

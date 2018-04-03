@@ -19,5 +19,7 @@
     <string name="auth_code_tips">请输入验证码</string>
     <string name="send_auth_code">发送验证码</string>
     <string name="button_next">下一步</string>
+    <string name="phone_tips2">请输入手机号</string>
+    <string name="invite_code_tips">请输入邀请码</string>
 
 </resources>

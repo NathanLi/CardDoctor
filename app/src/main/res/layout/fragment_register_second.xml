@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.login.ui.RegisterFirstFragment">
+
+    <EditText
+        android:id="@+id/edit_text_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="55pt"
+        android:background="@null"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:hint="@string/nick_name_tips"
+        android:drawableLeft="@mipmap/ic_username2"
+        android:textSize="16pt"
+        android:textColor="#000000"
+        android:drawablePadding="15pt"
+        android:lines="1"
+        android:inputType="phone"
+        android:layout_marginTop="50pt"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:background="@color/line_blue"/>
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="match_parent"
+        android:layout_height="55pt"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:hint="@string/password_tips"
+        android:drawableLeft="@mipmap/ic_password"
+        android:drawablePadding="15pt"
+        android:textSize="16pt"
+        android:textColor="#000000"
+        android:lines="1"
+        android:background="@null"
+        android:inputType="number" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:background="@color/line_blue"/>
+
+    <EditText
+        android:id="@+id/edit_text_password_repeat"
+        android:layout_width="match_parent"
+        android:layout_height="55pt"
+        android:background="@null"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:hint="@string/password_repeat_tips"
+        android:drawableLeft="@mipmap/ic_password_repeat"
+        android:textSize="16pt"
+        android:textColor="#000000"
+        android:drawablePadding="15pt"
+        android:lines="1"
+        android:inputType="number" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="25pt"
+        android:layout_marginRight="25pt"
+        android:background="@color/line_blue"/>
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="match_parent"
+        android:layout_height="45pt"
+        android:text="@string/immediately_register"
+        android:textColor="@color/white"
+        android:textSize="16pt"
+        android:background="#CCCCCC"
+        android:layout_marginLeft="30pt"
+        android:layout_marginRight="30pt"
+        android:layout_marginTop="40pt"/>
+
+
+</LinearLayout>

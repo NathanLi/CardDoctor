@@ -21,5 +21,9 @@
     <string name="button_next">下一步</string>
     <string name="phone_tips2">请输入手机号</string>
     <string name="invite_code_tips">请输入邀请码</string>
-
+    <string name="nick_name_tips">请输入昵称</string>
+    <string name="password_tips">请输入密码</string>
+    <string name="password_repeat_tips">再次输入确认密码</string>
+    <string name="immediately_register">立即注册</string>
+    
 </resources>

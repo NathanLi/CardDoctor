@@ -28,6 +28,14 @@ public class RegisterActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setImmersiveStatusBar(getResources().getColor(R.color.colorPrimary));
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new RegisterFirstFragment()).commit();
+    }
+
+    /**
+     * 跳转到注册第二步
+     */
+    public void registerSecond(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new RegisterSecondFragment()).commitNowAllowingStateLoss();
     }
 
     @Override

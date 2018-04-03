@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yunkahui.datacubeper.login.ui.LoginActivity"
+    android:paddingLeft="30pt"
+    android:paddingRight="30pt">
+
+
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="100pt"
+        android:layout_height="100pt"
+        android:src="@mipmap/ic_logo_200"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40pt"/>
+
+
+    <EditText
+        android:id="@+id/edit_view_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@+id/image_view_logo"
+        android:lines="1"
+        android:inputType="number"
+        android:hint="请输入手机号码"
+        android:drawablePadding="15pt"
+        android:textSize="18pt"
+        android:drawableLeft="@mipmap/ic_username"
+        android:layout_marginTop="80pt" />
+    
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#b90191cf"
+        android:layout_below="@+id/edit_view_username"
+        android:layout_marginTop="15pt"/>
+
+    <EditText
+        android:id="@+id/edit_view_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@+id/view_line1"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:hint="请输入密码"
+        android:drawablePadding="15pt"
+        android:textSize="18pt"
+        android:drawableLeft="@mipmap/ic_password"
+        android:layout_marginTop="15pt" />
+
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#b90191cf"
+        android:layout_below="@+id/edit_view_password"
+        android:layout_marginTop="15pt"/>
+
+    <TextView
+        android:id="@+id/text_view_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_line2"
+        android:textSize="14pt"
+        android:layout_marginTop="10pt"
+        android:layout_marginBottom="10pt"
+        android:text="忘记密码"/>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="45pt"
+        android:text="@string/login"
+        android:textSize="16pt"
+        android:background="@drawable/bg_button_login_selector"
+        android:layout_below="@+id/text_view_forget_password"
+        android:layout_margin="10pt"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="45pt"
+        android:text="@string/fast_register"
+        android:textSize="16pt"
+        android:background="@drawable/bg_button_register_normal"
+        android:layout_below="@+id/button_login"
+        android:layout_margin="10pt"
+        android:textColor="@color/text_color_blue_0d55ff"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15pt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12pt"
+            android:text="@string/agreement_tips"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12pt"
+            android:textColor="@color/text_color_blue_0d55ff"
+            android:text="@string/agreement"/>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

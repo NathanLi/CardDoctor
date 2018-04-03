@@ -24,13 +24,13 @@ public abstract class CompatStatusBarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_compat_status_bar);
-
-        mViewStatusBarPlace = findViewById(R.id.view_status_bar_place);
-        mFrameLayoutContent = findViewById(R.id.frame_layout_content_place);
-        ViewGroup.LayoutParams params = mViewStatusBarPlace.getLayoutParams();
-        params.height = getStatusBarHeight();
-        mViewStatusBarPlace.setLayoutParams(params);
+//        super.setContentView(R.layout.activity_compat_status_bar);
+//
+//        mViewStatusBarPlace = findViewById(R.id.view_status_bar_place);
+//        mFrameLayoutContent = findViewById(R.id.frame_layout_content_place);
+//        ViewGroup.LayoutParams params = mViewStatusBarPlace.getLayoutParams();
+//        params.height = getStatusBarHeight();
+//        mViewStatusBarPlace.setLayoutParams(params);
     }
 
     @Override

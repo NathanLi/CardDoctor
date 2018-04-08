@@ -1,19 +1,27 @@
 package com.yunkahui.datacubeper.login.ui;
 
+import android.os.Build;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseActivity;
+import com.yunkahui.datacubeper.base.IActivityBase;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
-public class RegisterActivity extends BaseActivity {
-
-    private Toolbar mToolbar;
+public class RegisterActivity extends AppCompatActivity implements IActivityStatusBar {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_register);
         super.onCreate(savedInstanceState);
+
+        LoadingViewDialog.getInstance().show(this);
+
     }
 
     @Override
@@ -23,11 +31,6 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mToolbar=findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setImmersiveStatusBar(getResources().getColor(R.color.colorPrimary));
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new RegisterFirstFragment()).commit();
     }
 
@@ -39,7 +42,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_register;
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 }

@@ -53,13 +53,13 @@ public class CardDoctorApplication extends Application {
 
             @Override
             public void onActivityStarted(Activity activity) {
+                setToolBar(activity);
                 resetDensity(context,DESIGN_WIDTH);
                 resetDensity(activity,DESIGN_WIDTH);
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-                setToolBar(activity);
                 resetDensity(context,DESIGN_WIDTH);
                 resetDensity(activity,DESIGN_WIDTH);
             }
@@ -94,6 +94,7 @@ public class CardDoctorApplication extends Application {
     private void setToolBar(final Activity activity){
         if(activity.findViewById(R.id.tool_bar)!=null){
             Toolbar toolbar=activity.findViewById(R.id.tool_bar);
+            toolbar.setTitle(activity.getTitle());
             ((AppCompatActivity)activity).setSupportActionBar(toolbar);
             ActionBar actionBar= ((AppCompatActivity)activity).getSupportActionBar();
             if(actionBar!=null){

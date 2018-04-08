@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_register);
         super.onCreate(savedInstanceState);
-
+        setTitle("快速注册");
     }
 
     @Override
@@ -81,14 +81,5 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
         });
 
     }
-
-
-
-
-
-
-
-
-
 
 }

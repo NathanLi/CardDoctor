@@ -42,7 +42,6 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_register_first, container, false);
-
         mEditTextPhone=view.findViewById(R.id.edit_text_phone);
         mEditTextAuthCode=view.findViewById(R.id.edit_text_auth_code);
         mEditTextInviteCode=view.findViewById(R.id.edit_text_invite_code);

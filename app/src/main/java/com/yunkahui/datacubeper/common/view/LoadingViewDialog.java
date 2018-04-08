@@ -90,13 +90,13 @@ public class LoadingViewDialog extends DialogFragment {
             }
             mAVLoadingIndicatorView.show();
         }
-        show(activity.getFragmentManager(),"LoadingViewDialog");
+        super.show(activity.getFragmentManager(),"LoadingViewDialog");
     }
-    public void dismiss(Activity activity){
+    public void dismiss(){
         if(mAVLoadingIndicatorView!=null){
             mAVLoadingIndicatorView.hide();
         }
-        dismiss();
+        super.dismiss();
     }
 
     @Override

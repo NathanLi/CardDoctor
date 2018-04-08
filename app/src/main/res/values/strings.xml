@@ -6,7 +6,8 @@
     <string name="tab_item_share">分享</string>
     <string name="tab_item_me">我的</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="org_number">Y1000000001</string>
+    
     <!-- 通用 -->
     <string name="loading">加载中...</string>
 
@@ -23,6 +24,7 @@
     <string name="send_auth_code">发送验证码</string>
     <string name="button_next">下一步</string>
     <string name="phone_tips2">请输入手机号</string>
+    <string name="phone_tips3">请输入正确的手机号</string>
     <string name="invite_code_tips">请输入邀请码</string>
     <string name="nick_name_tips">请输入昵称</string>
     <string name="password_tips">请输入密码</string>

@@ -19,7 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.hellokiki.rrorequest.HttpManager;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.api.BaseUrl;
 
 import java.lang.reflect.Field;
 
@@ -35,6 +37,7 @@ public class CardDoctorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         final Context context=this;
+        HttpManager.baseUrl(BaseUrl.HOME);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

@@ -7,16 +7,7 @@
     android:orientation="vertical"
     tools:context="com.yunkahui.datacubeper.login.ui.RegisterActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/fast_register"
-        app:titleTextColor="#FFFFFF"/>
+    <include layout="@layout/layout_toolbar"/>
 
     <FrameLayout
         android:id="@+id/frame_layout"

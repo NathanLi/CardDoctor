@@ -14,7 +14,8 @@
     <color name="bill_card_bg">#f5f5f5</color>
     <color name="line_blue">#23a2fd</color>
 
-
+    <color name="bg_button_gray_a9a9a9">#a9a9a9</color>
     <color name="text_color_blue_0d55ff">#0d55ff</color>
+    <color name="text_color_gray_949494">#949494</color>
 
 </resources>

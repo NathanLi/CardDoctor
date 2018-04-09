@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -22,6 +23,7 @@ import android.widget.FrameLayout;
 import com.hellokiki.rrorequest.HttpManager;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import java.lang.reflect.Field;
 
@@ -38,9 +40,13 @@ public class CardDoctorApplication extends Application {
         super.onCreate();
         final Context context=this;
         HttpManager.baseUrl(BaseUrl.HOME);
+
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                LogUtils.e(activity.getClass().getName());
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //限制竖屏
                 resetDensity(context,DESIGN_WIDTH);
                 resetDensity(activity,DESIGN_WIDTH);
                 setImmersiveStatusBar(activity);
@@ -48,7 +54,6 @@ public class CardDoctorApplication extends Application {
                     ((IActivityBase)activity).initData();
                     ((IActivityBase)activity).initView();
                 }
-
             }
 
             @Override
@@ -116,8 +121,10 @@ public class CardDoctorApplication extends Application {
      */
     private void setImmersiveStatusBar(Activity activity){
         if(activity instanceof IActivityStatusBar){
-            setTranslucentStatus(activity);
-            addImmersiveStatusBar(activity,((IActivityStatusBar)activity).getStatusBarColor());
+            if(((IActivityStatusBar)activity).getStatusBarColor()!=0){
+                setTranslucentStatus(activity);
+                addImmersiveStatusBar(activity,((IActivityStatusBar)activity).getStatusBarColor());
+            }
         }
     }
 
@@ -159,6 +166,7 @@ public class CardDoctorApplication extends Application {
      */
     private void setTranslucentStatus(Activity activity) {
         //******** 5.0以上系统状态栏透明 ********
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window =activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

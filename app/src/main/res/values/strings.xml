@@ -7,7 +7,7 @@
     <string name="tab_item_me">我的</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="org_number">Y1000000001</string>
-    
+
     <!-- 通用 -->
     <string name="loading">加载中...</string>
 
@@ -30,5 +30,14 @@
     <string name="password_tips">请输入密码</string>
     <string name="password_repeat_tips">再次输入确认密码</string>
     <string name="immediately_register">立即注册</string>
-    
+
+    <!--忘记密码-->
+    <string name="bind_phone">绑定手机</string>
+    <string name="new_login_password">新登陆密码</string>
+    <string name="confirm_new_login_password">确认新登陆密码</string>
+    <string name="input_new_password">输入新密码</string>
+    <string name="input_new_password2">请再次输入新密码</string>
+    <string name="confirm_reset">确认重置</string>
+    <string name="title_activity_login">LoginActivity</string>
+
 </resources>

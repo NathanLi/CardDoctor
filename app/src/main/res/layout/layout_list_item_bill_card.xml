@@ -71,7 +71,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/bill_card_bg"
+                android:background="@color/bill_card_bg_gray"
                 android:orientation="horizontal">
 
                 <LinearLayout

@@ -17,6 +17,8 @@ import java.util.Set;
 
 public class RequestUtils {
 
+    public static final String SUCCESS="0000";
+
 
     public static InnerParam newParams(){
         return new InnerParam();
@@ -71,6 +73,14 @@ public class RequestUtils {
                 }
             }
             encrypt = Base64.encodeToString(strBuf.toString().getBytes(), Base64.DEFAULT);
+
+            if(encrypt.indexOf("\n")!=-1){
+                encrypt =  encrypt.replace("\n","");
+            }
+            if(encrypt.indexOf("\n")!=-1){
+                LogUtils.e("还有换行符");
+            }
+
         }catch (Exception e){e.printStackTrace();}
 
         return encrypt;

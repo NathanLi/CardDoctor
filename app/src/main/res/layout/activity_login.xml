@@ -19,35 +19,37 @@
 
 
     <EditText
-        android:id="@+id/edit_view_username"
+        android:id="@+id/edit_text_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_below="@+id/image_view_logo"
         android:lines="1"
+        android:textColorHint="@color/text_color_gray_949494"
         android:inputType="number"
         android:hint="请输入手机号码"
         android:drawablePadding="15pt"
         android:textSize="18pt"
         android:drawableLeft="@mipmap/ic_username"
         android:layout_marginTop="80pt" />
-    
+
     <View
         android:id="@+id/view_line1"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#b90191cf"
-        android:layout_below="@+id/edit_view_username"
+        android:layout_below="@+id/edit_text_phone"
         android:layout_marginTop="15pt"/>
 
     <EditText
-        android:id="@+id/edit_view_password"
+        android:id="@+id/edit_text_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_below="@+id/view_line1"
         android:inputType="textPassword"
         android:lines="1"
+        android:textColorHint="@color/text_color_gray_949494"
         android:hint="请输入密码"
         android:drawablePadding="15pt"
         android:textSize="18pt"
@@ -59,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#b90191cf"
-        android:layout_below="@+id/edit_view_password"
+        android:layout_below="@+id/edit_text_password"
         android:layout_marginTop="15pt"/>
 
     <TextView
@@ -115,7 +117,6 @@
             android:text="@string/agreement"/>
 
     </LinearLayout>
-
 
 
 

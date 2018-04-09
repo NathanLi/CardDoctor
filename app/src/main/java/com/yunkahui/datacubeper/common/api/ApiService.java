@@ -28,4 +28,8 @@ public interface ApiService {
     @POST("/app/user/signup")   //用户注册
     Observable<JsonObject> registerUser(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user/login")    //用户登陆
+    Observable<JsonObject> login(@FieldMap Map<String,String> params);
+
 }

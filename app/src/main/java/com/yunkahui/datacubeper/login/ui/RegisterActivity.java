@@ -15,16 +15,20 @@ import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityBase;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.logic.RegisterLogic;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private String mPhone;
     private String mNickName;
     private String mPassword;
-    private String mInvtiteCode;
+    private String mInviteCode;
 
     private RegisterLogic mLogic;
 
@@ -49,7 +53,9 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
      * 跳转到注册第二步
      */
     public void registerSecond(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new RegisterSecondFragment()).commitNowAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_fragment_enter,R.anim.anim_fragment_exit)
+                .replace(R.id.frame_layout,new RegisterSecondFragment()).commitNowAllowingStateLoss();
     }
 
     @Override
@@ -64,22 +70,80 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
     }
 
 
-    public void verifyPhone(String phone,String code){
+    public void verifyPhone(final String phone, String code, final String inviteCode){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkSMSCode(phone, code, new SimpleCallBack<JsonObject>() {
+        mLogic.checkSMSCode(this,phone, code, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("验证短信->"+jsonObject.toString());
+                try {
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        setPhone(phone);
+                        setInviteCode(inviteCode);
+                        registerSecond();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"请求失败");
+                ToastUtils.show(getApplicationContext(),"短信验证失败");
             }
         });
 
     }
 
+    public void register(){
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.register(this, mPhone, mNickName, mPassword, mInviteCode, new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                try {
+                    LogUtils.e("注册->"+jsonObject.toString());
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(),"注册请求失败");
+
+            }
+        });
+
+    }
+
+
+
+    public void setPhone(String phone) {
+        mPhone = phone;
+    }
+
+    public void setNickName(String nickName) {
+        mNickName = nickName;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    public void setInviteCode(String invtiteCode) {
+        mInviteCode = invtiteCode;
+    }
 }

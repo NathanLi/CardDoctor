@@ -42,10 +42,12 @@ public class RegisterLogic {
     /**
      * 验证 验证码
      */
-    public void checkSMSCode(String phone,String code,SimpleCallBack<JsonObject> callBack){
+    public void checkSMSCode(Context context,String phone,String code,SimpleCallBack<JsonObject> callBack){
             Map<String,String> params=RequestUtils.newParams()
                     .addParams("user_mobile",phone)
-                    .addParams("mes_phone_code",code)
+                    .addParams("user_mobile_code",code)
+                    .addParams("org_number",context.getResources().getString(R.string.org_number))
+                    .addParams("type","0")
                     .create();
             HttpManager.getInstance().create(ApiService.class).checkSMSCode(params)
                     .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
@@ -59,7 +61,7 @@ public class RegisterLogic {
      * @param password  密码
      * @param inviteCode 邀请码
      */
-    public void register(Context context,String phone,String nickName,String password,String inviteCode){
+    public void register(Context context,String phone,String nickName,String password,String inviteCode,SimpleCallBack<JsonObject> callBack){
 
             Map<String,String> params=RequestUtils.newParams()
                     .addParams("user_mobile",phone)
@@ -70,17 +72,7 @@ public class RegisterLogic {
                     .create();
 
             HttpManager.getInstance().create(ApiService.class).registerUser(params)
-                    .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(new SimpleCallBack<JsonObject>() {
-                @Override
-                public void onSuccess(JsonObject jsonObject) {
-
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-
-                }
-            });
+                    .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
 
     }
 

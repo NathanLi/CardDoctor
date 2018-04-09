@@ -21,7 +21,9 @@ public class ForgetPasswordActivity extends AppCompatActivity implements IActivi
 
     @Override
     public void initView() {
-
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_fragment_enter,R.anim.anim_fragment_exit)
+                .replace(R.id.frame_layout,new ForgetPasswordFragment()).commit();
     }
 
     @Override
@@ -31,6 +33,11 @@ public class ForgetPasswordActivity extends AppCompatActivity implements IActivi
 
     @Override
     public int getStatusBarColor() {
-        return R.color.colorPrimary;
+        return getResources().getColor(R.color.colorPrimary);
     }
+
+    public void startToResetFragment(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new ResetPasswordFragment()).commitNowAllowingStateLoss();
+    }
+
 }

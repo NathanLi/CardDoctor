@@ -20,9 +20,13 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.StringUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,7 +122,7 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
                     ToastUtils.show(getActivity(),R.string.phone_tips3);
                     return;
                 }
-                ((RegisterActivity)getActivity()).verifyPhone(mEditTextPhone.getText().toString(),mEditTextAuthCode.getText().toString());
+                ((RegisterActivity)getActivity()).verifyPhone(mEditTextPhone.getText().toString(),mEditTextAuthCode.getText().toString(),mEditTextInviteCode.getText().toString());
                 break;
         }
 
@@ -134,12 +138,24 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
             public void onSuccess(JsonObject jsonObject) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("发送短信->"+jsonObject.toString());
-            }
+                try {
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    ToastUtils.show(getActivity().getApplicationContext(),object.optString("respDesc"));
+                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        mRunning=true;
+                        mTextViewSendCode.setEnabled(false);
+                        new InnerThread().start();
+                    }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity().getApplicationContext(),"请求失败");
+                ToastUtils.show(getActivity().getApplicationContext(),"发送失败");
             }
         });
     }

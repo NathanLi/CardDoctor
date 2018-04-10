@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
                         BaseUrl.USER_ID=object.optString("user_code");
                         BaseUrl.KEY=object.optString("key");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
 
                 } catch (Exception e) {

@@ -1,9 +1,12 @@
 package com.yunkahui.datacubeper;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.BaseActivity;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
 import com.yunkahui.datacubeper.bill.BillFragment;
 import com.yunkahui.datacubeper.test.CardTestFragment;
@@ -24,11 +29,29 @@ import java.util.List;
 /**
  * 主页框架
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private ViewPager mViewPager;
     private List<Fragment> mFragments;
     private RadioGroup radioGroup;
+    private long mTime;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
+    }
+
+    @Override
+    public void initView() {
+        mViewPager = findViewById(R.id.view_pager);
+        radioGroup = findViewById(R.id.radio_group);
+    }
 
     @Override
     public void initData() {
@@ -72,14 +95,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-        setImmersiveStatusBar(getResources().getColor(R.color.colorPrimary));
-        mViewPager = findViewById(R.id.view_pager);
-        radioGroup = findViewById(R.id.radio_group);
-    }
+    public void onBackPressed() {
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_main;
+        if(System.currentTimeMillis()-mTime>1500){
+            ToastUtils.show(this,"再按一次退出程序");
+            mTime=System.currentTimeMillis();
+        }else{
+            finish();
+        }
+
     }
 }

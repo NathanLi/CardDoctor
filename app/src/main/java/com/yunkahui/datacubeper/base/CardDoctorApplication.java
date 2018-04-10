@@ -51,8 +51,8 @@ public class CardDoctorApplication extends Application {
                 resetDensity(activity,DESIGN_WIDTH);
                 setImmersiveStatusBar(activity);
                 if(activity instanceof IActivityBase){
-                    ((IActivityBase)activity).initData();
                     ((IActivityBase)activity).initView();
+                    ((IActivityBase)activity).initData();
                 }
             }
 
@@ -97,7 +97,7 @@ public class CardDoctorApplication extends Application {
      * @param activity
      */
     private void setToolBar(final Activity activity){
-        if(activity.findViewById(R.id.tool_bar)!=null){
+        if(activity.findViewById(R.id.tool_bar)!=null||((AppCompatActivity)activity).getSupportActionBar()!=null){
             Toolbar toolbar=activity.findViewById(R.id.tool_bar);
             toolbar.setTitle(activity.getTitle());
             ((AppCompatActivity)activity).setSupportActionBar(toolbar);

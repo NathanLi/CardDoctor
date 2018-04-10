@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".base.CardDoctorApplication"
@@ -16,17 +18,18 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.MainActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity android:name=".login.ui.ForgetPasswordActivity" />
         <activity android:name=".login.ui.RegisterActivity" />
-        <activity android:name=".login.ui.LoginActivity"/>
+        <activity android:name=".login.ui.LoginActivity" />
         <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".mine.ui.PersonalInfoActivity"></activity>
     </application>
 
 </manifest>

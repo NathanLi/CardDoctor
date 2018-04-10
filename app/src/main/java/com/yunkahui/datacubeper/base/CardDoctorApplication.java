@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +22,11 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.hellokiki.rrorequest.HttpManager;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.view.CropImageView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.utils.ImagePickerGlideLoader;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import java.lang.reflect.Field;
@@ -47,7 +51,7 @@ public class CardDoctorApplication extends Application {
         super.onCreate();
         final Context context = this;
         HttpManager.baseUrl(BaseUrl.HOME);
-
+        initImagePicker();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 
             @Override
@@ -99,15 +103,31 @@ public class CardDoctorApplication extends Application {
 
     }
 
+    private void initImagePicker(){
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new ImagePickerGlideLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(9);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
+    }
+
     /**
      * 设置ToolBar
      *
      * @param activity
      */
     private void setToolBar(final Activity activity) {
-        if (activity.findViewById(R.id.tool_bar) != null && ((AppCompatActivity) activity).getSupportActionBar() != null) {
+        if (activity.findViewById(R.id.card_doctor_tool_bar) != null && ((AppCompatActivity) activity).getSupportActionBar() == null) {
             Toolbar toolbar = activity.findViewById(R.id.tool_bar);
-            toolbar.setTitle(activity.getTitle());
+            if(!TextUtils.isEmpty(activity.getTitle())){
+                toolbar.setTitle(activity.getTitle());
+            }
             ((AppCompatActivity) activity).setSupportActionBar(toolbar);
             ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
             if (actionBar != null) {

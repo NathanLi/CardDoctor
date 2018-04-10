@@ -5,9 +5,11 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
+import com.hellokiki.rrorequest.MultipartUtil;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.MineItem;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
@@ -19,9 +21,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by Administrator on 2018/4/9.
@@ -31,9 +37,6 @@ public class MineLogic {
 
     /**
      * 获取个人中心菜单
-     *
-     * @param context
-     * @return
      */
     public List<MineItem> getMineItemList(Context context) {
         List<MineItem> mineItems = new ArrayList<>();
@@ -61,25 +64,34 @@ public class MineLogic {
         return mineItems;
     }
 
-
-    public void loadPersonalInformation(Context context) {
-
-        Map<String, String> params = RequestUtils.newParams()
-                .addParams("org_number", context.getResources().getString(R.string.org_number))
+    /**
+     * 获取个人信息
+     */
+    public void loadPersonalInformation(Context context,SimpleCallBack<BaseBean<PersonalInfo>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
                 .create();
-
         HttpManager.getInstance().create(ApiService.class).loadPersonalInformation(params)
-                .compose(HttpManager.<BaseBean<PersonalInfo>>applySchedulers()).subscribe(new SimpleCallBack<BaseBean<PersonalInfo>>() {
-            @Override
-            public void onSuccess(BaseBean<PersonalInfo> baseBean) {
-                LogUtils.e("bean-》"+baseBean.toString());
-            }
+                .compose(HttpManager.<BaseBean<PersonalInfo>>applySchedulers()).subscribe(callBack);
+    }
 
-            @Override
-            public void onFailure(Throwable throwable) {
+    /**
+     * 上传头像
+     */
+    public void upLoadAvatar(Context context,String path,SimpleCallBack<JsonObject> callBack){
+        Map<String, RequestBody> textBody= MultipartUtil.newInstance()
+                .addParam("user_code", BaseUrl.getUSER_ID())
+                .addParam("key",BaseUrl.getKEY())
+                .addParam("org_number",context.getResources().getString(R.string.org_number))
+                .Build();
+        File file=new File(path);
+        if(file.exists()){
+            List<File> files=new ArrayList<>();
+            files.add(file);
+            List<MultipartBody.Part> parts=MultipartUtil.makeMultpart("avatar",files);
+            HttpManager.getInstance().create(ApiService.class).upLoadPersonalAvatar(textBody,parts.get(0))
+                    .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+        }
 
-            }
-        });
 
     }
 

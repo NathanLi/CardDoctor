@@ -1,7 +1,9 @@
 package com.yunkahui.datacubeper.common.utils;
 
+import android.content.Context;
 import android.util.Base64;
 
+import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 
 import java.net.URLEncoder;
@@ -10,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import okhttp3.RequestBody;
 
 /**
  * Created by Administrator on 2018/4/8.
@@ -20,8 +24,8 @@ public class RequestUtils {
     public static final String SUCCESS="0000";
 
 
-    public static InnerParam newParams(){
-        return new InnerParam();
+    public static InnerParam newParams(Context context){
+        return new InnerParam(context);
     }
 
 
@@ -91,16 +95,16 @@ public class RequestUtils {
 
         Map<String,String> mMap;
 
-        public InnerParam() {
-            this(false);
+        public InnerParam(Context context) {
+            this(false,context);
         }
-        public InnerParam(boolean isUser) {
+        public InnerParam(boolean isUser, Context context) {
             mMap=new HashMap<>();
             if(!isUser){
                 mMap.put("user_code",BaseUrl.getUSER_ID());
                 mMap.put("key",BaseUrl.getKEY());
+                mMap.put("org_number",context.getResources().getString(R.string.org_number));
             }
-
         }
 
         public InnerParam addParams(String key,String value){

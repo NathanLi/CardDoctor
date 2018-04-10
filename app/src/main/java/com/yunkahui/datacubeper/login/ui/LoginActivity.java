@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.login.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.R;
@@ -35,6 +38,29 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
+
+//        RxPermissions rxPermissions=new RxPermissions(this);
+//        rxPermissions
+//                .requestEach(Manifest.permission.CAMERA,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.READ_PHONE_STATE)
+//                .subscribe(new SimpleCallBack<Permission>() {
+//                    @Override
+//                    public void onSuccess(Permission permission) {
+//                        if(permission.granted){
+//
+//                        }else{
+//                            ToastUtils.show(getApplicationContext(),"请允许打开需要的权限");
+//                            finish();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//
+//                    }
+//                });
+
     }
 
     @Override

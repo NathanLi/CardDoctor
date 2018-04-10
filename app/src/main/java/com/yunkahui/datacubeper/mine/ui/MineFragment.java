@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.mine.ui;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,22 +8,43 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.annotation.GlideModule;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.JsonObject;
+import com.hellokiki.rrorequest.SimpleCallBack;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.wang.avi.AVLoadingIndicatorView;
+import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.MineItem;
+import com.yunkahui.datacubeper.common.bean.PersonalInfo;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.mine.adapter.MineItemAdapter;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by pc1994 on 2018/3/22.
  */
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements View.OnClickListener {
+
+    private final int RESULT_CODE_IMAGE=1001;
 
     private RecyclerView mRecyclerView;
     private ImageView mIvIcon;
@@ -30,7 +52,9 @@ public class MineFragment extends BaseFragment {
     private TextView mTvPhone;
     private TextView mTvRecommandCode;
     private TextView mTvReferee;
+    private AVLoadingIndicatorView mLoadingIndicatorView;
 
+    private MineItemAdapter mMineItemAdapter;
     private MineLogic mLogic;
     private List<MineItem> mMenuItemList;
 
@@ -38,30 +62,32 @@ public class MineFragment extends BaseFragment {
     public void initData() {
         mLogic=new MineLogic();
         mMenuItemList = new ArrayList<>();
-        MineItemAdapter mineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, mMenuItemList);
-        mineItemAdapter.bindToRecyclerView(mRecyclerView);
+        mMineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, mMenuItemList);
+        mMineItemAdapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_mine_info, null);
         mIvIcon = headerView.findViewById(R.id.iv_user_icon);
         mTvName = headerView.findViewById(R.id.tv_user_name);
-        mTvPhone =headerView.findViewById(R.id.tv_user_name);
+        mTvPhone =headerView.findViewById(R.id.tv_user_phone);
         mTvRecommandCode = headerView.findViewById(R.id.tv_recommand_code);
         mTvReferee = headerView.findViewById(R.id.tv_referee);
+
+        mIvIcon.setOnClickListener(this);
+
         // TODO: 2018/4/3 set user info
-        mineItemAdapter.addHeaderView(headerView);
-        mineItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mMineItemAdapter.addHeaderView(headerView);
+        mMineItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 itemClick(position);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(mineItemAdapter);
+        mRecyclerView.setAdapter(mMineItemAdapter);
 
         mMenuItemList.addAll(mLogic.getMineItemList(getActivity()));
-        mineItemAdapter.notifyDataSetChanged();
+        mMineItemAdapter.notifyDataSetChanged();
 
-        mLogic.loadPersonalInformation(getActivity());
-
+        loadData();
     }
 
     @Override
@@ -69,11 +95,97 @@ public class MineFragment extends BaseFragment {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.tab_item_me));
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_mine;
+    }
+
+
+    public void loadData(){
+        mLoadingIndicatorView.setVisibility(View.VISIBLE);
+        mLogic.loadPersonalInformation(getActivity(), new SimpleCallBack<BaseBean<PersonalInfo>>() {
+            @Override
+            public void onSuccess(BaseBean<PersonalInfo> personalInfoBaseBean) {
+                mLoadingIndicatorView.setVisibility(View.GONE);
+                if(RequestUtils.SUCCESS.equals(personalInfoBaseBean.getRespCode())){
+                    PersonalInfo info=personalInfoBaseBean.getRespData();
+                    if(info!=null){
+                        fillData(info);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Throwable throwable) {
+                mLoadingIndicatorView.setVisibility(View.GONE);
+                ToastUtils.show(getActivity(),"个人信息获取失败");
+            }
+        });
+
+    }
+
+
+    private void fillData(PersonalInfo info){
+        mTvName.setText(info.getNickname());
+        mTvPhone.setText(info.getUser_mobile());
+        mTvRecommandCode.setText(info.getUser_unique_code());
+        mTvReferee.setText(info.getParent_name());
+        GlideApp.with(getActivity()).load(info.getAvatar()).error(R.mipmap.ic_header_normal)
+                .transform(new CropCircleTransformation())
+                .into(mIvIcon);
+
+        if(mMenuItemList.size()>3){
+            mMenuItemList.get(0).setDetail(info.getUser_role_text());
+            mMenuItemList.get(1).setDetail(info.getIdentify_status().equals("1")?"已实名":"未实名");
+            mMenuItemList.get(2).setDetail(info.getUser_mobile());
+        }
+        mMineItemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null && requestCode == RESULT_CODE_IMAGE) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if(images.size()>0){
+                    upLoadAvatar(images.get(0).path);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * 上传头像
+     */
+    private void upLoadAvatar(final String path){
+        LoadingViewDialog.getInstance().show(getActivity());
+        mLogic.upLoadAvatar(getActivity(),path, new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("上传头像->"+jsonObject.toString());
+                try {
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        GlideApp.with(getActivity()).load(path).error(R.mipmap.ic_header_normal)
+                                .transform(new CropCircleTransformation())
+                                .into(mIvIcon);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getActivity(),"上传头像失败");
+            }
+        });
     }
 
     public void itemClick(int position){
@@ -86,6 +198,7 @@ public class MineFragment extends BaseFragment {
             case 12:
                 break;
             case 13:
+                startActivity(new Intent(getActivity(),PersonalInfoActivity.class));
                 break;
             case 14:
                 break;
@@ -106,8 +219,16 @@ public class MineFragment extends BaseFragment {
             case 42:
                 break;
         }
-
     }
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_user_icon:
+                ImagePicker.getInstance().setSelectLimit(1);
+                Intent intent = new Intent(getActivity(), ImageGridActivity.class);
+                startActivityForResult(intent, RESULT_CODE_IMAGE);
+                break;
+        }
+    }
 }

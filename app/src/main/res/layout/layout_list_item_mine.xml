@@ -33,28 +33,31 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8pt"
+            android:layout_marginLeft="10pt"
             android:layout_toRightOf="@id/iv_icon"
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             android:textSize="18pt" />
 
+
+        <ImageView
+            android:id="@+id/image_view_arrow"
+            android:layout_width="16pt"
+            android:layout_height="16pt"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12pt"
+            android:src="@mipmap/ic_next_gray" />
+
         <TextView
             android:id="@+id/tv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="24pt"
+            android:layout_marginRight="10pt"
+            android:textColor="@color/text_color_gray_949494"
+            android:layout_toLeftOf="@+id/image_view_arrow"
             android:textSize="16pt" />
-
-        <ImageView
-            android:layout_width="22pt"
-            android:layout_height="22pt"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12pt"
-            android:background="@mipmap/ic_next_gray" />
 
     </RelativeLayout>
 </LinearLayout>

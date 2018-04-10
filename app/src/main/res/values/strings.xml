@@ -39,5 +39,10 @@
     <string name="input_new_password2">请再次输入新密码</string>
     <string name="confirm_reset">确认重置</string>
     <string name="title_activity_login">LoginActivity</string>
-
+    
+    
+    <!-- 个人中心 -->
+    <string name="avatar">头像</string>
+    
+    
 </resources>

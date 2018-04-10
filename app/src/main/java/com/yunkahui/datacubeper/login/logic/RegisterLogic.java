@@ -30,10 +30,9 @@ public class RegisterLogic {
      * 发送短信
      */
     public void sendSMS(Context context,String phone,SimpleCallBack<JsonObject> callBack){
-            Map<String,String> params=RequestUtils.newParams()
+            Map<String,String> params=RequestUtils.newParams(context)
                     .addParams("user_mobile",phone)
                     .addParams("type","0")
-                    .addParams("org_number",context.getResources().getString(R.string.org_number))
                     .create();
             HttpManager.getInstance().create(ApiService.class).sendSMS(params)
                     .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
@@ -43,10 +42,9 @@ public class RegisterLogic {
      * 验证 验证码
      */
     public void checkSMSCode(Context context,String phone,String code,SimpleCallBack<JsonObject> callBack){
-            Map<String,String> params=RequestUtils.newParams()
+            Map<String,String> params=RequestUtils.newParams(context)
                     .addParams("user_mobile",phone)
                     .addParams("user_mobile_code",code)
-                    .addParams("org_number",context.getResources().getString(R.string.org_number))
                     .addParams("type","0")
                     .create();
             HttpManager.getInstance().create(ApiService.class).checkSMSCode(params)
@@ -63,12 +61,11 @@ public class RegisterLogic {
      */
     public void register(Context context,String phone,String nickName,String password,String inviteCode,SimpleCallBack<JsonObject> callBack){
 
-            Map<String,String> params=RequestUtils.newParams()
+            Map<String,String> params=RequestUtils.newParams(context)
                     .addParams("user_mobile",phone)
                     .addParams("user_nickname",nickName)
                     .addParams("user_password",password)
                     .addParams("user_unique_code",inviteCode)
-                    .addParams("org_number",context.getResources().getString(R.string.org_number))
                     .create();
 
             HttpManager.getInstance().create(ApiService.class).registerUser(params)

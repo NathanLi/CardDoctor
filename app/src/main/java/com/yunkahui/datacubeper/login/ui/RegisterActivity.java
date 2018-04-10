@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -128,8 +129,6 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
         });
 
     }
-
-
 
     public void setPhone(String phone) {
         mPhone = phone;

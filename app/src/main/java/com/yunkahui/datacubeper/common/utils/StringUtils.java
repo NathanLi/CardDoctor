@@ -56,6 +56,7 @@ public class StringUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return stringBuilder.toString();
     }
 

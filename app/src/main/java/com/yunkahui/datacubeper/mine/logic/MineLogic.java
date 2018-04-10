@@ -23,8 +23,6 @@ public class MineLogic {
     public List<MineItem> getMineItemList(Context context){
         List<MineItem> mineItems=new ArrayList<>();
         String json= StringUtils.getJsonForLocation(context,"personal_menu.json");
-        LogUtils.e("json-->"+json);
-
         if(!TextUtils.isEmpty(json)){
             try {
                 JSONArray array=new JSONArray(json);
@@ -45,7 +43,6 @@ public class MineLogic {
                 e.printStackTrace();
             }
         }
-
         return mineItems;
     }
 

@@ -51,8 +51,8 @@ public class CardDoctorApplication extends Application {
                 resetDensity(activity,DESIGN_WIDTH);
                 setImmersiveStatusBar(activity);
                 if(activity instanceof IActivityBase){
-                    ((IActivityBase)activity).initData();
                     ((IActivityBase)activity).initView();
+                    ((IActivityBase)activity).initData();
                 }
             }
 

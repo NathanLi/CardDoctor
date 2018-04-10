@@ -58,21 +58,6 @@ public class MineFragment extends BaseFragment {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mineItemAdapter);
-        Integer[][] imgs = {{R.mipmap.ic_upgrade_join, R.mipmap.ic_verify_name, R.mipmap.ic_bind_phone, R.mipmap.ic_personal_data, R.mipmap.ic_change_psd},
-                {R.mipmap.ic_conn_service, R.mipmap.ic_feedback},
-                {R.mipmap.ic_my_card, R.mipmap.ic_my_alipay,R.mipmap.ic_pos_manager},
-                {R.mipmap.ic_about_us, R.mipmap.ic_version, R.mipmap.ic_safe_exit}};
-        String[][] titles = {
-                {"升级加盟", "实名认证", "绑定手机", "个人资料", "修改密码"},
-                {"联系客服", "意见反馈"},
-                {"我的储蓄卡", "我的支付宝", "POS管理"},
-                {"关于我们", "版本号", "安全退出"}
-        };
-//        for (int i = 0; i < titles.length; i++) {
-//            for (int j = 0; j < titles[i].length; j++) {
-//                list.add(new MineItem(imgs[i][j], titles[i][j], j == 0));
-//            }
-//        }
 
         list.addAll(mLogic.getMineItemList(getActivity()));
         mineItemAdapter.notifyDataSetChanged();

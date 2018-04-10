@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.home.adapter.HomeItemAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
@@ -47,6 +48,7 @@ public class HomeFragment extends BaseFragment {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.tab_item_home));
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        DoubleBlockView doubleBlockView = view.findViewById(R.id.double_block_view);
     }
 
     @Override

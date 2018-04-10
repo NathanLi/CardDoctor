@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,12 +16,18 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/iv"
+            android:id="@+id/iv_share_header"
             android:background="#ff0"
+            android:contentDescription="@string/default_content_description"
             android:layout_width="match_parent"
             android:layout_height="94pt" />
 
-        <include layout="@layout/layout_value_item" />
+        <com.yunkahui.datacubeper.common.view.DoubleBlockView
+            android:id="@+id/double_block_view_1"
+            app:leftName="我的钱包"
+            app:rightName="累计分润"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
@@ -40,6 +48,7 @@
                 android:id="@+id/iv_activation_code"
                 android:layout_width="24pt"
                 android:layout_height="19pt"
+                android:contentDescription="@string/default_content_description"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_launcher" />
 
@@ -49,8 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10pt"
+                android:layout_marginStart="10pt"
                 android:layout_toRightOf="@id/iv_activation_code"
-                android:text="剩余激活码："
+                android:layout_toEndOf="@id/iv_activation_code"
+                android:text="@string/rest_activation_code"
                 android:textColor="@color/tab_text_normal_gray"
                 android:textSize="17pt" />
 
@@ -58,20 +69,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_rest_activation_code"
                 android:layout_toRightOf="@id/tv_rest_activation_code"
                 android:text="3000"
                 android:textColor="@color/black"
                 android:textSize="17pt" />
 
             <TextView
+                android:id="@+id/btn_produce_activation_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textSize="12pt"
                 android:padding="8pt"
                 android:background="@drawable/produce_activation_code_btn_shape"
                 android:textColor="@color/white"
-                android:text="生成激活码" />
+                android:text="@string/produce_activation_code" />
         </RelativeLayout>
 
         <View
@@ -83,13 +97,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20pt"
+            android:layout_marginStart="20pt"
             android:layout_marginTop="4pt"
             android:layout_marginBottom="4pt">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的激活码："
+                android:text="@string/my_activation_code"
                 android:textColor="@color/black"
                 android:textSize="17pt" />
 
@@ -109,8 +124,12 @@
             android:background="@color/bill_card_bg_gray"
             android:layout_marginBottom="12pt"/>
 
-        <include
-            layout="@layout/layout_value_item" />
+        <com.yunkahui.datacubeper.common.view.DoubleBlockView
+            android:id="@+id/double_block_view_2"
+            app:leftName="普通会员"
+            app:rightName="VIP会员"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,10 +142,12 @@
             <ImageView
                 android:layout_width="20pt"
                 android:layout_height="20pt"
+                android:contentDescription="@string/default_content_description"
                 android:background="@mipmap/ic_launcher"/>
 
             <TextView
                 android:layout_marginLeft="12pt"
+                android:layout_marginStart="12pt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="查看更多奖励、分润、升级、加盟政策   >>"
@@ -142,43 +163,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20pt"
-            android:layout_marginRight="20pt"
+            android:layout_marginLeft="10pt"
+            android:layout_marginRight="10pt"
             android:layout_marginTop="24pt">
 
             <TextView
-                android:id="@+id/btn_link_share"
+                android:id="@+id/tv_link_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/share_btn_shape"
                 android:gravity="center"
                 android:padding="10pt"
-                android:text="链接分享"
+                android:text="@string/link_share"
                 android:textColor="@color/home_accout_balance_organe"
                 android:textSize="17pt" />
 
             <TextView
+                android:id="@+id/tv_qr_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20pt"
+                android:layout_marginLeft="10pt"
+                android:layout_marginStart="10pt"
                 android:layout_weight="1"
                 android:background="@drawable/share_btn_shape"
                 android:gravity="center"
                 android:padding="10pt"
-                android:text="链接分享"
+                android:text="@string/qr_share"
                 android:textColor="@color/home_accout_balance_organe"
                 android:textSize="17pt" />
 
             <TextView
+                android:id="@+id/tv_vip_course"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20pt"
+                android:layout_marginLeft="10pt"
+                android:layout_marginStart="10pt"
                 android:layout_weight="1"
                 android:background="@drawable/share_btn_shape"
                 android:gravity="center"
                 android:padding="10pt"
-                android:text="链接分享"
+                android:text="@string/vip_course"
                 android:textColor="@color/home_accout_balance_organe"
                 android:textSize="17pt" />
 

@@ -2,26 +2,18 @@ package com.yunkahui.datacubeper.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
-import com.yunkahui.datacubeper.base.BaseActivity;
-import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
 import com.yunkahui.datacubeper.bill.BillFragment;
 import com.yunkahui.datacubeper.test.CardTestFragment;
-import com.yunkahui.datacubeper.share.ShareFragment;
+import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
 
 import java.util.ArrayList;

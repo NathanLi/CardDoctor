@@ -9,6 +9,9 @@ public class HomeItem {
     private int imgRes;
     private String title;
 
+    public HomeItem() {
+    }
+
     public HomeItem(int imgRes, String title) {
         this.imgRes = imgRes;
         this.title = title;

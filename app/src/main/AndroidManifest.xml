@@ -18,7 +18,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.MainActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".mine.ui.PersonalInfoActivity"/>
         <activity android:name=".login.ui.ForgetPasswordActivity" />
         <activity android:name=".login.ui.RegisterActivity" />
         <activity android:name=".login.ui.LoginActivity" />
@@ -29,7 +31,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mine.ui.PersonalInfoActivity"></activity>
+        <activity android:name=".share.ui.WalletActivity" />
+        <activity android:name=".share.ui.TransactionDetailActivity" />
+        <activity android:name=".share.ui.RechargeWithdrawalsActivity" />
+        <activity android:name=".share.ui.ProfitActivity" />
+        <activity android:name=".share.ui.ProfitWithdrawalsActivity" />
+        <activity android:name=".share.ui.MemberActivity" />
     </application>
 
 </manifest>

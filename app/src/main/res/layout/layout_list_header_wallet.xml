@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="18pt"
+    android:paddingTop="20pt"
+    android:paddingBottom="20pt"
+    android:background="@drawable/wallet_header_shape">
+
+    <TextView
+        android:text="钱包账户   (元)"
+        android:textSize="17pt"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_account_balance"
+        android:text="7615"
+        android:layout_marginTop="12pt"
+        android:textSize="26pt"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

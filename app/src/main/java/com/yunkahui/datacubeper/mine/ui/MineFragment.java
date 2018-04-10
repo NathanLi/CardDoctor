@@ -64,7 +64,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mMenuItemList = new ArrayList<>();
         mMineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, mMenuItemList);
         mMineItemAdapter.bindToRecyclerView(mRecyclerView);
-        View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_mine_info, null);
+        View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_mine, null);
         mIvIcon = headerView.findViewById(R.id.iv_user_icon);
         mTvName = headerView.findViewById(R.id.tv_user_name);
         mTvPhone =headerView.findViewById(R.id.tv_user_phone);

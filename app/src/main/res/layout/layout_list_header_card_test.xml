@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_test_card_bg" />
+
+    <com.yunkahui.datacubeper.common.view.CardTestView
+        android:id="@+id/card_test_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/btn_run_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="124pt"
+        android:background="@drawable/card_test_btn_shape"
+        android:paddingBottom="12pt"
+        android:paddingLeft="32pt"
+        android:paddingRight="32pt"
+        android:paddingTop="12pt"
+        android:text="我要测评"
+        android:textColor="@color/colorPrimary" />
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16pt"
+        android:layout_marginRight="16pt"
+        android:layout_marginTop="178pt"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5px"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="18pt"
+            android:paddingLeft="24pt"
+            android:paddingRight="24pt"
+            android:paddingTop="18pt">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="24pt"
+                    android:layout_height="24pt"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12pt"
+                    android:text="历史测评"
+                    android:textColor="@color/tab_text_normal_gray"
+                    android:textSize="16pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="24pt"
+                    android:layout_height="24pt"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12pt"
+                    android:text="样例报告"
+                    android:textColor="@color/tab_text_normal_gray"
+                    android:textSize="16pt" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

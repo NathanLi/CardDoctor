@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:text="1688.00"
             android:textColor="@color/home_accout_balance_organe"
-            android:textSize="30pt" />
+            android:textSize="24pt" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_marginTop="5pt"
             android:text="账户余额"
             android:textColor="@color/home_total_profit_gray"
-            android:textSize="18pt" />
+            android:textSize="17pt" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="235.00"
             android:textColor="@color/home_accout_balance_organe"
-            android:textSize="30pt" />
+            android:textSize="24pt" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginTop="5pt"
             android:text="累计分润"
             android:textColor="@color/home_total_profit_gray"
-            android:textSize="18pt" />
+            android:textSize="17pt" />
     </LinearLayout>
 
 </LinearLayout>

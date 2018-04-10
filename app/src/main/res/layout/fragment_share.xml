@@ -23,7 +23,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1pt"
+            android:layout_height="2pt"
             android:layout_marginTop="4pt"
             android:background="@color/bill_card_bg_gray" />
 
@@ -31,12 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8pt">
+            android:paddingTop="8pt"
+            android:paddingBottom="8pt"
+            android:layout_marginLeft="20pt"
+            android:layout_marginRight="20pt">
 
             <ImageView
                 android:id="@+id/iv_activation_code"
                 android:layout_width="24pt"
-                android:layout_height="20pt"
+                android:layout_height="19pt"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_launcher" />
 
@@ -49,7 +52,7 @@
                 android:layout_toRightOf="@id/iv_activation_code"
                 android:text="剩余激活码："
                 android:textColor="@color/tab_text_normal_gray"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +61,7 @@
                 android:layout_toRightOf="@id/tv_rest_activation_code"
                 android:text="3000"
                 android:textColor="@color/black"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,7 +82,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="20pt"
             android:layout_marginTop="4pt"
             android:layout_marginBottom="4pt">
 
@@ -88,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="我的激活码："
                 android:textColor="@color/black"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
             <TextView
                 android:id="@+id/tv_my_activation_code"
@@ -101,7 +104,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1pt"
+            android:layout_height="2pt"
             android:layout_marginTop="4pt"
             android:background="@color/bill_card_bg_gray"
             android:layout_marginBottom="12pt"/>
@@ -113,12 +116,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16pt"
-            android:layout_marginBottom="16pt">
+            android:layout_marginBottom="16pt"
+            android:layout_marginLeft="20pt"
+            android:layout_marginRight="20pt">
 
             <ImageView
                 android:layout_width="20pt"
                 android:layout_height="20pt"
-                android:layout_marginLeft="12pt"
                 android:background="@mipmap/ic_launcher"/>
 
             <TextView
@@ -138,8 +142,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10pt"
-            android:layout_marginRight="10pt"
+            android:layout_marginLeft="20pt"
+            android:layout_marginRight="20pt"
             android:layout_marginTop="24pt">
 
             <TextView
@@ -152,7 +156,7 @@
                 android:padding="10pt"
                 android:text="链接分享"
                 android:textColor="@color/home_accout_balance_organe"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
             <TextView
                 android:layout_width="0dp"
@@ -164,7 +168,7 @@
                 android:padding="10pt"
                 android:text="链接分享"
                 android:textColor="@color/home_accout_balance_organe"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
             <TextView
                 android:layout_width="0dp"
@@ -176,7 +180,7 @@
                 android:padding="10pt"
                 android:text="链接分享"
                 android:textColor="@color/home_accout_balance_organe"
-                android:textSize="18pt" />
+                android:textSize="17pt" />
 
         </LinearLayout>
 

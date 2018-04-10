@@ -1,25 +1,20 @@
 package com.yunkahui.datacubeper.login.ui;
 
 import android.content.Intent;
-import android.graphics.Point;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
-import com.yunkahui.datacubeper.MainActivity;
+import com.yunkahui.datacubeper.base.CardDoctorApplication;
+import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityBase;
-import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -27,7 +22,6 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.logic.LoginLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements IActivityBase, View.OnClickListener {
@@ -83,8 +77,8 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
                     JSONObject object=new JSONObject(jsonObject.toString());
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        BaseUrl.USER_ID=object.optString("user_code");
-                        BaseUrl.KEY=object.optString("key");
+                       BaseUrl.setUSER_ID(object.optJSONObject("respData").optString("user_code"));
+                       BaseUrl.setKEY(object.optJSONObject("respData").optString("key"));
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }

@@ -1,4 +1,4 @@
-package com.yunkahui.datacubeper;
+package com.yunkahui.datacubeper.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), this, mFragments, tabImgs, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
+        mViewPager.setOffscreenPageLimit(5);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

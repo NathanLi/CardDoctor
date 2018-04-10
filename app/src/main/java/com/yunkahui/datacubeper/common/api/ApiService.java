@@ -1,6 +1,8 @@
 package com.yunkahui.datacubeper.common.api;
 
 import com.google.gson.JsonObject;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 
 import java.util.Map;
 
@@ -31,5 +33,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/login")    //用户登陆
     Observable<JsonObject> login(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/get_psn_info")   //获取个人中心信息
+    Observable<BaseBean<PersonalInfo>> loadPersonalInformation(@FieldMap Map<String,String> params);
 
 }

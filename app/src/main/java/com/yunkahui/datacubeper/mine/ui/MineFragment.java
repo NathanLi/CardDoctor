@@ -1,14 +1,11 @@
 package com.yunkahui.datacubeper.mine.ui;
 
-import android.app.Activity;
-import android.media.Image;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
@@ -35,12 +32,13 @@ public class MineFragment extends BaseFragment {
     private TextView mTvReferee;
 
     private MineLogic mLogic;
+    private List<MineItem> mMenuItemList;
 
     @Override
     public void initData() {
         mLogic=new MineLogic();
-        List<MineItem> list = new ArrayList<>();
-        MineItemAdapter mineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, list);
+        mMenuItemList = new ArrayList<>();
+        MineItemAdapter mineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, mMenuItemList);
         mineItemAdapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_mine_info, null);
         mIvIcon = headerView.findViewById(R.id.iv_user_icon);
@@ -53,14 +51,17 @@ public class MineFragment extends BaseFragment {
         mineItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                // TODO: 2018/4/3 set next page
+                itemClick(position);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mineItemAdapter);
 
-        list.addAll(mLogic.getMineItemList(getActivity()));
+        mMenuItemList.addAll(mLogic.getMineItemList(getActivity()));
         mineItemAdapter.notifyDataSetChanged();
+
+        mLogic.loadPersonalInformation(getActivity());
+
     }
 
     @Override
@@ -73,6 +74,39 @@ public class MineFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_mine;
+    }
+
+    public void itemClick(int position){
+
+        switch (mMenuItemList.get(position).getId()){
+            case 10:
+                break;
+            case 11:
+                break;
+            case 12:
+                break;
+            case 13:
+                break;
+            case 14:
+                break;
+            case 20:
+                break;
+            case 21:
+                break;
+            case 30:
+                break;
+            case 31:
+                break;
+            case 32:
+                break;
+            case 40:
+                break;
+            case 41:
+                break;
+            case 42:
+                break;
+        }
+
     }
 
 

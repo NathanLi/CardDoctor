@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context="com.yunkahui.datacubeper.MainActivity">
+    tools:context="com.yunkahui.datacubeper.base.MainActivity">
 
     <com.yunkahui.datacubeper.common.view.CustomViewPager
         android:id="@+id/view_pager"

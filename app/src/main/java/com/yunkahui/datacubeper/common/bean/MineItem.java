@@ -11,6 +11,9 @@ public class MineItem {
     private String detail;
     private boolean isShow;
 
+    public MineItem() {
+    }
+
     public MineItem(int icon, String title, boolean isShow) {
         this.icon = icon;
         this.title = title;
@@ -32,14 +35,6 @@ public class MineItem {
         this.id = id;
     }
 
-    public boolean isShow() {
-        return isShow;
-    }
-
-    public void setShow(boolean show) {
-        isShow = show;
-    }
-
     public int getIcon() {
         return icon;
     }
@@ -49,7 +44,7 @@ public class MineItem {
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
     public void setTitle(String title) {
@@ -57,10 +52,18 @@ public class MineItem {
     }
 
     public String getDetail() {
-        return detail;
+        return detail == null ? "" : detail;
     }
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 }

@@ -1,7 +1,6 @@
 package com.yunkahui.datacubeper.login.ui;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -22,7 +21,7 @@ import com.yunkahui.datacubeper.R;
 public class ForgetPasswordFragment extends Fragment implements View.OnClickListener {
 
     private EditText mEditTextPhone;
-    private EditText mEditTextAuchCode;
+    private EditText mEditTextAuthCode;
     private TextView mTextViewSendCode;
     private Button mButtonNext;
 
@@ -32,12 +31,12 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
         View view=inflater.inflate(R.layout.fragment_forget_password, null, false);
 
         mEditTextPhone=view.findViewById(R.id.edit_text_phone);
-        mEditTextAuchCode=view.findViewById(R.id.edit_text_auth_code);
+        mEditTextAuthCode =view.findViewById(R.id.edit_text_auth_code);
         mTextViewSendCode=view.findViewById(R.id.text_view_send_auth_code);
         mButtonNext=view.findViewById(R.id.button_next);
 
         mEditTextPhone.addTextChangedListener(new InnerTextChangerListener());
-        mEditTextAuchCode.addTextChangedListener(new InnerTextChangerListener());
+        mEditTextAuthCode.addTextChangedListener(new InnerTextChangerListener());
         mTextViewSendCode.setOnClickListener(this);
         mButtonNext.setOnClickListener(this);
         return view;
@@ -63,7 +62,7 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if(!TextUtils.isEmpty(mEditTextPhone.getText().toString())&&!TextUtils.isEmpty(mEditTextAuchCode.getText().toString())){
+            if(!TextUtils.isEmpty(mEditTextPhone.getText().toString())&&!TextUtils.isEmpty(mEditTextAuthCode.getText().toString())){
                 mButtonNext.setEnabled(true);
                 mButtonNext.setBackgroundResource(R.drawable.bg_button_login_selector);
             }else{

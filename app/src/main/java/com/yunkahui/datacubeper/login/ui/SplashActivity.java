@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity implements IActivityStatus
         @Override
         public boolean handleMessage(Message msg) {
             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+            finish();
             return true;
         }
     });

@@ -16,6 +16,7 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.MineItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.mine.adapter.MineItemAdapter;
+import com.yunkahui.datacubeper.mine.logic.MineLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,11 @@ public class MineFragment extends BaseFragment {
     private TextView mTvRecommandCode;
     private TextView mTvReferee;
 
+    private MineLogic mLogic;
+
     @Override
     public void initData() {
+        mLogic=new MineLogic();
         List<MineItem> list = new ArrayList<>();
         MineItemAdapter mineItemAdapter = new MineItemAdapter(R.layout.layout_list_item_mine, list);
         mineItemAdapter.bindToRecyclerView(mRecyclerView);
@@ -64,11 +68,13 @@ public class MineFragment extends BaseFragment {
                 {"我的储蓄卡", "我的支付宝", "POS管理"},
                 {"关于我们", "版本号", "安全退出"}
         };
-        for (int i = 0; i < titles.length; i++) {
-            for (int j = 0; j < titles[i].length; j++) {
-                list.add(new MineItem(imgs[i][j], titles[i][j], j == 0));
-            }
-        }
+//        for (int i = 0; i < titles.length; i++) {
+//            for (int j = 0; j < titles[i].length; j++) {
+//                list.add(new MineItem(imgs[i][j], titles[i][j], j == 0));
+//            }
+//        }
+
+        list.addAll(mLogic.getMineItemList(getActivity()));
         mineItemAdapter.notifyDataSetChanged();
     }
 

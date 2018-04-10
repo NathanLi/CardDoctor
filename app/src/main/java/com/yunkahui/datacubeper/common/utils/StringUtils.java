@@ -1,9 +1,14 @@
 package com.yunkahui.datacubeper.common.utils;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Base64;
 
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -30,6 +35,28 @@ public class StringUtils {
                 return matcher.matches();
             }
             return false;
+    }
+
+    /**
+     * 读取本地JSON文件
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String getJsonForLocation(Context context, String fileName){
+        StringBuilder stringBuilder = new StringBuilder();
+        AssetManager assetManager =  context.getAssets();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName),"UTF-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 
 }

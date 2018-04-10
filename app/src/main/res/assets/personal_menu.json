@@ -1,0 +1,75 @@
+[
+  [
+    {
+      "id": 10,
+      "title": "升级加盟",
+      "icon": "ic_upgrade_join"
+    },
+    {
+      "id": 11,
+      "title": "实名认证",
+      "icon": "ic_verify_name"
+    },
+    {
+      "id": 12,
+      "title": "绑定手机",
+      "icon": "ic_bind_phone"
+    },
+    {
+      "id": 13,
+      "title": "个人资料",
+      "icon": "ic_personal_data"
+    },
+    {
+      "id": 14,
+      "title": "修改密码",
+      "icon": "ic_change_psd"
+    }
+  ],
+  [
+    {
+      "id": 20,
+      "title": "联系客服",
+      "icon": "ic_conn_service"
+    },
+    {
+      "id": 21,
+      "title": "意见反馈",
+      "icon": "ic_feedback"
+    }
+  ],
+  [
+    {
+      "id": 30,
+      "title": "我的储蓄卡",
+      "icon": "ic_my_card"
+    },
+    {
+      "id": 31,
+      "title": "我的支付宝",
+      "icon": "ic_my_alipay"
+    },
+    {
+      "id": 32,
+      "title": "POS管理",
+      "icon": "ic_pos_manager"
+    }
+  ],
+  [
+    {
+      "id": 40,
+      "title": "关于我们",
+      "icon": "ic_about_us"
+    },
+    {
+      "id": 41,
+      "title": "版本号",
+      "icon": "ic_version"
+    },
+    {
+      "id": 42,
+      "title": "安全退出",
+      "icon": "ic_safe_exit"
+    }
+  ]
+]

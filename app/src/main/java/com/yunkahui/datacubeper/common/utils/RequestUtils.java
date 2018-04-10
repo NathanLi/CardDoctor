@@ -31,8 +31,8 @@ public class RequestUtils {
      * @return
      */
     public static Map resetRequestParams(Map map){
-        map.put("user_id",BaseUrl.USER_ID);
-        map.put("key",BaseUrl.KEY);
+        map.put("user_id",BaseUrl.getUSER_ID());
+        map.put("key",BaseUrl.getKEY());
         return map;
     }
 
@@ -97,8 +97,8 @@ public class RequestUtils {
         public InnerParam(boolean isUser) {
             mMap=new HashMap<>();
             if(!isUser){
-                mMap.put("user_code",BaseUrl.USER_ID);
-                mMap.put("key",BaseUrl.KEY);
+                mMap.put("user_code",BaseUrl.getUSER_ID());
+                mMap.put("key",BaseUrl.getKEY());
             }
 
         }

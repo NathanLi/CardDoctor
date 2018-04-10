@@ -32,8 +32,15 @@ import java.lang.reflect.Field;
  */
 
 public class CardDoctorApplication extends Application {
-
+    private static CardDoctorApplication mApp;
     private final int DESIGN_WIDTH = 375;
+
+    public static CardDoctorApplication getInstance(){
+        if(mApp==null){
+            mApp=new CardDoctorApplication();
+        }
+        return mApp;
+    }
 
     @Override
     public void onCreate() {

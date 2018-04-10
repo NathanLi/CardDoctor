@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="2pt"
             android:layout_marginTop="4pt"
-            android:background="@color/bill_card_bg_gray" />
+            android:background="@color/bill_card_bg_gray_f5f5f5" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:layout_toRightOf="@id/iv_activation_code"
                 android:layout_toEndOf="@id/iv_activation_code"
                 android:text="@string/rest_activation_code"
-                android:textColor="@color/tab_text_normal_gray"
+                android:textColor="@color/tab_text_normal_gray_a4aab3"
                 android:textSize="17pt" />
 
             <TextView
@@ -91,7 +91,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10pt"
-            android:background="@color/bill_card_bg_gray" />
+            android:background="@color/bill_card_bg_gray_f5f5f5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="2pt"
             android:layout_marginTop="4pt"
-            android:background="@color/bill_card_bg_gray"
+            android:background="@color/bill_card_bg_gray_f5f5f5"
             android:layout_marginBottom="12pt"/>
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
@@ -151,14 +151,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="查看更多奖励、分润、升级、加盟政策   >>"
-                android:textColor="@color/line_blue"
+                android:textColor="@color/line_blue_23a2fd"
                 android:textSize="14pt" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="10pt"
-            android:background="@color/bill_card_bg_gray" />
+            android:background="@color/bill_card_bg_gray_f5f5f5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/link_share"
-                android:textColor="@color/home_accout_balance_organe"
+                android:textColor="@color/home_accout_balance_organe_ff5a00"
                 android:textSize="17pt" />
 
             <TextView
@@ -190,7 +190,7 @@
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/qr_share"
-                android:textColor="@color/home_accout_balance_organe"
+                android:textColor="@color/home_accout_balance_organe_ff5a00"
                 android:textSize="17pt" />
 
             <TextView
@@ -204,7 +204,7 @@
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/vip_course"
-                android:textColor="@color/home_accout_balance_organe"
+                android:textColor="@color/home_accout_balance_organe_ff5a00"
                 android:textSize="17pt" />
 
         </LinearLayout>

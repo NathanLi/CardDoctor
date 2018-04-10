@@ -27,6 +27,12 @@
         <activity android:name=".login.ui.LoginActivity" />
         <activity android:name=".login.ui.SplashActivity">
         </activity>
+        <activity android:name=".share.ui.WalletActivity" />
+        <activity android:name=".share.ui.TransactionDetailActivity" />
+        <activity android:name=".share.ui.RechargeWithdrawalsActivity" />
+        <activity android:name=".share.ui.ProfitActivity" />
+        <activity android:name=".share.ui.ProfitWithdrawalsActivity" />
+        <activity android:name=".share.ui.MemberActivity" />
     </application>
 
 </manifest>

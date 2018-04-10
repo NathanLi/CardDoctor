@@ -1,5 +1,6 @@
-package com.yunkahui.datacubeper.share;
+package com.yunkahui.datacubeper.share.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,25 +34,25 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView1.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //******** 我的钱包点击事件 ********
+                startActivity(new Intent(mActivity, WalletActivity.class));
             }
         });
         mDoubleBlockView1.setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //******** 累计分润点击事件 ********
+                startActivity(new Intent(mActivity, ProfitActivity.class));
             }
         });
         mDoubleBlockView2.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //******** 普通会员点击事件 ********
+                startActivity(new Intent(mActivity, MemberActivity.class));
             }
         });
         mDoubleBlockView2.setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //******** VIP会员点击事件 ********
+                startActivity(new Intent(mActivity, MemberActivity.class));
             }
         });
     }

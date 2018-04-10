@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bill_card_bg_gray_f5f5f5"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="分润提现"
+        app:titleTextColor="@color/white"
+        android:background="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingBottom="10pt"
+        android:paddingLeft="16pt"
+        android:paddingTop="34pt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分润   (元)"
+            android:textColor="@color/white"
+            android:textSize="14pt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20pt"
+            android:text="1000"
+            android:textColor="@color/white"
+            android:textSize="40pt" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16pt"
+            android:paddingRight="16pt"
+            android:paddingTop="20pt"
+            android:paddingBottom="16pt">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1pt"
+                android:layout_centerVertical="true"
+                android:background="@color/line_gray_949494" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@color/bill_card_bg_gray_f5f5f5"
+                android:paddingLeft="16pt"
+                android:paddingRight="16pt"
+                android:text="提现方式"
+                android:textSize="12pt" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="22pt"
+                android:layout_height="22pt"
+                android:background="@drawable/ic_card_orange" />
+
+            <TextView
+                android:id="@+id/show_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="8979764113468"
+                android:textColor="@color/black"
+                android:textSize="14pt" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16pt"
+            android:layout_marginRight="16pt"
+            android:background="@color/line_gray_949494" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16pt"
+            android:paddingTop="8pt">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提现金额："
+                android:textColor="@color/black"
+                android:textSize="14pt" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入提现金额"
+                android:textSize="14pt" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_commit"
+        android:background="@drawable/withdrawals_btn_shape"
+        android:textColor="@color/white"
+        android:paddingTop="8pt"
+        android:paddingBottom="8pt"
+        android:paddingLeft="120pt"
+        android:paddingRight="120pt"
+        android:layout_marginTop="36pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="确认提交" />
+
+</LinearLayout>

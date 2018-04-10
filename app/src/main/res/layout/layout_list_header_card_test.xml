@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_test_card_bg" />
+        android:background="@drawable/ic_card_test_bg" />
 
     <com.yunkahui.datacubeper.common.view.CardTestView
         android:id="@+id/card_test_view"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12pt"
                     android:text="历史测评"
-                    android:textColor="@color/tab_text_normal_gray"
+                    android:textColor="@color/tab_text_normal_gray_a4aab3"
                     android:textSize="16pt" />
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12pt"
                     android:text="样例报告"
-                    android:textColor="@color/tab_text_normal_gray"
+                    android:textColor="@color/tab_text_normal_gray_a4aab3"
                     android:textSize="16pt" />
             </LinearLayout>
         </LinearLayout>

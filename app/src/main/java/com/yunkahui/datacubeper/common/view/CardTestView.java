@@ -32,8 +32,10 @@ public class CardTestView extends FrameLayout {
     private double score = 0;
     private PointView pointView;
     private Paint pointPaint;
-    private float currentAngle = 72;
+    private float currentAngle = 73;
     private RectF mRectf;
+    private DashBoardView dashBoardView;
+    private Thread thread;
 
     public CardTestView(Context context) {
         this(context, null);
@@ -45,7 +47,7 @@ public class CardTestView extends FrameLayout {
         initScalePaint();
         initPointPaint();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        DashBoardView dashBoardView = new DashBoardView(context, attrs);
+        dashBoardView = new DashBoardView(context, attrs);
         addView(dashBoardView, layoutParams);
         scoreView = new ScoreView(context, attrs);
         addView(scoreView, layoutParams);
@@ -73,9 +75,13 @@ public class CardTestView extends FrameLayout {
     }
 
     public void runScore(final int destScore) {
+        if (thread != null) {
+            thread.interrupt();
+        }
         currentAngle = 72;
         score = 0;
-        Thread thread = new Thread() {
+        //******** 防止越界 ********
+        thread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -88,6 +94,7 @@ public class CardTestView extends FrameLayout {
                         }
                         pointView.postInvalidate();
                         scoreView.postInvalidate();
+                        dashBoardView.postInvalidate();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -95,7 +102,6 @@ public class CardTestView extends FrameLayout {
             }
         };
         thread.start();
-
     }
 
     private class PointView extends View {
@@ -145,7 +151,7 @@ public class CardTestView extends FrameLayout {
             scalePaint.setColor(Color.WHITE);
             scalePaint.setTextSize(width / 10);
             String s = String.valueOf((int) (score + 0.5));
-            canvas.drawText(s, width / 2 - scalePaint.measureText(s) / 2, rectfHeight * 3 / 7, scalePaint);
+            canvas.drawText(s, width / 2 - scalePaint.measureText(s) / 2, (float) (rectfHeight * 2.7 / 7), scalePaint);
         }
     }
 
@@ -162,11 +168,10 @@ public class CardTestView extends FrameLayout {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            //width = getMeasuredWidth() - CardTestView.this.getPaddingLeft() - CardTestView.this.getPaddingRight();
+            Log.e(TAG, "onDraw: go");
+            width = getMeasuredWidth() - CardTestView.this.getPaddingLeft() - CardTestView.this.getPaddingRight();
             //height = getMeasuredHeight() - CardTestView.this.getPaddingTop() - CardTestView.this.getPaddingBottom();
-            width = 1080;
-            height = 1586;
-            Log.e(TAG, "width: "+width+", height: " + height);
+            height = (int) (width * 1.47);
             //******** 根据宽高获取矩形大小，确定仪表盘大小 ********
             rectfWidth = width * 264 / 375;
             rectfHeight = height * 314 / 667;
@@ -174,16 +179,22 @@ public class CardTestView extends FrameLayout {
             borderPaint.setStrokeWidth(width / 136);
             borderPaint.setColor(Color.parseColor("#66B5FF"));
             mRectf = new RectF(0, 0, rectfWidth, rectfHeight);
-            mRectf.offset(rectfMarginLeft, 0);
+            mRectf.offset(rectfMarginLeft, 30);
 
             //******** 绘制边框 ********
             canvas.drawArc(mRectf, 160, 220, false, borderPaint);
 
+            borderPaint.setColor(Color.WHITE);
+            borderPaint.setStrokeWidth(width / 60);
+            canvas.drawArc(mRectf, 161, currentAngle - 72, false, borderPaint);
+
             //******** 绘制刻度数值 ********
             scalePaint.setTextSize(width / 28);
             int startAngle = -108;
-            scalePaint.setColor(Color.parseColor("#66B5FF"));
             for (int i = 0; i < scaleValue.length; i++) {
+                scalePaint.setColor(Color.parseColor("#66B5FF"));
+                if ((int) (score / 10) == i)
+                    scalePaint.setColor(Color.WHITE);
                 drawScaleValue(canvas, scaleValue[i], startAngle);
                 if (i == 0) {
                     startAngle += 15;

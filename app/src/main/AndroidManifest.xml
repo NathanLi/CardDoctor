@@ -16,29 +16,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-<<<<<<< HEAD
-            android:launchMode="singleTask" >
-=======
-            android:launchMode="singleTask" />
-        <activity android:name=".login.ui.ForgetPasswordActivity" />
-        <activity android:name=".login.ui.RegisterActivity" />
-        <activity android:name=".login.ui.LoginActivity"/>
-        <activity android:name=".login.ui.SplashActivity">
->>>>>>> 5802476ad1da006f4ca1b22cc5d3057b6ce26492
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".login.ui.LoginActivity">
+        <activity android:name=".login.ui.ForgetPasswordActivity" />
+        <activity android:name=".login.ui.RegisterActivity" />
+        <activity android:name=".login.ui.LoginActivity"/>
+        <activity android:name=".login.ui.SplashActivity">
         </activity>
-        <activity
-            android:name=".login.ui.ForgetPasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".login.ui.RegisterActivity"></activity>
-=======
->>>>>>> 5802476ad1da006f4ca1b22cc5d3057b6ce26492
     </application>
 
 </manifest>

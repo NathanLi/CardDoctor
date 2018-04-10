@@ -28,12 +28,6 @@ public class CardTestFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        DisplayMetrics dm = new DisplayMetrics();
-        // 获取屏幕信息
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenWidth = dm.widthPixels;
-        int screenHeigh = dm.heightPixels;
-        Log.e("test", "initData: "+screenHeigh+", "+screenWidth);
         List<CardTestItem> cardTestItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             CardTestItem cardTestItem = new CardTestItem();
@@ -47,8 +41,15 @@ public class CardTestFragment extends BaseFragment {
         }
         CardTestAdapter cardTestAdapter = new CardTestAdapter(R.layout.layout_list_item_card_test, cardTestItems);
         cardTestAdapter.bindToRecyclerView(mRecyclerView);
-        View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_card_test, null);
-        cardTestAdapter.addHeaderView(headerView);
+        View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_card_test, null);
+        final CardTestView cardTestView = header.findViewById(R.id.card_test_view);
+        header.findViewById(R.id.btn_run_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardTestView.runScore(100);
+            }
+        });
+        cardTestAdapter.addHeaderView(header);
         cardTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

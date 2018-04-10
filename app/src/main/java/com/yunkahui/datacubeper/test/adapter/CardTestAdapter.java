@@ -25,7 +25,6 @@ public class CardTestAdapter extends BaseQuickAdapter<CardTestItem, BaseViewHold
         helper.setBackgroundRes(R.id.iv_bank_icon, item.getIcon());
         helper.setText(R.id.tv_user_name, item.getUserName());
         helper.setText(R.id.tv_bank_name, item.getBankName());
-        Log.e(TAG, "CardTestAdapterTest: "+item.getBankName());
         helper.setText(R.id.tv_bank_id, item.getBankId());
         helper.setText(R.id.tv_card_nick_name, item.getNickName());
         helper.setText(R.id.tv_card_type, item.getCardType());

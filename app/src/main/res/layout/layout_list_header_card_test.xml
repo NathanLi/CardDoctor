@@ -14,7 +14,7 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/btn_test"
+        android:id="@+id/btn_run_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16pt"
         android:layout_marginRight="16pt"
-        android:layout_marginTop="185pt"
+        android:layout_marginTop="178pt"
         app:cardCornerRadius="5dp"
         app:cardElevation="5px"
         app:cardMaxElevation="5dp"

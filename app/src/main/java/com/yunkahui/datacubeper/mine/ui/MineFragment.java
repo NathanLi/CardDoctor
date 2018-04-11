@@ -3,12 +3,12 @@ package com.yunkahui.datacubeper.mine.ui;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.annotation.GlideModule;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -18,10 +18,12 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.MineItem;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -30,7 +32,6 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.mine.adapter.MineItemAdapter;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -103,6 +104,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         return R.layout.fragment_mine;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.e("onResume");
+        if(!TextUtils.isEmpty(DataUtils.getInfo().getUser_mobile())){
+            fillData(DataUtils.getInfo());
+        }
+
+    }
 
     public void loadData(){
         mLoadingIndicatorView.setVisibility(View.VISIBLE);
@@ -114,6 +124,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     PersonalInfo info=personalInfoBaseBean.getRespData();
                     if(info!=null){
                         fillData(info);
+                        DataUtils.setInfo(info);
                     }
                 }
             }
@@ -192,6 +203,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         switch (mMenuItemList.get(position).getId()){
             case 10:
+                startActivity(new Intent(getActivity(),UpgradeJoinActivity.class));
                 break;
             case 11:
                 break;
@@ -201,6 +213,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(),PersonalInfoActivity.class));
                 break;
             case 14:
+                startActivity(new Intent(getActivity(),EditPasswordActivity.class));
                 break;
             case 20:
                 break;

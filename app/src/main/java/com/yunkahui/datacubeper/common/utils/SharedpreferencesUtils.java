@@ -7,9 +7,10 @@ import android.content.SharedPreferences;
  * Created by Administrator on 2018/4/8.
  */
 
-public class SharedpreferencesUtils {
+public class SharedPreferencesUtils {
 
-    public static final String USER_NAME="";
+    public static final String USER_NAME="USER_NAME";
+    public static final String PASSWORD="PASSWORD";
 
 
 

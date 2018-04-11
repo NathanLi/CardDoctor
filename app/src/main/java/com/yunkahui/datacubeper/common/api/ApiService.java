@@ -44,6 +44,11 @@ public interface ApiService {
     Observable<BaseBean<PersonalInfo>> loadPersonalInformation(@FieldMap Map<String,String> params);
 
     @Multipart
-    @POST("/app/user/uploadAvatar")
+    @POST("/app/user/uploadAvatar")     //上传头像
     Observable<JsonObject> upLoadPersonalAvatar(@PartMap Map<String,RequestBody> params, @Part MultipartBody.Part avatar);
+
+    @FormUrlEncoded
+    @POST("/app/user/setnewpsw")        //修改密码
+    Observable<JsonObject> editPassword(@FieldMap Map<String,String> params);
+
 }

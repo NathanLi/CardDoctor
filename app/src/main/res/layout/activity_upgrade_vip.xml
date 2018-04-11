@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_upgrade_vip_2"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="VIP会员套餐"/>
+
+
+    <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
+        android:id="@+id/upgrade_join_item_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:elevation="10dp"
+        app:uj_icon_background_color="#FFDFB3"
+        app:uj_title="自动交易"
+        app:uj_button_text="开通"
+        app:uj_sub_title="线上自动还自动刷"/>
+
+    <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
+        android:id="@+id/upgrade_join_item_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="20dp"
+        android:elevation="10dp"
+        app:uj_icon_background_color="#FFDFB3"
+        app:uj_title="落地POS"
+        app:uj_button_text="开通"
+        app:uj_sub_title="落地真实商户、完美账单"/>
+
+    <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
+        android:id="@+id/upgrade_join_item_view3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="20dp"
+        android:elevation="10dp"
+        app:uj_icon_background_color="#FFDFB3"
+        app:uj_title="自动交易+落地POS"
+        app:uj_button_text="开通"
+        app:uj_sub_title="一次开通，享受最低折扣"/>
+
+</LinearLayout>

@@ -13,17 +13,74 @@
         android:layout_width="match_parent"
         android:layout_height="50pt"
         android:layout_marginTop="20pt"
+        android:paddingLeft="15pt"
+        android:paddingRight="15pt"
         android:background="@color/white">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/black"
-            android:layout_marginLeft="15pt"
-            android:text="@string/avatar"/>
+            android:text="@string/avatar"
+            android:textSize="14pt"
+            android:textColor="@color/black" />
 
+        <ImageView
+            android:id="@+id/image_view_arrow"
+            android:layout_width="20pt"
+            android:layout_height="25pt"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_next_gray"/>
+
+        <ImageView
+            android:id="@+id/image_view_avatar"
+            android:layout_width="40pt"
+            android:layout_height="40pt"
+            android:layout_toLeftOf="@+id/image_view_arrow"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10pt"
+            android:src="@mipmap/ic_header_normal"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="15pt"
+        android:background="@color/line_gray_DDDDDD"/>
+
+    <com.yunkahui.datacubeper.common.view.MenuSimpleItemView
+        android:id="@+id/menu_simple_item_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_title="昵称"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="15pt"
+        android:background="@color/line_gray_DDDDDD"/>
+
+    <com.yunkahui.datacubeper.common.view.MenuSimpleItemView
+        android:id="@+id/menu_simple_item_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_title="账号"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginLeft="15pt"
+        android:background="@color/line_gray_DDDDDD"/>
+
+    <com.yunkahui.datacubeper.common.view.MenuSimpleItemView
+        android:id="@+id/menu_simple_item_qr_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_title="我的二维码"/>
+
 
 </LinearLayout>

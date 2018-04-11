@@ -14,13 +14,13 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityBase;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.logic.LoginLogic;
@@ -39,33 +39,35 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
         setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-//        RxPermissions rxPermissions=new RxPermissions(this);
-//        rxPermissions
-//                .requestEach(Manifest.permission.CAMERA,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE,
-//                        Manifest.permission.READ_PHONE_STATE)
-//                .subscribe(new SimpleCallBack<Permission>() {
-//                    @Override
-//                    public void onSuccess(Permission permission) {
-//                        if(permission.granted){
-//
-//                        }else{
-//                            ToastUtils.show(getApplicationContext(),"请允许打开需要的权限");
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable throwable) {
-//
-//                    }
-//                });
+        RxPermissions rxPermissions=new RxPermissions(this);
+        rxPermissions
+                .requestEach(Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
+                .subscribe(new SimpleCallBack<Permission>() {
+                    @Override
+                    public void onSuccess(Permission permission) {
+                        if(permission.granted){
+
+                        }else{
+                            ToastUtils.show(getApplicationContext(),"请允许打开需要的权限");
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
+                    }
+                });
 
     }
 
     @Override
     public void initData() {
         mLogic=new LoginLogic();
+        mEditTextPhone.setText(SharedPreferencesUtils.getString(this,SharedPreferencesUtils.USER_NAME));
+        mEditTextPassword.setText(SharedPreferencesUtils.getString(this,SharedPreferencesUtils.PASSWORD));
     }
 
     @Override
@@ -103,8 +105,10 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
                     JSONObject object=new JSONObject(jsonObject.toString());
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                       BaseUrl.setUSER_ID(object.optJSONObject("respData").optString("user_code"));
-                       BaseUrl.setKEY(object.optJSONObject("respData").optString("key"));
+                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.USER_NAME,mEditTextPhone.getText().toString());
+                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.PASSWORD,mEditTextPassword.getText().toString());
+                        BaseUrl.setUSER_ID(object.optJSONObject("respData").optString("user_code"));
+                        BaseUrl.setKEY(object.optJSONObject("respData").optString("key"));
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }

@@ -56,7 +56,6 @@ public class CardDoctorApplication extends Application {
 
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                LogUtils.e(activity.getClass().getName());
                 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //限制竖屏
                 resetDensity(context, DESIGN_WIDTH);
                 resetDensity(activity, DESIGN_WIDTH);
@@ -124,7 +123,7 @@ public class CardDoctorApplication extends Application {
      */
     private void setToolBar(final Activity activity) {
         if (activity.findViewById(R.id.card_doctor_tool_bar) != null && ((AppCompatActivity) activity).getSupportActionBar() == null) {
-            Toolbar toolbar = activity.findViewById(R.id.tool_bar);
+            Toolbar toolbar = activity.findViewById(R.id.card_doctor_tool_bar);
             if(!TextUtils.isEmpty(activity.getTitle())){
                 toolbar.setTitle(activity.getTitle());
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CardDoctor</string>
+    <string name="app_name">卡医生</string>
     <string name="tab_item_home">首页</string>
     <string name="tab_item_bill">账单</string>
     <string name="tab_item_card_test">卡·测评</string>
@@ -17,8 +17,8 @@
     <string name="fast_register">快速注册</string>
     <string name="agreement_tips">登陆/注册即表示您已经阅读和同意</string>
     <string name="agreement">《卡医生服务协议》</string>
-    <string name="phone">手机号：</string>
-    <string name="auth_code">验证码：</string>
+    <string name="phone">手机号</string>
+    <string name="auth_code">验证码</string>
     <string name="phone_tips">请输入绑定的手机号</string>
     <string name="auth_code_tips">请输入验证码</string>
     <string name="send_auth_code">发送验证码</string>
@@ -28,6 +28,7 @@
     <string name="invite_code_tips">请输入邀请码</string>
     <string name="nick_name_tips">请输入昵称</string>
     <string name="password_tips">请输入密码</string>
+    <string name="password_new_tips">请输入新密码</string>
     <string name="password_repeat_tips">再次输入确认密码</string>
     <string name="immediately_register">立即注册</string>
 
@@ -39,12 +40,13 @@
     <string name="input_new_password2">请再次输入新密码</string>
     <string name="confirm_reset">确认重置</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="old_login_password">原登陆密码</string>
+    <string name="reset_login_password">重置登陆密码</string>
 
-    
     <!-- 个人中心 -->
     <string name="avatar">头像</string>
-    
-    
+
+
     <string name="rest_activation_code">剩余激活码：</string>
     <string name="produce_activation_code">生成激活码</string>
     <string name="my_activation_code">我的激活码：</string>

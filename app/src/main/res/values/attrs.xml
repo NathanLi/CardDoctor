@@ -4,4 +4,31 @@
         <attr name="leftName" format="string" />
         <attr name="rightName" format="string" />
     </declare-styleable>
+
+
+    <declare-styleable name="MenuSimpleItemView">
+        <attr name="item_title" format="string|reference" />
+        <attr name="item_subtitle" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleEditTextView">
+        <attr name="item_edit_title" format="string|reference"/>
+        <attr name="item_edit_hint" format="string|reference"/>
+        <attr name="item_edit_text" format="string|reference"/>
+        <attr name="item_edit_input_type" format="enum">
+            <enum name="number" value="2"/>
+            <enum name="textPassword" value="128"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UpgradeJoinItemView">
+        <attr name="uj_icon_background_color" format="string"/>
+        <attr name="uj_icon_title" format="string|reference"/>
+        <attr name="uj_icon_sub_title" format="string|reference"/>
+        <attr name="uj_title" format="string|reference"/>
+        <attr name="uj_icon" format="reference"/>
+        <attr name="uj_sub_title" format="string|reference"/>
+        <attr name="uj_button_text" format="string|reference"/>
+    </declare-styleable>
+
 </resources>

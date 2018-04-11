@@ -8,9 +8,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.gson.JsonObject;
+import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.upgradeJoin.logic.UpgradeVipLogic;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +39,7 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
     private UpgradeJoinItemView mUpgradeJoinItemView3;
 
     private List<VipPackage> mVipPackages=new ArrayList<>();
+    private UpgradeVipLogic mLogic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,8 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
         mUpgradeJoinItemView2.setOnChildClickListener(this);
         mUpgradeJoinItemView3.setOnChildClickListener(this);
 
+        mLogic=new UpgradeVipLogic();
+
         initActionBar();
         loadData();
     }
@@ -64,25 +74,23 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 
 
     private void loadData(){
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.loadData(this, new SimpleCallBack<BaseBeanList<VipPackage>>() {
+            @Override
+            public void onSuccess(BaseBeanList<VipPackage> vipPackageBaseBeanList) {
+                LoadingViewDialog.getInstance().dismiss();
 
+                LogUtils.e("Vip会员套餐->"+vipPackageBaseBeanList.toString());
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+            }
+        });
     }
 
-    private void parsingJson(JSONObject jsonObject){
-        mVipPackages.clear();
-        JSONArray vipArray=jsonObject.optJSONArray("respData");
-        for (int i=0;i<vipArray.length();i++){
-            JSONObject object=vipArray.optJSONObject(i);
-            VipPackage vipPackage=new VipPackage();
-            vipPackage.setMenuAlias(object.optString("menuAlias"));
-            vipPackage.setMenuName(object.optString("menuName"));
-            vipPackage.setMenuPrice(object.optString("menuPrice"));
-            vipPackage.setMenuShortTag(object.optString("menuShortTag"));
-            vipPackage.setMenuText(object.optString("menuText"));
-            vipPackage.setMenuUserStatus(object.optString("menuUserStatus"));
-            vipPackage.setMenuUserStatusTxt(object.optString("menuUserStatusTxt"));
-            mVipPackages.add(vipPackage);
-        }
-    }
 
     private void loadVipData(int type){
         switch (type){
@@ -90,10 +98,10 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 //                requestOpenVip1("menu1_step1",mVipPackages.get(0).getMenuPrice());
                 break;
             case RESULT_CODE_VIP2:
-                showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(1).getMenuPrice(),RESULT_CODE_VIP2);
+                showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(1).getPrice(),RESULT_CODE_VIP2);
                 break;
             case RESULT_CODE_VIP3:
-                showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(2).getMenuPrice(),RESULT_CODE_VIP3);
+                showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(2).getPrice(),RESULT_CODE_VIP3);
                 break;
         }
     }
@@ -243,17 +251,17 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
         switch (v.getId()){
             case R.id.upgrade_join_item_view1:
                 Intent intent1=new Intent(this,VipInstructionActivity.class);
-                intent1.putExtra("text",mVipPackages.get(0).getMenuText());
+                intent1.putExtra("text",mVipPackages.get(0).getDesc());
                 startActivity(intent1);
                 break;
             case R.id.upgrade_join_item_view2:
                 Intent intent2=new Intent(this,VipInstructionActivity.class);
-                intent2.putExtra("text",mVipPackages.get(1).getMenuText());
+                intent2.putExtra("text",mVipPackages.get(1).getDesc());
                 startActivity(intent2);
                 break;
             case R.id.upgrade_join_item_view3:
                 Intent intent3=new Intent(this,VipInstructionActivity.class);
-                intent3.putExtra("text",mVipPackages.get(2).getMenuText());
+                intent3.putExtra("text",mVipPackages.get(2).getDesc());
                 startActivity(intent3);
                 break;
         }
@@ -270,7 +278,7 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                 loadVipData(RESULT_CODE_VIP2);
                 break;
             case R.id.upgrade_join_item_view3:
-                if(!"01".equals(mVipPackages.get(0).getMenuUserStatus())){
+                if(!"01".equals(mVipPackages.get(0).getOpenState())){
                     loadVipData(RESULT_CODE_VIP3);
                 }
                 break;

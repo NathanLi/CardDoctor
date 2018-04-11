@@ -6,80 +6,170 @@ package com.yunkahui.datacubeper.common.bean;
 
 public class VipPackage {
 
-    private String menuAlias;
-    private String menuName;
-    private String menuPrice;
-    private String menuShortTag;
-    private String menuText;
-    private String menuUserStatus;
-    private String menuUserStatusTxt;
+    String commSetting;
+    int vpId;
+    int commLimitLevel;
+    String openState;
+    int agentCommLimitLevel;
+    long updateTime;
+    String type;
+    long createTime;
+    double price;
+    String name;
+    String agentCommSetting;
+    String alias;
+    String shortDesc;
+    String orgNumber;
+    String agentCommType;
+    String desc;
 
-    public String getMenuAlias() {
-        return menuAlias;
+    public String getCommSetting() {
+        return commSetting == null ? "" : commSetting;
     }
 
-    public void setMenuAlias(String menuAlias) {
-        this.menuAlias = menuAlias;
+    public void setCommSetting(String commSetting) {
+        this.commSetting = commSetting;
     }
 
-    public String getMenuName() {
-        return menuName;
+    public int getVpId() {
+        return vpId;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
+    public void setVpId(int vpId) {
+        this.vpId = vpId;
     }
 
-    public String getMenuPrice() {
-        return menuPrice;
+    public int getCommLimitLevel() {
+        return commLimitLevel;
     }
 
-    public void setMenuPrice(String menuPrice) {
-        this.menuPrice = menuPrice;
+    public void setCommLimitLevel(int commLimitLevel) {
+        this.commLimitLevel = commLimitLevel;
     }
 
-    public String getMenuShortTag() {
-        return menuShortTag;
+    public String getOpenState() {
+        return openState == null ? "" : openState;
     }
 
-    public void setMenuShortTag(String menuShortTag) {
-        this.menuShortTag = menuShortTag;
+    public void setOpenState(String openState) {
+        this.openState = openState;
     }
 
-    public String getMenuText() {
-        return menuText;
+    public int getAgentCommLimitLevel() {
+        return agentCommLimitLevel;
     }
 
-    public void setMenuText(String menuText) {
-        this.menuText = menuText;
+    public void setAgentCommLimitLevel(int agentCommLimitLevel) {
+        this.agentCommLimitLevel = agentCommLimitLevel;
     }
 
-    public String getMenuUserStatus() {
-        return menuUserStatus;
+    public long getUpdateTime() {
+        return updateTime;
     }
 
-    public void setMenuUserStatus(String menuUserStatus) {
-        this.menuUserStatus = menuUserStatus;
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getMenuUserStatusTxt() {
-        return menuUserStatusTxt;
+    public String getType() {
+        return type == null ? "" : type;
     }
 
-    public void setMenuUserStatusTxt(String menuUserStatusTxt) {
-        this.menuUserStatusTxt = menuUserStatusTxt;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name == null ? "" : name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAgentCommSetting() {
+        return agentCommSetting == null ? "" : agentCommSetting;
+    }
+
+    public void setAgentCommSetting(String agentCommSetting) {
+        this.agentCommSetting = agentCommSetting;
+    }
+
+    public String getAlias() {
+        return alias == null ? "" : alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getShortDesc() {
+        return shortDesc == null ? "" : shortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
+    public String getOrgNumber() {
+        return orgNumber == null ? "" : orgNumber;
+    }
+
+    public void setOrgNumber(String orgNumber) {
+        this.orgNumber = orgNumber;
+    }
+
+    public String getAgentCommType() {
+        return agentCommType == null ? "" : agentCommType;
+    }
+
+    public void setAgentCommType(String agentCommType) {
+        this.agentCommType = agentCommType;
+    }
+
+    public String getDesc() {
+        return desc == null ? "" : desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     @Override
     public String toString() {
         return "VipPackage{" +
-                "menuAlias='" + menuAlias + '\'' +
-                ", menuName='" + menuName + '\'' +
-                ", menuPrice='" + menuPrice + '\'' +
-                ", menuShortTag='" + menuShortTag + '\'' +
-                ", menuText='" + menuText + '\'' +
-                ", menuUserStatus='" + menuUserStatus + '\'' +
-                ", menuUserStatusTxt='" + menuUserStatusTxt + '\'' +
+                "commSetting='" + commSetting + '\'' +
+                ", vpId=" + vpId +
+                ", commLimitLevel=" + commLimitLevel +
+                ", openState='" + openState + '\'' +
+                ", agentCommLimitLevel=" + agentCommLimitLevel +
+                ", updateTime=" + updateTime +
+                ", type='" + type + '\'' +
+                ", createTime=" + createTime +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", agentCommSetting='" + agentCommSetting + '\'' +
+                ", alias='" + alias + '\'' +
+                ", shortDesc='" + shortDesc + '\'' +
+                ", orgNumber='" + orgNumber + '\'' +
+                ", agentCommType='" + agentCommType + '\'' +
+                ", desc='" + desc + '\'' +
                 '}';
     }
 }

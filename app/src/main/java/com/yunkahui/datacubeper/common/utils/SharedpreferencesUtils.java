@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by Administrator on 2018/4/8.
+ * Created by Administrator on 2018/4/11.
  */
 
 public class SharedPreferencesUtils {
 
     public static final String USER_NAME="USER_NAME";
     public static final String PASSWORD="PASSWORD";
-
 
 
     public static void save(Context context,String key, Long value){
@@ -57,7 +56,7 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static int getInt(Context context,String key){
+    public static int getInt(Context context, String key){
         SharedPreferences preferences=context.getSharedPreferences("yunkahui",Context.MODE_PRIVATE);
         return preferences.getInt(key,0);
     }

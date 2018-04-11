@@ -78,14 +78,14 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
     }
     public void setData(VipPackage vipPackage){
         if(vipPackage!=null){
-            mTextViewTitle.setText(vipPackage.getMenuName());
-            mTextViewSubTitle.setText(vipPackage.getMenuShortTag());
-            mTextViewIconTitle.setText(vipPackage.getMenuPrice().split("\\.")[0]+"元");
-            mTextViewIconSubTitle.setText(vipPackage.getMenuAlias());
-            if("00".equals(vipPackage.getMenuUserStatus())){
+            mTextViewTitle.setText(vipPackage.getName());
+            mTextViewSubTitle.setText(vipPackage.getShortDesc());
+            mTextViewIconTitle.setText((vipPackage.getPrice()+"").split("\\.")[0]+"元");
+            mTextViewIconSubTitle.setText(vipPackage.getAlias());
+            if("00".equals(vipPackage.getOpenState())){
                 mTextViewSubmit.setText("开通");
                 mTextViewSubmit.setEnabled(true);
-            }else if("01".equals(vipPackage.getMenuUserStatus())){
+            }else if("01".equals(vipPackage.getOpenState())){
                 mTextViewSubmit.setText("已开通");
                 mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
                 mTextViewSubmit.setEnabled(false);

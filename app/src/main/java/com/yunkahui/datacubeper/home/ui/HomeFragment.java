@@ -13,6 +13,7 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
+import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,20 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0) {
                     startActivity(new Intent(mActivity, TodayOperationActivity.class));
+                } else if (position == 4) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
+                } else if (position == 5) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.025hmd.com"));
+                } else if (position == 6) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://shixin.court.gov.cn/"));
+                } else if (position == 7) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://m.46644.com/illegal/?tpltype=weixin"));
+                } else if (position == 8) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?uid=64"));
+                } else if (position == 9) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
+                } else if (position == 10) {
+                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.epicc.com.cn/wap/views/proposal/giveactivity/JBD_S/?productcode=JBD_S&plantype=B?cmpid=2017pcluodiye"));
                 }
             }
         });

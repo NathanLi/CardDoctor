@@ -65,10 +65,25 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
     }
 
     @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+    }
+
+    @Override
     public void initData() {
         mLogic=new LoginLogic();
         mEditTextPhone.setText(SharedPreferencesUtils.getString(this,SharedPreferencesUtils.USER_NAME));
         mEditTextPassword.setText(SharedPreferencesUtils.getString(this,SharedPreferencesUtils.PASSWORD));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void setSupportProgress(int progress) {
+        super.setSupportProgress(progress);
     }
 
     @Override

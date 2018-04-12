@@ -30,32 +30,32 @@
             android:id="@+id/rb_home"
             android:text="首页"
             android:checked="true"
-            android:drawableTop="@drawable/main_tab_home_selector"
-            style="@style/MainRadioButtonStyle" />
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@mipmap/ic_home_selected" />
 
         <RadioButton
             android:id="@+id/rb_bill"
             android:text="账单"
-            android:drawableTop="@drawable/main_tab_bill_selector"
-            style="@style/MainRadioButtonStyle" />
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@mipmap/ic_bill_normal" />
 
         <RadioButton
             android:id="@+id/rb_card_test"
             android:text="卡·测评"
-            android:drawableTop="@drawable/main_tab_card_test_selector"
-            style="@style/MainRadioButtonStyle" />
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@mipmap/ic_card_test_normal" />
 
         <RadioButton
             android:id="@+id/rb_share"
             android:text="分享"
-            android:drawableTop="@drawable/main_tab_share_selector"
-            style="@style/MainRadioButtonStyle" />
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@mipmap/ic_share_normal" />
 
         <RadioButton
             android:id="@+id/rb_mine"
             android:text="我的"
-            android:drawableTop="@drawable/main_tab_mine_selector"
-            style="@style/MainRadioButtonStyle" />
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@mipmap/ic_mine_normal" />
 
     </RadioGroup>
 

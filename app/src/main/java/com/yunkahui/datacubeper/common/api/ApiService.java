@@ -2,7 +2,9 @@ package com.yunkahui.datacubeper.common.api;
 
 import com.google.gson.JsonObject;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
+import com.yunkahui.datacubeper.common.bean.VipPackage;
 
 import java.util.Map;
 
@@ -51,6 +53,7 @@ public interface ApiService {
     @POST("/app/user/setnewpsw")        //修改密码
     Observable<JsonObject> editPassword(@FieldMap Map<String,String> params);
 
+<<<<<<< HEAD
 
     @FormUrlEncoded
     @POST("/app/share/get_myshare_infos")   //获取分享页面数据
@@ -59,4 +62,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/activationCodes/generate")   //生成激活码
     Observable<JsonObject> produceActivationCode(@FieldMap Map<String,String> params);
+=======
+    @FormUrlEncoded
+    @POST("/app/user/vip/package")     //获取VIP会员套餐数据
+    Observable<BaseBeanList<VipPackage>> loadVipPackageData(@FieldMap Map<String,String> params);
+
+
+>>>>>>> 0effd97b9980c8c50a08efc79c6208e6939c8c25
 }

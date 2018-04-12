@@ -1,18 +1,19 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/4/10.
+ * Created by Administrator on 2018/4/11.
  */
 
-public class BaseBean<T> {
+public class BaseBeanList<T> {
 
     private String respCode;
 
     private String respDesc;
 
-    private T respData;
+    private List<T> respData;
 
     public String getRespCode() {
         return respCode == null ? "" : respCode;
@@ -30,17 +31,20 @@ public class BaseBean<T> {
         this.respDesc = respDesc;
     }
 
-    public T getRespData() {
+    public List<T> getRespData() {
+        if (respData == null) {
+            return new ArrayList<>();
+        }
         return respData;
     }
 
-    public void setRespData(T respData) {
+    public void setRespData(List<T> respData) {
         this.respData = respData;
     }
 
     @Override
     public String toString() {
-        return "BaseBean{" +
+        return "BaseBeanList{" +
                 "respCode='" + respCode + '\'' +
                 ", respDesc='" + respDesc + '\'' +
                 ", respData=" + respData +

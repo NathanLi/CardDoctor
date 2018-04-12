@@ -168,7 +168,6 @@ public class CardTestView extends FrameLayout {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            Log.e(TAG, "onDraw: go");
             width = getMeasuredWidth() - CardTestView.this.getPaddingLeft() - CardTestView.this.getPaddingRight();
             //height = getMeasuredHeight() - CardTestView.this.getPaddingTop() - CardTestView.this.getPaddingBottom();
             height = (int) (width * 1.47);

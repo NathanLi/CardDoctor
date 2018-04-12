@@ -8,15 +8,12 @@ public class BillCardItem {
 
     private String bankName;
     private String cardId;
-    private int repayMoney;
-    private int unrepayMoney;
-    private int leaveDate;
+    private String repayMoney;
+    private String unrepayMoney;
+    private String leaveDate;
     private String repayDate;
 
-    public BillCardItem() {
-    }
-
-    public BillCardItem(String bankName, String cardId, int repayMoney, int unrepayMoney, int leaveDate, String repayDate) {
+    public BillCardItem(String bankName, String cardId, String repayMoney, String unrepayMoney, String leaveDate, String repayDate) {
         this.bankName = bankName;
         this.cardId = cardId;
         this.repayMoney = repayMoney;
@@ -41,27 +38,27 @@ public class BillCardItem {
         this.cardId = cardId;
     }
 
-    public int getRepayMoney() {
+    public String getRepayMoney() {
         return repayMoney;
     }
 
-    public void setRepayMoney(int repayMoney) {
+    public void setRepayMoney(String repayMoney) {
         this.repayMoney = repayMoney;
     }
 
-    public int getUnrepayMoney() {
+    public String getUnrepayMoney() {
         return unrepayMoney;
     }
 
-    public void setUnrepayMoney(int unrepayMoney) {
+    public void setUnrepayMoney(String unrepayMoney) {
         this.unrepayMoney = unrepayMoney;
     }
 
-    public int getLeaveDate() {
+    public String getLeaveDate() {
         return leaveDate;
     }
 
-    public void setLeaveDate(int leaveDate) {
+    public void setLeaveDate(String leaveDate) {
         this.leaveDate = leaveDate;
     }
 

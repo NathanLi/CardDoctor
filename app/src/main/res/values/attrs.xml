@@ -5,6 +5,10 @@
         <attr name="rightName" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="SegmentView">
+        <attr name="leftSegment" format="string" />
+        <attr name="rightSegment" format="string" />
+    </declare-styleable>
 
     <declare-styleable name="MenuSimpleItemView">
         <attr name="item_title" format="string|reference" />

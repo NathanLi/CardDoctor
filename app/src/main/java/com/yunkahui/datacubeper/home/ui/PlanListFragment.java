@@ -1,8 +1,6 @@
 package com.yunkahui.datacubeper.home.ui;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -26,13 +24,13 @@ public class PlanListFragment extends BaseFragment {
     public void initData() {
         String[] tabTitles = {"自动规", "POS规划", "其他消费"};
         List<BaseFragment> fragments = new ArrayList<>();
-        fragments.add(new AutoPlanFragment());
-        fragments.add(new PosPlanFragment());
-        fragments.add(new OtherConsumerFragment());
+        fragments.add(DesignSubFragment.newInstance(3));
+        fragments.add(DesignSubFragment.newInstance(4));
+        fragments.add(DesignSubFragment.newInstance(5));
         for (String title : tabTitles) {
             mTabLayout.addTab(mTabLayout.newTab().setText(title));
         }
-        MainTabAdapter mAdapter = new MainTabAdapter(((AppCompatActivity) mActivity).getSupportFragmentManager(), fragments, tabTitles);
+        MainTabAdapter mAdapter = new MainTabAdapter(getChildFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

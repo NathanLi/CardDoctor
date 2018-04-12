@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <ImageView
+        android:id="@+id/iv_segment_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12pt"
+        android:src="@mipmap/ic_back_black" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_left_segment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/today_operation_left_bg_selector"
+            android:paddingBottom="3pt"
+            android:paddingLeft="18pt"
+            android:paddingRight="18pt"
+            android:paddingTop="3pt"
+            android:textColor="@color/today_operation_text_selector"
+            android:textSize="14pt" />
+
+        <TextView
+            android:id="@+id/tv_right_segment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/today_operation_right_bg_selector"
+            android:paddingBottom="3pt"
+            android:paddingLeft="18pt"
+            android:paddingRight="18pt"
+            android:paddingTop="3pt"
+            android:textColor="@color/today_operation_text_selector"
+            android:textSize="14pt" />
+    </LinearLayout>
+</RelativeLayout>
+

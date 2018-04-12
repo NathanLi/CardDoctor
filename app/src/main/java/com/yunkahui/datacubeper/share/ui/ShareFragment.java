@@ -34,18 +34,18 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     public void initData() {
         mShareLogic = new ShareLogic();
         initListener();
-        mShareLogic.getSharePageInfo(mActivity, new SimpleCallBack<JsonObject>() {
+        mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 try {
                     JSONObject object = new JSONObject(jsonObject.toString());
                     JSONObject respData = object.optJSONObject("respData");
-                    mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"));
-                    mDoubleBlockView1.setRightNum(respData.optString("userFenruns"));
-                    mDoubleBlockView2.setLeftNum(respData.optString("commonMemberCount"));
-                    mDoubleBlockView2.setRightNum(respData.optString("vipMemberCount"));
-                    mTvRestCode.setText(respData.optString("reNum"));
-                    mTvMyCode.setText(respData.optString("userUniqueCode"));
+//                    mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"));
+//                    mDoubleBlockView1.setRightNum(respData.optString("userFenruns"));
+//                    mDoubleBlockView2.setLeftNum(respData.optString("commonMemberCount"));
+//                    mDoubleBlockView2.setRightNum(respData.optString("vipMemberCount"));
+//                    mTvRestCode.setText(respData.optString("reNum"));
+//                    mTvMyCode.setText(respData.optString("userUniqueCode"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -55,11 +55,11 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/share/get_myshare_infos")   //获取分享页面数据
-    Observable<JsonObject> requestSharePageInfo(@FieldMap Map<String,String> params);
+    Observable<JsonObject> loadSharePageInfo(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/activationCodes/generate")   //生成激活码
-    Observable<JsonObject> produceActivationCode(@FieldMap Map<String,String> params);
+    Observable<JsonObject> loadActivationCode(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/user/vip/package")     //获取VIP会员套餐数据
@@ -88,5 +88,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userUpgradec/upgradeApply")     //提交代理商或OEM申请
     Observable<JsonObject> submitAgentApply(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planing/getToday")     //获取今日操作
+    Observable<JsonObject> loadTodayOperation(@FieldMap Map<String,String> params);
 
 }

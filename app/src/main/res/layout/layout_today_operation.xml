@@ -5,11 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabIndicatorColor="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
 
-    <ImageView
-        android:id="@+id/iv_no_data"
-        android:src="@mipmap/ic_no_data"
+    <com.yunkahui.datacubeper.common.view.CustomViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

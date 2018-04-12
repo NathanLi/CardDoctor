@@ -7,13 +7,7 @@
     android:background="@color/bill_card_bg_gray_f5f5f5"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="我的钱包充值"
-        app:titleTextColor="@color/white"
-        android:background="@color/colorPrimary"/>
+    <include layout="@layout/layout_toolbar" />
 
     <include layout="@layout/layout_list_header_wallet" />
 

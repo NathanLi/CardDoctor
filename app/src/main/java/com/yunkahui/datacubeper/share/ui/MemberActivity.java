@@ -21,7 +21,7 @@ public class MemberActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.activity_member;
     }
 }

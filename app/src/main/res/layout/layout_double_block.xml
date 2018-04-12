@@ -15,7 +15,7 @@
             android:id="@+id/tv_left_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1688.00"
+            android:text="-"
             android:textColor="@color/home_accout_balance_organe_ff5a00"
             android:textSize="24pt" />
 
@@ -41,7 +41,7 @@
             android:id="@+id/tv_right_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="235.00"
+            android:text="-"
             android:textColor="@color/home_accout_balance_organe_ff5a00"
             android:textSize="24pt" />
 

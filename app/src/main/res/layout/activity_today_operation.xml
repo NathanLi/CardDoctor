@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <ImageView
+            android:layout_marginLeft="12pt"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_back_black"/>
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_today_operation"
+            android:text="@string/today_operation"
+            android:textSize="14pt"
+            android:paddingLeft="18pt"
+            android:paddingRight="18pt"
+            android:paddingTop="3pt"
+            android:paddingBottom="3pt"
+            android:textColor="@color/today_operation_text_selector"
+            android:background="@drawable/today_operation_left_bg_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_plan_list"
+            android:text="@string/plan_list"
+            android:textSize="14pt"
+            android:paddingLeft="18pt"
+            android:paddingRight="18pt"
+            android:paddingTop="3pt"
+            android:paddingBottom="3pt"
+            android:textColor="@color/today_operation_text_selector"
+            android:background="@drawable/today_operation_right_bg_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.yunkahui.datacubeper.common.view.CustomViewPager
+        android:id="@+id/view_pager_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

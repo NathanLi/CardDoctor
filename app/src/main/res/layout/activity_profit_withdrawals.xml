@@ -6,13 +6,7 @@
     android:background="@color/bill_card_bg_gray_f5f5f5"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="分润提现"
-        app:titleTextColor="@color/white"
-        android:background="@color/colorPrimary"/>
+    <include layout="@layout/layout_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,7 +75,7 @@
             <ImageView
                 android:layout_width="22pt"
                 android:layout_height="22pt"
-                android:background="@drawable/ic_card_orange" />
+                android:background="@mipmap/ic_card_orange" />
 
             <TextView
                 android:id="@+id/show_num"
@@ -105,8 +99,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16pt"
-            android:paddingTop="8pt">
+            android:padding="16pt">
 
             <TextView
                 android:layout_width="wrap_content"

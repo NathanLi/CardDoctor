@@ -1,5 +1,7 @@
 package com.yunkahui.datacubeper.share.ui;
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,11 +9,12 @@ import android.widget.Toast;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseActivity;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 /**
  * Created by YD1 on 2018/4/10
  */
-public class TransactionDetailActivity extends BaseActivity {
+public class TransactionDetailActivity extends AppCompatActivity implements IActivityStatusBar {
 
     @Override
     public void initData() {
@@ -20,15 +23,18 @@ public class TransactionDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_transaction_detail);
+        super.onCreate(savedInstanceState);
+        setTitle("我的钱包");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1,1,1,"筛选").setIcon(R.drawable.ic_filter_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1,1,1,"筛选").setIcon(R.mipmap.ic_filter_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -43,7 +49,7 @@ public class TransactionDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_transaction_detail;
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 }

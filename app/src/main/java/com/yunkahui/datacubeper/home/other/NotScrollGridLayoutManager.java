@@ -26,7 +26,6 @@ public class NotScrollGridLayoutManager extends GridLayoutManager {
 
     @Override
     public boolean canScrollVertically() {
-
         return mIsScrollEnabled && super.canScrollVertically();
     }
 }

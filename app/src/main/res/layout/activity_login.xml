@@ -28,6 +28,7 @@
         android:textColorHint="@color/text_color_gray_949494"
         android:inputType="number"
         android:hint="请输入手机号码"
+        android:text="13800138000"
         android:drawablePadding="15pt"
         android:textSize="18pt"
         android:drawableLeft="@mipmap/ic_username"
@@ -42,6 +43,7 @@
         android:layout_marginTop="15pt"/>
 
     <EditText
+        android:text="123456"
         android:id="@+id/edit_text_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

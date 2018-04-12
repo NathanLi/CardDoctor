@@ -19,11 +19,8 @@ public class MineItemAdapter extends BaseQuickAdapter<MineItem, BaseViewHolder> 
         super(layoutResId, data);
     }
 
-    String TAG = "mineitmtest";
     @Override
     protected void convert(BaseViewHolder helper, MineItem item) {
-        Log.e(TAG, "convert: "+item.getTitle());
-
         if(item.isShow()){
             helper.getView(R.id.head_view).setVisibility(View.VISIBLE);
             helper.getView(R.id.view_line).setVisibility(View.GONE);

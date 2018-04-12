@@ -1,9 +1,11 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.home.adapter.HomeItemAdapter;
@@ -21,6 +23,7 @@ import java.util.List;
 public class HomeFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
+    private DoubleBlockView mDoubleBlockView;
 
     @Override
     public void initData() {
@@ -33,14 +36,23 @@ public class HomeFragment extends BaseFragment {
                 R.mipmap.ic_discredit_carried_out, R.mipmap.ic_query_car_illegal,
                 R.mipmap.ic_one_key_card, R.mipmap.ic_launcher,
                 R.mipmap.ic_insurance_service, R.mipmap.ic_launcher, };
-        HomeItem feature = null;
-        List<HomeItem> featureList = new ArrayList<>();
+        List<HomeItem> homeItems = new ArrayList<>();
         for (int i = 0; i < imgs.length; i++) {
-            feature = new HomeItem(imgs[i], titles[i]);
-            featureList.add(feature);
+            HomeItem item = new HomeItem(imgs[i], titles[i]);
+            homeItems.add(item);
         }
+        HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);
+        homeItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (position == 0) {
+                    startActivity(new Intent(mActivity, TodayOperationActivity.class));
+                }
+            }
+        });
+        homeItemAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(getActivity(), 4));
-        mRecyclerView.setAdapter(new HomeItemAdapter(getActivity(), featureList));
+        mRecyclerView.setAdapter(homeItemAdapter);
     }
 
     @Override
@@ -48,7 +60,7 @@ public class HomeFragment extends BaseFragment {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.tab_item_home));
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        DoubleBlockView doubleBlockView = view.findViewById(R.id.double_block_view);
+        mDoubleBlockView = view.findViewById(R.id.double_block_view);
     }
 
     @Override

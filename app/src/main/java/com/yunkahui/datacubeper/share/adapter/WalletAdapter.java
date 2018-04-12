@@ -22,6 +22,7 @@ public class WalletAdapter extends BaseQuickAdapter<HomeItem, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, HomeItem item) {
+        Log.e("wallet test", "convert: "+item.getImgRes());
         helper.setBackgroundRes(R.id.iv_icon, item.getImgRes());
         helper.setText(R.id.tv_name, item.getTitle());
     }

@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initView();
 
-    protected abstract int getLayoutId();
+    public abstract int getLayoutId();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

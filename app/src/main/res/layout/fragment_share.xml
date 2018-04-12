@@ -53,7 +53,7 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/tv_rest_activation_code"
+                android:id="@+id/tv_rest_activation_code_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -66,24 +66,25 @@
                 android:textSize="17pt" />
 
             <TextView
+                android:id="@+id/tv_rest_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/tv_rest_activation_code"
-                android:layout_toRightOf="@id/tv_rest_activation_code"
+                android:layout_toEndOf="@id/tv_rest_activation_code_text"
+                android:layout_toRightOf="@id/tv_rest_activation_code_text"
                 android:text="3000"
                 android:textColor="@color/black"
                 android:textSize="17pt" />
 
             <TextView
-                android:id="@+id/btn_produce_activation_code"
+                android:id="@+id/btn_produce_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:textSize="12pt"
                 android:padding="8pt"
-                android:background="@drawable/produce_activation_code_btn_shape"
+                android:background="@drawable/produce_code_btn_shape"
                 android:textColor="@color/white"
                 android:text="@string/produce_activation_code" />
         </RelativeLayout>
@@ -109,7 +110,7 @@
                 android:textSize="17pt" />
 
             <TextView
-                android:id="@+id/tv_my_activation_code"
+                android:id="@+id/tv_my_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2000"

@@ -51,4 +51,12 @@ public interface ApiService {
     @POST("/app/user/setnewpsw")        //修改密码
     Observable<JsonObject> editPassword(@FieldMap Map<String,String> params);
 
+
+    @FormUrlEncoded
+    @POST("/app/share/get_myshare_infos")   //获取分享页面数据
+    Observable<JsonObject> requestSharePageInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/activationCodes/generate")   //生成激活码
+    Observable<JsonObject> produceActivationCode(@FieldMap Map<String,String> params);
 }

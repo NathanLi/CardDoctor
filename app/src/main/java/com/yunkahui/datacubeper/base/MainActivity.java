@@ -25,7 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private ViewPager mViewPager;
-    private List<Fragment> mFragments;
+    private List<BaseFragment> mFragments;
     private RadioGroup radioGroup;
     private long mTime;
 
@@ -55,12 +55,9 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         mFragments.add(new ShareFragment());
         mFragments.add(new MineFragment());
 
-        int[] tabImgs = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher};
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};
-
         //******** 设置适配器、关联ViewPager ********
-        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), this, mFragments, tabImgs, tabTitles);
+        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), mFragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
         mViewPager.setOffscreenPageLimit(5);
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
 
     @Override
     public void onBackPressed() {
-
         if(System.currentTimeMillis()-mTime>1500){
             ToastUtils.show(this,"再按一次退出程序");
             mTime=System.currentTimeMillis();

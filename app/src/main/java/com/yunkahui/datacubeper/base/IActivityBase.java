@@ -6,8 +6,8 @@ package com.yunkahui.datacubeper.base;
 
 public interface IActivityBase{
 
-    void initView();
-
     void initData();
+
+    void initView();
 
 }

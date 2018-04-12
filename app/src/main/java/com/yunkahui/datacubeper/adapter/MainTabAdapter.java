@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.BaseFragment;
 
 import java.util.List;
 
@@ -20,17 +21,13 @@ import java.util.List;
 
 public class MainTabAdapter extends FragmentPagerAdapter {
 
-    private Context mContext;
-    private List<Fragment> mFragments;
-    private final int[] mTabImgs;
-    private final String[] mTabTitles;
+    private List<BaseFragment> mFragments;
+    private String[] titles;
 
-    public MainTabAdapter(FragmentManager fm, Context context, List<Fragment> fragments, int[] tabImgs, String[] tabTitles) {
+    public MainTabAdapter(FragmentManager fm, List<BaseFragment> fragments, String[] titles) {
         super(fm);
-        this.mContext = context;
         this.mFragments = fragments;
-        this.mTabImgs = tabImgs;
-        this.mTabTitles = tabTitles;
+        this.titles = titles;
     }
 
     @Override
@@ -45,7 +42,6 @@ public class MainTabAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTabTitles[position];
+        return titles[position];
     }
-
 }

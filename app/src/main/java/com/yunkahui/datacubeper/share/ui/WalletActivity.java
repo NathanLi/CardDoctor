@@ -1,6 +1,9 @@
 package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseActivity;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
@@ -23,13 +27,13 @@ import java.util.List;
 /**
  * Created by YD1 on 2018/4/10
  */
-public class WalletActivity extends BaseActivity {
+public class WalletActivity extends AppCompatActivity implements IActivityStatusBar{
 
     private RecyclerView mRecyclerView;
 
     @Override
     public void initData() {
-        int[] imgs = {R.drawable.ic_recharge, R.drawable.ic_withdrawals};
+        int[] imgs = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] strs = {"充值", "提现"};
         List<HomeItem> walletItems = new ArrayList<>();
         for (int i = 0; i < strs.length; i++) {
@@ -53,16 +57,12 @@ public class WalletActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = findViewById(R.id.recycler_view);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1,1,1,"明细").setIcon(R.drawable.ic_detail_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1, 1, 1, "明细").setIcon(R.mipmap.ic_detail_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -77,7 +77,14 @@ public class WalletActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_wallet;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_wallet);
+        super.onCreate(savedInstanceState);
+        setTitle("我的钱包");
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 }

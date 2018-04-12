@@ -27,4 +27,16 @@ public class UpgradeVipLogic {
                 .compose(HttpManager.<BaseBeanList<VipPackage>>applySchedulers()).subscribe(callBack);
     }
 
+    /**
+     * 获取支付宝支付信息
+     */
+    public void payVip(Context context, String vipId,String type, SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context)
+                .addParams("vp_id",vipId)
+                .addParams("payment_code",type)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).createOrderPayVip(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
 }

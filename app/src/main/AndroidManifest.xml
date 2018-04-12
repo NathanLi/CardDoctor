@@ -24,17 +24,13 @@
         <activity android:name=".login.ui.RegisterActivity" />
         <activity android:name=".login.ui.LoginActivity" />
         <activity android:name=".login.ui.SplashActivity">
-
-        </activity>
-
-        <activity android:name=".home.ui.TodayOperationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".home.ui.TodayOperationActivity" />
         <activity android:name=".share.ui.WebViewActivity" />
         <activity android:name=".share.ui.WalletActivity" />
         <activity android:name=".share.ui.TransactionDetailActivity" />
@@ -44,9 +40,11 @@
         <activity android:name=".share.ui.MemberActivity" />
         <activity android:name=".mine.ui.EditPasswordActivity" />
         <activity android:name=".upgradeJoin.ui.UpgradeJoinActivity" />
-        <activity android:name=".upgradeJoin.ui.UpgradeJoinIntroduceActivity"/>
-        <activity android:name=".upgradeJoin.ui.UpgradeVipActivity"/>
-        <activity android:name=".upgradeJoin.ui.VipInstructionActivity"/>
+        <activity android:name=".upgradeJoin.ui.UpgradeJoinIntroduceActivity" />
+        <activity android:name=".upgradeJoin.ui.UpgradeVipActivity" />
+        <activity android:name=".upgradeJoin.ui.VipInstructionActivity" />
+        <activity android:name=".upgradeJoin.ui.PayOpenVipActivity" />
+        <activity android:name=".upgradeJoin.ui.AgentApplyActivity"></activity>
     </application>
 
 </manifest>

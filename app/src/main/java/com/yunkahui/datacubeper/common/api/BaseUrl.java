@@ -12,7 +12,7 @@ public class BaseUrl {
     private static String USER_ID;
     private static String KEY;
 
-    public static String HOME = "http://192.168.5.109:8014";
+    public static String HOME = "http://192.168.5.122:8014";
 
     //验签密钥
     public static String RSA_KEY = "YgAqeZq1eM#6#xTWkjtEGO%Ol4oxzBIlYI#k75HJml4bCr!F8YTqySDueKRY%1GB";

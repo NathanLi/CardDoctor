@@ -53,8 +53,6 @@ public interface ApiService {
     @POST("/app/user/setnewpsw")        //修改密码
     Observable<JsonObject> editPassword(@FieldMap Map<String,String> params);
 
-<<<<<<< HEAD
-
     @FormUrlEncoded
     @POST("/app/share/get_myshare_infos")   //获取分享页面数据
     Observable<JsonObject> requestSharePageInfo(@FieldMap Map<String,String> params);
@@ -62,11 +60,33 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/activationCodes/generate")   //生成激活码
     Observable<JsonObject> produceActivationCode(@FieldMap Map<String,String> params);
-=======
+
     @FormUrlEncoded
     @POST("/app/user/vip/package")     //获取VIP会员套餐数据
     Observable<BaseBeanList<VipPackage>> loadVipPackageData(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user/vip/create_order")     //创建Vip付款订单，获取支付信息
+    Observable<JsonObject> createOrderPayVip(@FieldMap Map<String,String> params);
 
->>>>>>> 0effd97b9980c8c50a08efc79c6208e6939c8c25
+    @FormUrlEncoded
+    @POST("/app/user/upgrade_vip_create_order")     //获取支付开通数据
+    Observable<JsonObject> updatePayInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/payment/active_code_to_vip")       //使用激活码升级
+    Observable<JsonObject> updateVipByActivateCode(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/upgradeApplyRepeat")   //查询用户是否已经申请代理商或OEM
+    Observable<JsonObject> loadAgentIsApply(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/share/check_agent_nickname")        //查询代理商申请类型昵称
+    Observable<JsonObject> loadAgentNickName(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/upgradeApply")     //提交代理商或OEM申请
+    Observable<JsonObject> submitAgentApply(@FieldMap Map<String,String> params);
+
 }

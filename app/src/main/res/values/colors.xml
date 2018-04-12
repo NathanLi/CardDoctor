@@ -19,6 +19,7 @@
     <color name="text_color_gray_949494">#949494</color>
     <color name="line_gray_949494">#d8d8d8</color>
     <color name="line_gray_DDDDDD">#DDDDDD</color>
+    <color name="line_gray_f7f6f6">#f7f6f6</color>
     <color name="bg_fragment_normal_efefef">#efefef</color>
 
 </resources>

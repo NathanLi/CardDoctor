@@ -11,6 +11,7 @@ import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.view.CustomViewPager;
+import com.yunkahui.datacubeper.common.view.SegmentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,32 +21,21 @@ import java.util.List;
  */
 public class TodayOperationActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private TextView mTvTodayOperation;
-    private TextView mTvPlanList;
+    private SegmentView mSegmentView;
     private CustomViewPager mViewPager;
 
     @Override
     public void initData() {
-        mTvTodayOperation.setSelected(true);
-        mTvPlanList.setSelected(false);
-        mTvTodayOperation.setOnClickListener(new View.OnClickListener() {
+        mSegmentView.setOnBackSegmentClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mTvTodayOperation.isSelected()) {
-                    mTvTodayOperation.setSelected(true);
-                    mTvPlanList.setSelected(false);
-                    mViewPager.setCurrentItem(0);
-                }
+                finish();
             }
         });
-        mTvPlanList.setOnClickListener(new View.OnClickListener() {
+        mSegmentView.setOnSelectChangeListener(new SegmentView.OnSelectChangeLitener() {
             @Override
-            public void onClick(View v) {
-                if (!mTvPlanList.isSelected()) {
-                    mTvPlanList.setSelected(true);
-                    mTvTodayOperation.setSelected(false);
-                    mViewPager.setCurrentItem(1);
-                }
+            public void onSelectChange(int index, TextView focusView) {
+                mViewPager.setCurrentItem(index);
             }
         });
 
@@ -59,9 +49,8 @@ public class TodayOperationActivity extends AppCompatActivity implements IActivi
 
     @Override
     public void initView() {
-        mTvTodayOperation = findViewById(R.id.tv_today_operation);
-        mTvPlanList = findViewById(R.id.tv_plan_list);
-        mViewPager = findViewById(R.id.view_pager_content);
+        mSegmentView = findViewById(R.id.segment_view);
+        mViewPager = findViewById(R.id.view_pager);
     }
 
     @Override

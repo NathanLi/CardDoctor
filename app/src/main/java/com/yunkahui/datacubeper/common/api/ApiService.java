@@ -53,20 +53,20 @@ public interface ApiService {
     @POST("/app/user/setnewpsw")        //修改密码
     Observable<JsonObject> editPassword(@FieldMap Map<String,String> params);
 
-<<<<<<< HEAD
-
     @FormUrlEncoded
     @POST("/app/share/get_myshare_infos")   //获取分享页面数据
-    Observable<JsonObject> requestSharePageInfo(@FieldMap Map<String,String> params);
+    Observable<JsonObject> loadSharePageInfo(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/activationCodes/generate")   //生成激活码
-    Observable<JsonObject> produceActivationCode(@FieldMap Map<String,String> params);
-=======
+    Observable<JsonObject> loadActivationCode(@FieldMap Map<String,String> params);
+
     @FormUrlEncoded
     @POST("/app/user/vip/package")     //获取VIP会员套餐数据
     Observable<BaseBeanList<VipPackage>> loadVipPackageData(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/planing/getToday")     //获取今日操作
+    Observable<JsonObject> loadTodayOperation(@FieldMap Map<String,String> params);
 
->>>>>>> 0effd97b9980c8c50a08efc79c6208e6939c8c25
 }

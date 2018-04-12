@@ -34,7 +34,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     public void initData() {
         mShareLogic = new ShareLogic();
         initListener();
-        mShareLogic.getSharePageInfo(mActivity, new SimpleCallBack<JsonObject>() {
+        mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 try {

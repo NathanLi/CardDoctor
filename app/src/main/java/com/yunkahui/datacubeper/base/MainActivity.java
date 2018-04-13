@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -15,7 +14,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
-import com.yunkahui.datacubeper.bill.BillFragment;
+import com.yunkahui.datacubeper.bill.ui.BillFragment;
 import com.yunkahui.datacubeper.test.CardTestFragment;
 import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     }
 
     private void changeTabDrawable(int index, boolean isSelected) {
-        Log.e(TAG, "changeTabDrawable: " + index);
         switch (index) {
             case 0:
                 changeTabColor(mRbHome, getResources().getDrawable(R.mipmap.ic_home_selected), isSelected);
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     }
 
     private void changeTabColor(RadioButton rb, Drawable lastDrawable, boolean isSelected) {
-        Log.e(TAG, "changeTabDrawable: " + isSelected);
         ColorStateList selectColor = ColorStateList.valueOf(getResources().getColor(R.color.tab_text_select_blue_0085ff));
         ColorStateList unSelectColor = ColorStateList.valueOf(getResources().getColor(R.color.bill_bind_card_explain_gray_88888888));
         if (isSelected) {

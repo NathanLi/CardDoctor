@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="210pt"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:background="@color/colorPrimary">
 
     <TextView
@@ -12,11 +14,22 @@
         android:textColor="@color/white"
         android:textSize="48pt" />
 
+    <Button
+        android:id="@+id/btn_today_operation"
+        android:layout_marginTop="15pt"
+        android:text="今日操作"
+        android:textColor="@color/white"
+        android:textSize="20pt"
+        android:background="@drawable/today_operation_btn_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15pt">
+        android:layout_marginBottom="15pt"
+        android:layout_marginTop="15pt">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -26,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_card_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18"
@@ -48,6 +62,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_repay_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3"
@@ -70,6 +85,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_unrepay_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15"
@@ -85,4 +101,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

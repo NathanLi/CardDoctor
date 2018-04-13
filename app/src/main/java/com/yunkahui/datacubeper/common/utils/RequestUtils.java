@@ -56,7 +56,7 @@ public class RequestUtils {
             StringBuilder builder = new StringBuilder();
             for (int numIndex = 0; numIndex < keys.length; numIndex++) {
                 String key = keys[numIndex];
-                builder.append(key + "=" + param.get(key)  + "&");
+                builder.append(key + "=" + URLEncoder.encode(param.get(key), "UTF-8")  + "&");
             }
             builder.deleteCharAt(builder.length() - 1);
 

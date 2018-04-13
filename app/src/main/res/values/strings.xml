@@ -60,6 +60,7 @@
     <string name="link_share">链接分享</string>
     <string name="today_operation">今日操作</string>
     <string name="plan_list">规划列表</string>
+    <string name="day_sel_format">每月%1$02d日</string>
 
     <string name="card_number_tips">请输入银行卡号</string>
     <string name="bank_card_name">发卡银行</string>

@@ -10,6 +10,25 @@
         <attr name="rightSegment" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="InfoFillView">
+        <attr name="infoName" format="string" />
+        <attr name="infoDest" format="string" />
+        <attr name="inputHint" format="string" />
+        <attr name="infoIcon" format="reference" />
+        <attr name="inputVisible">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="4" />
+            <enum name="gone" value="8" />
+        </attr>
+        <attr name="lineVisible">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="4" />
+            <enum name="gone" value="8" />
+        </attr>
+        <attr name="isTextView" format="boolean" />
+        <attr name="destColor" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="MenuSimpleItemView">
         <attr name="item_title" format="string|reference" />
         <attr name="item_subtitle" format="string|reference" />

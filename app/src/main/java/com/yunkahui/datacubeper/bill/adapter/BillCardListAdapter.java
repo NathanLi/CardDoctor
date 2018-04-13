@@ -1,20 +1,10 @@
 package com.yunkahui.datacubeper.bill.adapter;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.common.bean.BillCardItem;
-import com.yunkahui.datacubeper.common.bean.MineItem;
+import com.yunkahui.datacubeper.common.bean.BillCard;
+import com.yunkahui.datacubeper.common.view.BillCardView;
 
 import java.util.List;
 
@@ -22,20 +12,25 @@ import java.util.List;
  * Created by Administrator on 2018/3/27
  */
 
-public class BillCardListAdapter extends BaseQuickAdapter<BillCardItem, BaseViewHolder> {
+public class BillCardListAdapter extends BaseQuickAdapter<BillCard, BaseViewHolder> {
 
     public BillCardListAdapter(int layoutResId, List data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BillCardItem item) {
-        //helper.setBackgroundRes(R.id.iv_card_icon, item.get());
-        helper.setText(R.id.tv_bank_name, item.getBankName());
-        helper.setText(R.id.tv_card_id, item.getCardId());
-        helper.setText(R.id.tv_unrepay_money, item.getUnrepayMoney());
-        helper.setText(R.id.tv_leave_date, item.getLeaveDate());
-        helper.setText(R.id.tv_repay_date, item.getRepayDate());
+    protected void convert(BaseViewHolder helper, BillCard item) {
+        BillCardView billCardView = helper.getView(R.id.bill_card);
+        billCardView.setIcon(item.getIcon());
+        billCardView.setBankName(item.getBankName());
+        billCardView.setCardId(item.getCardId());
+        billCardView.setShouldRepayAmount(item.getShouldRepayAmount());
+        billCardView.setLeaveDate(item.getLeaveDate());
+        billCardView.setRepayDate(item.getRepayDate());
+        billCardView.setBillAmount(item.getBillAmount());
+        billCardView.setUnrepayAmount(item.getUnrepayAmount());
+        billCardView.setFixedAmount(item.getFixedAmount());
+        billCardView.setBillCycle(item.getBillCycle());
     }
 
 }

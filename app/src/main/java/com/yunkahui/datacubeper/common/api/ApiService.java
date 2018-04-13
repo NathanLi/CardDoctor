@@ -114,7 +114,19 @@ public interface ApiService {
     @POST("/app/user/check_identify")       //查询用户实名认证状态
     Observable<JsonObject> checkRealNameAuthStatus(@FieldMap Map<String,String> params);
 
+    @POST("/app/userbankcard/checkCard")     //查询银行卡号所属银行
+    Observable<JsonObject> queryBankByCardId(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user_bankcard/add_userbankcard")     //添加信用卡
+    Observable<JsonObject> addBankCard(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/userbankcard/card_detail")     //查询已添加的信用卡
+    Observable<JsonObject> queryCreditCardList(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planning/check_fail_count")
+    Observable<JsonObject> queryCardCountOflanFailed(@FieldMap Map<String,String> params);
 
 }

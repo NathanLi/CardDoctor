@@ -37,6 +37,7 @@ dependencies {
     api("jp.wasabeef:glide-transformations:3.2.0") {
         exclude group: 'com.android.support'
     }
+    implementation 'com.contrarywind:Android-PickerView:4.1.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.lzy.widget:imagepicker:0.6.1'
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'

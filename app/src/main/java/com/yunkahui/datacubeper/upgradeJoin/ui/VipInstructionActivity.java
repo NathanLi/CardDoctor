@@ -21,36 +21,20 @@ public class VipInstructionActivity extends AppCompatActivity implements IActivi
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_vip_instruction);
         super.onCreate(savedInstanceState);
-        mTextViewText=findViewById(R.id.text_view_text);
-        String text=getIntent().getStringExtra("text");
-        mTextViewText.setText(Html.fromHtml(text));
-        initAction();
+
     }
 
-    private void initAction(){
-        ActionBar actionBar = getSupportActionBar();
-        this.setTitle("");
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {finish();} break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void initView() {
+        mTextViewText=findViewById(R.id.text_view_text);
 
     }
 
     @Override
     public void initData() {
-
+        String text=getIntent().getStringExtra("text");
+        mTextViewText.setText(Html.fromHtml(text));
     }
 
     @Override

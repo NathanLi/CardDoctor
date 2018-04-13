@@ -126,6 +126,8 @@ public class CardDoctorApplication extends Application {
             Toolbar toolbar = activity.findViewById(R.id.card_doctor_tool_bar);
             if(!TextUtils.isEmpty(activity.getTitle())){
                 toolbar.setTitle(activity.getTitle());
+            }else{
+                toolbar.setTitle("");
             }
             ((AppCompatActivity) activity).setSupportActionBar(toolbar);
             ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();

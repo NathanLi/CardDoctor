@@ -8,6 +8,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="org_number">Y1000000001</string>
 
+    <!--升级加盟-->
+    <string name="upgrade_mess">升级VIP会员，享受卡医生所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
+
+
     <!-- 通用 -->
     <string name="loading">加载中...</string>
     <string name="default_content_description" />
@@ -31,6 +35,9 @@
     <string name="password_new_tips">请输入新密码</string>
     <string name="password_repeat_tips">再次输入确认密码</string>
     <string name="immediately_register">立即注册</string>
+    <string name="name_tips">请输入姓名</string>
+    <string name="weixin_tips">请输入微信号（选填）</string>
+    <string name="city_tips">选择您所在的城市</string>
 
     <!--忘记密码-->
     <string name="bind_phone">绑定手机</string>

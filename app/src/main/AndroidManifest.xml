@@ -48,6 +48,8 @@
         <activity android:name=".upgradeJoin.ui.UpgradeJoinIntroduceActivity" />
         <activity android:name=".upgradeJoin.ui.UpgradeVipActivity" />
         <activity android:name=".upgradeJoin.ui.VipInstructionActivity" />
+        <activity android:name=".upgradeJoin.ui.PayOpenVipActivity" />
+        <activity android:name=".upgradeJoin.ui.AgentApplyActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.upgradeJoin.ui.PayOpenVipActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:background="@color/white">
+
+               <TextView
+                   android:id="@+id/text_view_money"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="35pt"
+                   android:background="@color/white"
+                   android:gravity="center"
+                   android:textSize="60pt"
+                   android:text="298.00"/>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="15pt"
+                   android:layout_marginRight="15pt"
+                   android:layout_marginTop="20pt"
+                   android:layout_marginBottom="20pt"
+                   android:paddingLeft="10pt"
+                   android:paddingRight="10pt"
+                   android:paddingTop="20pt"
+                   android:paddingBottom="20pt"
+                   android:text="@string/upgrade_mess"
+                   android:background="@drawable/bg_dotted_line"/>
+
+           </LinearLayout>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="15pt"
+               android:layout_marginTop="30pt"
+               android:text="升级方式一"/>
+
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_activate_code"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10pt"
+               app:item_edit_input_type="number"
+               app:item_edit_title="我有激活码"
+               app:item_edit_hint="请输入激活码"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="15pt"
+               android:layout_marginTop="30pt"
+               android:text="升级方式二"/>
+
+
+           <LinearLayout
+               android:id="@+id/linear_layout_zfb"
+               android:layout_width="match_parent"
+               android:layout_height="50pt"
+               android:layout_marginTop="10pt"
+               android:background="@color/white"
+               android:paddingLeft="15pt"
+               android:paddingRight="15pt"
+               android:visibility="visible"
+               android:gravity="center_vertical">
+
+
+               <ImageView
+                   android:layout_width="30pt"
+                   android:layout_height="30pt"
+                   android:src="@mipmap/ic_icon_zhifubao"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="30pt"
+                   android:layout_weight="1"
+                   android:text="支付宝支付"/>
+
+               <CheckBox
+                   android:id="@+id/check_box_select_zfb"
+                   android:layout_width="20pt"
+                   android:layout_height="20pt"
+                   android:drawableLeft="@drawable/ic_check_box_selector"
+                   android:button="@null"
+                   android:background="@null"/>
+
+           </LinearLayout>
+
+
+       </LinearLayout>
+
+
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:text="升级VIP会员"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_button_blue_selector"/>
+
+</LinearLayout>

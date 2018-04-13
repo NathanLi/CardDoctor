@@ -15,6 +15,7 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.upgradeJoin.logic.UpgradeVipLogic;
@@ -79,9 +80,19 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onSuccess(BaseBeanList<VipPackage> vipPackageBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
-
                 LogUtils.e("Vip会员套餐->"+vipPackageBaseBeanList.toString());
+                try {
 
+                    if(RequestUtils.SUCCESS.equals(vipPackageBaseBeanList.getRespCode())){
+                        mVipPackages.clear();
+                        mVipPackages.addAll(vipPackageBaseBeanList.getRespData());
+                        mUpgradeJoinItemView1.setData(mVipPackages.get(0));
+                        mUpgradeJoinItemView2.setData(mVipPackages.get(1));
+                        mUpgradeJoinItemView3.setData(mVipPackages.get(2));
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -95,75 +106,17 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
     private void loadVipData(int type){
         switch (type){
             case RESULT_CODE_VIP1:
-//                requestOpenVip1("menu1_step1",mVipPackages.get(0).getMenuPrice());
+
                 break;
             case RESULT_CODE_VIP2:
                 showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(1).getPrice(),RESULT_CODE_VIP2);
                 break;
             case RESULT_CODE_VIP3:
-                showPayDialog("开通套餐二支付\n¥"+mVipPackages.get(2).getPrice(),RESULT_CODE_VIP3);
+                showPayDialog("开通套餐三支付\n¥"+mVipPackages.get(2).getPrice(),RESULT_CODE_VIP3);
                 break;
         }
     }
 
-//    private void requestOpenVip1(final String menuType, final String money){
-//        RemindUtil.remindHUD(this);
-//        Map<String,String> param=new HashMap<>();
-//        param.put("menuType",menuType);
-//        param.put("paymentCode","alipay");
-//        RequestHelper helper = new RequestHelper( new SpecialConverterFactory(SpecialConverterFactory.ConverterType.Converter_Single));
-//        helper.getRequestApi().requestOpenVip(param).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TopBean>() {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//            @Override
-//            public void onError(Throwable e) {
-//                RemindUtil.dismiss();
-//                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onNext(TopBean topBean) {
-//                RemindUtil.dismiss();
-//                Log.e("2018","VIP1="+topBean.getResponse().toString());
-//                if(topBean.getCode()==RequestHelper.success){
-//                    String mOrderInfo="";
-//                    switch (menuType){
-//                        case "menu1_step1":
-//                            requestOpenVip1("menu1_step2",money);
-//                            break;
-//                        case "menu1_step2":
-//                            mOrderInfo=topBean.getResponse().optJSONObject("respData").optString("order_info");
-//                            Intent intent1=new Intent(UpgradeVipActivity.this,MemUpgradeActivity.class);
-//                            intent1.putExtra("money",money);
-//                            intent1.putExtra("orderinfo",mOrderInfo);
-//                            startActivityForResult(intent1,RESULT_CODE_VIP1);
-//                            break;
-//                        case "menu2":
-//                            mOrderInfo=topBean.getResponse().optJSONObject("respData").optString("order_info");
-////                            Intent intent2=new Intent(UpgradeVipActivity.this,MemUpgradeActivity.class);
-////                            intent2.putExtra("money",money);
-////                            intent2.putExtra("orderinfo",mOrderInfo);
-////                            startActivityForResult(intent2,RESULT_CODE_VIP2);
-//                            payEvent(RESULT_CODE_VIP2,mOrderInfo);
-//                            break;
-//                        case "menu3":
-//                            mOrderInfo=topBean.getResponse().optJSONObject("respData").optString("order_info");
-////                            Intent intent3=new Intent(UpgradeVipActivity.this,MemUpgradeActivity.class);
-////                            intent3.putExtra("money",money);
-////                            intent3.putExtra("orderinfo",mOrderInfo);
-////                            startActivityForResult(intent3,RESULT_CODE_VIP3);
-//                            payEvent(RESULT_CODE_VIP3,mOrderInfo);
-//                            break;
-//                    }
-//                }else{
-//                    showDialog(topBean.getMessage(),false);
-//                }
-//            }
-//        });
-//    }
 
     private void showDialog(String text,boolean isCancel){
         AlertDialog.Builder dialog=new AlertDialog.Builder(this)
@@ -188,12 +141,15 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
             dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if(mVipPackages.size()<=0){
+                        return;
+                    }
                     switch (type){
                         case RESULT_CODE_VIP2:
-//                            requestOpenVip1("menu2",mVipPackages.get(1).getMenuPrice());
+                            payVip(mVipPackages.get(1).getVpId()+"");
                             break;
                         case RESULT_CODE_VIP3:
-//                            requestOpenVip1("menu3",mVipPackages.get(2).getMenuPrice());
+                            payVip(mVipPackages.get(2).getVpId()+"");
                             break;
                     }
 
@@ -203,29 +159,24 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
     }
 
 
-//    private void payEvent(final int type, String orderInfo){
-//        PayUtil payUtil = new PayUtil();
-//        payUtil.payEvent(this, orderInfo, new DealInterface<PayUtil>() {
-//
-//            @Override
-//            public void success(PayUtil object) {
-//                switch (type){
-//                    case RESULT_CODE_VIP2:
-//                        showDialog("套餐二：“落地POS”功能开通成功，可前往申请POS",true);
-//                        break;
-//                    case RESULT_CODE_VIP3:
-//                        showDialog("套餐三：“自动交易+落地POS”功能开通成功，可前往申请POS",true);
-//                        break;
-//                }
-//                loadData();
-//            }
-//
-//            @Override
-//            public void failure(String error) {
-//                Toast.makeText(BaseApplication.getContext(), error, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void payVip(String vipId){
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.payVip(this, vipId, "ALIPAY", new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("支付信息->"+jsonObject.toString());
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("支付信息失败->"+throwable.toString());
+            }
+        });
+
+    }
 
 
     @Override
@@ -270,18 +221,23 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 
     @Override
     public void onChildClick(View parent, View view) {
-        switch (parent.getId()){
-            case R.id.upgrade_join_item_view1:
-                loadVipData(RESULT_CODE_VIP1);
-                break;
-            case R.id.upgrade_join_item_view2:
-                loadVipData(RESULT_CODE_VIP2);
-                break;
-            case R.id.upgrade_join_item_view3:
-                if(!"01".equals(mVipPackages.get(0).getOpenState())){
-                    loadVipData(RESULT_CODE_VIP3);
-                }
-                break;
+        if(mVipPackages.size()>0){
+            switch (parent.getId()){
+                case R.id.upgrade_join_item_view1:
+                    Intent intentVip1=new Intent(this,PayOpenVipActivity.class);
+                    intentVip1.putExtra("money",mVipPackages.get(0).getPrice()+"");
+                    intentVip1.putExtra("vip_id",mVipPackages.get(0).getVpId()+"");
+                    startActivity(intentVip1);
+                    break;
+                case R.id.upgrade_join_item_view2:
+                    loadVipData(RESULT_CODE_VIP2);
+                    break;
+                case R.id.upgrade_join_item_view3:
+                    if(!"01".equals(mVipPackages.get(0).getOpenState())){
+                        loadVipData(RESULT_CODE_VIP3);
+                    }
+                    break;
+            }
         }
     }
 

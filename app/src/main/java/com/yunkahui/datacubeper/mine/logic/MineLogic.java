@@ -91,8 +91,16 @@ public class MineLogic {
             HttpManager.getInstance().create(ApiService.class).upLoadPersonalAvatar(textBody,parts.get(0))
                     .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
         }
-
-
     }
+
+    /**
+     * 查询用户实名认证状态
+     */
+    public void checkRealNameAuthStatus(Context context,SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params=RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).checkRealNameAuthStatus(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
 
 }

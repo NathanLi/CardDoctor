@@ -18,19 +18,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.MainActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask" />
+        <activity android:name=".mine.ui.PersonalInfoActivity" />
+        <activity android:name=".login.ui.ForgetPasswordActivity" />
+        <activity android:name=".login.ui.RegisterActivity" />
+        <activity android:name=".login.ui.LoginActivity" />
+        <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".mine.ui.PersonalInfoActivity" />
-        <activity android:name=".login.ui.ForgetPasswordActivity" />
-        <activity android:name=".login.ui.RegisterActivity" />
-        <activity android:name=".login.ui.LoginActivity">
-        </activity>
-        <activity android:name=".login.ui.SplashActivity">
         </activity>
         <activity android:name=".home.ui.TodayOperationActivity" />
         <activity android:name=".share.ui.WebViewActivity" />
@@ -46,7 +44,10 @@
         <activity android:name=".upgradeJoin.ui.UpgradeVipActivity" />
         <activity android:name=".upgradeJoin.ui.VipInstructionActivity" />
         <activity android:name=".upgradeJoin.ui.PayOpenVipActivity" />
-        <activity android:name=".upgradeJoin.ui.AgentApplyActivity"/>
+        <activity android:name=".upgradeJoin.ui.AgentApplyActivity" />
+        <activity android:name=".mine.ui.MyCashCardListActivity" />
+        <activity android:name=".mine.ui.AddCashCardActivity" />
+        <activity android:name=".mine.ui.RealNameAuthActivity"></activity>
     </application>
 
 </manifest>

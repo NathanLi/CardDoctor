@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="15pt"
+            android:paddingRight="15pt"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20pt"
+                android:text="上传本人身份证照片"
+                android:textColor="@color/black"
+                android:textSize="14pt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1、请上传本人的身份证照片"
+                android:textSize="12pt"
+                android:layout_marginTop="10pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2、拍照时请确保身份证边框完整、图像清晰、光线均匀"
+                android:textSize="12pt"
+                android:layout_marginTop="5pt"/>
+
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_id_card_front"
+                android:layout_width="match_parent"
+                android:layout_height="190pt"
+                android:layout_marginTop="15pt"
+                android:background="@drawable/bg_dotted_line">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="20pt"
+                    android:drawableTop="@mipmap/ic_icon_add_2"
+                    android:gravity="center"
+                    android:text="身份证正面照片" />
+
+                <ImageView
+                    android:id="@+id/image_view_id_card_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_id_card_back"
+                android:layout_width="match_parent"
+                android:layout_height="190pt"
+                android:layout_marginTop="15pt"
+                android:background="@drawable/bg_dotted_line">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="20pt"
+                    android:drawableTop="@mipmap/ic_icon_add_2"
+                    android:text="身份证反面照片"/>
+
+                <ImageView
+                    android:id="@+id/image_view_id_card_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:background="@drawable/bg_button_blue_selector"
+        android:text="提交审核"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

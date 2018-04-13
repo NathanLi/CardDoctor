@@ -6,6 +6,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -92,5 +93,28 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/planing/getToday")     //获取今日操作
     Observable<JsonObject> loadTodayOperation(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userbankcard/checkCard")    //查询信用卡所属银行
+    Observable<JsonObject> checkBankCardName(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userbankcard/bind_deposit_card")    //添加储蓄卡
+    Observable<JsonObject> addCashCard(@FieldMap Map<String,String> params);
+
+    @Multipart
+    @POST("/app/user/uploadIdentify")     //实名认证  (上传身份证正反面)
+    Observable<JsonObject> submitRealNameAuthImage(@PartMap Map<String,RequestBody> params, @Part MultipartBody.Part front,@Part MultipartBody.Part back);
+
+    @FormUrlEncoded
+    @POST("/app/user/certification_v2")
+    Observable<JsonObject> submitRealNameAuthInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/check_identify")       //查询用户实名认证状态
+    Observable<JsonObject> checkRealNameAuthStatus(@FieldMap Map<String,String> params);
+
+
+
 
 }

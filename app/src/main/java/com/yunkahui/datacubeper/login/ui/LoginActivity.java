@@ -82,11 +82,6 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
     }
 
     @Override
-    public void setSupportProgress(int progress) {
-        super.setSupportProgress(progress);
-    }
-
-    @Override
     public void initView() {
         mEditTextPhone=findViewById(R.id.edit_text_phone);
         mEditTextPassword=findViewById(R.id.edit_text_password);
@@ -121,8 +116,8 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
                     JSONObject object=new JSONObject(jsonObject.toString());
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-//                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.USER_NAME,mEditTextPhone.getText().toString());
-//                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.PASSWORD,mEditTextPassword.getText().toString());
+                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.USER_NAME,mEditTextPhone.getText().toString());
+                        SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.PASSWORD,mEditTextPassword.getText().toString());
                         BaseUrl.setUSER_ID(object.optJSONObject("respData").optString("user_code"));
                         BaseUrl.setKEY(object.optJSONObject("respData").optString("key"));
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));

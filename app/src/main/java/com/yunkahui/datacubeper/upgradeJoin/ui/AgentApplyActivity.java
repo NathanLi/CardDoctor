@@ -85,6 +85,13 @@ public class AgentApplyActivity extends AppCompatActivity implements IActivitySt
         });
         if(mType==TYPE_AGENT){
             loadAgentNickName();
+        }else{
+            AgentType type=new AgentType();
+            type.setId("02");
+            type.setName("机构");
+            mAgentTypes.add(type);
+            mAgentTypeNames.add("机构");
+            mSpinnerAdapter.notifyDataSetChanged();
         }
 
     }

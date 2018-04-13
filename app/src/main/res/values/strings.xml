@@ -52,8 +52,6 @@
 
     <!-- 个人中心 -->
     <string name="avatar">头像</string>
-
-
     <string name="rest_activation_code">剩余激活码：</string>
     <string name="produce_activation_code">生成激活码</string>
     <string name="my_activation_code">我的激活码：</string>
@@ -62,5 +60,9 @@
     <string name="link_share">链接分享</string>
     <string name="today_operation">今日操作</string>
     <string name="plan_list">规划列表</string>
+
+    <string name="card_number_tips">请输入银行卡号</string>
+    <string name="bank_card_name">发卡银行</string>
+    <string name="bank_phone_tips">请输入银行预留手机号</string>
 
 </resources>

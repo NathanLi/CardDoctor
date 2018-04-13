@@ -32,6 +32,7 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.mine.adapter.MineItemAdapter;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+    //获取个人信息
     public void loadData(){
         mLoadingIndicatorView.setVisibility(View.VISIBLE);
         mLogic.loadPersonalInformation(getActivity(), new SimpleCallBack<BaseBean<PersonalInfo>>() {
@@ -190,13 +192,56 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getActivity(),"上传头像失败");
             }
         });
+    }
+
+    //查询实名认证状态
+    private void checkRealNameAuthStatus(){
+        LoadingViewDialog.getInstance().show(getActivity());
+        mLogic.checkRealNameAuthStatus(getActivity(), new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态->"+jsonObject.toString());
+                try {
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        switch (object.optJSONObject("respData").optString("status")){
+                            case "0":
+                                startActivity(new Intent(getActivity(),RealNameAuthActivity.class));
+                                break;
+                            case "1":
+                                ToastUtils.show(getActivity(),"已实名认证");
+                                break;
+                            case "2":
+                                ToastUtils.show(getActivity(),"正在审核认证中");
+                                break;
+                            case "3":
+                                ToastUtils.show(getActivity(),"审核认证不成功，请重新认证");
+                                startActivity(new Intent(getActivity(),RealNameAuthActivity.class));
+                                break;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态失败->"+throwable.toString());
+            }
+        });
+
     }
 
     public void itemClick(int position){
@@ -206,6 +251,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(),UpgradeJoinActivity.class));
                 break;
             case 11:
+                checkRealNameAuthStatus();
                 break;
             case 12:
                 break;
@@ -220,6 +266,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case 21:
                 break;
             case 30:
+                startActivity(new Intent(getActivity(),MyCashCardListActivity.class));
                 break;
             case 31:
                 break;

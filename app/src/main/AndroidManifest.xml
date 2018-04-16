@@ -25,14 +25,14 @@
         <activity android:name=".login.ui.ForgetPasswordActivity" />
         <activity android:name=".login.ui.RegisterActivity" />
         <activity android:name=".login.ui.LoginActivity">
-
-        </activity>
-        <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".login.ui.SplashActivity">
+
         </activity>
         <activity android:name=".bill.ui.AddCardActivity" />
         <activity android:name=".home.ui.TodayOperationActivity" />
@@ -52,7 +52,10 @@
         <activity android:name=".upgradeJoin.ui.AgentApplyActivity" />
         <activity android:name=".mine.ui.MyCashCardListActivity" />
         <activity android:name=".mine.ui.AddCashCardActivity" />
-        <activity android:name=".mine.ui.RealNameAuthActivity"></activity>
+        <activity android:name=".mine.ui.RealNameAuthActivity" />
+        <!--测试使用-->
+        <activity android:name=".home.ui.TestActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@ public class PlanListFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        String[] tabTitles = {"自动规", "POS规划", "其他消费"};
+        String[] tabTitles = {"自动规划", "POS规划", "其他消费"};
         List<BaseFragment> fragments = new ArrayList<>();
         fragments.add(DesignSubFragment.newInstance(3));
         fragments.add(DesignSubFragment.newInstance(4));

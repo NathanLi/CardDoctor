@@ -66,4 +66,9 @@
     <string name="bank_card_name">发卡银行</string>
     <string name="bank_phone_tips">请输入银行预留手机号</string>
 
+    <!-- 账单页面 -->
+    <string name="bank_card_tail_num">[%s]</string>
+    <string name="bill_sync">账单同步</string>
+    <string name="smart_plan">智能规划</string>
+
 </resources>

@@ -3,6 +3,8 @@ package com.yunkahui.datacubeper.common.api;
 import com.google.gson.JsonObject;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
+import com.yunkahui.datacubeper.common.bean.BillCreditCard;
+import com.yunkahui.datacubeper.common.bean.HomeDesignSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 
@@ -91,8 +93,20 @@ public interface ApiService {
     Observable<JsonObject> submitAgentApply(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/planing/getToday")     //获取今日操作
-    Observable<JsonObject> loadTodayOperation(@FieldMap Map<String,String> params);
+    @POST("/app/planing/getToday")     //查询今日操作
+    Observable<BaseBean<HomeDesignSub>> loadTodayOperation(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planing/getToday")     //查询今日操作
+    Observable<JsonObject> loadTO(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planing/getToday")     //查询今日操作
+    Observable<JsonObject> loadSP(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planing/getPlanning")     //查询智能规划
+    Observable<BaseBean<HomeDesignSub>> loadSmartPlan(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/userbankcard/checkCard")    //查询信用卡所属银行
@@ -123,10 +137,10 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/userbankcard/card_detail")     //查询已添加的信用卡
-    Observable<JsonObject> queryCreditCardList(@FieldMap Map<String,String> params);
+    Observable<BaseBean<BillCreditCard>> queryCreditCardList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/planning/check_fail_count")
-    Observable<JsonObject> queryCardCountOflanFailed(@FieldMap Map<String,String> params);
+    @POST("/app/planning/check_fail_count")     //查询存在规划失败的卡片总数
+    Observable<JsonObject> queryCardCountOfPlanFailed(@FieldMap Map<String,String> params);
 
 }

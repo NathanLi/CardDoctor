@@ -14,7 +14,9 @@ import com.yunkahui.datacubeper.R;
 
 public class BillCardView extends LinearLayout implements View.OnClickListener {
 
+    private TextView mTvShouldRepay;
     private ImageView mIvCardIcon;
+    private TextView mTvLimit;
     private TextView mTvBankName;
     private TextView mTvCardId;
     private TextView mTvShouldRepayAmount;
@@ -24,8 +26,8 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     private TextView mTvUnRepayAmount;
     private TextView mTvFixedAmount;
     private TextView mTvBillCycle;
-    private TextView mIvArrowCover;
-    private TextView mIvArrowExtend;
+    private ImageView mIvArrowCover;
+    private ImageView mIvArrowExtend;
     private LinearLayout mLayoutExtend;
     private OnClickBillCardListener l;
 
@@ -41,11 +43,11 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_bill_card, this);
-        mIvCardIcon = view.findViewById(R.id.iv_card_icon);
+        mIvCardIcon = view.findViewById(R.id.iv_bank_icon);
         mTvBankName = view.findViewById(R.id.tv_bank_name);
-        mTvCardId = view.findViewById(R.id.tv_card_id);
+        mTvCardId = view.findViewById(R.id.tv_bank_card_id);
         TextView btnBillSync = view.findViewById(R.id.btn_bill_sync);
-        mTvShouldRepayAmount = view.findViewById(R.id.tv_should_repay_money);
+        mTvShouldRepayAmount = view.findViewById(R.id.tv_should_repay_amount);
         mTvLeaveDate = view.findViewById(R.id.tv_leave_date);
         mTvRepayDate = view.findViewById(R.id.tv_repay_date);
         TextView tvSmartPlan = view.findViewById(R.id.tv_smart_plan);
@@ -56,6 +58,8 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         mTvBillCycle = view.findViewById(R.id.tv_bill_cycle);
         mIvArrowCover = view.findViewById(R.id.iv_arrow_cover);
         mLayoutExtend = view.findViewById(R.id.layout_extend);
+        mTvLimit = view.findViewById(R.id.tv_limit);
+        mTvShouldRepay = view.findViewById(R.id.tv_should_repay);
 
         btnBillSync.setOnClickListener(this);
         tvSmartPlan.setOnClickListener(this);
@@ -81,6 +85,14 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
                 mIvArrowExtend.setVisibility(VISIBLE);
                 break;
         }
+    }
+
+    public void setShouldRepay(String s) {
+        mTvShouldRepay.setText(s);
+    }
+
+    public void setLimit(String limit) {
+        mTvLimit.setText(limit);
     }
 
     public void setIcon(int res) {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.mine.ui.MyZFBActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_zfb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_zfb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20pt"
+                app:item_edit_title="支付宝账号" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_marginLeft="15pt"
+                android:background="@color/line_gray_DDDDDD" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="姓名" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_no_data" />
+
+    </RelativeLayout>
+
+</LinearLayout>

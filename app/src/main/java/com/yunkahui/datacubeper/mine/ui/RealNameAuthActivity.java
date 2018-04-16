@@ -27,6 +27,7 @@ import com.yunkahui.datacubeper.mine.logic.RealNameAuthLogic;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -114,7 +115,6 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     @Override
                     public void run() {
                         try {
-                            LoadingViewDialog.getInstance().dismiss();
                             LogUtils.e("身份-->" + object);
                             JSONObject messObject = new JSONObject(object);
                             String dataValue = messObject.optJSONArray("outputs").optJSONObject(0).optJSONObject("outputValue").optString("dataValue");
@@ -123,7 +123,14 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                             mIdCardNumber = dataValueObject.optString("num");
                             LogUtils.e("mRealName="+mRealName);
                             LogUtils.e("mIdCardNumber="+mIdCardNumber);
-                            submitRealNameAuthImage();
+
+                            if(TextUtils.isEmpty(mRealName)||TextUtils.isEmpty(mIdCardNumber)){
+                                LoadingViewDialog.getInstance().dismiss();
+                                ToastUtils.show(getApplicationContext(),"身份证信息无法识别");
+                            }else{
+                                submitRealNameAuthImage();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -148,23 +155,18 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
 
 
     private void submitRealNameAuthImage() {
-        if(TextUtils.isEmpty(mRealName)||TextUtils.isEmpty(mIdCardNumber)){
-            ToastUtils.show(getApplicationContext(),"识别身份证信息有误");
-            return;
-        }
-        LoadingViewDialog.getInstance().show(this);
         mLogic.submitRealNameAuthImage(this, mFront, mBack, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 try {
-                    LoadingViewDialog.getInstance().dismiss();
                     LogUtils.e("实名认证1-->" + jsonObject.toString());
                     JSONObject object = new JSONObject(jsonObject.toString());
-                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+//                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         submitRealNameAuthInfo();
+                    }else{
+                        LoadingViewDialog.getInstance().dismiss();
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -179,12 +181,11 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
     }
 
     public void submitRealNameAuthInfo() {
-        LoadingViewDialog.getInstance().show(this);
         mLogic.submitRealNameAuthInfo(this, mRealName, mIdCardNumber, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
-                LoadingViewDialog.getInstance().dismiss();
                 try {
+                    LoadingViewDialog.getInstance().dismiss();
                     LogUtils.e("实名认证2-->" + jsonObject.toString());
                     JSONObject object = new JSONObject(jsonObject.toString());
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));

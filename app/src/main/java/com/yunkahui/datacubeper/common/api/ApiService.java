@@ -129,4 +129,16 @@ public interface ApiService {
     @POST("/app/planning/check_fail_count")
     Observable<JsonObject> queryCardCountOflanFailed(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user/check_user_alipay")        //检查用户是否绑定支付宝
+    Observable<JsonObject> checkUserBindZFB(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/bind_user_alipay")     //绑定支付宝账号
+    Observable<JsonObject> bindZFB(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/unbind_user_alipay")       //解绑支付宝账号
+    Observable<JsonObject> unBindZFB(@FieldMap Map<String,String> params);
+
 }

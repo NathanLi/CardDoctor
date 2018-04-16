@@ -18,15 +18,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.MainActivity"
-            android:launchMode="singleTask" >
-        </activity>
-
+            android:launchMode="singleTask" />
         <activity android:name=".mine.ui.PersonalInfoActivity" />
         <activity android:name=".login.ui.ForgetPasswordActivity" />
         <activity android:name=".login.ui.RegisterActivity" />
-        <activity android:name=".login.ui.LoginActivity">
-
-        </activity>
+        <activity android:name=".login.ui.LoginActivity" />
         <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +48,9 @@
         <activity android:name=".upgradeJoin.ui.AgentApplyActivity" />
         <activity android:name=".mine.ui.MyCashCardListActivity" />
         <activity android:name=".mine.ui.AddCashCardActivity" />
-        <activity android:name=".mine.ui.RealNameAuthActivity"></activity>
+        <activity android:name=".mine.ui.RealNameAuthActivity" />
+        <activity android:name=".mine.ui.MyZFBActivity" />
+        <activity android:name=".mine.ui.BindZFBActivity"></activity>
     </application>
 
 </manifest>

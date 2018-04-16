@@ -269,6 +269,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(),MyCashCardListActivity.class));
                 break;
             case 31:
+                startActivity(new Intent(getActivity(),MyZFBActivity.class));
                 break;
             case 32:
                 break;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yunkahui.datacubeper">
 
@@ -18,13 +18,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".base.MainActivity"
-            android:launchMode="singleTask" >
-        </activity>
-
+            android:launchMode="singleTask" />
         <activity android:name=".mine.ui.PersonalInfoActivity" />
         <activity android:name=".login.ui.ForgetPasswordActivity" />
         <activity android:name=".login.ui.RegisterActivity" />
-        <activity android:name=".login.ui.LoginActivity">
+        <activity android:name=".login.ui.LoginActivity" />
+        <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,6 +55,8 @@
         <!--测试使用-->
         <activity android:name=".home.ui.TestActivity" >
         </activity>
+        <activity android:name=".mine.ui.MyZFBActivity" />
+        <activity android:name=".mine.ui.BindZFBActivity"></activity>
     </application>
 
 </manifest>

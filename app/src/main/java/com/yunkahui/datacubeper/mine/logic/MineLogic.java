@@ -23,6 +23,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +101,21 @@ public class MineLogic {
     public void checkRealNameAuthStatus(Context context,SimpleCallBack<JsonObject> callBack){
         Map<String,String> params=RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).checkRealNameAuthStatus(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
+
+    /**
+     * 根据时间查询新增的消息
+     */
+    public void checkNewMessage(Context context,String time,SimpleCallBack<JsonObject> callBack){
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.MONTH,-2);
+        Map<String,String> params=RequestUtils.newParams(context)
+                .addParams("update_time", calendar.getTimeInMillis()+"")
+                .create();
+        HttpManager.getInstance().create(ApiService.class).checkNewMessage(params)
                 .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
     }
 

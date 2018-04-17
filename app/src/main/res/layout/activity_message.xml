@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.mine.ui.MessageActivity">
+
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_message"
+        android:layout_width="match_parent"
+        android:layout_height="35pt"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_margin="20pt">
+
+        <RadioButton
+            android:id="@+id/radio_button_notice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="通知信息"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_button_left_selector"
+            android:button="@null"
+            android:textColor="@drawable/text_color_radio_selector"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_system"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="系统信息"
+            android:background="@drawable/bg_radio_button_right_selector"
+            android:button="@null"
+            android:textColor="@drawable/text_color_radio_selector"/>
+
+    </RadioGroup>
+
+    <com.yunkahui.datacubeper.common.view.CustomViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

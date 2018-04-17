@@ -4,11 +4,11 @@ import com.google.gson.JsonObject;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
-import com.yunkahui.datacubeper.common.bean.HomeDesignSub;
+import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
+import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -94,19 +94,19 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/planing/getToday")     //查询今日操作
-    Observable<BaseBean<HomeDesignSub>> loadTodayOperation(@FieldMap Map<String,String> params);
+    Observable<BaseBean<TodayOperationSub>> loadTodayOperation(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planing/getPlanning")     //查询智能规划
+    Observable<BaseBeanList<SmartPlanSub>> loadSmartPlan(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/planing/getToday")     //查询今日操作
     Observable<JsonObject> loadTO(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/planing/getToday")     //查询今日操作
-    Observable<JsonObject> loadSP(@FieldMap Map<String,String> params);
-
-    @FormUrlEncoded
     @POST("/app/planing/getPlanning")     //查询智能规划
-    Observable<BaseBean<HomeDesignSub>> loadSmartPlan(@FieldMap Map<String,String> params);
+    Observable<JsonObject> loadSP(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/userbankcard/checkCard")    //查询信用卡所属银行
@@ -155,4 +155,7 @@ public interface ApiService {
     @POST("/app/user/unbind_user_alipay")       //解绑支付宝账号
     Observable<JsonObject> unBindZFB(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/pos/planning/update_planning_info")       //更新规划数据
+    Observable<JsonObject> updatePlanningInfo(@FieldMap Map<String,String> params);
 }

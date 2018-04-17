@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     }
 
     private void changeTabColor(RadioButton rb, Drawable lastDrawable, boolean isSelected) {
-        ColorStateList selectColor = ColorStateList.valueOf(getResources().getColor(R.color.tab_text_select_blue_0085ff));
-        ColorStateList unSelectColor = ColorStateList.valueOf(getResources().getColor(R.color.bill_bind_card_explain_gray_88888888));
+        ColorStateList selectColor = ColorStateList.valueOf(getResources().getColor(R.color.text_color_blue_0085ff));
+        ColorStateList unSelectColor = ColorStateList.valueOf(getResources().getColor(R.color.bg_color_gray_88888888));
         if (isSelected) {
             rb.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(lastDrawable, selectColor), null, null);
         } else {

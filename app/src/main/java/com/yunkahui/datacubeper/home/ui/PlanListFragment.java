@@ -43,6 +43,6 @@ public class PlanListFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_plan_list;
+        return R.layout.fragment_today_operation;
     }
 }

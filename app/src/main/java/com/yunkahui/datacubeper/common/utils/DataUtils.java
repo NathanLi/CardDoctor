@@ -66,12 +66,9 @@ public class DataUtils {
                     R.mipmap.bank_zhongguojianshe, R.mipmap.bank_shanghaipufa, R.mipmap.bank_zhongguogongshang, R.mipmap.bank_nonye, R.mipmap.bank_zhongguojiaoton,
                     R.mipmap.bank_zhongguojiaoton, R.mipmap.bank_zhongguogongshang, R.mipmap.bank_zhongguonongye, R.mipmap.bank_huaxia
             };
-            Log.e("test", "getBankIconMap: " + bankNames.length);
-            Log.e("test", "getBankIconMap: " + bankPics.length);
             for (int index = 0; index < bankNames.length; index++) {
                 map.put(bankNames[index], bankPics[index]);
             }
-
             DataUtils.setBankIconMap(map);
         }
         return bankIconMap;

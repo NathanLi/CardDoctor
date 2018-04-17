@@ -42,9 +42,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                     JSONObject respData = object.optJSONObject("respData");
                     mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"));
                     mDoubleBlockView1.setRightNum(respData.optString("userFenruns"));
-                    mDoubleBlockView2.setLeftNum(respData.optString("commonMemberCount"));
-                    mDoubleBlockView2.setRightNum(respData.optString("vipMemberCount"));
-                    mTvRestCode.setText(respData.optString("reNum"));
+                    mDoubleBlockView2.setLeftNum(String.valueOf(respData.optInt("commonMemberCount")));
+                    mDoubleBlockView2.setRightNum(String.valueOf(respData.optInt("vipMemberCount")));
+                    mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                     mTvMyCode.setText(respData.optString("userUniqueCode"));
                 } catch (JSONException e) {
                     e.printStackTrace();

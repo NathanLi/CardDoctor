@@ -12,13 +12,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.bill.adapter.BillCardListAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.bill.logic.BillLogic;
-import com.yunkahui.datacubeper.common.bean.BillCard;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.view.BillCardView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.TodayOperationActivity;
@@ -32,10 +32,10 @@ import java.util.List;
 
 public class BillFragment extends BaseFragment {
 
-    private static final String TAG = "fragment bill";
+    private static final String TAG = "BillFragment";
     private BillLogic mLogic;
     private RecyclerView mRecyclerView;
-    private List<BillCard> list = new ArrayList<>();
+    private List<BillCreditCard.CreditCard> list = new ArrayList<>();
 
     public static Fragment getInstance(String data){
         BillFragment f = new BillFragment();
@@ -48,30 +48,19 @@ public class BillFragment extends BaseFragment {
     @Override
     public void initData() {
         mLogic = new BillLogic();
-        mLogic.queryCreditCardList(mActivity, new SimpleCallBack<JsonObject>() {
+        // TODO: 2018/4/16 0016 查询规划失败列表
+        /*mLogic.queryCardCountOflanFailed(mActivity, new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
-                Log.e(TAG, "queryCreditCardList onSuccess: " + jsonObject.toString());
+                Log.e(TAG, "queryCardCountOfPlanFailed onSuccess: " + jsonObject.toString());
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "queryCreditCardList onFailure: " + throwable.getMessage());
+                Log.e(TAG, "queryCardCountOfPlanFailed onFailure: " + throwable.getMessage());
             }
-        });
-
-        mLogic.queryCardCountOflanFailed(mActivity, new SimpleCallBack<JsonObject>() {
-            @Override
-            public void onSuccess(JsonObject jsonObject) {
-                Log.e(TAG, "queryCardCountOflanFailed onSuccess: " + jsonObject.toString());
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "queryCardCountOflanFailed onFailure: " + throwable.getMessage());
-            }
-        });
-        BillCardListAdapter adapter = new BillCardListAdapter(R.layout.layout_list_item_bill_card, list);
+        });*/
+        final BillCardListAdapter adapter = new BillCardListAdapter(mActivity, R.layout.layout_list_item_bill_card, list);
         adapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_bill, null);
         TextView tvCardCount = headerView.findViewById(R.id.tv_card_count);
@@ -103,6 +92,19 @@ public class BillFragment extends BaseFragment {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(adapter);
+        mLogic.queryCreditCardList(mActivity, new SimpleCallBack<BaseBean<BillCreditCard>>() {
+            @Override
+            public void onSuccess(BaseBean<BillCreditCard> baseBean) {
+                list.clear();
+                list.addAll(baseBean.getRespData().getCardDetail());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.e(TAG, "onFailure: "+throwable.getMessage());
+            }
+        });
     }
 
     @Override

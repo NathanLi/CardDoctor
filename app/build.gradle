@@ -43,4 +43,5 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation files('libs/alibaba-cloudapi-sdk-core-1.1.0.jar')
+    compile 'com.yanzhenjie:recyclerview-swipe:1.1.3'
 }

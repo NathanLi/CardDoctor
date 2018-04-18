@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:textSize="17pt"
-            android:textColor="@color/add_card_text_color_gray_aaaaaa"
+            android:textColor="@color/text_color_gray_aaaaaa"
             android:visibility="gone"
             android:ellipsize="end"
             android:maxLines="1" />

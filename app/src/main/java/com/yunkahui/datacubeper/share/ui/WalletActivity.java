@@ -6,19 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
+import com.yunkahui.datacubeper.home.ui.TradeRecordActivity;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
 import java.util.ArrayList;
@@ -29,10 +27,12 @@ import java.util.List;
  */
 public class WalletActivity extends AppCompatActivity implements IActivityStatusBar{
 
+    private String mFrom;
     private RecyclerView mRecyclerView;
 
     @Override
     public void initData() {
+        mFrom = getIntent().getStringExtra("from");
         int[] imgs = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] strs = {"充值", "提现"};
         List<HomeItem> walletItems = new ArrayList<>();
@@ -70,7 +70,11 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, TransactionDetailActivity.class));
+                if ("home".equals(mFrom)) {
+                    startActivity(new Intent(this, TradeRecordActivity.class));
+                } else if ("share".equals(mFrom)) {
+                    startActivity(new Intent(this, TradeDetailActivity.class));
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

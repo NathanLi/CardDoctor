@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="2pt"
             android:layout_marginTop="4pt"
-            android:background="@color/bill_card_bg_gray_f5f5f5" />
+            android:background="@color/bg_color_gray_f5f5f5" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:layout_toRightOf="@id/iv_activation_code"
                 android:layout_toEndOf="@id/iv_activation_code"
                 android:text="@string/rest_activation_code"
-                android:textColor="@color/tab_text_normal_gray_a4aab3"
+                android:textColor="@color/text_color_gray_a4aab3"
                 android:textSize="17pt" />
 
             <TextView
@@ -84,7 +84,7 @@
                 android:layout_alignParentEnd="true"
                 android:textSize="12pt"
                 android:padding="8pt"
-                android:background="@drawable/produce_code_btn_shape"
+                android:background="@drawable/bg_create_code_button"
                 android:textColor="@color/white"
                 android:text="@string/produce_activation_code" />
         </RelativeLayout>
@@ -92,7 +92,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10pt"
-            android:background="@color/bill_card_bg_gray_f5f5f5" />
+            android:background="@color/bg_color_gray_f5f5f5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="2pt"
             android:layout_marginTop="4pt"
-            android:background="@color/bill_card_bg_gray_f5f5f5"
+            android:background="@color/bg_color_gray_f5f5f5"
             android:layout_marginBottom="12pt"/>
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
@@ -159,7 +159,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10pt"
-            android:background="@color/bill_card_bg_gray_f5f5f5" />
+            android:background="@color/bg_color_gray_f5f5f5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -173,11 +173,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/share_btn_shape"
+                android:background="@drawable/bg_share_button"
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/link_share"
-                android:textColor="@color/home_accout_balance_organe_ff5a00"
+                android:textColor="@color/bg_color_orange_ff5a00"
                 android:textSize="17pt" />
 
             <TextView
@@ -187,11 +187,11 @@
                 android:layout_marginLeft="10pt"
                 android:layout_marginStart="10pt"
                 android:layout_weight="1"
-                android:background="@drawable/share_btn_shape"
+                android:background="@drawable/bg_share_button"
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/qr_share"
-                android:textColor="@color/home_accout_balance_organe_ff5a00"
+                android:textColor="@color/bg_color_orange_ff5a00"
                 android:textSize="17pt" />
 
             <TextView
@@ -201,11 +201,11 @@
                 android:layout_marginLeft="10pt"
                 android:layout_marginStart="10pt"
                 android:layout_weight="1"
-                android:background="@drawable/share_btn_shape"
+                android:background="@drawable/bg_share_button"
                 android:gravity="center"
                 android:padding="10pt"
                 android:text="@string/vip_course"
-                android:textColor="@color/home_accout_balance_organe_ff5a00"
+                android:textColor="@color/bg_color_orange_ff5a00"
                 android:textSize="17pt" />
 
         </LinearLayout>

@@ -1,12 +1,10 @@
 package com.yunkahui.datacubeper.home.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -18,6 +16,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
 
     private String mAmount;
     private String mId;
+    private String mBusinessType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +35,12 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
         String type = getIntent().getStringExtra("type");
         mAmount = getIntent().getStringExtra("amount");
         mId = getIntent().getStringExtra("id");
+        mBusinessType = getIntent().getStringExtra("business_type");
         Fragment fragment = null;
         if ("还款".equals(type)) {
             fragment = new RepayAdjustFragment();
         } else if ("消费".equals(type)) {
-            fragment = new ExpenseAdjustFragment();
+//            fragment = new ExpenseAdjustFragment();
         }
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
         if(fragment!=null){
@@ -54,6 +54,10 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
 
     public String getAmount() {
         return mAmount;
+    }
+
+    public String getBusinessType() {
+        return mBusinessType;
     }
 
     @Override

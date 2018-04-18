@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/add_card_bg_color_gray_f9f3f4">
+    android:background="@color/bg_color_gray_f9f3f4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +15,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/add_card_bg_color_gray_f9f3f4"
+            android:background="@color/bg_color_gray_f9f3f4"
             android:paddingBottom="8pt"
             android:paddingLeft="14pt"
             android:paddingTop="8pt"
             android:text="请如实填写银行卡信息"
-            android:textColor="@color/bill_bind_card_explain_gray_88888888" />
+            android:textColor="@color/bg_color_gray_88888888" />
 
         <com.yunkahui.datacubeper.common.view.InfoFillView
             android:id="@+id/info_fill_name"
@@ -46,7 +46,7 @@
             android:id="@+id/info_fill_bank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:destColor="@color/add_card_text_color_gray_9d9d9d"
+            app:destColor="@color/text_color_gray_9d9d9d"
             app:infoIcon="@mipmap/ic_next_gray"
             app:infoName="发卡银行"
             app:inputVisible="invisible" />
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10pt"
-            app:destColor="@color/add_card_text_color_deep_gray_656565"
+            app:destColor="@color/text_color_deep_gray_656565"
             app:infoIcon="@mipmap/ic_next_gray"
             app:infoName="账单日"
             app:inputVisible="invisible"
@@ -66,7 +66,7 @@
             android:id="@+id/info_fill_repay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:destColor="@color/add_card_text_color_deep_gray_656565"
+            app:destColor="@color/text_color_deep_gray_656565"
             app:infoIcon="@mipmap/ic_next_gray"
             app:infoName="还款日"
             app:isTextView="true" />

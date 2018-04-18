@@ -1,8 +1,10 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -28,6 +31,9 @@ import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +43,6 @@ import java.util.List;
 public class DesignSubFragment extends BaseFragment {
 
     private static final String TAG = "DesignSubFragment";
-    private static final int RESULT_OK = 101;
     private List<TodayOperationSub.DesignSub> mTodayOperationSubList = new ArrayList<>();
     private List<SmartPlanSub> mSmartPlanSubList = new ArrayList<>();
     private SwipeMenuRecyclerView mRecyclerView;
@@ -50,7 +55,7 @@ public class DesignSubFragment extends BaseFragment {
     private boolean mIsTodayOperation;
     private int mPosition;
 
-    public static BaseFragment newInstance(int kind) {
+    public static Fragment newInstance(int kind) {
         DesignSubFragment fragment = new DesignSubFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("kind", kind);
@@ -65,27 +70,27 @@ public class DesignSubFragment extends BaseFragment {
         switch (kind) {
             case 0:
                 mIsPos = "10";
-                getTodayOperation("10", "1");
+                getTodayOperation(10, 1);
                 break;
             case 1:
                 mIsPos = "11";
-                getTodayOperation("10", "1");
+                getTodayOperation(10, 1);
                 break;
             case 2:
                 mIsPos = "other";
-                getTodayOperation("10", "1");
+                getTodayOperation(10, 1);
                 break;
             case 3:
                 mIsPos = "10";
-                getSmartPlan("10", "1");
+                getSmartPlan(10, 1);
                 break;
             case 4:
                 mIsPos = "11";
-                getSmartPlan("10", "1");
+                getSmartPlan(10, 1);
                 break;
             case 5:
                 mIsPos = "other";
-                getSmartPlan("10", "1");
+                getSmartPlan(10, 1);
                 break;
         }
         mIsTodayOperation = kind < 3;
@@ -159,9 +164,9 @@ public class DesignSubFragment extends BaseFragment {
                     mDesignSubAdapter.loadMoreEnd();
                 } else {
                     if (mIsTodayOperation) {
-                        getTodayOperation("10", String.valueOf(++mCurrentPage));
+                        getTodayOperation(10, ++mCurrentPage);
                     } else {
-                        getSmartPlan("10", String.valueOf(++mCurrentPage));
+                        getSmartPlan(10, ++mCurrentPage);
                     }
                 }
             }
@@ -173,14 +178,14 @@ public class DesignSubFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "onActivityResult: receive");
-        if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             String amount = data.getStringExtra("amount");
             if (mIsTodayOperation) {
                 mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
             } else {
                 mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
             }
+            // TODO: 2018/4/18 0018 set business type
             mDesignSubAdapter.notifyItemChanged(mPosition);
             Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
         }
@@ -220,7 +225,48 @@ public class DesignSubFragment extends BaseFragment {
     }*/
 
     //******** 查询智能规划数据 ********
-    private void getSmartPlan(String num, String page) {
+    /*private void getSmartPlan(String num, String page) {
+        mLogic.requestSP(mActivity, mIsPos, num, page, new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject baseBean) {
+                try {
+                    String s = new JSONObject(baseBean.toString()).toString();
+                    Log.e(TAG, "requestSP: "+mIsPos+", "+s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.e(TAG, "getSmartPlan onFailure: " + mIsPos + ", " + throwable.toString());
+            }
+        });
+    }
+
+    //******** 查询今日操作数据 ********
+    private void getTodayOperation(String num, String page) {
+        mLogic.requestTO(mActivity, mIsPos, num, page, new SimpleCallBack<JsonObject>() {
+
+            @Override
+            public void onSuccess(JsonObject baseBean) {
+                try {
+                    String s = new JSONObject(baseBean.toString()).toString();
+                    Log.e(TAG, "requestTO: "+mIsPos+", "+s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.e(TAG, "getTodayOperation onFailure: " + mIsPos + ", " + throwable.toString());
+            }
+        });
+    }*/
+
+    //******** 查询智能规划数据 ********
+    private void getSmartPlan(int num, int page) {
         mLogic.requestSmartPlan(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBeanList<SmartPlanSub>>() {
             @Override
             public void onSuccess(BaseBeanList<SmartPlanSub> baseBean) {
@@ -237,7 +283,7 @@ public class DesignSubFragment extends BaseFragment {
     }
 
     //******** 查询今日操作数据 ********
-    private void getTodayOperation(String num, String page) {
+    private void getTodayOperation(int num, int page) {
         mLogic.requestTodayOperation(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
 
             @Override

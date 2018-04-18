@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.ApplyPosSecondFragment">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.yunkahui.datacubeper.applypos.ui.ProgressApplyPosView
+                android:id="@+id/progress_bar_apply_pos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="20pt"
+                android:text="请填写如下资料"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_marginTop="8pt"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_pos_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="1、POS机器邮寄信息"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_terminal_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="2、终端信息"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_settle_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="3、结算信息"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请如实上传如下资料"
+                android:textSize="14pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginBottom="10pt"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_id_card_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="1、身份证正、反面照片"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_hand_id_card_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="2、手持身份证正面照片"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_bank_card_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_title="3、银行卡正、反面照片"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"/>
+
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:layout_margin="35pt"
+                android:background="@drawable/bg_button_blue_selector"
+                android:textColor="@color/white"
+                android:text="提交审核" />
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

@@ -19,22 +19,22 @@ import java.util.Map;
  */
 public class DesignSubLogic {
 
-    public void requestTodayOperation(Context context, String isPos, String num, String page, SimpleCallBack<BaseBean<TodayOperationSub>> callBack){
+    public void requestTodayOperation(Context context, String isPos, int num, int page, SimpleCallBack<BaseBean<TodayOperationSub>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
-                .addParams("num", num)
-                .addParams("page", page)
+                .addParams("num", String.valueOf(num))
+                .addParams("page", String.valueOf(page))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTodayOperation(params)
                 .compose(HttpManager.<BaseBean<TodayOperationSub>>applySchedulers()).subscribe(callBack);
 
     }
 
-    public void requestSmartPlan(Context context, String isPos, String num, String page, SimpleCallBack<BaseBeanList<SmartPlanSub>> callBack){
+    public void requestSmartPlan(Context context, String isPos, int num, int page, SimpleCallBack<BaseBeanList<SmartPlanSub>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
-                .addParams("pageNum", num)
-                .addParams("pageSize", page)
+                .addParams("pageNum", String.valueOf(num))
+                .addParams("pageSize", String.valueOf(page))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadSmartPlan(params)
                 .compose(HttpManager.<BaseBeanList<SmartPlanSub>>applySchedulers()).subscribe(callBack);

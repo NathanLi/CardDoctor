@@ -66,6 +66,10 @@
     <string name="bank_card_name">发卡银行</string>
     <string name="bank_phone_tips">请输入银行预留手机号</string>
 
+    <!--首页-->
+    <string name="pos">pos</string>
+    <string name="sign">标记</string>
+
     <!-- 账单页面 -->
     <string name="bank_card_tail_num">[%s]</string>
     <string name="bill_sync">账单同步</string>

@@ -46,7 +46,7 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
         mTextViewIconTitle=findViewById(R.id.text_view_icon_title);
         mTextViewIconSubTitle=findViewById(R.id.text_view_icon_sub_title);
 
-        mTextViewTitle=findViewById(R.id.text_view_title);
+        mTextViewTitle=findViewById(R.id.tv_title);
         mTextViewSubTitle=findViewById(R.id.text_view_sub_title);
         mTextViewSubmit=findViewById(R.id.text_view_submit);
 

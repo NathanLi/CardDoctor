@@ -54,4 +54,10 @@
         <attr name="uj_button_text" format="string|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="SimpleMenuItemView">
+        <attr name="menu_title" format="string|reference"/>
+        <attr name="menu_icon" format="reference"/>
+        <attr name="menu_right_icon" format="reference"/>
+    </declare-styleable>
+
 </resources>

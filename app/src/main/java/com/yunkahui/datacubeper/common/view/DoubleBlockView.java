@@ -54,27 +54,33 @@ public class DoubleBlockView extends LinearLayout {
         mRightBlock = view.findViewById(R.id.ll_right_block);
     }
 
-    public void setOnLeftBlockClickListener(OnClickListener l) {
+    public DoubleBlockView setOnLeftBlockClickListener(OnClickListener l) {
         mLeftBlock.setOnClickListener(l);
+        return this;
     }
 
-    public void setOnRightBlockClickListener(OnClickListener l) {
+    public DoubleBlockView setOnRightBlockClickListener(OnClickListener l) {
         mRightBlock.setOnClickListener(l);
+        return this;
     }
 
-    public void setLeftName(String value) {
+    public DoubleBlockView setLeftName(String value) {
         mTvLeftName.setText(value);
+        return this;
     }
 
-    public void setRightName(String value) {
+    public DoubleBlockView setRightName(String value) {
         mTvRightName.setText(value);
+        return this;
     }
 
-    public void setLeftNum(String value) {
+    public DoubleBlockView setLeftNum(String value) {
         mTvLeftNum.setText(value);
+        return this;
     }
 
-    public void setRightNum(String value) {
+    public DoubleBlockView setRightNum(String value) {
         mTvRightNum.setText(value);
+        return this;
     }
 }

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#efefef"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.PosMailInfoActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textSize="12pt"
+               android:layout_marginLeft="15pt"
+               android:layout_marginRight="15pt"
+               android:layout_marginTop="30pt"
+               android:text="为了您可以尽快接收到机器，请提供真实有效的收件信息"/>
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_title="收件人"
+               android:layout_marginTop="10pt"
+               app:item_edit_hint="请输入收件人"/>
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="0.7dp"
+               android:background="@color/line_gray_DDDDDD"
+               android:layout_marginLeft="15pt"/>
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_phone"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_title="联系电话"
+               app:item_edit_hint="请输入收件人电话"
+               app:item_edit_input_type="number"/>
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="0.7dp"
+               android:background="@color/line_gray_DDDDDD"
+               android:layout_marginLeft="15pt"/>
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_address"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_title="收件地址"
+               app:item_edit_hint="请输入收获地址" />
+
+           <Button
+               android:id="@+id/button_submit"
+               android:layout_width="match_parent"
+               android:layout_height="50pt"
+               android:layout_margin="40pt"
+               android:text="提交"
+               android:textColor="@color/white"
+               android:background="@drawable/bg_button_blue_selector"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="温馨提示："
+               android:layout_marginLeft="15pt"
+               android:textSize="16pt"
+               android:textColor="@color/black"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="14pt"
+               android:layout_marginTop="30pt"
+               android:layout_marginLeft="15pt"
+               android:text="1、请确保输入的联系方式真实有效"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="14pt"
+               android:layout_marginTop="10pt"
+               android:layout_marginLeft="15pt"
+               android:text="2、终端审核时间约3-5个工作日"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="14pt"
+               android:layout_marginTop="10pt"
+               android:layout_marginLeft="15pt"
+               android:layout_marginBottom="20pt"
+               android:text="3、邮寄时间根据快递时间而定"/>
+
+       </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

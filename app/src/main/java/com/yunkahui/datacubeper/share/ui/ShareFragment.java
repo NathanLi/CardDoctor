@@ -41,10 +41,10 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                     JSONObject object = new JSONObject(jsonObject.toString());
                     JSONObject respData = object.optJSONObject("respData");
                     if (respData != null) {
-                        mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"));
-                        mDoubleBlockView1.setRightNum(respData.optString("userFenruns"));
-                        mDoubleBlockView2.setLeftNum(String.valueOf(respData.optInt("commonMemberCount")));
-                        mDoubleBlockView2.setRightNum(String.valueOf(respData.optInt("vipMemberCount")));
+                        mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"))
+                                .setRightNum(respData.optString("userFenruns"));
+                        mDoubleBlockView2.setLeftNum(String.valueOf(respData.optInt("commonMemberCount")))
+                                .setRightNum(String.valueOf(respData.optInt("vipMemberCount")));
                         mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                         mTvMyCode.setText(respData.optString("userUniqueCode"));
                     }
@@ -64,10 +64,10 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView1.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class)
+                .putExtra("from", "share"));
             }
-        });
-        mDoubleBlockView1.setOnRightBlockClickListener(new View.OnClickListener() {
+        }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, ProfitActivity.class));
@@ -78,8 +78,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, MemberActivity.class));
             }
-        });
-        mDoubleBlockView2.setOnRightBlockClickListener(new View.OnClickListener() {
+        }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, MemberActivity.class));
@@ -113,7 +112,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                             if ("0074".equals(object.getString("respCode"))) {
                                 Toast.makeText(mActivity, object.getString("respDesc"), Toast.LENGTH_SHORT).show();
                             }
-                            Log.e(TAG, "onSuccess: "+jsonObject.toString());
+                            Log.e(TAG, "onSuccess: " + jsonObject.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

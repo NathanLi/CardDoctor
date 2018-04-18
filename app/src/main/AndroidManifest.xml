@@ -34,7 +34,7 @@
         <activity android:name=".home.ui.TodayOperationActivity" />
         <activity android:name=".share.ui.WebViewActivity" />
         <activity android:name=".share.ui.WalletActivity" />
-        <activity android:name=".share.ui.TransactionDetailActivity" />
+        <activity android:name=".share.ui.TradeDetailActivity" />
         <activity android:name=".share.ui.RechargeWithdrawalsActivity" />
         <activity android:name=".share.ui.ProfitActivity" />
         <activity android:name=".share.ui.ProfitWithdrawalsActivity" />
@@ -59,6 +59,7 @@
         <activity android:name=".applypos.ui.SettleInfoActivity" />
         <activity android:name=".applypos.ui.TerminalInfoActivity"/>
         <activity android:name=".applypos.ui.BranchInformationActivity"/>
+        <activity android:name=".home.ui.TradeRecordActivity" />
     </application>
 
 </manifest>

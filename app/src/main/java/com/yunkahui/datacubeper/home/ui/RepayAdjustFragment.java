@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.ExpenseAdjustLogic;
+import com.yunkahui.datacubeper.home.logic.RepayAdjustLogic;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,13 +22,12 @@ import org.json.JSONObject;
 public class RepayAdjustFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "RepayAdjustFragment";
-    private static final int RESULT_OK = 101;
     private EditText mEditTextInputMoney;
-    private ExpenseAdjustLogic mLogic;
+    private RepayAdjustLogic mLogic;
 
     @Override
     public void initData() {
-        mLogic = new ExpenseAdjustLogic();
+        mLogic = new RepayAdjustLogic();
     }
 
     @Override
@@ -38,11 +39,14 @@ public class RepayAdjustFragment extends BaseFragment implements View.OnClickLis
 
     private void submit() {
         LoadingViewDialog.getInstance().show(mActivity);
-        mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mEditTextInputMoney.getText().toString(), new SimpleCallBack<JsonObject>() {
+        mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), "", mEditTextInputMoney.getText().toString(), new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 LoadingViewDialog.getInstance().dismiss();
-                mActivity.setResult(RESULT_OK, new Intent().putExtra("amount", mEditTextInputMoney.getText().toString()));
+                Intent intent = new Intent()
+                        .putExtra("amount", mEditTextInputMoney.getText().toString())
+                        .putExtra("type", "repay");
+                mActivity.setResult(Activity.RESULT_OK, intent);
                 mActivity.finish();
             }
 

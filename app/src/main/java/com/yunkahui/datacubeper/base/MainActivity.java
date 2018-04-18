@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private ViewPager mViewPager;
-    private List<BaseFragment> mFragments;
+    private List<Fragment> mFragments;
     private RadioGroup mRadioGroup;
     private long mTime;
     private int lastPosition;

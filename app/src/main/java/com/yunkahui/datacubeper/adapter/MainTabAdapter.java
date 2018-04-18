@@ -21,10 +21,10 @@ import java.util.List;
 
 public class MainTabAdapter extends FragmentPagerAdapter {
 
-    private List<BaseFragment> mFragments;
+    private List<Fragment> mFragments;
     private String[] titles;
 
-    public MainTabAdapter(FragmentManager fm, List<BaseFragment> fragments, String[] titles) {
+    public MainTabAdapter(FragmentManager fm, List<Fragment> fragments, String[] titles) {
         super(fm);
         this.mFragments = fragments;
         this.titles = titles;

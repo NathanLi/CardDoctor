@@ -12,9 +12,17 @@ import java.util.Map;
 
 public class ExpenseAdjustLogic {
 
-    public void updatePlanningInfo(Context context, String autoPlanningId, String amount, SimpleCallBack<JsonObject> callBack){
+    public void getMccList(Context context, SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).loadMccList(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+
+    }
+
+    public void updatePlanningInfo(Context context, String autoPlanningId, String mccType, String amount, SimpleCallBack<JsonObject> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("auto_planning_id", autoPlanningId)
+                .addParams("mcc_type", mccType)
                 .addParams("amount", amount)
                 .create();
         HttpManager.getInstance().create(ApiService.class).updatePlanningInfo(params)

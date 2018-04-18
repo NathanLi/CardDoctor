@@ -1,6 +1,6 @@
-package com.yunkahui.datacubeper.common.other;
+package com.yunkahui.datacubeper.common.bean;
 
-public interface DesignSubBean {
+public interface DesignSub {
 
     String getPlan_type();
     String getBankCardName();

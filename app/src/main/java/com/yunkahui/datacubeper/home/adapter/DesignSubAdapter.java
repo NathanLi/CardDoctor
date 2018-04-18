@@ -5,14 +5,12 @@ import android.content.Context;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
-import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
-import com.yunkahui.datacubeper.common.other.DesignSubBean;
+import com.yunkahui.datacubeper.common.bean.DesignSub;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
 import java.util.List;
 
-public class DesignSubAdapter extends BaseQuickAdapter<DesignSubBean, BaseViewHolder> {
+public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder> {
 
     private String mIsPos;
     private Context mContext;
@@ -24,7 +22,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSubBean, BaseViewHo
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DesignSubBean item) {
+    protected void convert(BaseViewHolder helper, DesignSub item) {
         String type = item.getPlan_type().equals("00") ? "消费" : "还款";
         String bankCardName = item.getBankCardName();
         long date = item.getDate();
@@ -67,7 +65,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSubBean, BaseViewHo
                 textColor = mContext.getResources().getColor(R.color.colorPrimary);
                 break;
         }
-        helper.setVisible(R.id.tv_sign, "0".equals(operation) && "还款".equals(type));
+        helper.setVisible(R.id.tv_sign, "0".equals(operation) && "还款".equals(type) && "11".equals(mIsPos));
         helper.setText(R.id.tv_status, status);
         helper.setTextColor(R.id.tv_status, textColor);
         helper.addOnClickListener(R.id.tv_sign);

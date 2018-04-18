@@ -32,7 +32,7 @@ public class SimpleEditTextView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_simple_input_item_view,this);
 
-        mTextViewTitle=findViewById(R.id.text_view_title);
+        mTextViewTitle=findViewById(R.id.tv_title);
         mEditTextInput=findViewById(R.id.edit_text_input);
 
         TypedArray ta=context.obtainStyledAttributes(attrs,R.styleable.SimpleEditTextView);

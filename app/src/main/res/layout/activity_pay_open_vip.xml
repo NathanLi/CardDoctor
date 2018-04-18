@@ -27,7 +27,7 @@
                android:background="@color/white">
 
                <TextView
-                   android:id="@+id/text_view_money"
+                   android:id="@+id/tv_money"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:layout_marginTop="35pt"

@@ -1,10 +1,10 @@
 package com.yunkahui.datacubeper.common.api;
 
 import com.google.gson.JsonObject;
-import com.yunkahui.datacubeper.common.bean.BankCard;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
+import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
@@ -12,6 +12,7 @@ import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
+import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
 
 import java.util.Map;
 
@@ -206,4 +207,18 @@ public interface ApiService {
     @POST("/app/pos/query_cnaps")       //查询支行
     Observable<JsonObject> checkBranchBank(@FieldMap Map<String,String> params);
 
+    @POST("/app/pos/planning/get_zhongfu_mcc_list")       //获取MCC列表
+    Observable<JsonObject> loadMccList(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/getPdrwList")       //获取充值记录
+    Observable<BaseBean<RechargeRecord>> loadRechargeRecord(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/getPdrwList")       //获取提现记录
+    Observable<BaseBean<WithdrawRecord>> loadWithdrawRecord(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/transactionDetails")       //获取交易明细
+    Observable<JsonObject> loadTradeDetail(@FieldMap Map<String,String> params);
 }

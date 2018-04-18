@@ -2,19 +2,17 @@ package com.yunkahui.datacubeper.share.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 /**
  * Created by YD1 on 2018/4/10
  */
-public class TransactionDetailActivity extends AppCompatActivity implements IActivityStatusBar {
+public class TradeDetailActivity extends AppCompatActivity implements IActivityStatusBar {
 
     @Override
     public void initData() {
@@ -27,7 +25,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements IAct
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_transaction_detail);
+        setContentView(R.layout.activity_trade_detail);
         super.onCreate(savedInstanceState);
         setTitle("我的钱包");
     }

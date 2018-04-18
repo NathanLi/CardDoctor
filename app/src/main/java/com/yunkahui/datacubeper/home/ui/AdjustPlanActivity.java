@@ -16,6 +16,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
 
     private String mAmount;
     private String mId;
+    private String mBusinessType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
         String type = getIntent().getStringExtra("type");
         mAmount = getIntent().getStringExtra("amount");
         mId = getIntent().getStringExtra("id");
+        mBusinessType = getIntent().getStringExtra("business_type");
         Fragment fragment = null;
         if ("还款".equals(type)) {
             fragment = new RepayAdjustFragment();
@@ -52,6 +54,10 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
 
     public String getAmount() {
         return mAmount;
+    }
+
+    public String getBusinessType() {
+        return mBusinessType;
     }
 
     @Override

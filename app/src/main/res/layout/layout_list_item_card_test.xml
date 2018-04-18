@@ -58,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="28pt"
                 android:text="报告"
-                android:textColor="@color/tab_text_normal_gray_a4aab3"
+                android:textColor="@color/text_color_gray_a4aab3"
                 android:textSize="15pt" />
 
             <ImageView
@@ -73,7 +73,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1pt"
-            android:background="@color/bill_card_bg_gray_f5f5f5" />
+            android:background="@color/bg_color_gray_f5f5f5" />
 
         <RelativeLayout
             android:layout_width="match_parent"

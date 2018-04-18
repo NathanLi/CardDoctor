@@ -11,7 +11,7 @@
         android:layout_marginLeft="25pt"
         android:layout_marginTop="16pt"
         android:text="绑卡功能:"
-        android:textColor="@color/home_total_profit_gray_666666"
+        android:textColor="@color/text_color_gray_666666"
         android:textSize="17pt" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25pt"
         android:text="1、添加信用卡可进行数据规划;"
-        android:textColor="@color/bill_bind_card_explain_gray_88888888"
+        android:textColor="@color/bg_color_gray_88888888"
         android:textSize="13pt" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25pt"
         android:text="2、银行直联，账单同步; 自动还款，智能消费;"
-        android:textColor="@color/bill_bind_card_explain_gray_88888888"
+        android:textColor="@color/bg_color_gray_88888888"
         android:textSize="13pt" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25pt"
         android:text="3、线下POS规划，一机万户，全国落地，24小时秒到."
-        android:textColor="@color/bill_bind_card_explain_gray_88888888"
+        android:textColor="@color/bg_color_gray_88888888"
         android:textSize="13pt" />
 
     <Button
@@ -43,7 +43,7 @@
         android:id="@+id/btn_add_credit_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bill_btn_shape"
+        android:background="@drawable/bg_recharge_button"
         android:layout_margin="16pt"
         android:text="+ 添加信用卡"
         android:textColor="@color/white"

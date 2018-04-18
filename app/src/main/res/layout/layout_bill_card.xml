@@ -50,7 +50,7 @@
                 android:layout_marginStart="4pt"
                 android:layout_toRightOf="@+id/tv_bank_name"
                 android:layout_toEndOf="@+id/tv_bank_name"
-                android:textColor="@color/home_total_profit_gray_666666"
+                android:textColor="@color/text_color_gray_666666"
                 android:textSize="18pt" />
 
             <Button
@@ -62,7 +62,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16pt"
                 android:layout_marginEnd="16pt"
-                android:background="@drawable/bill_btn_shape"
+                android:background="@drawable/bg_recharge_button"
                 android:text="@string/bill_sync"
                 android:textColor="@color/white" />
 
@@ -71,7 +71,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bill_card_bg_gray_f5f5f5"
+            android:background="@color/bg_color_gray_f5f5f5"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -161,7 +161,7 @@
             android:id="@+id/layout_extend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bill_card_bg_gray_f5f5f5"
+            android:background="@color/bg_color_gray_f5f5f5"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1pt"
                 android:layout_marginBottom="14pt"
-                android:background="@color/bill_card_item_extend_line_gray_dedede" />
+                android:background="@color/line_gray_dedede" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,14 +188,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5pt"
-                        android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
+                        android:textColor="@color/text_color_gray_666666"
                         android:textSize="14pt" />
 
                     <TextView
                         android:id="@+id/tv_unrepay_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
+                        android:textColor="@color/text_color_gray_666666"
                         android:textSize="14pt" />
                 </LinearLayout>
 
@@ -210,14 +210,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5pt"
-                        android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
+                        android:textColor="@color/text_color_gray_666666"
                         android:textSize="14pt" />
 
                     <TextView
                         android:id="@+id/tv_bill_cycle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
+                        android:textColor="@color/text_color_gray_666666"
                         android:textSize="14pt" />
                 </LinearLayout>
 

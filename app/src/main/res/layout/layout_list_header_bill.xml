@@ -20,7 +20,7 @@
         android:text="今日操作"
         android:textColor="@color/white"
         android:textSize="20pt"
-        android:background="@drawable/today_operation_btn_shape"
+        android:background="@drawable/bg_bill_today_operation_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

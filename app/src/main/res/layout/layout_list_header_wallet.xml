@@ -6,7 +6,7 @@
     android:paddingLeft="18pt"
     android:paddingTop="20pt"
     android:paddingBottom="20pt"
-    android:background="@drawable/wallet_header_shape">
+    android:background="@drawable/bg_wallet_header">
 
     <TextView
         android:text="钱包账户   (元)"

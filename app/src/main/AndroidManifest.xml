@@ -49,6 +49,11 @@
         <activity android:name=".mine.ui.MyCashCardListActivity" />
         <activity android:name=".mine.ui.AddCashCardActivity" />
         <activity android:name=".mine.ui.RealNameAuthActivity" />
+        <!-- 测试使用 -->
+        <activity android:name=".mine.ui.MyZFBActivity" />
+        <activity android:name=".mine.ui.BindZFBActivity" />
+        <activity android:name=".mine.ui.MessageActivity" />
+        <activity android:name=".mine.ui.MessageDetailActivity"/>
         <activity android:name=".mine.ui.MyZFBActivity" />
         <activity android:name=".mine.ui.BindZFBActivity" />
         <activity android:name=".home.ui.AdjustPlanActivity" />

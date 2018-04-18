@@ -5,6 +5,8 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
+import com.yunkahui.datacubeper.common.bean.Message;
+import com.yunkahui.datacubeper.common.bean.MessageGroup;
 import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
@@ -118,6 +120,14 @@ public interface ApiService {
     @POST("/app/userbankcard/bind_deposit_card")    //添加储蓄卡
     Observable<JsonObject> addCashCard(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/userbankcard/check_deposit_card")   //查询储蓄卡
+    Observable<JsonObject> checkCashCard(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userbankcard/dropcard")     //删除银行卡  （信用卡和储蓄卡）
+    Observable<JsonObject> deleteBankCard(@FieldMap Map<String,String> params);
+
     @Multipart
     @POST("/app/user/uploadIdentify")     //实名认证  (上传身份证正反面)
     Observable<JsonObject> submitRealNameAuthImage(@PartMap Map<String,RequestBody> params, @Part MultipartBody.Part front,@Part MultipartBody.Part back);
@@ -158,6 +168,17 @@ public interface ApiService {
     Observable<JsonObject> unBindZFB(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/news/selectSysNews")        //根据时间查询新增的消息
+    Observable<JsonObject> checkNewMessage(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/news/selectAysNewsAll")     //根据时间分页查询消息
+    Observable<BaseBean<MessageGroup>> checkNewMessageList(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/news/selectNewsByNewId")       //根据ID查询消息
+    Observable<BaseBeanList<Message>> checkNewMessageById(@FieldMap Map<String,String> params);
+
     @POST("/app/pos/planning/update_planning_info")       //更新规划数据
     Observable<JsonObject> updatePlanningInfo(@FieldMap Map<String,String> params);
 

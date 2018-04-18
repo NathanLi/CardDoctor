@@ -48,6 +48,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private final int RESULT_CODE_IMAGE=1001;
 
+    private SimpleToolbar mSimpleToolbar;
     private RecyclerView mRecyclerView;
     private ImageView mIvIcon;
     private TextView mTvName;
@@ -90,12 +91,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mMineItemAdapter.notifyDataSetChanged();
 
         loadData();
+        checkNewMessage();
     }
 
     @Override
     public void initView(View view) {
-        SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
-        toolbar.setTitleName(getString(R.string.tab_item_me));
+        mSimpleToolbar = view.findViewById(R.id.tool_bar);
+        mSimpleToolbar.setTitleName(getString(R.string.tab_item_me));
+        mSimpleToolbar.setRightIcon(R.mipmap.ic_icon_message_white);
+        mSimpleToolbar.setRightIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),MessageActivity.class));
+            }
+        });
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
     }
@@ -134,6 +143,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onFailure(Throwable throwable) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
                 ToastUtils.show(getActivity(),"个人信息获取失败");
+            }
+        });
+
+    }
+
+    private void checkNewMessage(){
+
+        mLogic.checkNewMessage(getActivity(), "", new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LogUtils.e("消息->"+jsonObject.toString());
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LogUtils.e("消息失败->"+throwable.toString());
             }
         });
 

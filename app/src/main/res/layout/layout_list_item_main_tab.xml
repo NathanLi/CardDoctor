@@ -17,7 +17,7 @@
         android:id="@+id/tv_tab_name"
         android:textSize="12pt"
         android:padding="1pt"
-        android:textColor="@color/tab_text_normal_gray_a4aab3"
+        android:textColor="@color/text_color_gray_a4aab3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

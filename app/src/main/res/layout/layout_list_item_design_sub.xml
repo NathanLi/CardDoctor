@@ -5,11 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="8pt"
-        android:background="#ccc"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="14pt"
+                    android:textSize="17pt"
                     tools:text="消费-民生" />
 
                 <TextView
@@ -49,7 +44,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/black"
-                    android:textSize="14pt"
+                    android:textSize="17pt"
                     tools:text="533" />
 
             </RelativeLayout>
@@ -64,8 +59,8 @@
                     android:id="@+id/tv_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
-                    android:textSize="14pt"
+                    android:textColor="@color/text_color_gray_666666"
+                    android:textSize="17pt"
                     tools:text="休闲会所类" />
 
             </RelativeLayout>
@@ -80,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
-                    android:textSize="12pt"
+                    android:textColor="@color/text_color_gray_666666"
+                    android:textSize="14pt"
                     tools:text="2012-5-30" />
 
                 <TextView
@@ -93,13 +88,13 @@
                     android:layout_marginStart="4pt"
                     android:layout_toEndOf="@+id/tv_time"
                     android:layout_toRightOf="@+id/tv_time"
-                    android:textSize="10pt"
-                    android:paddingLeft="2pt"
-                    android:paddingRight="2pt"
+                    android:textSize="12pt"
+                    android:paddingLeft="6pt"
+                    android:paddingRight="6pt"
                     android:paddingBottom="2pt"
-                    android:background="@drawable/design_sub_pos_shape"
+                    android:background="@drawable/bg_design_sub_pos"
                     android:textColor="@color/white"
-                    tools:text="pos" />
+                    android:text="@string/pos" />
 
                 <TextView
                     android:id="@+id/tv_sign"
@@ -110,9 +105,10 @@
                     android:layout_marginStart="4pt"
                     android:layout_toEndOf="@+id/tv_type"
                     android:layout_toRightOf="@+id/tv_type"
-                    android:textSize="12pt"
+                    android:textSize="14pt"
+                    android:visibility="gone"
                     android:textColor="@color/colorPrimary"
-                    tools:text="标记" />
+                    android:text="@string/sign" />
 
                 <TextView
                     android:id="@+id/tv_status"
@@ -120,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="14pt"
+                    android:textSize="17pt"
                     tools:text="已操作" />
 
             </RelativeLayout>

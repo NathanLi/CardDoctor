@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="124pt"
-        android:background="@drawable/card_test_btn_shape"
+        android:background="@drawable/bg_card_test_button"
         android:paddingBottom="12pt"
         android:paddingLeft="32pt"
         android:paddingRight="32pt"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12pt"
                     android:text="历史测评"
-                    android:textColor="@color/tab_text_normal_gray_a4aab3"
+                    android:textColor="@color/text_color_gray_a4aab3"
                     android:textSize="16pt" />
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12pt"
                     android:text="样例报告"
-                    android:textColor="@color/tab_text_normal_gray_a4aab3"
+                    android:textColor="@color/text_color_gray_a4aab3"
                     android:textSize="16pt" />
             </LinearLayout>
         </LinearLayout>

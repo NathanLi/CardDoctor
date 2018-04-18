@@ -66,7 +66,7 @@ public class MessageDetailActivity extends AppCompatActivity implements IActivit
                 if(RequestUtils.SUCCESS.equals(messageBaseBeanList.getRespCode())){
                     Message message=messageBaseBeanList.getRespData().get(0);
                     mTextViewTitle.setText(message.getTitle());
-                    mTextViewTime.setText(SimpleDateFormatUtils.formatYMDHS(Long.parseLong(message.getCreate_time())));
+                    mTextViewTime.setText(SimpleDateFormatUtils.formatYMDHS(message.getCreate_time()));
                     GlideApp.with(MessageDetailActivity.this).load(message.getContent_img()).thumbnail(0.1f).into(mImageViewMessage);
                     mTextViewMessage.setText(message.getContent_text());
                 }

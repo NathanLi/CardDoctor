@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="15pt"
-            android:paddingRight="15pt">
+            android:paddingRight="15pt"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_view_title"
@@ -27,6 +28,7 @@
                 android:textColor="@color/black"
                 android:textSize="16pt"
                 android:maxLines="2"
+                android:layout_marginTop="20pt"
                 android:ellipsize="end"/>
 
             <TextView

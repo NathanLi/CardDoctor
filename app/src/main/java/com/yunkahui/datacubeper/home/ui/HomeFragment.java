@@ -6,14 +6,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.JsonObject;
+import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.adapter.HomeItemAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
+import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +38,21 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private DoubleBlockView mDoubleBlockView;
 
+
+    private HomeLogic mLogic;
+
     @Override
     public void initData() {
-        String[] titles = new String[] { "今日操作", "实名认证", "升级加盟", "申请POS",
+        mLogic = new HomeLogic();
+        String[] titles = new String[]{"今日操作", "实名认证", "升级加盟", "申请POS",
                 "个人征信", "借贷黑名单", "失信黑名单", "违章查询",
                 "一键办卡", "贷款专区", "保险服务", "更多"};
-        Integer[] imgs = { R.mipmap.ic_today_operation, R.mipmap.ic_name_verify,
+        Integer[] imgs = {R.mipmap.ic_today_operation, R.mipmap.ic_name_verify,
                 R.mipmap.ic_upgrade_and_join, R.mipmap.ic_apply_pos,
                 R.mipmap.ic_personal_credit, R.mipmap.ic_blacklist_lending,
                 R.mipmap.ic_discredit_carried_out, R.mipmap.ic_query_car_illegal,
                 R.mipmap.ic_one_key_card, R.mipmap.ic_launcher,
-                R.mipmap.ic_insurance_service, R.mipmap.ic_launcher, };
+                R.mipmap.ic_insurance_service, R.mipmap.ic_launcher,};
         List<HomeItem> homeItems = new ArrayList<>();
         for (int i = 0; i < imgs.length; i++) {
             HomeItem item = new HomeItem(imgs[i], titles[i]);
@@ -48,6 +64,8 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0) {
                     startActivity(new Intent(mActivity, TodayOperationActivity.class));
+                } else if (position == 3) {
+                    checkApplyPosStatus();
                 } else if (position == 4) {
                     startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
                 } else if (position == 5) {
@@ -81,6 +99,69 @@ public class HomeFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
+    }
+
+    //查询POS开通状态
+    private void checkApplyPosStatus() {
+        LoadingViewDialog.getInstance().show(getActivity());
+        mLogic.checkPosApplyStatus(getActivity(), new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                try {
+                    LogUtils.e("POS状态->"+jsonObject.toString());
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        JSONObject json=object.optJSONObject("respData");
+                        DataUtils.getInfo().setTruename(json.optString("truename"));
+                        if(!"1".equals(json.optString("identify_status"))){
+                            ToastUtils.show(getActivity(),"请先实名认证");
+                        }else if(!"1".equals(json.optString("VIP_status"))){
+                            ToastUtils.show(getActivity(),"请先升级VIP");
+                        }else{
+                            switch (json.optString("tua_status")){
+                                case "-1":  //落地POS没开通
+                                    ToastUtils.show(getActivity(),"请先开通落地POS");
+                                    break;
+                                case "0":   //已付款
+                                    startActivity(new Intent(mActivity, ApplyPosActivity.class));
+                                    break;
+                                case "1":   //审核中
+                                    break;
+                                case "2":   //审核通过
+                                    break;
+                                case "3":      //审核不通过
+                                    break;
+                                case "4":       //审核关闭
+                                    break;
+                                case "5":       //已寄出
+                                    break;
+                                case "6":       //手持POS照片提交成功
+                                    break;
+                                case "61":  //手持POS照片审核通过
+                                    break;
+                                case "62":  //手持POS照片审核不通过
+                                    break;
+                                case "7":   //完成
+                                    break;
+                            }
+
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getActivity().getApplicationContext(), "请求失败 " + throwable.toString());
+            }
+        });
     }
 
 }

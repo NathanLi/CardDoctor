@@ -49,14 +49,16 @@
         <activity android:name=".mine.ui.MyCashCardListActivity" />
         <activity android:name=".mine.ui.AddCashCardActivity" />
         <activity android:name=".mine.ui.RealNameAuthActivity" />
-        <!-- 测试使用 -->
         <activity android:name=".mine.ui.MyZFBActivity" />
         <activity android:name=".mine.ui.BindZFBActivity" />
         <activity android:name=".mine.ui.MessageActivity" />
-        <activity android:name=".mine.ui.MessageDetailActivity"/>
-        <activity android:name=".mine.ui.MyZFBActivity" />
-        <activity android:name=".mine.ui.BindZFBActivity" />
+        <activity android:name=".mine.ui.MessageDetailActivity" />
         <activity android:name=".home.ui.AdjustPlanActivity" />
+        <activity android:name=".applypos.ui.ApplyPosActivity" />
+        <activity android:name=".applypos.ui.PosMailInfoActivity" />
+        <activity android:name=".applypos.ui.SettleInfoActivity" />
+        <activity android:name=".applypos.ui.TerminalInfoActivity"/>
+        <activity android:name=".applypos.ui.BranchInformationActivity"/>
     </application>
 
 </manifest>

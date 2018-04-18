@@ -7,8 +7,8 @@ package com.yunkahui.datacubeper.common.bean;
 public class Message {
 
     private String sys_notice_id;
-    private String create_time;
-    private String update_time;
+    private long create_time;
+    private long update_time;
     private String org_number;
     private String title;
     private String content_text;
@@ -25,19 +25,19 @@ public class Message {
         this.sys_notice_id = sys_notice_id;
     }
 
-    public String getCreate_time() {
-        return create_time == null ? "" : create_time;
+    public long getCreate_time() {
+        return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(long create_time) {
         this.create_time = create_time;
     }
 
-    public String getUpdate_time() {
-        return update_time == null ? "" : update_time;
+    public long getUpdate_time() {
+        return update_time;
     }
 
-    public void setUpdate_time(String update_time) {
+    public void setUpdate_time(long update_time) {
         this.update_time = update_time;
     }
 
@@ -102,8 +102,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "sys_notice_id='" + sys_notice_id + '\'' +
-                ", create_time='" + create_time + '\'' +
-                ", update_time='" + update_time + '\'' +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
                 ", org_number='" + org_number + '\'' +
                 ", title='" + title + '\'' +
                 ", content_text='" + content_text + '\'' +

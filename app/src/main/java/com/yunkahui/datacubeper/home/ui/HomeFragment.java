@@ -13,6 +13,8 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
+import com.yunkahui.datacubeper.share.ui.ProfitActivity;
+import com.yunkahui.datacubeper.share.ui.WalletActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        initListener();
         String[] titles = new String[] { "今日操作", "实名认证", "升级加盟", "申请POS",
                 "个人征信", "借贷黑名单", "失信黑名单", "违章查询",
                 "一键办卡", "贷款专区", "保险服务", "更多"};
@@ -68,6 +71,21 @@ public class HomeFragment extends BaseFragment {
         homeItemAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(getActivity(), 4));
         mRecyclerView.setAdapter(homeItemAdapter);
+    }
+
+    private void initListener() {
+        mDoubleBlockView.setOnLeftBlockClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mActivity, WalletActivity.class)
+                .putExtra("from", "home"));
+            }
+        }).setOnRightBlockClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mActivity, ProfitActivity.class));
+            }
+        });
     }
 
     @Override

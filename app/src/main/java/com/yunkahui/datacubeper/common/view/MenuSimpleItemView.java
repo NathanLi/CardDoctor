@@ -29,7 +29,7 @@ public class MenuSimpleItemView extends RelativeLayout {
     public MenuSimpleItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_menu_simple_item_view,this);
-        mTextViewTitle=findViewById(R.id.text_view_title);
+        mTextViewTitle=findViewById(R.id.tv_title);
         mTextViewSubTitle=findViewById(R.id.text_view_subtitle);
 
         TypedArray ta=context.obtainStyledAttributes(attrs,R.styleable.MenuSimpleItemView);

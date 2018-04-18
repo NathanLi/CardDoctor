@@ -1,7 +1,5 @@
 package com.yunkahui.datacubeper.common.bean;
 
-import com.yunkahui.datacubeper.common.other.DesignSubBean;
-
 import java.util.List;
 
 public class TodayOperationSub {
@@ -90,7 +88,7 @@ public class TodayOperationSub {
     private int firstPage;
     private int lastPage;
 
-    public static class DesignSub implements DesignSubBean {
+    public static class DesignSub implements com.yunkahui.datacubeper.common.bean.DesignSub {
 
         private int ap_id;
         private int user_credit_card_id;

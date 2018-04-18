@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.home.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class TodayOperationActivity extends AppCompatActivity implements IActivi
             }
         });
 
-        List<BaseFragment> fragments = new ArrayList<>();
+        List<Fragment> fragments = new ArrayList<>();
         fragments.add(new TodayOperationFragment());
         fragments.add(new PlanListFragment());
         String[] s = {"", ""};

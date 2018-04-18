@@ -3,11 +3,9 @@ package com.yunkahui.datacubeper.upgradeJoin.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +21,6 @@ import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.upgradeJoin.logic.PayVipLogic;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PayOpenVipActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
@@ -57,7 +54,7 @@ public class PayOpenVipActivity extends AppCompatActivity implements IActivitySt
     @Override
     public void initView() {
         mLinearLayoutZFB=findViewById(R.id.linear_layout_zfb);
-        mTextViewMoney=findViewById(R.id.text_view_money);
+        mTextViewMoney=findViewById(R.id.tv_money);
         mEditTextViewActivateCode=findViewById(R.id.simple_input_item_activate_code);
         mCheckBoxZFB=findViewById(R.id.check_box_select_zfb);
         findViewById(R.id.button_submit).setOnClickListener(this);

@@ -1,8 +1,6 @@
 package com.yunkahui.datacubeper.common.bean;
 
-import com.yunkahui.datacubeper.common.other.DesignSubBean;
-
-public class SmartPlanSub implements DesignSubBean {
+public class SmartPlanSub implements DesignSub {
 
 
     /**

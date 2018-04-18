@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.home.ui;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -23,7 +24,7 @@ public class TodayOperationFragment extends BaseFragment {
     @Override
     public void initData() {
         String[] tabTitles = {"自动规划", "POS规划", "其他消费"};
-        List<BaseFragment> fragments = new ArrayList<>();
+        List<Fragment> fragments = new ArrayList<>();
         fragments.add(DesignSubFragment.newInstance(0));
         fragments.add(DesignSubFragment.newInstance(1));
         fragments.add(DesignSubFragment.newInstance(2));

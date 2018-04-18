@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -55,7 +54,7 @@ public class InfoFillView extends LinearLayout {
         boolean isTextView = a.getBoolean(R.styleable.InfoFillView_isTextView, false);
         int imgRes = a.getResourceId(R.styleable.InfoFillView_infoIcon, 0);
         int inputVisible = a.getInt(R.styleable.InfoFillView_inputVisible, INVISIBLE);
-        int destColor = a.getColor(R.styleable.InfoFillView_destColor, getResources().getColor(R.color.add_card_text_color_deep_gray_656565));
+        int destColor = a.getColor(R.styleable.InfoFillView_destColor, getResources().getColor(R.color.text_color_deep_gray_656565));
 
         line.setVisibility(a.getInt(R.styleable.InfoFillView_lineVisible, GONE));
         tvInfoName.setText(name);

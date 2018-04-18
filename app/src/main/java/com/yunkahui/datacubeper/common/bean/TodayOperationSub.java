@@ -1,8 +1,73 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import com.yunkahui.datacubeper.common.other.DesignSubBean;
+
 import java.util.List;
 
-public class HomeDesignSub {
+public class TodayOperationSub {
+
+    /*"pageNum": 1, 当前页
+            "pageSize": 20,
+            "size": 2, 当前页数量
+            "startRow": 1,
+            "endRow": 2,
+            "total": 2,
+            "pages": 1, 总页数
+            "list": [{
+        "ap_id": 39,
+                "user_credit_card_id": 15,
+                "plan_type": "01",
+                "amount": 100.00,
+                "date": 1523930181000,
+                "operation": "1",
+                "pos_type": "10",
+                "swift_number": "",
+                "trade_no": "",
+                "batch_sn": "",
+                "remarks": "",
+                "create_time": "",
+                "update_time": 1523924907000,
+                "service_charge": "",
+                "bankCardName": "建设银行",
+                "bankCardNum": "6221683210143692",
+                "org_number": "",
+                "user_code": "",
+                "business_name": "",
+                "amountString": "100.00"
+    }, {
+        "ap_id": 40,
+                "user_credit_card_id": 15,
+                "plan_type": "00",
+                "amount": 100.00,
+                "date": 1523930191000,
+                "operation": "1",
+                "pos_type": "10",
+                "swift_number": "",
+                "trade_no": "",
+                "batch_sn": "",
+                "remarks": "",
+                "create_time": "",
+                "update_time": 1523924907000,
+                "service_charge": "",
+                "bankCardName": "建设银行",
+                "bankCardNum": "6221683210143692",
+                "org_number": "",
+                "user_code": "",
+                "business_name": "",
+                "amountString": "100.00"
+    }],
+            "prePage": 0,
+            "nextPage": 0,
+            "isFirstPage": true,
+            "isLastPage": true,
+            "hasPreviousPage": false,
+            "hasNextPage": false,
+            "navigatePages": 8,
+            "navigatepageNums": [1],
+            "navigateFirstPage": 1,
+            "navigateLastPage": 1,
+            "firstPage": 1,
+            "lastPage": 1*/
 
     private int pageNum;
     private int pageSize;
@@ -25,12 +90,12 @@ public class HomeDesignSub {
     private int firstPage;
     private int lastPage;
 
-    public static class DesignSub {
+    public static class DesignSub implements DesignSubBean {
 
         private int ap_id;
         private int user_credit_card_id;
         private String plan_type;
-        private int amount;
+        private double amount;
         private long date;
         private String operation;
         private String pos_type;
@@ -72,11 +137,11 @@ public class HomeDesignSub {
             this.plan_type = plan_type;
         }
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 

@@ -16,8 +16,8 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/tv_account_balance"
-        android:text="7615"
+        android:id="@+id/tv_user_balance"
+        android:text="-"
         android:layout_marginTop="12pt"
         android:textSize="26pt"
         android:textColor="@color/white"

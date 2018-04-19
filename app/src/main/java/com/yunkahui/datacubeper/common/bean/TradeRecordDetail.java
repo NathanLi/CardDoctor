@@ -8,6 +8,24 @@ public class TradeRecordDetail implements MultiItemEntity {
     private String title;
     private String time;
     private String money;
+    private long timeStamp;
+    private String tradeType;
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public String getTitle() {
         return title;

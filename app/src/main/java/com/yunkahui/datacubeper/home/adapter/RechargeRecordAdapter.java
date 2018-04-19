@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.home.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -24,24 +25,26 @@ public class RechargeRecordAdapter extends BaseQuickAdapter<RechargeRecord.Recha
         helper.setText(R.id.tv_money, String.valueOf(item.getAmount()));
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getCreate_time()));
         String status;
+        int color;
         switch (item.getOrder_state()) {
             case "0":
                 status = "充值初始化";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#0085FF"));
+                color = Color.parseColor("#0085FF");
                 break;
             case "1":
                 status = "充值成功";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#8E8E93"));
+                color = Color.parseColor("#8E8E93");
                 break;
             case "2":
                 status = "充值失败";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#FF3B30"));
+                color = Color.parseColor("#FF3B30");
                 break;
             default:
                 status = "充值处理中";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#8E8E93"));
+                color = Color.parseColor("#8E8E93");
                 break;
         }
+        helper.setTextColor(R.id.tv_status, color);
         helper.setText(R.id.tv_status, status);
     }
 

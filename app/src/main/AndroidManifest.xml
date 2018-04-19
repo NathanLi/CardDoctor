@@ -35,8 +35,9 @@
         <activity android:name=".share.ui.WebViewActivity" />
         <activity android:name=".share.ui.WalletActivity" />
         <activity android:name=".share.ui.TradeDetailActivity" />
-        <activity android:name=".share.ui.RechargeWithdrawalsActivity" />
-        <activity android:name=".share.ui.ProfitActivity" />
+        <activity android:name=".home.ui.RechargeActivity" />
+        <activity android:name=".home.ui.WithdrawActivity" />
+        <activity android:name=".share.ui.ShareProfitActivity" />
         <activity android:name=".share.ui.ProfitWithdrawalsActivity" />
         <activity android:name=".share.ui.MemberActivity" />
         <activity android:name=".mine.ui.EditPasswordActivity" />
@@ -60,6 +61,8 @@
         <activity android:name=".applypos.ui.TerminalInfoActivity"/>
         <activity android:name=".applypos.ui.BranchInformationActivity"/>
         <activity android:name=".home.ui.TradeRecordActivity" />
+        <activity android:name=".home.ui.SingleRecordActivity" />
+        <activity android:name=".home.ui.HomeProfitActivity" />
     </application>
 
 </manifest>

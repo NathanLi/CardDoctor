@@ -16,13 +16,18 @@ import java.util.Map;
 
 public class HomeLogic {
 
-
     /**
      * 查询POS申请状态
      */
     public void checkPosApplyStatus(Context context, SimpleCallBack<JsonObject> callBack){
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).checkPosApplyStatus(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
+    public void loadUserFinance(Context context, SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).loadUserFinance(params)
                 .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
     }
 

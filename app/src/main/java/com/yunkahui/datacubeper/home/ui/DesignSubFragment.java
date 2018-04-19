@@ -192,7 +192,7 @@ public class DesignSubFragment extends BaseFragment {
     }
 
     /*private void showSignDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("标记交易成功")
+        new AlertDialog.Builder(getActivity()).setBankCardName("标记交易成功")
                 .setMessage("如此次笔交易已经还款成功，请进行标记交易成功")
                 .setPositiveButton("标记", new DialogInterface.OnClickListener() {
                     @Override

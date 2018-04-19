@@ -4,7 +4,7 @@
 
         <item android:id="@+id/message"
             android:icon="@mipmap/ic_password"
-            android:title="message"/>
+            android:text="message"/>
 
     </group>
 </menu>

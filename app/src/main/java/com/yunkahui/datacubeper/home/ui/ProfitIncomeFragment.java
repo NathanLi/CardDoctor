@@ -16,8 +16,8 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
-import com.yunkahui.datacubeper.home.adapter.ExpandableTradeRecordAdapter;
-import com.yunkahui.datacubeper.home.logic.TradeRecordLogic;
+import com.yunkahui.datacubeper.home.adapter.ExpandableProfitIncomeAdapter;
+import com.yunkahui.datacubeper.home.logic.HomeProfitLogic;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,15 +27,15 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TradeDetailsFragment extends BaseFragment {
+public class ProfitIncomeFragment extends BaseFragment {
 
-    private static final String TAG = "TradeDetailsFragment";
-    private TradeRecordLogic mLogic;
+    private static final String TAG = "ProfitIncomeFragment";
+    private HomeProfitLogic mLogic;
     private RecyclerView mRecyclerView;
     private List<MultiItemEntity> mList;
     private int mAllPage;
     private int mCurrentPage;
-    private ExpandableTradeRecordAdapter mAdapter;
+    private ExpandableProfitIncomeAdapter mAdapter;
     private ConstraintLayout mSuspensionBar;
     private int mSuspensionHeight;
     private int mCurrentPosition;
@@ -44,10 +44,10 @@ public class TradeDetailsFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        mLogic = new TradeRecordLogic();
+        mLogic = new HomeProfitLogic();
         mList = new ArrayList<>();
-        getTradeDetailsData();
-        mAdapter = new ExpandableTradeRecordAdapter(mActivity, mList);
+        getProfitIncomeData();
+        mAdapter = new ExpandableProfitIncomeAdapter(mActivity, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setEnableLoadMore(true);
         mAdapter.expandAll();
@@ -58,7 +58,7 @@ public class TradeDetailsFragment extends BaseFragment {
                 if (mCurrentPage >= mAllPage) {
                     mAdapter.loadMoreEnd();
                 } else {
-                    getTradeDetailsData();
+                    getProfitIncomeData();
                 }
             }
         }, mRecyclerView);
@@ -74,7 +74,7 @@ public class TradeDetailsFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (mAdapter.getItemViewType(mCurrentPosition + 1) == ExpandableTradeRecordAdapter.TYPE_LEVEL_0) {
+                if (mAdapter.getItemViewType(mCurrentPosition + 1) == ExpandableProfitIncomeAdapter.TYPE_LEVEL_0) {
                     View view = linearLayoutManager.findViewByPosition(mCurrentPosition + 1);
                     if (view != null) {
                         if (view.getTop() <= mSuspensionHeight) {
@@ -88,7 +88,6 @@ public class TradeDetailsFragment extends BaseFragment {
                 if (mCurrentPosition != linearLayoutManager.findFirstVisibleItemPosition()) {
                     mCurrentPosition = linearLayoutManager.findFirstVisibleItemPosition();
                     mSuspensionBar.setY(0);
-
                     updateSuspensionBar();
                 }
             }
@@ -96,8 +95,8 @@ public class TradeDetailsFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void getTradeDetailsData() {
-        mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<JsonObject>() {
+    private void getProfitIncomeData() {
+        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
                 try {
@@ -199,6 +198,6 @@ public class TradeDetailsFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_all_trade_record;
+        return R.layout.fragment_profit_income;
     }
 }

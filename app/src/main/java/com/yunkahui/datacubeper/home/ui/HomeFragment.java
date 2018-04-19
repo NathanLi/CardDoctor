@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.home.ui;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,7 +23,7 @@ import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
-import com.yunkahui.datacubeper.share.ui.ProfitActivity;
+import com.yunkahui.datacubeper.share.ui.ShareProfitActivity;
 import com.yunkahui.datacubeper.share.ui.WalletActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
@@ -39,15 +40,16 @@ public class HomeFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private DoubleBlockView mDoubleBlockView;
-
-
     private HomeLogic mLogic;
+    private String mUserBalance;
+    private String mUserFenruns;
 
     @Override
     public void initData() {
         mLogic = new HomeLogic();
         initListener();
-        String[] titles = new String[] { "今日操作", "实名认证", "升级加盟", "申请POS",
+        initUserFinance();
+        String[] titles = new String[]{"今日操作", "实名认证", "升级加盟", "申请POS",
                 "个人征信", "借贷黑名单", "失信黑名单", "违章查询",
                 "一键办卡", "贷款专区", "保险服务", "更多"};
         Integer[] imgs = {R.mipmap.ic_today_operation, R.mipmap.ic_name_verify,
@@ -91,17 +93,42 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setAdapter(homeItemAdapter);
     }
 
+    private void initUserFinance() {
+        mLogic.loadUserFinance(mActivity, new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                try {
+                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject respData = object.optJSONObject("respData");
+                    mUserBalance = String.valueOf(respData.optDouble("user_balance"));
+                    mUserFenruns = String.valueOf(respData.optDouble("user_fenruns"));
+                    mDoubleBlockView.setLeftNum(mUserBalance)
+                            .setRightNum(mUserFenruns);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+    }
+
     private void initListener() {
         mDoubleBlockView.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(mActivity, WalletActivity.class)
-                .putExtra("from", "home"));
+                        .putExtra("from", "home")
+                        .putExtra("money", mUserBalance));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mActivity, ProfitActivity.class));
+                startActivity(new Intent(mActivity, HomeProfitActivity.class));
             }
         });
     }
@@ -127,19 +154,19 @@ public class HomeFragment extends BaseFragment {
             public void onSuccess(JsonObject jsonObject) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("POS状态->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        JSONObject json=object.optJSONObject("respData");
+                    LogUtils.e("POS状态->" + jsonObject.toString());
+                    JSONObject object = new JSONObject(jsonObject.toString());
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        JSONObject json = object.optJSONObject("respData");
                         DataUtils.getInfo().setTruename(json.optString("truename"));
-                        if(!"1".equals(json.optString("identify_status"))){
-                            ToastUtils.show(getActivity(),"请先实名认证");
-                        }else if(!"1".equals(json.optString("VIP_status"))){
-                            ToastUtils.show(getActivity(),"请先升级VIP");
-                        }else{
-                            switch (json.optString("tua_status")){
+                        if (!"1".equals(json.optString("identify_status"))) {
+                            ToastUtils.show(getActivity(), "请先实名认证");
+                        } else if (!"1".equals(json.optString("VIP_status"))) {
+                            ToastUtils.show(getActivity(), "请先升级VIP");
+                        } else {
+                            switch (json.optString("tua_status")) {
                                 case "-1":  //落地POS没开通
-                                    ToastUtils.show(getActivity(),"请先开通落地POS");
+                                    ToastUtils.show(getActivity(), "请先开通落地POS");
                                     break;
                                 case "0":   //已付款
                                     startActivity(new Intent(mActivity, ApplyPosActivity.class));

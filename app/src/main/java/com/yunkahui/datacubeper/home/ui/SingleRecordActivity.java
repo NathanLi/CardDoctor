@@ -3,7 +3,6 @@ package com.yunkahui.datacubeper.home.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
@@ -14,12 +13,15 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
     private TextView mTvType;
     private TextView mTvMoney;
     private TextView mTvTime;
-    private TextView mTvPoundage;
+    private TextView mTvStatus;
     private TextView mTvRemark;
 
     @Override
     public void initData() {
-
+        mTvType.setText(getIntent().getStringExtra("action"));
+        mTvMoney.setText(getIntent().getStringExtra("money"));
+        mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), getIntent().getStringExtra("time")));
+        mTvStatus.setText(String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status")));
     }
 
     @Override
@@ -34,7 +36,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         mTvType = findViewById(R.id.tv_type);
         mTvMoney = findViewById(R.id.tv_money);
         mTvTime = findViewById(R.id.tv_time);
-        mTvPoundage = findViewById(R.id.tv_poundage);
+        mTvStatus = findViewById(R.id.tv_status);
         mTvRemark = findViewById(R.id.tv_remark);
     }
 

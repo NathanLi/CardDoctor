@@ -215,10 +215,18 @@ public interface ApiService {
     Observable<BaseBean<RechargeRecord>> loadRechargeRecord(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/userUpgradec/getPdrwList")       //获取分润提现
+    Observable<JsonObject> loadProfitWithdraw(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/userUpgradec/getPdrwList")       //获取提现记录
     Observable<BaseBean<WithdrawRecord>> loadWithdrawRecord(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/userUpgradec/transactionDetails")       //获取交易明细
     Observable<JsonObject> loadTradeDetail(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/get_user_finance")       //获取交易明细
+    Observable<JsonObject> loadUserFinance(@FieldMap Map<String,String> params);
 }

@@ -3,24 +3,24 @@ package com.yunkahui.datacubeper.share.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 /**
  * Created by YD1 on 2018/4/10
  */
-public class ProfitActivity extends AppCompatActivity implements IActivityStatusBar {
+public class ShareProfitActivity extends AppCompatActivity implements IActivityStatusBar {
+
+    private static final String TAG = "ShareProfitActivity";
 
     @Override
     public void initData() {
-
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ProfitActivity extends AppCompatActivity implements IActivityStatus
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_profit);
+        setContentView(R.layout.activity_share_profit);
         super.onCreate(savedInstanceState);
         setTitle("累计分润");
     }

@@ -70,7 +70,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, ProfitActivity.class));
+                startActivity(new Intent(mActivity, ShareProfitActivity.class));
             }
         });
         mDoubleBlockView2.setOnLeftBlockClickListener(new View.OnClickListener() {

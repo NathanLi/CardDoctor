@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f5f5f5"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <include layout="@layout/layout_list_header_wallet" />
+
+    <TextView
+        android:background="@color/white"
+        android:paddingTop="18pt"
+        android:paddingBottom="18pt"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="在线充值方式"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:background="@color/line_gray_949494"
+        android:layout_width="match_parent"
+        android:layout_height="1pt" />
+
+    <LinearLayout
+        android:id="@+id/ll_show_dialog"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12pt"
+        android:gravity="center_vertical">
+        <ImageView
+            android:background="@mipmap/ic_card_orange"
+            android:layout_width="24pt"
+            android:layout_height="24pt" />
+        <TextView
+            android:layout_marginLeft="12pt"
+            android:textSize="17pt"
+            android:textColor="@color/black"
+            android:background="@null"
+            android:text="信用卡"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/line_gray_949494"
+        android:layout_width="match_parent"
+        android:layout_height="1pt" />
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12pt">
+        <TextView
+            android:text="充值金额"
+            android:textSize="17pt"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_marginLeft="24pt"
+            android:textSize="17pt"
+            android:background="@null"
+            android:hint="请输入充值金额"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/line_gray_949494"
+        android:layout_width="match_parent"
+        android:layout_height="1pt" />
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:text="立刻充值"
+        android:layout_marginTop="48pt"
+        android:textColor="@color/white"
+        android:paddingTop="14pt"
+        android:paddingBottom="14pt"
+        android:paddingLeft="120pt"
+        android:paddingRight="120pt"
+        android:background="@drawable/bg_recharge_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

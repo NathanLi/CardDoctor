@@ -9,7 +9,7 @@
         android:id="@+id/tab_layout"
         app:tabIndicatorColor="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="56dp" />
 
     <com.yunkahui.datacubeper.common.view.CustomViewPager
         android:id="@+id/view_pager"

@@ -12,12 +12,15 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.ApplyPosLogic;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DialogSub;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.mine.logic.AddCashCardLogic;
 
@@ -56,6 +59,7 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
         mLogic=new ApplyPosLogic();
         mDialogArea=new DialogSub(this);
         mEditTextViewName.setText(DataUtils.getInfo().getTruename());
+        loadData();
     }
 
     @Override
@@ -68,7 +72,8 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
         mTextViewBranch=findViewById(R.id.text_view_branch);
         mEditTextViewBranchNumber=findViewById(R.id.simple_input_item_branch_number);
 
-        mEditTextViewName.setEnabled(false);
+        mEditTextViewBranchNumber.setEnabled(false);
+
         findViewById(R.id.button_submit).setOnClickListener(this);
         mTextViewArea.setOnClickListener(this);
         mTextViewBranch.setOnClickListener(this);
@@ -92,29 +97,107 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
         new AddCashCardLogic().checkBankCardName(this, mEditTextViewBankCardNumber.getText(), new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
-                LogUtils.e("发卡行->"+jsonObject.toString());
                 try {
+                    LogUtils.e("发卡行->"+jsonObject.toString());
                     JSONObject object=new JSONObject(jsonObject.toString());
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mEditTextViewBankCardName.setText(object.optJSONObject("respData").optString("bankName"));
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Throwable throwable) {
-
             }
         });
+    }
+
+    private void loadData(){
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkPosApplyUploadData(this, new SimpleCallBack<BaseBean<PosApplyInfo>>() {
+            @Override
+            public void onSuccess(BaseBean<PosApplyInfo> bean) {
+                LoadingViewDialog.getInstance().dismiss();
+                if(RequestUtils.SUCCESS.equals(bean.getRespCode())){
+                    updateData(bean.getRespData());
+                }
+            }
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+            }
+        });
+    }
+
+    private void updateData(PosApplyInfo respData) {
+        mProvince=respData.getDeposit_province();
+        mCity=respData.getDeposit_city();
+        mEditTextViewBankCardNumber.setText(respData.getBank_card_num());
+        mEditTextViewBankCardName.setText(respData.getBank_card_name());
+        mTextViewArea.setText(respData.getDeposit_province()+"-"+respData.getDeposit_city());
+        mTextViewBranch.setText(respData.getDeposit_bank());
+        mEditTextViewBranchNumber.setText(respData.getCouplet_num());
+    }
+
+    private boolean check(){
+        if(TextUtils.isEmpty(mEditTextViewBankCardNumber.getText())){
+            ToastUtils.show(getApplicationContext(),"请输入银行卡号");
+            return false;
+        }
+        if(TextUtils.isEmpty(mEditTextViewBankCardName.getText())){
+            ToastUtils.show(getApplicationContext(),"发卡行信息获取有误");
+            return false;
+        }
+        if(TextUtils.isEmpty(mTextViewArea.getText().toString())){
+            ToastUtils.show(getApplicationContext(),"请选择所在地");
+            return false;
+        }
+        if(TextUtils.isEmpty(mTextViewBranch.getText().toString())||TextUtils.isEmpty(mEditTextViewBranchNumber.getText())){
+            ToastUtils.show(getApplicationContext(),"请完善开户支行信息");
+            return false;
+        }
+        return true;
+    }
+
+    private void upLoadSettleInfo(){
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.upLoadSettleInfo(this, mEditTextViewBankCardNumber.getText(), mEditTextViewBankCardName.getText(), mProvince, mCity, mTextViewBranch.getText().toString(),
+                mEditTextViewBranchNumber.getText(), new SimpleCallBack<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        LogUtils.e("结算信息提交->"+jsonObject.toString());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                    }
+                });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK&&requestCode==RESULT_CODE){
+            mTextViewBranch.setText(data.getStringExtra("bank_name"));
+            mEditTextViewBranchNumber.setText(data.getStringExtra("bank_cnaps"));
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_submit:
+                if(check()){
+                    upLoadSettleInfo();
+                }
                 break;
             case R.id.text_view_area:
                 mDialogArea.showLocalCityPicker(new DialogSub.CityPickerListener() {

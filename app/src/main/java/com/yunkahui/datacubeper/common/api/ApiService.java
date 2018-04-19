@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
+import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
@@ -205,7 +206,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/pos/query_cnaps")       //查询支行
-    Observable<JsonObject> checkBranchBank(@FieldMap Map<String,String> params);
+    Observable<BaseBeanList<Branch>> checkBranchBank(@FieldMap Map<String,String> params);
 
     @POST("/app/pos/planning/get_zhongfu_mcc_list")       //获取MCC列表
     Observable<JsonObject> loadMccList(@FieldMap Map<String,String> params);
@@ -221,4 +222,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userUpgradec/transactionDetails")       //获取交易明细
     Observable<JsonObject> loadTradeDetail(@FieldMap Map<String,String> params);
+
+    @Multipart
+    @POST("/app/pos/upload_img")            //上传图片文件
+    Observable<JsonObject> uploadImageFile(@PartMap Map<String,RequestBody> params, @Part MultipartBody.Part avatar);
+
+    @FormUrlEncoded
+    @POST("/app/pos/commit_img_url")    //提交保存图片
+    Observable<JsonObject> commitSaveImage(@FieldMap Map<String,String> params);
+
 }

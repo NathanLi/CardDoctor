@@ -375,4 +375,51 @@ public class PosApplyInfo {
     public void setLegal_city(String legal_city) {
         this.legal_city = legal_city;
     }
+
+    @Override
+    public String toString() {
+        return "PosApplyInfo{" +
+                "tai_id=" + tai_id +
+                ", user_code='" + user_code + '\'' +
+                ", merchant_number='" + merchant_number + '\'' +
+                ", terminal_number='" + terminal_number + '\'' +
+                ", org_number='" + org_number + '\'' +
+                ", status='" + status + '\'' +
+                ", receive_name='" + receive_name + '\'' +
+                ", receive_phone='" + receive_phone + '\'' +
+                ", receive_address='" + receive_address + '\'' +
+                ", legal_name='" + legal_name + '\'' +
+                ", legal_identity_num='" + legal_identity_num + '\'' +
+                ", legal_phone='" + legal_phone + '\'' +
+                ", legal_email='" + legal_email + '\'' +
+                ", bank_card_num='" + bank_card_num + '\'' +
+                ", bank_card_name='" + bank_card_name + '\'' +
+                ", deposit_bank='" + deposit_bank + '\'' +
+                ", deposit_province='" + deposit_province + '\'' +
+                ", deposit_city='" + deposit_city + '\'' +
+                ", couplet_num='" + couplet_num + '\'' +
+                ", identity_front_img='" + identity_front_img + '\'' +
+                ", identity_back_img='" + identity_back_img + '\'' +
+                ", hand_identity_front='" + hand_identity_front + '\'' +
+                ", hand_identity_back='" + hand_identity_back + '\'' +
+                ", bank_card_front='" + bank_card_front + '\'' +
+                ", bank_card_back='" + bank_card_back + '\'' +
+                ", hand_bank_card_front='" + hand_bank_card_front + '\'' +
+                ", hand_bank_card_back='" + hand_bank_card_back + '\'' +
+                ", hand_identity_video='" + hand_identity_video + '\'' +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                ", content='" + content + '\'' +
+                ", express_company='" + express_company + '\'' +
+                ", express_num='" + express_num + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", hold_pos='" + hold_pos + '\'' +
+                ", nearest_agent_code='" + nearest_agent_code + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", manage_address='" + manage_address + '\'' +
+                ", legal_province='" + legal_province + '\'' +
+                ", legal_city='" + legal_city + '\'' +
+                '}';
+    }
 }

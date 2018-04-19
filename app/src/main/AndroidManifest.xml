@@ -57,9 +57,10 @@
         <activity android:name=".applypos.ui.ApplyPosActivity" />
         <activity android:name=".applypos.ui.PosMailInfoActivity" />
         <activity android:name=".applypos.ui.SettleInfoActivity" />
-        <activity android:name=".applypos.ui.TerminalInfoActivity"/>
-        <activity android:name=".applypos.ui.BranchInformationActivity"/>
+        <activity android:name=".applypos.ui.TerminalInfoActivity" />
+        <activity android:name=".applypos.ui.BranchInformationActivity" />
         <activity android:name=".home.ui.TradeRecordActivity" />
+        <activity android:name=".applypos.ui.UpLoadImageActivity"></activity>
     </application>
 
 </manifest>

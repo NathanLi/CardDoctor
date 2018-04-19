@@ -75,6 +75,7 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
             public void onSuccess(BaseBean<PosApplyInfo> bean) {
                 LoadingViewDialog.getInstance().dismiss();
                 if(RequestUtils.SUCCESS.equals(bean.getRespCode())){
+                    LogUtils.e("pos已上传资料->"+bean.toString());
                     updateData(bean.getRespData());
                 }
 
@@ -88,6 +89,7 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
         });
     }
 
+    //更新数据，查看哪部分数据已上传
     private void updateData(PosApplyInfo info){
         if(!TextUtils.isEmpty(info.getReceive_name())&&!TextUtils.isEmpty(info.getReceive_phone())&&!TextUtils.isEmpty(info.getReceive_address())){
             mMenuItemViewPosMail.setRightIcon(R.mipmap.ic_icon_radio_select);
@@ -100,9 +102,15 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
                 &&!TextUtils.isEmpty(info.getDeposit_city())&&!TextUtils.isEmpty(info.getDeposit_bank())&&!TextUtils.isEmpty(info.getCouplet_num())){
             mMenuItemViewSettleInfo.setRightIcon(R.mipmap.ic_icon_radio_select);
         }
-
-
-
+        if(!TextUtils.isEmpty(info.getIdentity_front_img())&&!TextUtils.isEmpty(info.getIdentity_back_img())){
+            mMenuItemViewIdCard.setRightIcon(R.mipmap.ic_icon_radio_select);
+        }
+        if(!TextUtils.isEmpty(info.getHand_identity_front())){
+            mMenuItemViewHandIdCard.setRightIcon(R.mipmap.ic_icon_radio_select);
+        }
+        if(!TextUtils.isEmpty(info.getBank_card_front())&&!TextUtils.isEmpty(info.getBank_card_back())){
+            mMenuItemViewBankCard.setRightIcon(R.mipmap.ic_icon_radio_select);
+        }
 
     }
 
@@ -128,10 +136,19 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
                 startActivityForResult(new Intent(getActivity(),SettleInfoActivity.class),RESULT_CODE_UPDATE);
                 break;
             case R.id.simple_menu_id_card_photo:
+                Intent intentIdCard=new Intent(getActivity(),UpLoadImageActivity.class);
+                intentIdCard.putExtra("type",UpLoadImageActivity.TYPE_ID_CARD);
+                startActivityForResult(intentIdCard,RESULT_CODE_UPDATE);
                 break;
             case R.id.simple_menu_hand_id_card_photo:
+                Intent intentHandIdCard=new Intent(getActivity(),UpLoadImageActivity.class);
+                intentHandIdCard.putExtra("type",UpLoadImageActivity.TYPE_HAND_ID_CARD);
+                startActivityForResult(intentHandIdCard,RESULT_CODE_UPDATE);
                 break;
             case R.id.simple_menu_bank_card_photo:
+                Intent intentBankCard=new Intent(getActivity(),UpLoadImageActivity.class);
+                intentBankCard.putExtra("type",UpLoadImageActivity.TYPE_BANK_CARD);
+                startActivityForResult(intentBankCard,RESULT_CODE_UPDATE);
                 break;
         }
     }

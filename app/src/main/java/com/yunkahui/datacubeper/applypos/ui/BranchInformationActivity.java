@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -19,10 +20,13 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import java.util.ArrayList;
@@ -32,10 +36,11 @@ import java.util.Map;
 /**
  * 支行信息列表
  */
-public class BranchInformationActivity extends AppCompatActivity implements View.OnClickListener {
+public class BranchInformationActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private EditText mEditTextSearch;
+    private ImageView mImageViewNoData;
 
     private String mCardNum;
     private String mBankName;
@@ -48,9 +53,9 @@ public class BranchInformationActivity extends AppCompatActivity implements View
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_information);
-
+        super.onCreate(savedInstanceState);
+        setTitle("支行信息");
         mCardNum =getIntent().getStringExtra("card_number");
         mBankName=getIntent().getStringExtra("bank_name");
         mDepositProvince=getIntent().getStringExtra("deposit_province");
@@ -58,22 +63,13 @@ public class BranchInformationActivity extends AppCompatActivity implements View
 
         mRecyclerView=findViewById(R.id.recycler_view);
         mEditTextSearch=findViewById(R.id.edit_text_search);
+        mImageViewNoData=findViewById(R.id.iv_no_data);
 
         findViewById(R.id.button_search).setOnClickListener(this);
         mBranches=new ArrayList<>();
         mAllBranches=new ArrayList<>();
-        initActionBar();
         initRecyclerView();
         loadData("");
-    }
-
-    private void initActionBar(){
-        this.setTitle("支行信息");
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
 
@@ -128,16 +124,30 @@ public class BranchInformationActivity extends AppCompatActivity implements View
         }
         Map<String,String> params=innerParam.create();
         HttpManager.getInstance().create(ApiService.class).checkBranchBank(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(new SimpleCallBack<JsonObject>() {
+                .compose(HttpManager.<BaseBeanList<Branch>>applySchedulers()).subscribe(new SimpleCallBack<BaseBeanList<Branch>>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBeanList<Branch> branchBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支行信息->"+jsonObject.toString());
+
+                if(RequestUtils.SUCCESS.equals(branchBaseBeanList.getRespCode())){
+                    mBranches.clear();
+                    if(branchBaseBeanList.getRespData().size()>0){
+                        mBranches.addAll(branchBaseBeanList.getRespData());
+                    }
+                }
+                if(mBranches.size()>0){
+                    mImageViewNoData.setVisibility(View.GONE);
+                }else{
+                    mImageViewNoData.setVisibility(View.VISIBLE);
+                }
+
+
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
             }
         });
 
@@ -153,6 +163,21 @@ public class BranchInformationActivity extends AppCompatActivity implements View
                 loadData(mEditTextSearch.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 
 

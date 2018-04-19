@@ -4,7 +4,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -29,14 +28,14 @@ public class TradeDetailsFragment extends BaseFragment {
     private static final String TAG = "TradeDetailsFragment";
     private TradeRecordLogic mLogic;
     private RecyclerView mRecyclerView;
-    private List<MultiItemEntity> list;
+    private List<MultiItemEntity> mList;
     private String mPages;
     private ExpandableTradeRecordAdapter mAdapter;
 
     @Override
     public void initData() {
         mLogic = new TradeRecordLogic();
-        list = new ArrayList<>();
+        mList = new ArrayList<>();
         mLogic.getTradeDetail(mActivity, 20, 1, "wallet", new SimpleCallBack<JsonObject>() {
             @Override
             public void onSuccess(JsonObject jsonObject) {
@@ -45,7 +44,7 @@ public class TradeDetailsFragment extends BaseFragment {
                     JSONObject object = new JSONObject(jsonObject.toString());
                     JSONObject respData = object.getJSONObject("respData");
                     mPages = respData.getString("pages");
-                    JSONArray jsonArray = respData.getJSONArray("list");
+                    JSONArray jsonArray = respData.getJSONArray("mList");
                     TradeRecordDetail item;
                     TradeRecordSummary summary = new TradeRecordSummary();
                     TradeRecordDetail lastItem = null;
@@ -58,11 +57,11 @@ public class TradeDetailsFragment extends BaseFragment {
                         if (lastItem != null) {
                             if (item.getTime().startsWith("0") && lastItem.getTime().startsWith("0") &&
                                     Integer.parseInt(lastItem.getTime().substring(1, 2)) < Integer.parseInt(item.getTime().substring(1, 2))) {
-                                list.add(summary);
+                                mList.add(summary);
                                 summary = new TradeRecordSummary();
                                 summary.getList().add(item);
                             } else if (!item.getTime().startsWith("0") && lastItem.getTime().startsWith("0")) {
-                                list.add(summary);
+                                mList.add(summary);
                                 summary = new TradeRecordSummary();
                                 summary.getList().add(item);
                             } else {
@@ -72,11 +71,12 @@ public class TradeDetailsFragment extends BaseFragment {
                             summary.getList().add(item);
                         }
                         if (i == jsonArray.length() - 1) {
-                            list.add(summary);
+                            mList.add(summary);
                         } else {
                             lastItem = item;
                         }
                     }
+                    Log.e(TAG, "onSuccess size: " + mList.size());
                     if (mAdapter != null) {
                         mAdapter.notifyDataSetChanged();
                     }
@@ -90,7 +90,7 @@ public class TradeDetailsFragment extends BaseFragment {
                 Log.e(TAG, "onFailure: " + throwable.getMessage());
             }
         });
-        mAdapter = new ExpandableTradeRecordAdapter(list);
+        mAdapter = new ExpandableTradeRecordAdapter(mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
         mAdapter.setEnableLoadMore(true);

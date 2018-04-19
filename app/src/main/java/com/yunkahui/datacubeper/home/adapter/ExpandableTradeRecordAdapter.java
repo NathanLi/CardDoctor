@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.home.adapter;
 
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -15,6 +16,7 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
+    private int i;
 
     public ExpandableTradeRecordAdapter(List<MultiItemEntity> data) {
         super(data);
@@ -27,13 +29,18 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
                 final TradeRecordSummary lv0 = (TradeRecordSummary) item;
+                helper.setText(R.id.tv_time, lv0.getTime());
+                helper.setText(R.id.tv_mess, lv0.getMessage());
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = helper.getAdapterPosition();
+                        Log.e("test", "onClick: "+position);
                         if (lv0.isExpanded()) {
+                            Log.e(TAG, "onClick: collapse");
                             collapse(position);
                         } else {
+                            Log.e(TAG, "onClick: expand");
                             expand(position);
                         }
                     }

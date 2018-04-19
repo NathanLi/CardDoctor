@@ -7,6 +7,7 @@ import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
+import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
 import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
@@ -183,6 +184,29 @@ public interface ApiService {
     Observable<JsonObject> updatePlanningInfo(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/pos/check_apply_status")        //查询POS开通状态
+    Observable<JsonObject> checkPosApplyStatus(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/check_apply_info")      //查询POS申请用户已上传的资料
+    Observable<BaseBean<PosApplyInfo>> checkPosApplyUploadData(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/apply_info_receive")    //上传POS申请邮寄信息
+    Observable<JsonObject> upLoadMailInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/apply_info_terminal")   //上传终端信息
+    Observable<JsonObject> upLoadTerminalInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/apply_info_deposit")    //上传结算信息
+    Observable<JsonObject> upLoadSettleInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/query_cnaps")       //查询支行
+    Observable<JsonObject> checkBranchBank(@FieldMap Map<String,String> params);
+
     @POST("/app/pos/planning/get_zhongfu_mcc_list")       //获取MCC列表
     Observable<JsonObject> loadMccList(@FieldMap Map<String,String> params);
 

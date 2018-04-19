@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color_efefef"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.SettleInfoActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请如实填写终端信息"
+                android:textSize="12pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="30pt" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10pt"
+                app:item_edit_title="申请人:"
+                app:item_edit_hint="请输入申请人名称"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="身份证号:"
+                app:item_edit_hint="请输入申请人身份证号"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_input_type="number"
+                app:item_edit_title="联系方式:"
+                app:item_edit_hint="请输入申请人手机号"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:gravity="center_vertical"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="100pt"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="选择地区"
+                    android:ellipsize="end"
+                    android:textSize="15pt"/>
+
+                <TextView
+                    android:id="@+id/text_view_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:hint="商户所在地区"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_color_gray_949494"
+                    android:background="@null"
+                    android:textSize="15pt"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="商户详情地址:"
+                app:item_edit_hint="街道门牌信息"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:textSize="14pt"
+                android:gravity="center"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:layout_margin="30pt"/>
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:layout_marginTop="20pt"
+                android:layout_marginLeft="35pt"
+                android:layout_marginRight="35pt"
+                android:layout_marginBottom="20pt"
+                android:background="@drawable/bg_button_blue_selector"
+                android:textColor="@color/white"
+                android:text="提交"/>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

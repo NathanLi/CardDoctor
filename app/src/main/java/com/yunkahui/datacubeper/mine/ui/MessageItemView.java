@@ -42,7 +42,7 @@ public class MessageItemView extends LinearLayout {
     }
 
     public void setData(Message message){
-        mTextViewTime.setText(SimpleDateFormatUtils.formatYMDHS(Long.parseLong(message.getCreate_time())));
+        mTextViewTime.setText(SimpleDateFormatUtils.formatYMDHS(message.getCreate_time()));
         mTextViewTitle.setText(message.getTitle());
         mTextViewMessage.setText(message.getContent_text());
         if(message.isSee()){

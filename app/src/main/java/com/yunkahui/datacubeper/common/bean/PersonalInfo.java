@@ -19,6 +19,8 @@ public class PersonalInfo {
     private String identify_status;
     private String VIP_status;
 
+    private String truename;
+
     public String getUser_unique_code() {
         return user_unique_code == null ? "" : user_unique_code;
     }
@@ -113,6 +115,14 @@ public class PersonalInfo {
 
     public void setVIP_status(String VIP_status) {
         this.VIP_status = VIP_status;
+    }
+
+    public String getTruename() {
+        return truename == null ? "" : truename;
+    }
+
+    public void setTruename(String truename) {
+        this.truename = truename;
     }
 
     @Override

@@ -24,7 +24,8 @@ public class RechargeAdapter extends BaseQuickAdapter<CardSelectorBean, BaseView
     @Override
     protected void convert(BaseViewHolder helper, CardSelectorBean item) {
         CardSelector selector = helper.getView(R.id.card_selector);
-        selector.setText(item.getBankCardName()+item.getBankCardNum());
+        String time = String.format(mContext.getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length()));
+        selector.setText(item.getBankCardName()+time);
         selector.setChecked(item.isChecked());
     }
 

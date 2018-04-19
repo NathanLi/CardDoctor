@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="16pt"
+        android:layout_marginTop="8pt"
+        android:text="@string/select_card"
+        android:layout_width="match_parent"
+        android:layout_height="24pt" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/tv"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

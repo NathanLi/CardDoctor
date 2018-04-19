@@ -38,6 +38,7 @@
             android:layout_width="24pt"
             android:layout_height="24pt" />
         <TextView
+            android:id="@+id/tv_card_selected"
             android:layout_marginLeft="12pt"
             android:textSize="17pt"
             android:textColor="@color/black"

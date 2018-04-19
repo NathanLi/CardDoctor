@@ -33,20 +33,18 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
 
     private static final String TAG = "RechargeActivity";
     private RechargeLogic mLogic;
+    private ArrayList<CardSelectorBean> mList;
     private TextView mTvUserBalance;
-    private List<CardSelectorBean> mList;
     private LinearLayout mLlShowDialog;
-    private RechargeAdapter mAdapter;
+    private TextView mTvCardSelected;
 
     @Override
     public void initData() {
+        mLogic = new RechargeLogic();
+        mList = new ArrayList<>();
         if (getIntent().getStringExtra("money") != null) {
             mTvUserBalance.setText(getIntent().getStringExtra("money"));
         }
-
-        mLogic = new RechargeLogic();
-        mList = new ArrayList<>();
-
         LoadingViewDialog.getInstance().show(this);
         mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
@@ -57,7 +55,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
                 for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
                     bean = new CardSelectorBean();
                     bean.setBankCardName(item.getBankCardName());
-                    bean.setBankCardNum(String.format(getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length())));
+                    bean.setBankCardNum(item.getBankCardNum());
                     bean.setChecked(false);
                     mList.add(bean);
                 }
@@ -77,6 +75,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
     public void initView() {
         mTvUserBalance = findViewById(R.id.tv_user_balance);
         mLlShowDialog = findViewById(R.id.ll_show_dialog);
+        mTvCardSelected = findViewById(R.id.tv_card_selected);
         mLlShowDialog.setOnClickListener(this);
     }
 
@@ -102,31 +101,16 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
     }
 
     private void showSelectCardDialog() {
-        if (mList != null && mList.size() == 0)
-            Toast.makeText(this, "获取银行卡失败", Toast.LENGTH_SHORT).show();
-        RecyclerView recyclerView = new RecyclerView(this);
-        mAdapter = new RechargeAdapter(this, R.layout.layout_list_item_card_select, mList);
-        mAdapter.bindToRecyclerView(recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter);
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("选择银行卡片")
-                .setView(recyclerView)
-                .show();
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        CardSelectorDialogFragment dialog = new CardSelectorDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("list", mList);
+        dialog.setArguments(bundle);
+        dialog.setOnCheckedChangeListener(new CardSelectorDialogFragment.OnCheckedChangeListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                allUnChecked();
-                mList.get(position).setChecked(true);
-                dialog.dismiss();
-                mAdapter.notifyDataSetChanged();
+            public void onCheckedChange(String bankName, String num) {
+                mTvCardSelected.setText(bankName+String.format(getResources().getString(R.string.bank_card_tail_num), num.substring(num.length() - 4, num.length())));
             }
         });
-    }
-
-    private void allUnChecked() {
-        for (CardSelectorBean bean : mList) {
-            bean.setChecked(false);
-        }
+        dialog.show(getSupportFragmentManager(), "DialogFragment");
     }
 }

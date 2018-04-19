@@ -77,5 +77,6 @@
     <string name="bank_card_tail_num">[%s]</string>
     <string name="bill_sync">账单同步</string>
     <string name="smart_plan">智能规划</string>
+    <string name="select_card">选择银行卡片</string>
 
 </resources>

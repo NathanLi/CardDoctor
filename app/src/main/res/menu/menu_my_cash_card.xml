@@ -4,7 +4,7 @@
     <group>
 
         <item android:id="@+id/menu_add"
-            android:title="添加"
+            android:text="添加"
             android:icon="@mipmap/ic_icon_add"
             app:showAsAction="always" />
 

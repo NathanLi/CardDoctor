@@ -40,7 +40,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
         if ("还款".equals(type)) {
             fragment = new RepayAdjustFragment();
         } else if ("消费".equals(type)) {
-//            fragment = new ExpenseAdjustFragment();
+            fragment = new ExpenseAdjustFragment();
         }
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
         if(fragment!=null){

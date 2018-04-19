@@ -23,24 +23,26 @@ public class WithdrawRecordAdapter extends BaseQuickAdapter<WithdrawRecord.Withd
         helper.setText(R.id.tv_money, String.valueOf(item.getWithdraw_amount()));
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getCreate_time()));
         String status;
+        int color;
         switch (item.getOrder_state()) {
             case "0":
                 status = "提现初始化";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#0085FF"));
+                color = Color.parseColor("#0085FF");
                 break;
             case "1":
                 status = "提现成功";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#8E8E93"));
+                color = Color.parseColor("#8E8E93");
                 break;
             case "2":
                 status = "提现失败";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#FF3B30"));
+                color = Color.parseColor("#FF3B30");
                 break;
             default:
                 status = "提现处理中";
-                helper.setTextColor(R.id.tv_status, Color.parseColor("#8E8E93"));
+                color = Color.parseColor("#8E8E93");
                 break;
         }
+        helper.setTextColor(R.id.tv_status, color);
         helper.setText(R.id.tv_status, status);
     }
 

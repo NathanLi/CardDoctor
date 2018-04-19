@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -16,13 +15,13 @@ import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 
 import java.util.List;
 
-public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+public class ExpandableProfitIncomeAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
     private Context mContext;
 
-    public ExpandableTradeRecordAdapter(Context context, List<MultiItemEntity> data) {
+    public ExpandableProfitIncomeAdapter(Context context, List<MultiItemEntity> data) {
         super(data);
         mContext = context;
         addItemType(TYPE_LEVEL_0, R.layout.layout_list_header_trade_record_summary);

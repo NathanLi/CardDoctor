@@ -11,12 +11,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.home.ui.RechargeActivity;
 import com.yunkahui.datacubeper.home.ui.TradeRecordActivity;
+import com.yunkahui.datacubeper.home.ui.WithdrawActivity;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
 import java.util.ArrayList;
@@ -29,10 +33,13 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
 
     private String mFrom;
     private RecyclerView mRecyclerView;
+    private boolean isQualified;
 
     @Override
     public void initData() {
         mFrom = getIntent().getStringExtra("from");
+        isQualified = "1".equals(DataUtils.getInfo().getIdentify_status().equals(DataUtils.getInfo().getVIP_status()));
+        final String money = getIntent().getStringExtra("money");
         int[] imgs = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] strs = {"充值", "提现"};
         List<HomeItem> walletItems = new ArrayList<>();
@@ -43,12 +50,29 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
         WalletAdapter walletAdapter = new WalletAdapter(R.layout.layout_list_item_wallet, walletItems);
         walletAdapter.bindToRecyclerView(mRecyclerView);
         View header = LayoutInflater.from(this).inflate(R.layout.layout_list_header_wallet, null);
-        TextView tvAccountBalance = header.findViewById(R.id.tv_account_balance);
+        TextView tvUserBalance = header.findViewById(R.id.tv_user_balance);
+        if (money != null) {
+            tvUserBalance.setText(money);
+        }
         walletAdapter.addHeaderView(header);
         walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(WalletActivity.this, RechargeWithdrawalsActivity.class));
+                if (position == 0) {
+                    startActivity(new Intent(WalletActivity.this, RechargeActivity.class).putExtra("money", money));
+//                    if (isQualified) {
+//                        startActivity(new Intent(WalletActivity.this, RechargeActivity.class).putExtra("money", money));
+//                    } else {
+//                        Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
+//                    }
+                } else if (position == 1) {
+                    startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("money", money));
+//                    if (isQualified) {
+//                        startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("money", money));
+//                    } else {
+//                        Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
+//                    }
+                }
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

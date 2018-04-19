@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.home.adapter.RechargeRecordAdapter;
 import com.yunkahui.datacubeper.home.adapter.WithdrawRecordAdapter;
 import com.yunkahui.datacubeper.home.logic.TradeRecordLogic;
@@ -73,7 +75,7 @@ public class TradeRecordFragment extends BaseFragment {
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.e(TAG, "getRechargeRecord onFailure: "+throwable.getMessage());
+                    Log.e(TAG, "getRechargeRecord onFailure: " + throwable.getMessage());
                 }
             });
         } else {
@@ -107,7 +109,26 @@ public class TradeRecordFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                String action = null, time = null, money = null, status = null;
+                if (0 == getArguments().getInt("kind")) {
+                    RechargeRecord.RechargeDetail detail = mRechargeDetails.get(position);
+                    action = "账户充值";
+                    time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
+                    money = String.valueOf(detail.getAmount());
+                    status = getRechargeStatus(detail.getOrder_state());
+                } else {
+                    WithdrawRecord.WithdrawDetail detail = mWithdrawDetails.get(position);
+                    action = "账户提现";
+                    time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
+                    money = String.valueOf(detail.getWithdraw_amount());
+                    status = getWithdrawStatus(detail.getOrder_state());
+                }
+                Intent intent = new Intent(mActivity, SingleRecordActivity.class)
+                        .putExtra("time", time)
+                        .putExtra("money", money)
+                        .putExtra("status", status)
+                        .putExtra("action", action);
+                startActivity(intent);
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -128,6 +149,44 @@ public class TradeRecordFragment extends BaseFragment {
         mAdapter.setEnableLoadMore(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public String getWithdrawStatus(String state) {
+        String status;
+        switch (state) {
+            case "0":
+                status = "提现初始化";
+                break;
+            case "1":
+                status = "提现成功";
+                break;
+            case "2":
+                status = "提现失败";
+                break;
+            default:
+                status = "提现处理中";
+                break;
+        }
+        return status;
+    }
+
+    public String getRechargeStatus(String state) {
+        String status;
+        switch (state) {
+            case "0":
+                status = "充值初始化";
+                break;
+            case "1":
+                status = "充值成功";
+                break;
+            case "2":
+                status = "充值失败";
+                break;
+            default:
+                status = "充值处理中";
+                break;
+        }
+        return status;
     }
 
     @Override

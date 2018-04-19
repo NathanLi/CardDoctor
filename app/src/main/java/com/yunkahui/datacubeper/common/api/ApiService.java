@@ -216,6 +216,10 @@ public interface ApiService {
     Observable<BaseBean<RechargeRecord>> loadRechargeRecord(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/userUpgradec/getPdrwList")       //获取分润提现
+    Observable<JsonObject> loadProfitWithdraw(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/userUpgradec/getPdrwList")       //获取提现记录
     Observable<BaseBean<WithdrawRecord>> loadWithdrawRecord(@FieldMap Map<String,String> params);
 
@@ -231,4 +235,7 @@ public interface ApiService {
     @POST("/app/pos/commit_img_url")    //提交保存图片
     Observable<JsonObject> commitSaveImage(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user/get_user_finance")       //获取交易明细
+    Observable<JsonObject> loadUserFinance(@FieldMap Map<String,String> params);
 }

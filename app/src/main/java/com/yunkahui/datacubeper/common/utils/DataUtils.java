@@ -1,7 +1,5 @@
 package com.yunkahui.datacubeper.common.utils;
 
-import android.util.Log;
-
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 
@@ -50,15 +48,15 @@ public class DataUtils {
             };
 
             int[] bankPics = new int[] {
-                    R.mipmap.bank_baoshang, R.mipmap.bank_beijingnongshang, R.mipmap.bank_beijing, R.mipmap.bank_chengdunongshang, R.mipmap.bank_fujian,
-                    R.mipmap.bank_guangdongfazhan, R.mipmap.bank_guangzhounongshang, R.mipmap.bank_guangzhou, R.mipmap.bank_hankou, R.mipmap.bank_hangzhou,
-                    R.mipmap.bank_hebei, R.mipmap.bank_huaxia, R.mipmap.bank_huishang, R.mipmap.bank_jiangsu, R.mipmap.bank_jingzhou,
+                    R.mipmap.ic_bank_baoshang, R.mipmap.bank_beijingnongshang, R.mipmap.ic_bank_beijing, R.mipmap.bank_chengdunongshang, R.mipmap.bank_fujian,
+                    R.mipmap.bank_guangdongfazhan, R.mipmap.ic_bank_guangzhounongshang, R.mipmap.bank_guangzhou, R.mipmap.bank_hankou, R.mipmap.bank_hangzhou,
+                    R.mipmap.ic_bank_hebei, R.mipmap.bank_huaxia, R.mipmap.bank_huishang, R.mipmap.bank_jiangsu, R.mipmap.bank_jingzhou,
                     R.mipmap.bank_lanzhou, R.mipmap.bank_longjiang, R.mipmap.bank_ningbo, R.mipmap.bank_ningxia, R.mipmap.bank_pingan,
                     R.mipmap.bank_qinghai, R.mipmap.bank_shanghainongshang, R.mipmap.bank_shanghaipufa, R.mipmap.bank_shanghai, R.mipmap.bank_taizhou,
-                    R.mipmap.bank_wenzhou, R.mipmap.bank_xingye, R.mipmap.bank_other, R.mipmap.bank_yinzhou, R.mipmap.bank_changsha,
+                    R.mipmap.bank_wenzhou, R.mipmap.bank_xingye, R.mipmap.bank_other, R.mipmap.bank_yinzhou, R.mipmap.ic_bank_changsha,
                     R.mipmap.bank_zhaoshang, R.mipmap.bank_zhongguogongshang, R.mipmap.bank_zhongguoguangda, R.mipmap.bank_zhongguojianshe, R.mipmap.bank_zhongguojiaoton,
                     R.mipmap.bank_zhongguomingsheng, R.mipmap.bank_zhongguonongye, R.mipmap.bank_zhongguo, R.mipmap.bank_zhongguoyouzheng, R.mipmap.bank_zhongxin,
-                    R.mipmap.bank_chonqing, R.mipmap.bank_zhongguoguangda, R.mipmap.bank_zhongguomingsheng, R.mipmap.bank_guangdongfazhan, R.mipmap.bank_chonqing,
+                    R.mipmap.ic_bank_chonqing, R.mipmap.bank_zhongguoguangda, R.mipmap.bank_zhongguomingsheng, R.mipmap.bank_guangdongfazhan, R.mipmap.ic_bank_chonqing,
                     R.mipmap.bank_zhongguoyouzheng,R.mipmap.bank_zhongguoyouzheng,R.mipmap.bank_zhongguoyouzheng, R.mipmap.bank_zhongguogongshang,
                     R.mipmap.bank_shenzhenfazhan, R.mipmap.bank_shenzhenfazhan, R.mipmap.bank_zhongguonongye,
                     R.mipmap.bank_zhongguo, R.mipmap.bank_zhaoshang, R.mipmap.bank_zhongguoguangda, R.mipmap.bank_zhongguojianshe, R.mipmap.bank_zhongguomingsheng,

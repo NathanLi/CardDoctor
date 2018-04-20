@@ -38,18 +38,15 @@ public class CardSelector extends LinearLayout {
         rbCard = findViewById(R.id.rb_bank);
     }
 
-    public CardSelector setText(String text) {
+    public void setText(String text) {
         rbCard.setText(text);
-        return this;
     }
 
-    public CardSelector isChecked() {
-        rbCard.isChecked();
-        return this;
+    public boolean isChecked() {
+        return rbCard.isChecked();
     }
 
-    public CardSelector setChecked(boolean checked) {
+    public void setChecked(boolean checked) {
         rbCard.setChecked(checked);
-        return this;
     }
 }

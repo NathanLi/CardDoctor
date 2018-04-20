@@ -12,6 +12,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
+import com.yunkahui.datacubeper.home.ui.QrShareActivity;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
 import org.json.JSONException;
@@ -128,7 +129,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.yunkahui.cn/zbl_web/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim()));
                 break;
             case R.id.tv_qr_share:
-                startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://www.baidu.com"));
+                startActivity(new Intent(mActivity, QrShareActivity.class).putExtra("code", mTvMyCode.getText().toString()));
                 break;
             case R.id.tv_vip_course:
                 startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));

@@ -59,7 +59,7 @@ public class ExpandableProfitIncomeAdapter extends BaseMultiItemQuickAdapter<Mul
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
                 }
-                helper.getView(R.id.show_img).setBackground(createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
     }

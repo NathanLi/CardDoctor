@@ -8,11 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -22,6 +25,9 @@ import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.adapter.RechargeAdapter;
 import com.yunkahui.datacubeper.home.logic.RechargeLogic;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +39,20 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
 
     private static final String TAG = "RechargeActivity";
     private RechargeLogic mLogic;
+    private ArrayList<CardSelectorBean> mList;
     private TextView mTvUserBalance;
-    private List<CardSelectorBean> mList;
     private LinearLayout mLlShowDialog;
-    private RechargeAdapter mAdapter;
+    private TextView mTvCardSelected;
+    private EditText mEtInputMoney;
+    private String mCurrentCardNum;
 
     @Override
     public void initData() {
+        mLogic = new RechargeLogic();
+        mList = new ArrayList<>();
         if (getIntent().getStringExtra("money") != null) {
             mTvUserBalance.setText(getIntent().getStringExtra("money"));
         }
-
-        mLogic = new RechargeLogic();
-        mList = new ArrayList<>();
-
         LoadingViewDialog.getInstance().show(this);
         mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
@@ -57,7 +63,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
                 for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
                     bean = new CardSelectorBean();
                     bean.setBankCardName(item.getBankCardName());
-                    bean.setBankCardNum(String.format(getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length())));
+                    bean.setBankCardNum(item.getBankCardNum());
                     bean.setChecked(false);
                     mList.add(bean);
                 }
@@ -77,6 +83,9 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
     public void initView() {
         mTvUserBalance = findViewById(R.id.tv_user_balance);
         mLlShowDialog = findViewById(R.id.ll_show_dialog);
+        mTvCardSelected = findViewById(R.id.tv_card_selected);
+        mEtInputMoney = findViewById(R.id.et_input_money);
+        findViewById(R.id.btn_commit).setOnClickListener(this);
         mLlShowDialog.setOnClickListener(this);
     }
 
@@ -98,35 +107,41 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
             case R.id.ll_show_dialog:
                 showSelectCardDialog();
                 break;
+            case R.id.btn_commit:
+                if (mCurrentCardNum == null)
+                    return;
+                mLogic.rechargeMoney(this, mCurrentCardNum, mEtInputMoney.getText().toString(), new SimpleCallBack<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        try {
+                            JSONObject object = new JSONObject(jsonObject.toString());
+                            Log.e(TAG, "onSuccess: "+object.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e(TAG, "onFailure: "+throwable.getMessage());
+                    }
+                });
+                break;
         }
     }
 
     private void showSelectCardDialog() {
-        if (mList != null && mList.size() == 0)
-            Toast.makeText(this, "获取银行卡失败", Toast.LENGTH_SHORT).show();
-        RecyclerView recyclerView = new RecyclerView(this);
-        mAdapter = new RechargeAdapter(this, R.layout.layout_list_item_card_select, mList);
-        mAdapter.bindToRecyclerView(recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter);
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("选择银行卡片")
-                .setView(recyclerView)
-                .show();
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        CardSelectorDialogFragment dialog = new CardSelectorDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("list", mList);
+        dialog.setArguments(bundle);
+        dialog.setOnCheckedChangeListener(new CardSelectorDialogFragment.OnCheckedChangeListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                allUnChecked();
-                mList.get(position).setChecked(true);
-                dialog.dismiss();
-                mAdapter.notifyDataSetChanged();
+            public void onCheckedChange(String bankName, String num) {
+                mCurrentCardNum = num;
+                mTvCardSelected.setText(bankName+String.format(getResources().getString(R.string.bank_card_tail_num), num.substring(num.length() - 4, num.length())));
             }
         });
-    }
-
-    private void allUnChecked() {
-        for (CardSelectorBean bean : mList) {
-            bean.setChecked(false);
-        }
+        dialog.show(getSupportFragmentManager(), "DialogFragment");
     }
 }

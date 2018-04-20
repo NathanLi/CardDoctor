@@ -72,10 +72,24 @@
     <string name="pay_back_format">支出：-%s 收入：%s</string>
     <string name="trade_time_format">交易时间：%s</string>
     <string name="trade_status_format">交易状态：%s</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="withdraw_success">提现成功</string>
 
     <!-- 账单页面 -->
     <string name="bank_card_tail_num">[%s]</string>
     <string name="bill_sync">账单同步</string>
     <string name="smart_plan">智能规划</string>
+    <string name="select_card">选择银行卡片</string>
+    <string name="bind_card">绑定信用卡</string>
+    <string name="select_mode_of_plan">请选择规划方式：</string>
+    <string name="select_date">选择还款日期</string>
+    <string name="repay_date">还款日期</string>
+    <string name="repay_amount">还款总金额</string>
+    <string name="input_repay_amount">请填写还款金额(整百)</string>
+    <string name="repay_times">还款笔数</string>
+    <string name="input_repay_times">请填写还款笔数</string>
+    <string name="pos_repay_tips">每笔还款将产生2-3笔消费，建议还款笔数设置在10笔左右</string>
+    <string name="auto_repay_tips">每笔还款将产生1-2笔消费，建议还款笔数设置在10笔左右，避免造成过度消费</string>
+    <string name="to_plan">进行规划</string>
 
 </resources>

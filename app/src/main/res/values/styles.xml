@@ -11,6 +11,11 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <style name="TransToolBarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="actionMenuTextColor">#ffffff</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
 
     <style name="tool_bar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlNormal">@android:color/white</item>

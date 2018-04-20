@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -60,7 +59,7 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
                 }
-                helper.getView(R.id.show_img).setBackground(createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
     }

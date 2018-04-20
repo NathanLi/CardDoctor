@@ -64,7 +64,13 @@
         <activity android:name=".applypos.ui.UpLoadImageActivity" />
         <activity android:name=".home.ui.SingleRecordActivity" />
         <activity android:name=".home.ui.HomeProfitActivity" />
-        <activity android:name=".applypos.ui.PosManageActivity"></activity>
+        <activity android:name=".applypos.ui.PosManageActivity"/>
+        <activity android:name=".home.ui.RechargeSuccessActivity" />
+        <activity android:name=".home.ui.WithdrawSuccessActivity" />
+        <activity android:name=".home.ui.QrShareActivity" />
+        <activity android:name=".bill.ui.SelectPlanActivity" />
+        <activity android:name=".bill.ui.PosPlanActivity" />
+        <activity android:name=".bill.ui.AutoPlanActivity" />
     </application>
 
 </manifest>

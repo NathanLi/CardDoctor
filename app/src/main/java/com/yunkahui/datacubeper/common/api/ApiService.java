@@ -251,4 +251,10 @@ public interface ApiService {
     @POST("/app/pos/pos_info")      //POS管理获取用户POS信息
     Observable<JsonObject> loadPosManageData(@FieldMap Map<String,String> params);
 
+    @POST("/app/user/hlb_recharge")       //充值
+    Observable<JsonObject> rechargeMoney(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/withdraw")       //提现
+    Observable<JsonObject> withdrawMoney(@FieldMap Map<String,String> params);
 }

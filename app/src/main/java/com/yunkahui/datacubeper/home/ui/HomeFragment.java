@@ -100,8 +100,8 @@ public class HomeFragment extends BaseFragment {
                 try {
                     JSONObject object = new JSONObject(jsonObject.toString());
                     JSONObject respData = object.optJSONObject("respData");
-                    mUserBalance = String.valueOf(respData.optDouble("user_balance"));
-                    mUserFenruns = String.valueOf(respData.optDouble("user_fenruns"));
+                    mUserBalance = respData.optString("user_balance");
+                    mUserFenruns = respData.optString("user_fenruns");
                     mDoubleBlockView.setLeftNum(mUserBalance)
                             .setRightNum(mUserFenruns);
                 } catch (JSONException e) {

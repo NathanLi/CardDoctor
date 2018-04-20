@@ -30,12 +30,13 @@ import java.util.List;
  * Created by pc1994 on 2018/3/22.
  */
 
-public class BillFragment extends BaseFragment {
+public class BillFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "BillFragment";
     private BillLogic mLogic;
     private RecyclerView mRecyclerView;
     private List<BillCreditCard.CreditCard> list = new ArrayList<>();
+    private View mLlPromptAddCard;
 
     public static Fragment getInstance(String data){
         BillFragment f = new BillFragment();
@@ -74,35 +75,26 @@ public class BillFragment extends BaseFragment {
             }
         });
         adapter.addHeaderView(headerView);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                ((BillCardView) view).setOnClickBillCardListener(new BillCardView.OnClickBillCardListener() {
-                    @Override
-                    public void onClickBillSync() {
-
-                    }
-
-                    @Override
-                    public void onClickSmartPlan() {
-
-                    }
-                });
-            }
-        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(adapter);
         mLogic.queryCreditCardList(mActivity, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
+                List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
                 list.clear();
-                list.addAll(baseBean.getRespData().getCardDetail());
+                if (details.size() > 0) {
+                    list.addAll(details);
+                } else {
+                    list.add(null);
+                    mLlPromptAddCard.setVisibility(View.VISIBLE);
+                }
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Log.e(TAG, "onFailure: "+throwable.getMessage());
+                mLlPromptAddCard.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -119,6 +111,8 @@ public class BillFragment extends BaseFragment {
                 });
         toolbar.setTitleName(getString(R.string.tab_item_bill));
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mLlPromptAddCard = view.findViewById(R.id.ll_prompt_add_card);
+        view.findViewById(R.id.tv_bind_card).setOnClickListener(this);
     }
 
     @Override
@@ -126,4 +120,12 @@ public class BillFragment extends BaseFragment {
         return R.layout.fragment_bill;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_bind_card:
+                startActivity(new Intent(mActivity, AddCardActivity.class));
+                break;
+        }
+    }
 }

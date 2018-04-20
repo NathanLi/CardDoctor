@@ -238,4 +238,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/get_user_finance")       //获取交易明细
     Observable<JsonObject> loadUserFinance(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/hlb_recharge")       //充值
+    Observable<JsonObject> rechargeMoney(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/withdraw")       //提现
+    Observable<JsonObject> withdrawMoney(@FieldMap Map<String,String> params);
 }

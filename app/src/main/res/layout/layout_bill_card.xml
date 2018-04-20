@@ -21,6 +21,7 @@
 
             <ImageView
                 android:id="@+id/iv_bank_icon"
+                android:background="@mipmap/bank_zhongguonongye"
                 android:layout_width="40pt"
                 android:layout_height="40pt"
                 android:contentDescription="@string/default_content_description"
@@ -31,6 +32,7 @@
 
             <TextView
                 android:id="@+id/tv_bank_name"
+                android:text="农业银行"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -43,6 +45,7 @@
 
             <TextView
                 android:id="@+id/tv_bank_card_id"
+                android:text="[8888]"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -52,6 +55,15 @@
                 android:layout_toEndOf="@+id/tv_bank_name"
                 android:textColor="@color/text_color_gray_666666"
                 android:textSize="18pt" />
+
+            <ImageView
+                android:id="@+id/iv_sample"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/tv_bank_card_id"
+                android:layout_marginLeft="-24pt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_sample_red"/>
 
             <Button
                 android:id="@+id/btn_bill_sync"
@@ -84,6 +96,7 @@
                 android:paddingTop="14pt">
 
                 <TextView
+                    android:text="3000"
                     android:id="@+id/tv_should_repay_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,6 +104,7 @@
                     android:textSize="22pt" />
 
                 <TextView
+                    android:text="应还金额"
                     android:id="@+id/tv_should_repay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -110,6 +124,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:text="12"
                         android:id="@+id/tv_leave_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,6 +132,7 @@
                         android:textSize="22pt" />
 
                     <TextView
+                        android:text="天到期"
                         android:id="@+id/tv_limit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,6 +142,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:text="11-28"
                     android:id="@+id/tv_repay_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -156,7 +173,6 @@
                 android:layout_gravity="bottom"
                 android:src="@mipmap/ic_arrow_extend" />
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/layout_extend"
             android:layout_width="match_parent"

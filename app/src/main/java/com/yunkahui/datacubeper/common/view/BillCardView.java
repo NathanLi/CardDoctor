@@ -14,6 +14,7 @@ import com.yunkahui.datacubeper.R;
 
 public class BillCardView extends LinearLayout implements View.OnClickListener {
 
+    private ImageView mIvSample;
     private TextView mTvShouldRepay;
     private ImageView mIvCardIcon;
     private TextView mTvLimit;
@@ -60,6 +61,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         mLayoutExtend = view.findViewById(R.id.layout_extend);
         mTvLimit = view.findViewById(R.id.tv_limit);
         mTvShouldRepay = view.findViewById(R.id.tv_should_repay);
+        mIvSample = view.findViewById(R.id.iv_sample);
 
         btnBillSync.setOnClickListener(this);
         tvSmartPlan.setOnClickListener(this);
@@ -85,6 +87,14 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
                 mIvArrowExtend.setVisibility(VISIBLE);
                 break;
         }
+    }
+
+    public boolean isSampleVisible() {
+        return mIvSample.getVisibility() == VISIBLE;
+    }
+
+    public void setSampleVisibility(int visibility) {
+        mIvSample.setVisibility(visibility);
     }
 
     public void setShouldRepay(String s) {
@@ -159,6 +169,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
 
     public interface OnClickBillCardListener {
         void onClickBillSync();
+
         void onClickSmartPlan();
     }
 }

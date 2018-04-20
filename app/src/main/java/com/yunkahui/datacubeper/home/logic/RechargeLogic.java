@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.home.logic;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
@@ -17,5 +18,14 @@ public class RechargeLogic {
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).queryCreditCardList(params)
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
+    }
+
+    public void rechargeMoney(Context context, String bankCardId, String rechargeMoney, SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context)
+                .addParams("bankcard_id", bankCardId)
+                .addParams("recharge_amount", rechargeMoney)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).rechargeMoney(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
     }
 }

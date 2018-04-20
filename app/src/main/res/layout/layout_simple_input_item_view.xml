@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="100pt"
+        android:layout_width="110pt"
         android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:lines="1"

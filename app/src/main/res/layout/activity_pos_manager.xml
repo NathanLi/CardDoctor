@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.PosManageActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color_efefef">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="商户终端信息"
+                android:textSize="12pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginBottom="10pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_business_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="商户号:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_terminal_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="终端号:"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="POS终端信息"
+                android:textSize="12pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginBottom="10pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_apply_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="申请人姓名:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_id_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="证件类型:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_id_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="证件号码:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_apply_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_right_icon="@mipmap/ic_next_gray"
+                app:item_edit_focusable="false"
+                app:item_edit_title="手机号码:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_apply_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="所在地区:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_apply_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="商户地址:"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="POS结算信息"
+                android:textSize="12pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="10pt"
+                android:layout_marginBottom="10pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_account_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="账户名称:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_bank_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_right_icon="@mipmap/ic_next_gray"
+                app:item_edit_focusable="false"
+                app:item_edit_title="银行卡号:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_bank_card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="发卡行:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="开户行所在地:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="开户支行:"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="联行号:"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

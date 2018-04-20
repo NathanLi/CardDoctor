@@ -238,4 +238,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/get_user_finance")       //获取交易明细
     Observable<JsonObject> loadUserFinance(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/change_apply_status")       //把POS申请审核状态由已付款修改为审核中
+    Observable<JsonObject> changePosApplyStatus(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/kd_info")           //查询POS申请已邮寄信息
+    Observable<JsonObject> checkHaveMailInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/pos_info")      //POS管理获取用户POS信息
+    Observable<JsonObject> loadPosManageData(@FieldMap Map<String,String> params);
+
 }

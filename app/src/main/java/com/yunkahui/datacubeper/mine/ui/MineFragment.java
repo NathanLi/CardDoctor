@@ -18,6 +18,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.applypos.ui.PosManageActivity;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -297,6 +298,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(),MyZFBActivity.class));
                 break;
             case 32:
+                startActivity(new Intent(getActivity(), PosManageActivity.class));
                 break;
             case 40:
                 break;

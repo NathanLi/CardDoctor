@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.common.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -52,6 +53,23 @@ public class SimpleEditTextView extends LinearLayout {
         }
         if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_text)){
             mEditTextInput.setText(ta.getString(R.styleable.SimpleEditTextView_item_edit_text));
+        }
+        if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_enable)){
+            mEditTextInput.setEnabled(ta.getBoolean(R.styleable.SimpleEditTextView_item_edit_enable,true));
+        }
+        if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_focusable)){
+            boolean focusable=ta.getBoolean(R.styleable.SimpleEditTextView_item_edit_focusable,true);
+            mEditTextInput.setFocusable(focusable);
+            mEditTextInput.setFocusableInTouchMode(false);
+            mEditTextInput.setCursorVisible(false);
+        }
+
+        if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_right_icon)){
+            Drawable drawable= getResources().getDrawable(ta.getResourceId(R.styleable.SimpleEditTextView_item_edit_right_icon,0));
+            if(drawable!=null){
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mEditTextInput.setCompoundDrawables(null,null,drawable,null);
+            }
         }
 
         ta.recycle();

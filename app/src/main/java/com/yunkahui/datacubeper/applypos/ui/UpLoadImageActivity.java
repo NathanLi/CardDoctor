@@ -11,6 +11,7 @@ public class UpLoadImageActivity extends AppCompatActivity implements IActivityS
     public static final int TYPE_ID_CARD=101;
     public static final int TYPE_HAND_ID_CARD=102;
     public static final int TYPE_BANK_CARD=103;
+    public static final int TYPE_HAND_POS=104;
 
     private int mType;
 
@@ -19,6 +20,7 @@ public class UpLoadImageActivity extends AppCompatActivity implements IActivityS
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_up_load_image);
         super.onCreate(savedInstanceState);
+        setTitle("上传照片");
     }
 
     @Override
@@ -33,6 +35,9 @@ public class UpLoadImageActivity extends AppCompatActivity implements IActivityS
                 break;
             case TYPE_BANK_CARD:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new UpLoadBankCardFragment()).commit();
+                break;
+            case TYPE_HAND_POS:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new UpLoadHandPosFragment()).commit();
                 break;
         }
     }

@@ -169,25 +169,18 @@ public class HomeFragment extends BaseFragment {
                                     ToastUtils.show(getActivity(), "请先开通落地POS");
                                     break;
                                 case "0":   //已付款
-                                    startActivity(new Intent(mActivity, ApplyPosActivity.class));
-                                    break;
                                 case "1":   //审核中
-                                    break;
                                 case "2":   //审核通过
-                                    break;
                                 case "3":      //审核不通过
-                                    break;
                                 case "4":       //审核关闭
-                                    break;
                                 case "5":       //已寄出
-                                    break;
-                                case "6":       //手持POS照片提交成功
-                                    break;
-                                case "61":  //手持POS照片审核通过
-                                    break;
-                                case "62":  //手持POS照片审核不通过
-                                    break;
+                                case "9":       //手持POS照片提交成功
+                                case "10":  //手持POS照片审核通过
+                                case "11":  //手持POS照片审核不通过
                                 case "7":   //完成
+                                    Intent intent=new Intent(getActivity(),ApplyPosActivity.class);
+                                    intent.putExtra("type",Integer.parseInt(json.optString("tua_status")));
+                                    startActivity(intent);
                                     break;
                             }
 

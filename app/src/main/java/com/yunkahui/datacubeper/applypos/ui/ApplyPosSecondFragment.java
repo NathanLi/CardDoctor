@@ -21,6 +21,8 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleMenuItemView;
 
+import org.json.JSONObject;
+
 /**
  * 申请POS第二步
  */
@@ -121,10 +123,39 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
         }
     }
 
+    //把POS申请审核状态由已付款修改为审核中
+    private void changeApplyStatus(){
+        LoadingViewDialog.getInstance().show(getActivity());
+        mLogic.changePosApplyStatus(getActivity(), new SimpleCallBack<JsonObject>() {
+            @Override
+            public void onSuccess(JsonObject jsonObject) {
+                LoadingViewDialog.getInstance().dismiss();
+                try {
+                    LogUtils.e("pos提交资料->"+jsonObject.toString());
+                    JSONObject object=new JSONObject(jsonObject.toString());
+                    ToastUtils.show(getActivity(),object.optString("respDesc"));
+                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                        ((ApplyPosActivity)getActivity()).startToPosDisposeRunning();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+            }
+        });
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_submit:
+                changeApplyStatus();
                 break;
             case R.id.simple_menu_pos_mail:
                 startActivityForResult(new Intent(getActivity(),PosMailInfoActivity.class),RESULT_CODE_UPDATE);

@@ -1,0 +1,68 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.PosApplyStatusFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <com.yunkahui.datacubeper.applypos.ui.ProgressApplyPosView
+            android:id="@+id/progress_bar_apply_pos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image_view_dispose_result"
+            android:layout_width="135pt"
+            android:layout_height="135pt"
+            android:layout_marginTop="50pt"/>
+
+        <TextView
+            android:id="@+id/text_view_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20pt"
+            android:gravity="center"
+            android:maxLines="4"
+            android:ellipsize="end"
+            android:layout_marginLeft="25pt"
+            android:layout_marginRight="25pt"
+            android:layout_marginTop="30pt"
+            android:layout_marginBottom="30pt"/>
+
+        <TextView
+            android:id="@+id/text_view_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25pt"
+            android:layout_marginRight="25pt"
+            android:layout_marginBottom="25pt"
+            android:lineSpacingExtra="5pt"
+            android:maxLines="4"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:textColor="@color/text_color_gray_949494"
+            android:textSize="16pt"/>
+
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50pt"
+            android:layout_margin="35pt"
+            android:visibility="gone"
+            android:background="@drawable/bg_button_blue_selector"
+            android:text="重新申请POS"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

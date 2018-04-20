@@ -79,5 +79,25 @@ public class ApplyPosLogic {
                 .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
     }
 
+    /**
+     * 把审核状态由已付款修改为审核中
+     */
+    public void changePosApplyStatus(Context context,SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).changePosApplyStatus(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
+
+    /**
+     * 查询POS已邮寄信息
+     */
+    public void checkHaveMailInfo(Context context,SimpleCallBack<JsonObject> callBack){
+        Map<String,String> params= RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).checkHaveMailInfo(params)
+                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+    }
+
+
 
 }

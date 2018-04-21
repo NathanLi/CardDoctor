@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.0426"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9574"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5493"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.738"/>
+    <android.support.v7.widget.CardView
+        android:id="@+id/show_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="4dp"
+        app:cardBackgroundColor="#f5f5f5"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline1"
+        app:layout_constraintRight_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="true">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.0466" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1341" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1632" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.7784" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9533" />
+
+            <View
+                android:id="@+id/guideline8"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                app:layout_constraintRight_toLeftOf="@id/guideline3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/show_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/show_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/show_name"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="@+id/show_name"
+                app:srcCompat="@mipmap/bank_beijingnongshang" />
+
+            <TextView
+                android:id="@+id/show_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@+id/show_name"
+                app:layout_constraintStart_toEndOf="@+id/show_name"
+                app:layout_constraintTop_toTopOf="@+id/show_name" />
+
+            <TextView
+                android:id="@+id/show_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_circle_shape_blue"
+                android:gravity="center"
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp"
+                android:text="白金卡"
+                android:textColor="#ffffff"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/show_bank"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toTopOf="@id/show_bank" />
+
+            <View
+                android:id="@+id/space2"
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:background="#c4c4c4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/show_img" />
+
+            <TextView
+                android:id="@+id/show_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/space2" />
+
+            <TextView
+                android:id="@+id/show_mess"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/show_num"
+                app:layout_constraintRight_toLeftOf="@id/guideline7"
+                app:layout_constraintTop_toTopOf="@id/show_num" />
+
+            <TextView
+                android:id="@+id/show_genre1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_stroke_shape_red"
+                android:gravity="center"
+                android:minWidth="76dp"
+                android:paddingBottom="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="3dp"
+                android:text="高消费人群"
+                android:layout_marginLeft="10dp"
+                android:textColor="#FF2D55"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@id/guideline8"
+                app:layout_constraintTop_toBottomOf="@id/show_num" />
+
+            <TextView
+                android:id="@+id/show_genre2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_stroke_shape_red"
+                android:paddingBottom="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="3dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:text="中高活跃度"
+                android:textColor="#FF9500"
+                android:textSize="13sp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/show_genre1"
+                app:layout_constraintTop_toBottomOf="@id/show_num"  />
+
+            <TextView
+                android:id="@+id/show_genre3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_stroke_shape_red"
+                android:paddingBottom="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="3dp"
+                android:minWidth="76dp"
+                android:text="高端客户"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textColor="#007AFF"
+                android:textSize="13sp"
+                app:layout_constraintStart_toEndOf="@+id/show_genre2"
+                app:layout_constraintTop_toBottomOf="@id/show_num" />
+
+            <TextView
+                android:id="@+id/show_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="VSA"
+                android:textColor="#FF3B30"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintTop_toBottomOf="@+id/show_mess" />
+            <View
+                android:layout_width="1px"
+                android:layout_height="12dp"
+                app:layout_constraintLeft_toRightOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/show_code"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+    <ImageView
+        android:id="@+id/show_sample"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:srcCompat="@mipmap/ic_sample_red"
+        app:layout_constraintLeft_toRightOf="@id/guideline9"
+        app:layout_constraintRight_toLeftOf="@id/guideline10"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="6dp"
+        android:translationZ="10dp"
+        app:layout_constraintDimensionRatio="71:57"/>
+
+</android.support.constraint.ConstraintLayout>

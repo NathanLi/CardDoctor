@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.yunkahui.datacubeper"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,7 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.clint:incrementadapter:1.1.4'
     implementation files('libs/alibaba-cloudapi-sdk-core-1.1.0.jar')
     compile 'com.yanzhenjie:recyclerview-swipe:1.1.3'
 }

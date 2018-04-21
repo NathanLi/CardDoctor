@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.test.ui.CardTestActivity">
+
+
+    <include layout="@layout/layout_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color_gray_f9f3f4">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="8pt"
+               android:layout_marginLeft="15pt"
+               android:layout_marginTop="25pt"
+               android:text="请输入条件信息进行评测"
+               android:textSize="14pt" />
+
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_name"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_hint="请输入姓名"
+               app:item_edit_title="姓名" />
+
+           <View style="@style/common_line_margin_left_15" />
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_id_card"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_hint="请输入身份证号码"
+               app:item_edit_title="身份证" />
+
+           <View style="@style/common_line_margin_left_15" />
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_bank_card_number"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_hint="请输入银行卡号"
+               app:item_edit_title="银行卡号" />
+
+           <View style="@style/common_line_margin_left_15" />
+
+           <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+               android:id="@+id/simple_input_item_phone"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:item_edit_input_type="number"
+               app:item_edit_hint="请输入手机号码"
+               app:item_edit_title="手机号码" />
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="20pt"
+               android:gravity="center">
+
+               <CheckBox
+                   android:id="@+id/check_box_agreement"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="14pt"
+                   android:textColor="@color/text_color_gray_949494"
+                   android:text="本人已阅读并同意"/>
+               <TextView
+                   android:id="@+id/text_view_agreement"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="14pt"
+                   android:textColor="@color/colorPrimary"
+                   android:text="《卡·测评用户授权协议》"/>
+
+           </LinearLayout>
+
+           <TextView
+               android:id="@+id/text_view_money"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:textColor="@color/black"
+               android:layout_marginTop="25pt"
+               android:layout_marginBottom="25pt"
+               android:textSize="18pt"/>
+
+
+           <Button
+               android:id="@+id/button_submit"
+               android:layout_width="match_parent"
+               android:layout_height="50pt"
+               android:text="立刻评测"
+               android:enabled="false"
+               android:textColor="@color/white"
+               android:background="@color/bg_button_gray_a9a9a9"
+               android:layout_marginLeft="35pt"
+               android:layout_marginRight="35pt"
+               android:layout_marginBottom="35pt"/>
+
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="15pt"
+               android:textSize="18pt"
+               android:text="温馨提示："/>
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="20pt"
+               android:layout_marginBottom="20pt"
+               android:layout_marginLeft="15pt"
+               android:layout_marginRight="15pt"
+               android:lineSpacingExtra="3pt"
+               android:textSize="14pt"
+               android:text="1、请勿使用储蓄卡测试，否则会有部分数据缺失；\n2、近半年内没有发生交易的卡片请勿查询，否则数据缺失；\n3、数据的完整性取决于银联返回数据完整性；\n4、查询失败的退款将会退还到钱包账户；\n5、提交查询即是默认已经阅读用户协议书。"/>
+
+
+       </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

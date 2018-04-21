@@ -4,6 +4,7 @@
     <string name="tab_item_bill">账单</string>
     <string name="tab_item_card_test">卡·测评</string>
     <string name="tab_item_share">分享</string>
+    <string name="share_sub_run">推荐好友扫码下载 卡医生APP  赚取分润</string>
     <string name="tab_item_me">我的</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="org_number">Y1000000001</string>

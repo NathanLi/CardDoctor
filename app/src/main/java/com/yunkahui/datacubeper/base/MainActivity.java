@@ -16,7 +16,7 @@ import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
 import com.yunkahui.datacubeper.bill.ui.BillFragment;
-import com.yunkahui.datacubeper.test.CardTestFragment;
+import com.yunkahui.datacubeper.test.ui.CardTestFragment;
 import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
 

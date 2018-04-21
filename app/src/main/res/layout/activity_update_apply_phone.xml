@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.UpdateApplyPhoneActivity">
+
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <TextView
+        android:id="@+id/text_view_old_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15pt"
+        android:layout_marginRight="15pt"
+        android:layout_marginTop="10pt"
+        android:layout_marginBottom="10pt"
+        android:textSize="16pt"/>
+
+
+    <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+        android:id="@+id/simple_input_item_new_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_edit_title="新手机号码"
+        app:item_edit_hint="请输入新的手机号"
+        app:item_edit_input_type="number"/>
+
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:layout_margin="35pt"
+        android:background="@drawable/bg_button_blue_selector"
+        android:text="确定变更"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>

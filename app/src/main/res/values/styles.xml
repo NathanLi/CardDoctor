@@ -51,4 +51,27 @@
         <item name="android:layout_marginLeft">15pt</item>
     </style>
 
+    <declare-styleable name="ChartSingleView">
+        <attr name="lightColor" />
+        <attr name="darkColor" />
+        <attr name="lightRatio" />
+        <attr name="cornerRadius" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="ChartCircleView" >
+        <attr name="lightColor" />
+        <attr name="darkColor" />
+        <attr name="lightRatio" />
+        <attr name="centerTitle" format="string" />
+        <attr name="centerSize" format="dimension" />
+        <attr name="centerColor" format="color" />
+        <attr name="circleWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartTypeView">
+        <attr name="lightColor" />
+        <attr name="colorType">
+            <enum name="point" value="1"/>
+        </attr>
+    </declare-styleable>
+
 </resources>

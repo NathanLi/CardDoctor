@@ -257,4 +257,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/withdraw")       //提现
     Observable<JsonObject> withdrawMoney(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/get_api_price")     //卡评测-获取评测价格
+    Observable<JsonObject> loadTestMoney(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/creditcard_consumption_report")     //卡评测-发起测评
+    Observable<JsonObject> submitCardTest(@FieldMap Map<String,String> params);
+
 }

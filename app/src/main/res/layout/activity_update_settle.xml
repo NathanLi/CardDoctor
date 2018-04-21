@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.UpdateSettleActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginTop="10pt"
+                android:text="请如实填写新的结算信息"
+                android:textSize="12pt" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="账户名称" />
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_bank_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="新银行卡号"
+                app:item_edit_hint="请输入新的银行卡号"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_bank_card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_focusable="false"
+                app:item_edit_title="发卡行" />
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_right_icon="@mipmap/ic_next_gray"
+                app:item_edit_focusable="false"
+                app:item_edit_title="开户行所在地"
+                app:item_edit_hint="请选择地区"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_right_icon="@mipmap/ic_next_gray"
+                app:item_edit_focusable="false"
+                app:item_edit_title="开户支行"
+                app:item_edit_hint="请输入开户支行名称"/>
+
+            <View style="@style/common_line"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_branch_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="联行号"
+                app:item_edit_hint="请输入联行号"/>
+
+            <View style="@style/common_line"/>
+
+            <TextView
+                android:id="@+id/text_view_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:gravity="center_vertical"
+                android:paddingLeft="15pt"
+                android:textColor="@color/black"
+                android:text="上传身份证正面照片"
+                android:textSize="16pt"
+                android:drawableRight="@mipmap/ic_next_gray"/>
+
+            <View style="@style/common_line"/>
+
+            <TextView
+                android:id="@+id/text_view_bank_card"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:gravity="center_vertical"
+                android:paddingLeft="15pt"
+                android:textColor="@color/black"
+                android:text="上传银行卡正面照片"
+                android:textSize="16pt"
+                android:drawableRight="@mipmap/ic_next_gray"/>
+
+            <View style="@style/common_line"/>
+
+            <TextView
+                android:id="@+id/text_view_hand_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:gravity="center_vertical"
+                android:paddingLeft="15pt"
+                android:textColor="@color/black"
+                android:text="上传手持银行卡正面照片"
+                android:textSize="16pt"
+                android:drawableRight="@mipmap/ic_next_gray"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ff0000"
+                android:textSize="14pt"
+                android:layout_marginTop="30pt"
+                android:layout_marginBottom="10pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginRight="15pt"
+                android:text="变更信息需要审核，大概3-5个工作日"/>
+
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:background="@drawable/bg_button_blue_selector"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35pt"
+                android:layout_marginRight="35pt"
+                android:layout_marginBottom="35pt"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

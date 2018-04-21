@@ -71,4 +71,22 @@ public class DataUtils {
         }
         return bankIconMap;
     }
+
+    public static String transBankCardNum(String cardNum, int num) {
+        String result;
+        if (cardNum.length() <= 8) {
+            result = cardNum;
+        }else {
+            StringBuilder tmp = new StringBuilder(cardNum.substring(0, 4));
+            for (int index = 0; index < num; index++) {
+                tmp.append("*");
+            }
+            tmp.append(cardNum.substring(cardNum.length() - 4));
+            result = tmp.toString();
+        }
+        return result;
+    }
+
+
+
 }

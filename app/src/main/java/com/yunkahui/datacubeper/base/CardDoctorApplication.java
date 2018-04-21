@@ -38,6 +38,7 @@ import java.lang.reflect.Field;
 public class CardDoctorApplication extends Application {
     private static CardDoctorApplication mApp;
     private final int DESIGN_WIDTH = 375;
+    private static Context mContext;
 
     public static CardDoctorApplication getInstance(){
         if(mApp==null){
@@ -46,9 +47,14 @@ public class CardDoctorApplication extends Application {
         return mApp;
     }
 
+    public static Context getContext(){
+        return mContext;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext=getApplicationContext();
         final Context context = this;
         HttpManager.baseUrl(BaseUrl.HOME);
         initImagePicker();

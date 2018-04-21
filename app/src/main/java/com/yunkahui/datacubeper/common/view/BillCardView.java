@@ -31,6 +31,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     private ImageView mIvArrowExtend;
     private LinearLayout mLayoutExtend;
     private OnClickBillCardListener l;
+    private TextView mTvSmartPlan;
 
     public BillCardView(Context context) {
         this(context, null);
@@ -51,7 +52,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         mTvShouldRepayAmount = view.findViewById(R.id.tv_should_repay_amount);
         mTvLeaveDate = view.findViewById(R.id.tv_leave_date);
         mTvRepayDate = view.findViewById(R.id.tv_repay_date);
-        TextView tvSmartPlan = view.findViewById(R.id.tv_smart_plan);
+        mTvSmartPlan = view.findViewById(R.id.tv_smart_plan);
         mIvArrowExtend = view.findViewById(R.id.iv_arrow_extend);
         mTvBillAmount = view.findViewById(R.id.tv_bill_amount);
         mTvUnRepayAmount = view.findViewById(R.id.tv_unrepay_amount);
@@ -64,7 +65,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         mIvSample = view.findViewById(R.id.iv_sample);
 
         btnBillSync.setOnClickListener(this);
-        tvSmartPlan.setOnClickListener(this);
+        mTvSmartPlan.setOnClickListener(this);
         mIvArrowExtend.setOnClickListener(this);
         mIvArrowCover.setOnClickListener(this);
     }
@@ -87,6 +88,14 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
                 mIvArrowExtend.setVisibility(VISIBLE);
                 break;
         }
+    }
+
+    public boolean isSmartPlanVisible() {
+        return mTvSmartPlan.getVisibility() == VISIBLE;
+    }
+
+    public void setSmartPlanVisibility(int visibility) {
+        mTvSmartPlan.setVisibility(visibility);
     }
 
     public boolean isSampleVisible() {

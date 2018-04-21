@@ -91,5 +91,7 @@
     <string name="pos_repay_tips">每笔还款将产生2-3笔消费，建议还款笔数设置在10笔左右</string>
     <string name="auto_repay_tips">每笔还款将产生1-2笔消费，建议还款笔数设置在10笔左右，避免造成过度消费</string>
     <string name="to_plan">进行规划</string>
+    <string name="tip">注意：</string>
+    <string name="date_list">仅列出可以选择的日期</string>
 
 </resources>

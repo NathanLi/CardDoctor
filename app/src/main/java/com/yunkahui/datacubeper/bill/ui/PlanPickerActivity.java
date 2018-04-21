@@ -17,7 +17,7 @@ import com.yunkahui.datacubeper.common.bean.HomeItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectPlanActivity extends AppCompatActivity implements IActivityStatusBar {
+public class PlanPickerActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private RecyclerView mRecyclerView;
 
@@ -43,9 +43,13 @@ public class SelectPlanActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0) {
-                    startActivity(new Intent(SelectPlanActivity.this, PosPlanActivity.class));
+                    startActivity(new Intent(PlanPickerActivity.this, PosPlanActivity.class)
+                            .putExtra("startTime", getIntent().getStringExtra("startTime"))
+                            .putExtra("endTime", getIntent().getStringExtra("endTime")));
                 } else if (position == 1) {
-                    startActivity(new Intent(SelectPlanActivity.this, AutoPlanActivity.class));
+                    startActivity(new Intent(PlanPickerActivity.this, AutoPlanActivity.class)
+                            .putExtra("startTime", getIntent().getStringExtra("startTime"))
+                            .putExtra("endTime", getIntent().getStringExtra("endTime")));
                 }
             }
         });

@@ -85,6 +85,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 itemClick(position);
             }
         });
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mMineItemAdapter);
 

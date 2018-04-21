@@ -30,6 +30,7 @@ import com.yunkahui.datacubeper.common.utils.ImagePickerGlideLoader;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 
 /**
  * Created by Administrator on 2018/3/22.
@@ -40,9 +41,9 @@ public class CardDoctorApplication extends Application {
     private final int DESIGN_WIDTH = 375;
     private static Context mContext;
 
-    public static CardDoctorApplication getInstance(){
-        if(mApp==null){
-            mApp=new CardDoctorApplication();
+    public static CardDoctorApplication getInstance() {
+        if (mApp == null) {
+            mApp = new CardDoctorApplication();
         }
         return mApp;
     }
@@ -108,7 +109,7 @@ public class CardDoctorApplication extends Application {
 
     }
 
-    private void initImagePicker(){
+    private void initImagePicker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new ImagePickerGlideLoader());   //设置图片加载器
         imagePicker.setShowCamera(true);  //显示拍照按钮
@@ -130,9 +131,9 @@ public class CardDoctorApplication extends Application {
     private void setToolBar(final Activity activity) {
         if (activity.findViewById(R.id.card_doctor_tool_bar) != null && ((AppCompatActivity) activity).getSupportActionBar() == null) {
             Toolbar toolbar = activity.findViewById(R.id.card_doctor_tool_bar);
-            if(!TextUtils.isEmpty(activity.getTitle())){
+            if (!TextUtils.isEmpty(activity.getTitle())) {
                 toolbar.setTitle(activity.getTitle());
-            }else{
+            } else {
                 toolbar.setTitle("");
             }
             ((AppCompatActivity) activity).setSupportActionBar(toolbar);

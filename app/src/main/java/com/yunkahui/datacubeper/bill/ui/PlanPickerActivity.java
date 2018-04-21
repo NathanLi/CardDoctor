@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,7 +18,7 @@ import com.yunkahui.datacubeper.common.bean.HomeItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectPlanActivity extends AppCompatActivity implements IActivityStatusBar {
+public class PlanPickerActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private RecyclerView mRecyclerView;
 
@@ -43,9 +44,13 @@ public class SelectPlanActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0) {
-                    startActivity(new Intent(SelectPlanActivity.this, PosPlanActivity.class));
+                    startActivity(new Intent(PlanPickerActivity.this, PosPlanActivity.class)
+                            .putExtra("time", getIntent().getStringExtra("time"))
+                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
                 } else if (position == 1) {
-                    startActivity(new Intent(SelectPlanActivity.this, AutoPlanActivity.class));
+                    startActivity(new Intent(PlanPickerActivity.this, AutoPlanActivity.class)
+                            .putExtra("time", getIntent().getStringExtra("time"))
+                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
                 }
             }
         });

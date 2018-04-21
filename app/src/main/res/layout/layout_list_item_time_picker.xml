@@ -9,11 +9,12 @@
         android:id="@+id/iv_circle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="@id/show_time"
-        app:layout_constraintRight_toRightOf="@id/show_time"
-        app:layout_constraintTop_toTopOf="@id/show_time"
-        app:layout_constraintBottom_toBottomOf="@id/show_time"
-        android:src="@drawable/bg_circle_blue"/>
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/tv_day"
+        app:layout_constraintRight_toRightOf="@id/tv_day"
+        app:layout_constraintTop_toTopOf="@id/tv_day"
+        app:layout_constraintBottom_toBottomOf="@id/tv_day"
+        android:src="@mipmap/bg_circle_blue"/>
     <TextView
         android:id="@+id/tv_day"
         android:layout_width="0dp"

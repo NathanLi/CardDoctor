@@ -208,6 +208,7 @@ public interface ApiService {
     @POST("/app/pos/query_cnaps")       //查询支行
     Observable<BaseBeanList<Branch>> checkBranchBank(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
     @POST("/app/pos/planning/get_zhongfu_mcc_list")       //获取MCC列表
     Observable<JsonObject> loadMccList(@FieldMap Map<String,String> params);
 
@@ -257,4 +258,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/withdraw")       //提现
     Observable<JsonObject> withdrawMoney(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/planning/confirm_planning")       //智能规划-确认提交
+    Observable<JsonObject> confirmPlan(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/planning/generate_planning")       //智能规划-生成数据
+    Observable<JsonObject> generatePlan(@FieldMap Map<String,String> params);
 }

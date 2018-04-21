@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -44,12 +45,12 @@ public class PlanPickerActivity extends AppCompatActivity implements IActivitySt
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0) {
                     startActivity(new Intent(PlanPickerActivity.this, PosPlanActivity.class)
-                            .putExtra("startTime", getIntent().getStringExtra("startTime"))
-                            .putExtra("endTime", getIntent().getStringExtra("endTime")));
+                            .putExtra("time", getIntent().getStringExtra("time"))
+                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
                 } else if (position == 1) {
                     startActivity(new Intent(PlanPickerActivity.this, AutoPlanActivity.class)
-                            .putExtra("startTime", getIntent().getStringExtra("startTime"))
-                            .putExtra("endTime", getIntent().getStringExtra("endTime")));
+                            .putExtra("time", getIntent().getStringExtra("time"))
+                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
                 }
             }
         });

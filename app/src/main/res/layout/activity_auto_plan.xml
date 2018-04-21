@@ -52,6 +52,7 @@
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/et_input_amount"
+            android:inputType="number"
             android:background="@null"
             android:layout_marginLeft="8pt"
             android:layout_toRightOf="@+id/tv_amount"
@@ -79,6 +80,7 @@
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/et_input_times"
+            android:inputType="number"
             android:background="@null"
             android:layout_marginLeft="23pt"
             android:layout_toRightOf="@+id/tv_times"
@@ -95,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/tv_to_plan"
+        android:id="@+id/tv_go_plan"
         android:layout_marginLeft="8pt"
         android:layout_marginRight="8pt"
         android:paddingTop="8pt"

@@ -69,9 +69,11 @@
         <activity android:name=".home.ui.WithdrawSuccessActivity" />
         <activity android:name=".home.ui.QrShareActivity" />
         <activity android:name=".bill.ui.PlanPickerActivity" />
-        <activity android:name=".bill.ui.PosPlanActivity" />
+        <activity android:name=".bill.ui.PosPlanActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity android:name=".bill.ui.AutoPlanActivity" />
-        <activity android:name=".bill.ui.TimePickerActivity" />
+        <activity android:name=".bill.ui.TimePickerActivity">
+        </activity>
     </application>
 
 </manifest>

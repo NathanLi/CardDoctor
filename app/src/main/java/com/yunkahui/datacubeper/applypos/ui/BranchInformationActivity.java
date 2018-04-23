@@ -113,7 +113,6 @@ public class BranchInformationActivity extends AppCompatActivity implements IAct
 
 
     private void loadData(String key){
-
         LoadingViewDialog.getInstance().show(this);
         RequestUtils.InnerParam innerParam=RequestUtils.newParams(this)
                 .addParams("bank_card_number", mCardNum)

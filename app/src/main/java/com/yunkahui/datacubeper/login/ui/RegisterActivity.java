@@ -15,6 +15,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityBase;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -73,13 +74,13 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
 
     public void verifyPhone(final String phone, String code, final String inviteCode){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkSMSCode(this,phone, code, new SimpleCallBack<JsonObject>() {
+        mLogic.checkSMSCode(this,phone, code, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("验证短信->"+jsonObject.toString());
+                LogUtils.e("验证短信->"+baseBean.toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         setPhone(phone);
@@ -103,13 +104,13 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
 
     public void register(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.register(this, mPhone, mNickName, mPassword, mInviteCode, new SimpleCallBack<JsonObject>() {
+        mLogic.register(this, mPhone, mNickName, mPassword, mInviteCode, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("注册->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("注册->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         finish();

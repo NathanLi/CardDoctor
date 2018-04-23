@@ -125,13 +125,13 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.upLoadImageFile(getActivity(), type, file, new SimpleCallBack<JsonObject>() {
+        mLogic.upLoadImageFile(getActivity(), type, file, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("上传图片->" + jsonObject.toString());
+                LogUtils.e("上传图片->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         if ("0".equals(type)) {
                             mFront = object.optJSONObject("respData").optString("url");
@@ -168,13 +168,13 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
             e.printStackTrace();
         }
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.commitSaveImage(getActivity(), jsonArray.toString(), new SimpleCallBack<JsonObject>() {
+        mLogic.commitSaveImage(getActivity(), jsonArray.toString(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
                     LoadingViewDialog.getInstance().dismiss();
-                    LogUtils.e("身份证提交->" + jsonObject.toString());
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    LogUtils.e("身份证提交->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
                     ToastUtils.show(getActivity(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         getActivity().setResult(getActivity().RESULT_OK);

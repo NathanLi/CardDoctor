@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
@@ -35,11 +36,11 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     public void initData() {
         mShareLogic = new ShareLogic();
         initListener();
-        mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<JsonObject>() {
+        mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     if (respData != null) {
                         mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"))
@@ -49,7 +50,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                         mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                         mTvMyCode.setText(respData.optString("userUniqueCode"));
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -105,16 +106,16 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_produce_code:
-                mShareLogic.createActivationCode(mActivity, new SimpleCallBack<JsonObject>() {
+                mShareLogic.createActivationCode(mActivity, new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         try {
-                            JSONObject object = new JSONObject(jsonObject.toString());
+                            JSONObject object = baseBean.getJsonObject();
                             if ("0074".equals(object.getString("respCode"))) {
                                 Toast.makeText(mActivity, object.getString("respDesc"), Toast.LENGTH_SHORT).show();
                             }
-                            Log.e(TAG, "onSuccess: " + jsonObject.toString());
-                        } catch (JSONException e) {
+                            Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

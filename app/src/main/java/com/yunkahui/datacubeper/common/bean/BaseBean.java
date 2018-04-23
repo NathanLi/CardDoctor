@@ -1,5 +1,7 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -13,6 +15,8 @@ public class BaseBean<T> {
     private String respDesc;
 
     private T respData;
+
+    private JSONObject jsonObject;
 
     public String getRespCode() {
         return respCode == null ? "" : respCode;
@@ -38,12 +42,22 @@ public class BaseBean<T> {
         this.respData = respData;
     }
 
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+
     @Override
     public String toString() {
         return "BaseBean{" +
                 "respCode='" + respCode + '\'' +
                 ", respDesc='" + respDesc + '\'' +
                 ", respData=" + respData +
+                ", jsonObject=" + jsonObject.toString() +
                 '}';
     }
 }

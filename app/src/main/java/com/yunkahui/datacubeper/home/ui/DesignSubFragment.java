@@ -28,6 +28,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
 
@@ -267,12 +268,14 @@ public class DesignSubFragment extends BaseFragment {
 
     //******** 查询智能规划数据 ********
     private void getSmartPlan(int num, int page) {
-        mLogic.requestSmartPlan(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBeanList<SmartPlanSub>>() {
+        mLogic.requestSmartPlan(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
-            public void onSuccess(BaseBeanList<SmartPlanSub> baseBean) {
-                mSmartPlanSubList.clear();
-                mSmartPlanSubList.addAll(baseBean.getRespData());
-                notifyDataSetChanged();
+            public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    mSmartPlanSubList.clear();
+                    mSmartPlanSubList.addAll(baseBean.getRespData());
+                    notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -288,11 +291,13 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
-                mCurrentPage = baseBean.getRespData().getPageNum();
-                mAllPages = baseBean.getRespData().getPages();
-                mTodayOperationSubList.clear();
-                mTodayOperationSubList.addAll(baseBean.getRespData().getList());
-                notifyDataSetChanged();
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    mCurrentPage = baseBean.getRespData().getPageNum();
+                    mAllPages = baseBean.getRespData().getPages();
+                    mTodayOperationSubList.clear();
+                    mTodayOperationSubList.addAll(baseBean.getRespData().getList());
+                    notifyDataSetChanged();
+                }
             }
 
             @Override

@@ -3,7 +3,7 @@
 //  Copyright © 2016年 Alibaba. All rights reserved.
 //
 
-package com.yunkahui.datacubeper.common.other;
+package com.yunkahui.datacubeper.common.view.chart;
 
 import com.alibaba.cloudapi.sdk.enums.HttpMethod;
 import com.alibaba.cloudapi.sdk.enums.Scheme;

@@ -14,6 +14,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -88,13 +89,13 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
      */
     private void upLoadAvatar(final String path){
         LoadingViewDialog.getInstance().show(PersonalInfoActivity.this);
-        mLogic.upLoadAvatar(PersonalInfoActivity.this,path, new SimpleCallBack<JsonObject>() {
+        mLogic.upLoadAvatar(PersonalInfoActivity.this,path, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("上传头像->"+jsonObject.toString());
+                LogUtils.e("上传头像->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         //TODO  保存上传头像返回的路径
 

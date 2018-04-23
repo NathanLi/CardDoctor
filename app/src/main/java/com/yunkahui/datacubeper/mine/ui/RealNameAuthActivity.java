@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,16 +17,15 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
-import com.yunkahui.datacubeper.common.other.DealInterface;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.view.chart.DealInterface;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.mine.logic.RealNameAuthLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -155,12 +153,12 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
 
 
     private void submitRealNameAuthImage() {
-        mLogic.submitRealNameAuthImage(this, mFront, mBack, new SimpleCallBack<JsonObject>() {
+        mLogic.submitRealNameAuthImage(this, mFront, mBack, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    LogUtils.e("实名认证1-->" + jsonObject.toString());
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    LogUtils.e("实名认证1-->" + baseBean.getJsonObject().toString());
+                    JSONObject object =baseBean.getJsonObject();
 //                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         submitRealNameAuthInfo();
@@ -181,13 +179,13 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
     }
 
     public void submitRealNameAuthInfo() {
-        mLogic.submitRealNameAuthInfo(this, mRealName, mIdCardNumber, new SimpleCallBack<JsonObject>() {
+        mLogic.submitRealNameAuthInfo(this, mRealName, mIdCardNumber, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
                     LoadingViewDialog.getInstance().dismiss();
-                    LogUtils.e("实名认证2-->" + jsonObject.toString());
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    LogUtils.e("实名认证2-->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         finish();

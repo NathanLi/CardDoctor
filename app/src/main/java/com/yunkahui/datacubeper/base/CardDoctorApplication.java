@@ -26,6 +26,7 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.utils.CustomConverterFactory;
 import com.yunkahui.datacubeper.common.utils.ImagePickerGlideLoader;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
@@ -58,6 +59,7 @@ public class CardDoctorApplication extends Application {
         mContext=getApplicationContext();
         final Context context = this;
         HttpManager.baseUrl(BaseUrl.HOME);
+        HttpManager.setFactory(CustomConverterFactory.create());
         initImagePicker();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 

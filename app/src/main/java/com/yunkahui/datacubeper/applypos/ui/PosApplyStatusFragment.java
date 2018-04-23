@@ -93,13 +93,13 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
     //查询邮寄信息
     private void checkMailInfo(){
         LoadingViewDialog.getInstance().show(getActivity());
-        new ApplyPosLogic().checkHaveMailInfo(getActivity(), new SimpleCallBack<JsonObject>() {
+        new ApplyPosLogic().checkHaveMailInfo(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("pos邮寄信息->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("pos邮寄信息->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mTextViewResult.setText("POS机邮寄中\n"+object.optJSONObject("respData").optString("kd_company")+"\n快递单号："+object.optJSONObject("respData").optString("kd_company"));
                     }

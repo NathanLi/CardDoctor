@@ -19,6 +19,8 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.bill.logic.BillLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.view.BillCardView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
@@ -81,15 +83,19 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mLogic.queryCreditCardList(mActivity, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
-                List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
-                list.clear();
-                if (details.size() > 0) {
-                    list.addAll(details);
-                } else {
-                    list.add(null);
-                    mLlPromptAddCard.setVisibility(View.VISIBLE);
+                LogUtils.e("账单->"+baseBean.getJsonObject().toString());
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
+                    list.clear();
+                    if (details.size() > 0) {
+                        list.addAll(details);
+                    } else {
+                        list.add(null);
+                        mLlPromptAddCard.setVisibility(View.VISIBLE);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override

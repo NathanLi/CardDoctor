@@ -20,6 +20,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.SelectDateAdapter;
 import com.yunkahui.datacubeper.bill.logic.AddCardLogic;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
@@ -69,19 +70,19 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 10) {
-                    mLogic.queryBankByCardId(AddCardActivity.this, s.toString(), new SimpleCallBack<JsonObject>() {
+                    mLogic.queryBankByCardId(AddCardActivity.this, s.toString(), new SimpleCallBack<BaseBean>() {
                         @Override
-                        public void onSuccess(JsonObject jsonObject) {
+                        public void onSuccess(BaseBean baseBean) {
                             try {
-                                JSONObject object = new JSONObject(jsonObject.toString());
+                                JSONObject object = baseBean.getJsonObject();
                                 String respCode = object.optString("respCode");
                                 if ("0000".equals(respCode)) {
                                     JSONObject respData = object.optJSONObject("respData");
                                     mInfoFillBankName.setDest(respData.optString("bankName"));
                                     mBankNameEn = respData.optString("bankNameEn");
-                                    Log.e(TAG, "onSuccess: " + mBankNameEn + ", " + jsonObject.toString());
+                                    Log.e(TAG, "onSuccess: " + mBankNameEn + ", " + baseBean.getJsonObject().toString());
                                 }
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -124,17 +125,17 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(mBankNameEn)) {
                     mLogic.addBankCard(AddCardActivity.this, mInfoFillCardNum.getCardNum(), mInfoFillBankName.getDest(), mBankNameEn,
-                            mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<JsonObject>() {
+                            mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
                                 @Override
-                                public void onSuccess(JsonObject jsonObject) {
-                                    Log.e(TAG, "onSuccess: " + jsonObject.toString());
+                                public void onSuccess(BaseBean baseBean) {
+                                    Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
                                     try {
-                                        JSONObject object = new JSONObject(jsonObject.toString());
+                                        JSONObject object =baseBean.getJsonObject();
                                         String respCode = object.optString("respCode");
                                         if ("0023".equals(respCode)) {
                                             Toast.makeText(AddCardActivity.this, object.optString("respDesc"), Toast.LENGTH_SHORT).show();
                                         }
-                                    } catch (JSONException e) {
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
 

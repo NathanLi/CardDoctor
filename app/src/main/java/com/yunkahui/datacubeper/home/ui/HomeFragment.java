@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -94,17 +95,17 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initUserFinance() {
-        mLogic.loadUserFinance(mActivity, new SimpleCallBack<JsonObject>() {
+        mLogic.loadUserFinance(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object =baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     mUserBalance = respData.optString("user_balance");
                     mUserFenruns = respData.optString("user_fenruns");
                     mDoubleBlockView.setLeftNum(mUserBalance)
                             .setRightNum(mUserFenruns);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -149,13 +150,13 @@ public class HomeFragment extends BaseFragment {
     //查询POS开通状态
     private void checkApplyPosStatus() {
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.checkPosApplyStatus(getActivity(), new SimpleCallBack<JsonObject>() {
+        mLogic.checkPosApplyStatus(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("POS状态->" + jsonObject.toString());
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    LogUtils.e("POS状态->" + baseBean.getJsonObject().toString());
+                    JSONObject object =baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         JSONObject json = object.optJSONObject("respData");
                         DataUtils.getInfo().setTruename(json.optString("truename"));

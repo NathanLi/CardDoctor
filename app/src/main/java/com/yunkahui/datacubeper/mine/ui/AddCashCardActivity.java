@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -72,12 +73,12 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
 
     private void checkBankCardName(){
 
-        mLogic.checkBankCardName(this, mEditTextViewCardNumber.getText(), new SimpleCallBack<JsonObject>() {
+        mLogic.checkBankCardName(this, mEditTextViewCardNumber.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    LogUtils.e("查询所属银行->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("查询所属银行->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mBankName=object.optJSONObject("respData").optString("bankName");
                         mBankNameBin=object.optJSONObject("respData").optString("bankNameEn");
@@ -115,13 +116,13 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
 
     private void addCashCard(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.addCashCard(this, mEditTextViewCardNumber.getText(), mBankName, mBankNameBin, mEditTextViewPhone.getText(), new SimpleCallBack<JsonObject>() {
+        mLogic.addCashCard(this, mEditTextViewCardNumber.getText(), mBankName, mBankNameBin, mEditTextViewPhone.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("添加储蓄卡->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("添加储蓄卡->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         setResult(RESULT_OK);

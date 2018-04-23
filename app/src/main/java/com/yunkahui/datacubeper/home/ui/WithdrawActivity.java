@@ -104,13 +104,13 @@ public class WithdrawActivity extends AppCompatActivity implements IActivityStat
             case R.id.btn_commit:
                 if (mCurrentCardNum == null)
                     return;
-                mLogic.withdrawMoney(this, mCurrentCardNum, mEtInputMoney.getText().toString(), "", new SimpleCallBack<JsonObject>() {
+                mLogic.withdrawMoney(this, mCurrentCardNum, mEtInputMoney.getText().toString(), "", new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         try {
-                            JSONObject object = new JSONObject(jsonObject.toString());
+                            JSONObject object = baseBean.getJsonObject();
                             Log.e(TAG, "onSuccess: "+object.toString());
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

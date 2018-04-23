@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 
@@ -50,13 +51,13 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mList = new ArrayList<>();
         mLogic = new PlanPickerLogic();
         initListener();
-        mLogic.getMccList(this, new SimpleCallBack<JsonObject>() {
+        mLogic.getMccList(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     Log.e(TAG, "onSuccess: "+object.toString());
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -139,13 +140,13 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 date.deleteCharAt(date.toString().length() - 1);
                 Log.e(TAG, "onClick: "+getIntent().getIntExtra("user_credit_card_id", 0));
                 mLogic.generatePlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
-                        date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<JsonObject>() {
+                        date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean>() {
                             @Override
-                            public void onSuccess(JsonObject jsonObject) {
+                            public void onSuccess(BaseBean baseBean) {
                                 try {
-                                    JSONObject object = new JSONObject(jsonObject.toString());
+                                    JSONObject object = baseBean.getJsonObject();
                                     Log.e(TAG, "onSuccess: "+object.toString());
-                                } catch (JSONException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }

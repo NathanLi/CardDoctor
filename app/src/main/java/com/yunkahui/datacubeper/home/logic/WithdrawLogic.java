@@ -20,13 +20,13 @@ public class WithdrawLogic {
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
     }
 
-    public void withdrawMoney(Context context, String bankCardId, String withdrawMoney, String withdrawType, SimpleCallBack<JsonObject> callBack){
+    public void withdrawMoney(Context context, String bankCardId, String withdrawMoney, String withdrawType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("bankcard_id", bankCardId)
                 .addParams("withdrawAmount", withdrawMoney)
                 .addParams("withdrawType", withdrawType)
                 .create();
         HttpManager.getInstance().create(ApiService.class).withdrawMoney(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 }

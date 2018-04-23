@@ -2,7 +2,6 @@ package com.yunkahui.datacubeper.mine.logic;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 
 import com.google.gson.JsonObject;
@@ -12,8 +11,9 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
-import com.yunkahui.datacubeper.common.other.DealInterface;
-import com.yunkahui.datacubeper.common.other.Demo;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.view.chart.DealInterface;
+import com.yunkahui.datacubeper.common.view.chart.Demo;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -54,7 +54,7 @@ public class RealNameAuthLogic {
     /**
      * 实名认证(图片提交)
      */
-    public void submitRealNameAuthImage(Context context, String front, String back, SimpleCallBack<JsonObject> callBack){
+    public void submitRealNameAuthImage(Context context, String front, String back, SimpleCallBack<BaseBean> callBack){
         Map<String, RequestBody> params= MultipartUtil.newInstance()
                 .addParam("user_code", BaseUrl.getUSER_ID())
                 .addParam("key",BaseUrl.getKEY())
@@ -69,19 +69,19 @@ public class RealNameAuthLogic {
         MultipartBody.Part frontPart=MultipartUtil.makeMultpart("card_front",FrontFiles).get(0);
         MultipartBody.Part backPart=MultipartUtil.makeMultpart("card_back",BackFiles).get(0);
         HttpManager.getInstance().create(ApiService.class).submitRealNameAuthImage(params,frontPart,backPart)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
     /**
      * 实名认证（上传文字信息）
      */
-    public void submitRealNameAuthInfo(Context context,String name,String idCardNumber,SimpleCallBack<JsonObject> callBack){
+    public void submitRealNameAuthInfo(Context context,String name,String idCardNumber,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("true_name",name)
                 .addParams("id_card",idCardNumber)
                 .create();
         HttpManager.getInstance().create(ApiService.class).submitRealNameAuthInfo(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
 

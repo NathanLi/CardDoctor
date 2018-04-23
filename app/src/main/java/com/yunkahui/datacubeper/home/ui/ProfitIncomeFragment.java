@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.home.adapter.ExpandableProfitIncomeAdapter;
@@ -96,11 +97,11 @@ public class ProfitIncomeFragment extends BaseFragment {
     }
 
     private void getProfitIncomeData() {
-        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<JsonObject>() {
+        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object =baseBean.getJsonObject();
                     JSONObject respData = object.getJSONObject("respData");
                     mAllPage = respData.optInt("pages");
                     JSONArray jsonArray = respData.getJSONArray("list");

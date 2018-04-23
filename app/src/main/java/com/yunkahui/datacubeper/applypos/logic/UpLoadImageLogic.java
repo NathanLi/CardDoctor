@@ -9,6 +9,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class UpLoadImageLogic {
     /**
      * 上传图片
      */
-    public void upLoadImageFile(Context context, String type, File file,SimpleCallBack<JsonObject> callBack){
+    public void upLoadImageFile(Context context, String type, File file,SimpleCallBack<BaseBean> callBack){
         MultipartBody.Part part= MultipartUtil.makeMultpart("img",file);
         Map<String, RequestBody> params=MultipartUtil.newInstance()
                 .addParam("user_code", BaseUrl.getUSER_ID())
@@ -36,18 +37,18 @@ public class UpLoadImageLogic {
                 .addParam("type",type)
                 .Build();
         HttpManager.getInstance().create(ApiService.class).uploadImageFile(params,part)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
     /**
      * 提交保存图片
      */
-    public void commitSaveImage(Context context,String url,SimpleCallBack<JsonObject> callBack){
+    public void commitSaveImage(Context context,String url,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("imgUrl",url)
                 .create();
         HttpManager.getInstance().create(ApiService.class).commitSaveImage(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
 

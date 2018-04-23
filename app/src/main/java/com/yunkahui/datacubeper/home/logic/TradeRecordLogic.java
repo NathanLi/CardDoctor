@@ -37,14 +37,14 @@ public class TradeRecordLogic {
 
     }
 
-    public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<JsonObject> callBack){
+    public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .addParams("check_type", checkType)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 }

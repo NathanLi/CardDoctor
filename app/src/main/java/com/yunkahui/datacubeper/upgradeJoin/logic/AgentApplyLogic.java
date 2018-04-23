@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.util.Map;
@@ -21,17 +22,17 @@ public class AgentApplyLogic {
     /**
      * 查询代理商申请类型昵称
      */
-    public void loadAgentNickName(Context context, SimpleCallBack<JsonObject> callBack){
+    public void loadAgentNickName(Context context, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).loadAgentNickName(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
     /**
      * 提交代理商或OEM申请
      */
     public void submitAgentApply(Context context,String type,String name,String phone,String weixin,String province
-            ,String city, String remark,SimpleCallBack<JsonObject> callBack){
+            ,String city, String remark,SimpleCallBack<BaseBean> callBack){
         RequestUtils.InnerParam param= RequestUtils.newParams(context)
                 .addParams("apply_type",type)
                 .addParams("username",name)
@@ -46,7 +47,7 @@ public class AgentApplyLogic {
         }
         Map<String,String> params=param.create();
         HttpManager.getInstance().create(ApiService.class).submitAgentApply(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 

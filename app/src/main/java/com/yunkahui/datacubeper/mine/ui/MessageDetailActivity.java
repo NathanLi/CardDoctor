@@ -22,6 +22,7 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import java.lang.ref.PhantomReference;
+import java.util.List;
 import java.util.Map;
 
 //消息详情
@@ -59,9 +60,9 @@ public class MessageDetailActivity extends AppCompatActivity implements IActivit
                 .addParams("news_id",id)
                 .create();
         HttpManager.getInstance().create(ApiService.class).checkNewMessageById(params)
-                .compose(HttpManager.<BaseBeanList<Message>>applySchedulers()).subscribe(new SimpleCallBack<BaseBeanList<Message>>() {
+                .compose(HttpManager.<BaseBean<List<Message>>>applySchedulers()).subscribe(new SimpleCallBack<BaseBean<List<Message>>>() {
             @Override
-            public void onSuccess(BaseBeanList<Message> messageBaseBeanList) {
+            public void onSuccess(BaseBean<List<Message>> messageBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
                 if(RequestUtils.SUCCESS.equals(messageBaseBeanList.getRespCode())){
                     Message message=messageBaseBeanList.getRespData().get(0);

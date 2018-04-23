@@ -152,10 +152,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private void checkNewMessage(){
 
-        mLogic.checkNewMessage(getActivity(), "", new SimpleCallBack<JsonObject>() {
+        mLogic.checkNewMessage(getActivity(), "", new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
-                LogUtils.e("消息->"+jsonObject.toString());
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("消息->"+baseBean.getJsonObject().toString());
             }
 
             @Override
@@ -203,13 +203,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
      */
     private void upLoadAvatar(final String path){
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.upLoadAvatar(getActivity(),path, new SimpleCallBack<JsonObject>() {
+        mLogic.upLoadAvatar(getActivity(),path, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("上传头像->"+jsonObject.toString());
+                LogUtils.e("上传头像->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         GlideApp.with(getActivity()).load(path).error(R.mipmap.ic_header_normal)
                                 .transform(new CropCircleTransformation())
@@ -230,13 +230,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     //查询实名认证状态
     private void checkRealNameAuthStatus(){
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.checkRealNameAuthStatus(getActivity(), new SimpleCallBack<JsonObject>() {
+        mLogic.checkRealNameAuthStatus(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("查询实名认证状态->"+jsonObject.toString());
+                LogUtils.e("查询实名认证状态->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         switch (object.optJSONObject("respData").optString("status")){
                             case "0":

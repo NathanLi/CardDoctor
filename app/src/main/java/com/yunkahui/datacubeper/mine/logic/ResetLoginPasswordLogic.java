@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.util.Map;
@@ -19,19 +20,19 @@ public class ResetLoginPasswordLogic {
     /**
      * 发送短信（修改密码）
      */
-    public void sendSMS(Context context, String phone, SimpleCallBack<JsonObject> callBack){
+    public void sendSMS(Context context, String phone, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("type","2")
                 .addParams("user_mobile",phone)
                 .create();
         HttpManager.getInstance().create(ApiService.class).sendSMS(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
     /**
      * 修改密码
      */
-    public void editPassword(Context context,String phone,String oldPassword,String newPassword,String code,SimpleCallBack<JsonObject> callBack){
+    public void editPassword(Context context,String phone,String oldPassword,String newPassword,String code,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("type","2")
                 .addParams("user_mobile",phone)
@@ -40,7 +41,7 @@ public class ResetLoginPasswordLogic {
                 .addParams("user_mobile_code",code)
                 .create();
         HttpManager.getInstance().create(ApiService.class).editPassword(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 

@@ -124,12 +124,12 @@ public class TerminalInfoActivity extends AppCompatActivity implements IActivity
     private void submit(){
         LoadingViewDialog.getInstance().show(this);
         mLogic.upLoadTerminalInfo(this, mEditTextViewName.getText(), mEditTextViewIdCard.getText(), mEditTextViewPhone.getText(),
-                mProvince + "-" + mCity, mEditTextViewAddress.getText(), new SimpleCallBack<JsonObject>() {
+                mProvince + "-" + mCity, mEditTextViewAddress.getText(), new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
                         try {
-                            JSONObject object=new JSONObject(jsonObject.toString());
+                            JSONObject object=baseBean.getJsonObject();
                             ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                             if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                                 setResult(RESULT_OK);

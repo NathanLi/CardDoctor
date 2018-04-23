@@ -34,8 +34,6 @@ public class PosPlanLogic {
                 .addParams("repay_dates", repayDates)
                 .addParams("repay_total_count", totalCount)
                 .create();
-//        HttpManager.getInstance().addConverterFactory(CustomConverterFactory.create()).newBuilder().baseUrl("http://192.168.5.132:8014").build()
-//                .create(ApiService.class).generatePosPlan(params).compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
         HttpManager.getInstance().create(ApiService.class).generatePosPlan(params)
                 .compose(HttpManager.<BaseBean<GeneratePlan>>applySchedulers()).subscribe(callBack);
     }

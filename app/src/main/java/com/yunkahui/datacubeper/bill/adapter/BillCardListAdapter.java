@@ -2,12 +2,13 @@ package com.yunkahui.datacubeper.bill.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.bill.ui.BillDetailActivity;
+import com.yunkahui.datacubeper.bill.ui.BillSyncActivity;
 import com.yunkahui.datacubeper.bill.ui.PlanPickerActivity;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
@@ -15,10 +16,8 @@ import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.view.BillCardView;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Administrator on 2018/3/27
@@ -68,6 +67,17 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                 Calendar startCalendar = TimeUtils.formatCalendar("yyyy-MM-dd", TimeUtils.format("yyyy-MM-dd", calendar.getTimeInMillis()));
                 startCalendar.add(Calendar.MONTH, -1);
                 startCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                billCardView.setOnClickBillCardListener(new BillCardView.CustomBillCardListenr() {
+                    @Override
+                    public void onClickBillSync() {
+                        mContext.startActivity(new Intent(mContext, BillSyncActivity.class));
+                    }
+
+                    @Override
+                    public void onClickBillCard() {
+                        mContext.startActivity(new Intent(mContext, BillDetailActivity.class));
+                    }
+                });
                 if (curCalendar.get(Calendar.YEAR) >= startCalendar.get(Calendar.YEAR) &&
                         curCalendar.get(Calendar.YEAR) <= repayCalendar.get(Calendar.YEAR) &&
                         curCalendar.get(Calendar.MONTH)+1 >= startCalendar.get(Calendar.MONTH)+1 &&
@@ -76,11 +86,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                         curCalendar.get(Calendar.DAY_OF_MONTH) < repayCalendar.get(Calendar.DAY_OF_MONTH) &&
                         item.getCanPlanning() == 1) {
                     billCardView.setSmartPlanVisibility(View.VISIBLE);
-                    billCardView.setOnClickBillCardListener(new BillCardView.OnClickBillCardListener() {
-                        @Override
-                        public void onClickBillSync() {
-
-                        }
+                    billCardView.setOnClickSmartPlanListener(new BillCardView.OnClickSmartPlanListener() {
 
                         @Override
                         public void onClickSmartPlan() {

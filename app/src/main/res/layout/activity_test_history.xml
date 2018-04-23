@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.test.ui.TestHistoryActivity">
+
+    <include android:id="@+id/title_bar" layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10pt"
+        android:gravity="center"
+        android:background="#FFF6E9"
+        android:layout_below="@+id/title_bar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_icon_warning"
+            android:text="告知：只能查看近一个月的卡测评报告！"
+            android:textSize="18sp"
+            android:textColor="#FF832E"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linear_layout_tips"/>
+
+
+    <ImageView
+        android:id="@+id/iv_no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_no_data"/>
+
+</RelativeLayout>

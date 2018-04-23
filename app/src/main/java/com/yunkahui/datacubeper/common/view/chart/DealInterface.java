@@ -1,4 +1,4 @@
-package com.yunkahui.datacubeper.common.other;
+package com.yunkahui.datacubeper.common.view.chart;
 
 /**
  * Created by clint on 2017/9/23.

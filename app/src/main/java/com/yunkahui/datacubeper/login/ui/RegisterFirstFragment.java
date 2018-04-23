@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.StringUtils;
@@ -133,13 +134,13 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
      */
     public void sendSMS(String phone){
         LoadingViewDialog.getInstance().show(getActivity());
-        ((RegisterActivity)getActivity()).getLogic().sendSMS(getActivity(), phone, new SimpleCallBack<JsonObject>() {
+        ((RegisterActivity)getActivity()).getLogic().sendSMS(getActivity(), phone, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("发送短信->"+jsonObject.toString());
+                LogUtils.e("发送短信->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getActivity().getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mRunning=true;

@@ -17,6 +17,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
     private String mAmount;
     private String mId;
     private String mBusinessType;
+    private boolean mIsCommitToServer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
         mAmount = getIntent().getStringExtra("amount");
         mId = getIntent().getStringExtra("id");
         mBusinessType = getIntent().getStringExtra("business_type");
+        mIsCommitToServer = getIntent().getBooleanExtra("is_commit_to_server", true);
         Fragment fragment = null;
         if ("还款".equals(type)) {
             fragment = new RepayAdjustFragment();
@@ -46,6 +48,10 @@ public class AdjustPlanActivity extends AppCompatActivity implements IActivitySt
         if(fragment!=null){
             transaction.replace(R.id.frame_layout,fragment).commitNowAllowingStateLoss();
         }
+    }
+
+    public boolean isCommitToServer() {
+        return  mIsCommitToServer;
     }
 
     public String getId() {

@@ -1,42 +1,62 @@
 package com.yunkahui.datacubeper.bill.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.bill.adapter.GenerateDataAdapter;
+import com.yunkahui.datacubeper.bill.logic.PosPlanLogic;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.GeneratePlan;
+import com.yunkahui.datacubeper.common.bean.GeneratePlanItem;
 import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
+import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinIntroduceActivity;
+import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeVipActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PosPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private static final String TAG = "PosPlanActivity";
+    private int mPosition;
+    private List<GeneratePlanItem> mList;
     private TextView mTvRepayDate;
     private EditText mEtInputAmount;
     private EditText mEtInputTimes;
     private RecyclerView mRecyclerView;
-    private ArrayList<TimeItem> mList;
+    private ArrayList<TimeItem> mCurrentTimeList;
     private ArrayList<TimeItem> mResultList;
     private TextView mTvGoPlan;
-    private PlanPickerLogic mLogic;
+    private PosPlanLogic mLogic;
+    private GenerateDataAdapter mAdapter;
+    private BaseBean<GeneratePlan> mBaseBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +67,31 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
 
     @Override
     public void initData() {
+        mCurrentTimeList = new ArrayList<>();
+        mLogic = new PosPlanLogic();
         mList = new ArrayList<>();
-        mLogic = new PlanPickerLogic();
         initListener();
+        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"));
+        mAdapter.bindToRecyclerView(mRecyclerView);
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                String type;
+                if (mList.get(position).getType() == 0) {
+                    type = "消费";
+                } else {
+                    type = "还款";
+                }
+                startActivityForResult(new Intent(PosPlanActivity.this, AdjustPlanActivity.class)
+                        .putExtra("type", type)
+                        .putExtra("amount", String.valueOf(mList.get(position).getMoney()))
+                        .putExtra("business_type", mList.get(position).getMccType())
+                        .putExtra("is_commit_to_server", false), 1);
+                mPosition = position;
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void initListener() {
@@ -87,6 +129,102 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(1, 1, 1, "确认").setIcon(R.mipmap.ic_sure_white).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                showBottomSheetDialog();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showBottomSheetDialog() {
+        TimeItem startTime = mCurrentTimeList.get(0);
+        TimeItem endTime = mCurrentTimeList.get(mCurrentTimeList.size() - 1);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.layout_sure_dialog, null);
+        if (mBaseBean != null) {
+            GeneratePlan.PlanningAdditionalBean additional = mBaseBean.getRespData().getPlanningAdditional();
+            ((TextView) contentView.findViewById(R.id.tv_repay_amount)).setText(
+                    String.format(getString(R.string.money_format), additional.getRepayTotalMoney()));
+            ((TextView) contentView.findViewById(R.id.tv_repay_times)).setText(
+                    String.format(getString(R.string.num_format), additional.getRepayTotalCount()));
+            ((TextView) contentView.findViewById(R.id.tv_expense_times)).setText(
+                    String.format(getString(R.string.num_format), additional.getConsumeTotalCount()));
+            ((TextView) contentView.findViewById(R.id.tv_repay_max)).setText(
+                    String.format(getString(R.string.money_format), additional.getMaxInRepaymentList()));
+            ((TextView) contentView.findViewById(R.id.tv_time)).setText(
+                    String.format(getString(R.string.time_format), startTime.getYear(), startTime.getMonth(), startTime.getDay(),
+                            endTime.getYear(), endTime.getMonth(), endTime.getDay()));
+            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+            bottomSheetDialog.setContentView(contentView);
+            bottomSheetDialog.show();
+            contentView.findViewById(R.id.show_close).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomSheetDialog.dismiss();
+                }
+            });
+            contentView.findViewById(R.id.show_next).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomSheetDialog.dismiss();
+                    LoadingViewDialog.getInstance().show(PosPlanActivity.this);
+                    for (GeneratePlan.PlanningListBean s1 : mBaseBean.getRespData().getPlanningList()) {
+                        for (GeneratePlan.PlanningListBean.DetailsBean s2 : s1.getDetails()) {
+                            for (GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean s3 : s2.getConsumption()) {
+                                Log.e(TAG, "onClick: " + s3.getMoney());
+                            }
+                        }
+                    }
+                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean), new SimpleCallBack<BaseBean>() {
+                        @Override
+                        public void onSuccess(BaseBean baseBean) {
+                            LoadingViewDialog.getInstance().dismiss();
+                            Log.e(TAG, "confirmPosPlan onSuccess: " + baseBean.getJsonObject().toString());
+                            if ("0214".equals(baseBean.getRespCode())) {
+                                showUpgradeJoinDialog(baseBean.getRespDesc());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            LoadingViewDialog.getInstance().dismiss();
+                            Log.e(TAG, "confirmPosPlan onFailure: " + throwable.getMessage());
+                        }
+                    });
+
+                }
+            });
+        }
+    }
+
+    private void showUpgradeJoinDialog(String desc) {
+        new AlertDialog.Builder(this)
+                .setMessage(desc)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(PosPlanActivity.this, UpgradeVipActivity.class));
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    @Override
     public int getStatusBarColor() {
         return getResources().getColor(R.color.colorPrimary);
     }
@@ -97,67 +235,98 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             case R.id.rl_select_date:
                 startActivityForResult(new Intent(this, TimePickerActivity.class)
                         .putExtra("time", getIntent().getStringExtra("time"))
-                        .putParcelableArrayListExtra("selected_time", mList), 1);
+                        .putParcelableArrayListExtra("selected_time", mCurrentTimeList), 1);
                 break;
             case R.id.tv_go_plan:
-                if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
-                    Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (Integer.parseInt(mEtInputAmount.getText().toString()) < 1000) {
-                    Toast.makeText(this, "还款金额不能少于1000.00元！", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (Integer.parseInt(mEtInputAmount.getText().toString()) % 100 != 0) {
-                    Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {
-                    Toast.makeText(this, "为了完善您的信用体制，每天还款不能超过1笔！", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) < mResultList.size()) {
-                    Toast.makeText(this, "还款笔数必须大于或等于天数", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                StringBuilder date = new StringBuilder();
-                for (TimeItem item : mResultList) {
-                    date.append(item.getYear()+"-"+item.getMonth()+"-"+item.getDay()+",");
-                }
-                date.deleteCharAt(date.toString().length() - 1);
-                mLogic.generatePlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
-                        date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<JsonObject>() {
-                            @Override
-                            public void onSuccess(JsonObject jsonObject) {
-                                try {
-                                    JSONObject object = new JSONObject(jsonObject.toString());
-                                    Log.e(TAG, "onSuccess: "+object.toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Throwable throwable) {
-                                Log.e(TAG, "onFailure: "+throwable.getMessage());
-                            }
-                        });
+                generateData();
                 break;
         }
     }
 
+    private void generateData() {
+        if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
+            Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) < 1000) {
+            Toast.makeText(this, "还款金额不能少于1000.00元！", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) % 100 != 0) {
+            Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {
+            Toast.makeText(this, "为了完善您的信用体制，每天还款不能超过1笔！", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) < mResultList.size()) {
+            Toast.makeText(this, "还款笔数必须大于或等于天数", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        StringBuilder date = new StringBuilder();
+        for (TimeItem item : mResultList) {
+            date.append(item.getYear() + "-" + item.getMonth() + "-" + item.getDay() + ",");
+        }
+        date.deleteCharAt(date.toString().length() - 1);
+        mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
+                date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
+                    @Override
+                    public void onSuccess(BaseBean<GeneratePlan> baseBean) {
+                        try {
+                            if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                mBaseBean = baseBean;
+                                GeneratePlanItem item = null;
+                                for (int x = 0; x < baseBean.getRespData().getPlanningList().size(); x++) {
+                                    List<GeneratePlan.PlanningListBean.DetailsBean> details = baseBean.getRespData().getPlanningList().get(x).getDetails();
+                                    for (int y = 0; y < details.size(); y++) {
+                                        GeneratePlan.PlanningListBean.DetailsBean detailsBean = details.get(y);
+                                        item = new GeneratePlanItem();
+                                        item.setType(1);
+                                        item.setGroup(y);
+                                        item.setSection(-1);
+                                        item.setMoney(detailsBean.getRepayment().getMoney());
+                                        item.setTimeStamp(detailsBean.getRepayment().getTime());
+                                        mList.add(item);
+                                        for (int z = 0; z < detailsBean.getConsumption().size(); z++) {
+                                            item = new GeneratePlanItem();
+                                            item.setType(0);
+                                            item.setGroup(y);
+                                            item.setSection(z);
+                                            GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(0);
+                                            item.setMoney(consumptionBean.getMoney());
+                                            item.setTimeStamp(consumptionBean.getTime());
+                                            item.setMccType(consumptionBean.getMccType());
+                                            mList.add(item);
+                                        }
+                                    }
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e(TAG, "onFailure: " + throwable.getMessage());
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_FIRST_USER) {
             mResultList = data.getParcelableArrayListExtra("selected_time");
             if (mResultList.size() > 0) {
                 if (mEtInputAmount.getText().toString().length() > 0 && mEtInputTimes.getText().toString().length() > 0) {
                     mTvGoPlan.setSelected(true);
                 }
-                mList.clear();
-                mList.addAll(mResultList);
+                mCurrentTimeList.clear();
+                mCurrentTimeList.addAll(mResultList);
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < mResultList.size(); i++) {
                     if (i == mResultList.size() - 1) {
-                        builder.append(mList.get(i).getDay());
+                        builder.append(mCurrentTimeList.get(i).getDay());
                     } else {
-                        builder.append(mList.get(i).getDay() + ",");
+                        builder.append(mCurrentTimeList.get(i).getDay() + ",");
                     }
                 }
                 mTvRepayDate.setText(builder.toString());
@@ -166,6 +335,21 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 mTvRepayDate.setText(getString(R.string.repay_date));
                 mTvRepayDate.setTextColor(getResources().getColor(R.color.text_color_gray_9d9d9d));
             }
+        } else if (resultCode == Activity.RESULT_OK) {
+            int amount = Integer.parseInt(data.getStringExtra("amount"));
+            GeneratePlanItem item = mList.get(mPosition);
+            item.setMoney(amount);
+            GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(0).getDetails().get(item.getSection());
+            if ("repay".equals(data.getStringExtra("type"))) {
+                detailsBean.getRepayment().setMoney(amount);
+            } else if ("expense".equals(data.getStringExtra("type"))) {
+                GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(mList.get(mPosition).getSection());
+                consumptionBean.setMoney(amount);
+                consumptionBean.setMccType(data.getStringExtra("business_type"));
+                item.setMccType(data.getStringExtra("business_type"));
+            }
+            mAdapter.notifyItemChanged(mPosition);
+            Toast.makeText(PosPlanActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -81,13 +82,13 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
      */
     private void applyAgent(final boolean isOem) {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.loadAgentIsApply(this, new SimpleCallBack<JsonObject>() {
+        mLogic.loadAgentIsApply(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("查询是否申请代理->"+jsonObject.toString());
+                LogUtils.e("查询是否申请代理->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         Intent intent=new Intent(UpgradeJoinActivity.this,AgentApplyActivity.class);
                         intent.putExtra("type",isOem?AgentApplyActivity.TYPE_OEM:AgentApplyActivity.TYPE_AGENT);

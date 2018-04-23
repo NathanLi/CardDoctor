@@ -69,12 +69,12 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
 
     private void loadData(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkCashCard(this, new SimpleCallBack<JsonObject>() {
+        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
                     LoadingViewDialog.getInstance().dismiss();
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         JSONObject json=object.optJSONObject("respData");
@@ -111,13 +111,13 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
 
     private void deleteCashCard(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.deleteCashCard(this, mBankCard.getId(), new SimpleCallBack<JsonObject>() {
+        mLogic.deleteCashCard(this, mBankCard.getId(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("删除储蓄卡->"+jsonObject.toString());
+                LogUtils.e("删除储蓄卡->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         loadData();

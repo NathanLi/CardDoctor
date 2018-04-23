@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.home.adapter.ProfitWithdrawAdapter;
@@ -57,11 +58,11 @@ public class ProfitWithdrawFragment extends BaseFragment {
     }
 
     private void getProfitIncomeData() {
-        mLogic.getProfitWithdraw(mActivity, "withdraw_fenruns", 20, ++mCurrentPage, new SimpleCallBack<JsonObject>() {
+        mLogic.getProfitWithdraw(mActivity, "withdraw_fenruns", 20, ++mCurrentPage, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     Log.e(TAG, "ProfitWithdrawFragment: " + object.toString());
                     JSONObject respData = object.getJSONObject("respData");
                     mAllPage = respData.optInt("pages");

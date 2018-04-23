@@ -21,22 +21,22 @@ public class MyCashCardListLogic {
     /**
      * 查询储蓄卡
      */
-    public void checkCashCard(Context context, SimpleCallBack<JsonObject> callBack) {
+    public void checkCashCard(Context context, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).checkCashCard(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
     /**
      * 删除储蓄卡
      */
-    public void deleteCashCard(Context context, int id, SimpleCallBack<JsonObject> callBack) {
+    public void deleteCashCard(Context context, int id, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bankcard_id",id)
                 .addParams("bankcard_type","11")
                 .create();
         HttpManager.getInstance().create(ApiService.class).deleteBankCard(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
 

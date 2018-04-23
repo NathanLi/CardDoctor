@@ -14,25 +14,25 @@ import java.util.Map;
 
 public class HomeProfitLogic {
 
-    public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<JsonObject> callBack){
+    public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .addParams("check_type", checkType)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 
-    public void getProfitWithdraw(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<JsonObject> callBack){
+    public void getProfitWithdraw(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pdType", pdType)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadProfitWithdraw(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 }

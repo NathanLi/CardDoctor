@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -79,13 +80,13 @@ public class PayOpenVipActivity extends AppCompatActivity implements IActivitySt
     //获取支付页面信息
     public void loadUpdateInfo(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.updatePayInfo(this, new SimpleCallBack<JsonObject>() {
+        mLogic.updatePayInfo(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("升级信息->"+jsonObject.toString());
+                LogUtils.e("升级信息->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         JSONArray payArray=object.optJSONObject("respData").optJSONArray("payments");
                         for (int i=0;i<payArray.length();i++){
@@ -113,11 +114,11 @@ public class PayOpenVipActivity extends AppCompatActivity implements IActivitySt
             return;
         }
         LoadingViewDialog.getInstance().show(this);
-        mLogic.payVip(this, mVipId,mType, new SimpleCallBack<JsonObject>() {
+        mLogic.payVip(this, mVipId,mType, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付信息->"+jsonObject.toString());
+                LogUtils.e("支付信息->"+baseBean.getJsonObject().toString());
             }
 
             @Override
@@ -130,11 +131,11 @@ public class PayOpenVipActivity extends AppCompatActivity implements IActivitySt
     //使用激活码升级
     public void updateVipByActivateCode(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.updateVipByActivateCode(this, mEditTextViewActivateCode.getText(), new SimpleCallBack<JsonObject>() {
+        mLogic.updateVipByActivateCode(this, mEditTextViewActivateCode.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("激活码升级->"+jsonObject.toString());
+                LogUtils.e("激活码升级->"+baseBean.getJsonObject().toString());
             }
 
             @Override

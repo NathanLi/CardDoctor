@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -75,13 +76,13 @@ public class MyZFBActivity extends AppCompatActivity implements IActivityStatusB
 
     private void loadData() {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkUserZFB(this, new SimpleCallBack<JsonObject>() {
+        mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付宝信息->" + jsonObject.toString());
+                LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         mMenuItemUnBind.setVisible(true);
@@ -113,13 +114,13 @@ public class MyZFBActivity extends AppCompatActivity implements IActivityStatusB
     //解绑支付宝账号
     private void unBindZFB() {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.unBindZFB(this, new SimpleCallBack<JsonObject>() {
+        mLogic.unBindZFB(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("解绑支付宝->"+jsonObject.toString());
+                LogUtils.e("解绑支付宝->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         loadData();

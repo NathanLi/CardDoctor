@@ -21,9 +21,9 @@ public class BillLogic {
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
     }
 
-    public void queryCardCountOflanFailed(Context context, SimpleCallBack<JsonObject> callBack){
+    public void queryCardCountOflanFailed(Context context, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).queryCardCountOfPlanFailed(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 }

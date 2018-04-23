@@ -45,7 +45,8 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                 BillCardView billCardView = helper.getView(R.id.bill_card);
                 billCardView.setIcon(DataUtils.getBankIconMap().containsKey(item.getBankCardName()) ? DataUtils.getBankIconMap().get(item.getBankCardName()) : R.mipmap.bank_other);
                 billCardView.setBankName(item.getBankCardName());
-                billCardView.setCardId(String.format(mContext.getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length())));
+                final String idFormat = String.format(mContext.getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length()));
+                billCardView.setCardId(idFormat);
                 billCardView.setShouldRepayAmount(String.valueOf(item.getThisShouldRepay()));
                 billCardView.setShouldRepay(Integer.parseInt(item.getRepayStatus()) == 1 ? "已经还清" : "应还金额");
                 billCardView.setLeaveDate(String.valueOf(item.getDistanceDay()));
@@ -87,7 +88,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                                     .putExtra("time", nBillDay)
                                     .putExtra("user_credit_card_id", item.getUserCreditCardId())
                                     .putExtra("bank_card_name", item.getBankCardName())
-                                    .putExtra("bank_card_num", item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length())));
+                                    .putExtra("bank_card_num", idFormat));
                         }
                     });
                 } else {

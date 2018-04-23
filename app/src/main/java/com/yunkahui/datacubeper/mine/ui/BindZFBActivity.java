@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -78,13 +79,13 @@ public class BindZFBActivity extends AppCompatActivity implements IActivityStatu
 
     private void bindZFB(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.bindZFB(this, mEditTextViewZFB.getText(), mEditTextViewName.getText(), new SimpleCallBack<JsonObject>() {
+        mLogic.bindZFB(this, mEditTextViewZFB.getText(), mEditTextViewName.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("绑定支付宝->"+jsonObject.toString());
+                LogUtils.e("绑定支付宝->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         setResult(RESULT_OK);

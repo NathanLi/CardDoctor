@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -133,13 +134,13 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
     //发送短信
     private void sendSMS(){
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.sendSMS(getActivity(), DataUtils.getInfo().getUser_mobile(), new SimpleCallBack<JsonObject>() {
+        mLogic.sendSMS(getActivity(), DataUtils.getInfo().getUser_mobile(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("发送短信->"+jsonObject.toString());
+                LogUtils.e("发送短信->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getActivity(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mTextViewSendCode.setEnabled(false);
@@ -166,13 +167,13 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
         }
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.editPassword(getActivity(), mEditTextViewPhone.getText(), mEditTextViewOldPassword.getText(), mEditTextViewNewPassword.getText(),
-                mEditTextAuthCode.getText().toString(), new SimpleCallBack<JsonObject>() {
+                mEditTextAuthCode.getText().toString(), new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
-                        LogUtils.e("修改密码->"+jsonObject.toString());
+                        LogUtils.e("修改密码->"+baseBean.getJsonObject().toString());
                         try {
-                            JSONObject object=new JSONObject(jsonObject.toString());
+                            JSONObject object=baseBean.getJsonObject();
                             ToastUtils.show(getActivity(),object.optString("respDesc"));
                             if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                                 getActivity().onBackPressed();

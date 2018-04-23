@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -87,13 +88,13 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
 
     public void loadTestMoney(){
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.loadTestMoney(getActivity(), new SimpleCallBack<JsonObject>() {
+        mLogic.loadTestMoney(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("卡测评->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("卡测评->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         Intent intent=new Intent(getActivity(),CardTestActivity.class);
                         intent.putExtra("money",object.getDouble("respData"));

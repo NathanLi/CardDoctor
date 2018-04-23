@@ -78,6 +78,7 @@
         <activity android:name=".test.ui.CardTestActivity"/>
         <activity android:name=".bill.ui.TimePickerActivity">
         </activity>
+        <activity android:name=".mine.ui.AboutUsActivity" />
     </application>
 
 </manifest>

@@ -65,12 +65,12 @@ public class PosMailInfoActivity extends AppCompatActivity implements IActivityS
             return;
         }
         LoadingViewDialog.getInstance().show(this);
-        mLogic.upLoadMailInfo(this, mEditTextViewName.getText(), mEditTextViewPhone.getText(), mEditTextViewAddress.getText(), new SimpleCallBack<JsonObject>() {
+        mLogic.upLoadMailInfo(this, mEditTextViewName.getText(), mEditTextViewPhone.getText(), mEditTextViewAddress.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         setResult(RESULT_OK);

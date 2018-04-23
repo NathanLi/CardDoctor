@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.home.adapter.ExpandableTradeRecordAdapter;
@@ -97,11 +98,11 @@ public class TradeDetailsFragment extends BaseFragment {
     }
 
     private void getTradeDetailsData() {
-        mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<JsonObject>() {
+        mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.getJSONObject("respData");
                     mAllPage = respData.optInt("pages");
                     JSONArray jsonArray = respData.getJSONArray("list");

@@ -22,6 +22,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -124,9 +125,9 @@ public class BranchInformationActivity extends AppCompatActivity implements IAct
         }
         Map<String,String> params=innerParam.create();
         HttpManager.getInstance().create(ApiService.class).checkBranchBank(params)
-                .compose(HttpManager.<BaseBeanList<Branch>>applySchedulers()).subscribe(new SimpleCallBack<BaseBeanList<Branch>>() {
+                .compose(HttpManager.<BaseBean<List<Branch>>>applySchedulers()).subscribe(new SimpleCallBack<BaseBean<List<Branch>>>() {
             @Override
-            public void onSuccess(BaseBeanList<Branch> branchBaseBeanList) {
+            public void onSuccess(BaseBean<List<Branch>> branchBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
 
                 if(RequestUtils.SUCCESS.equals(branchBaseBeanList.getRespCode())){

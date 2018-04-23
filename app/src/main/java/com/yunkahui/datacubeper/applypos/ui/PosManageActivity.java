@@ -8,6 +8,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.PosManageLogic;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
@@ -42,11 +43,11 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
 
     public void loadData(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.loadPosManageData(this, new SimpleCallBack<JsonObject>() {
+        mLogic.loadPosManageData(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("POS管理->"+jsonObject.toString());
+                LogUtils.e("POS管理->"+baseBean.getJsonObject().toString());
             }
 
             @Override

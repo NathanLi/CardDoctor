@@ -20,12 +20,12 @@ public class RechargeLogic {
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
     }
 
-    public void rechargeMoney(Context context, String bankCardId, String rechargeMoney, SimpleCallBack<JsonObject> callBack){
+    public void rechargeMoney(Context context, String bankCardId, String rechargeMoney, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("bankcard_id", bankCardId)
                 .addParams("recharge_amount", rechargeMoney)
                 .create();
         HttpManager.getInstance().create(ApiService.class).rechargeMoney(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 }

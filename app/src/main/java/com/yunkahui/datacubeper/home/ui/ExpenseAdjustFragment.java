@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.ExpenseAdjustLogic;
 
@@ -68,12 +69,12 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
 
     private void loadData() {
         LoadingViewDialog.getInstance().show(mActivity);
-        mLogic.getMccList(mActivity, new SimpleCallBack<JsonObject>() {
+        mLogic.getMccList(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     Log.e(TAG, "onSuccess: "+object.toString());
                     JSONArray array = object.getJSONArray("respData");
                     mTypeList.clear();
@@ -158,25 +159,33 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
             Toast.makeText(getActivity(), "连接错误", Toast.LENGTH_SHORT).show();
             return;
         }
-        LoadingViewDialog.getInstance().show(mActivity);
-        mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mTypeList.get(mIndex), mEditTextInputMoney.getText().toString(), new SimpleCallBack<JsonObject>() {
-            @Override
-            public void onSuccess(JsonObject jsonObject) {
-                LoadingViewDialog.getInstance().dismiss();
-                Intent intent = new Intent()
-                        .putExtra("amount", mEditTextInputMoney.getText().toString())
-                        .putExtra("business_type", mTypeList.get(mIndex))
-                        .putExtra("type", "expense");
-                mActivity.setResult(Activity.RESULT_OK, intent);
-                mActivity.finish();
-            }
+        if (((AdjustPlanActivity) getActivity()).isCommitToServer()) {
+            LoadingViewDialog.getInstance().show(mActivity);
+            mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mTypeList.get(mIndex), mEditTextInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
+                @Override
+                public void onSuccess(BaseBean baseBean) {
+                    finishSelf();
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    LoadingViewDialog.getInstance().dismiss();
+                    Log.e(TAG, "onFailure: " + throwable.getMessage());
+                }
+            });
+        } else {
+            finishSelf();
+        }
+    }
+
+    private void finishSelf() {
+        LoadingViewDialog.getInstance().dismiss();
+        Intent intent = new Intent()
+                .putExtra("amount", mEditTextInputMoney.getText().toString())
+                .putExtra("business_type", mTypeList.get(mIndex))
+                .putExtra("type", "expense");
+        mActivity.setResult(Activity.RESULT_OK, intent);
+        mActivity.finish();
     }
 
 

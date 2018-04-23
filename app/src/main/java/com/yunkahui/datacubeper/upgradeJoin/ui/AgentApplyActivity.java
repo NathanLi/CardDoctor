@@ -15,6 +15,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.AgentType;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -119,13 +120,13 @@ public class AgentApplyActivity extends AppCompatActivity implements IActivitySt
 
     private void loadAgentNickName(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.loadAgentNickName(this, new SimpleCallBack<JsonObject>() {
+        mLogic.loadAgentNickName(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("代理商昵称->"+jsonObject.toString());
+                LogUtils.e("代理商昵称->"+baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         JSONObject json=object.optJSONObject("respData");
                         mAgentTypes.clear();
@@ -181,13 +182,13 @@ public class AgentApplyActivity extends AppCompatActivity implements IActivitySt
     private void submitAgentApply(){
         LoadingViewDialog.getInstance().show(this);
         mLogic.submitAgentApply(this, mAgentTypeId, mEditTextViewName.getText(), mEditTextViewPhone.getText(), mEditTextViewWX.getText(),
-                mProvinceName, mCityName, mEditTextRemark.getText().toString(), new SimpleCallBack<JsonObject>() {
+                mProvinceName, mCityName, mEditTextRemark.getText().toString(), new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
                         try {
-                            LogUtils.e("我要申请->"+jsonObject.toString());
-                            JSONObject object=new JSONObject(jsonObject.toString());
+                            LogUtils.e("我要申请->"+baseBean.getJsonObject().toString());
+                            JSONObject object=baseBean.getJsonObject();
                             ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                             if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                                 finish();

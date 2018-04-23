@@ -12,6 +12,7 @@ import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,36 +31,36 @@ public class DesignSubLogic {
 
     }
 
-    public void requestSmartPlan(Context context, String isPos, int num, int page, SimpleCallBack<BaseBeanList<SmartPlanSub>> callBack){
+    public void requestSmartPlan(Context context, String isPos, int num, int page, SimpleCallBack<BaseBean<List<SmartPlanSub>>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
                 .addParams("pageNum", String.valueOf(num))
                 .addParams("pageSize", String.valueOf(page))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadSmartPlan(params)
-                .compose(HttpManager.<BaseBeanList<SmartPlanSub>>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean<List<SmartPlanSub>>>applySchedulers()).subscribe(callBack);
 
     }
 
-    public void requestSP(Context context, String isPos, String num, String page, SimpleCallBack<JsonObject> callBack){
+    public void requestSP(Context context, String isPos, String num, String page, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
                 .addParams("pageNum", num)
                 .addParams("pageSize", page)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadSP(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 
-    public void requestTO(Context context, String isPos, String num, String page, SimpleCallBack<JsonObject> callBack){
+    public void requestTO(Context context, String isPos, String num, String page, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
                 .addParams("pageNum", num)
                 .addParams("pageSize", page)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTO(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
 }

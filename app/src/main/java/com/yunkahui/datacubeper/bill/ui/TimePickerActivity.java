@@ -149,7 +149,7 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                setResult(Activity.RESULT_OK, new Intent().putParcelableArrayListExtra("selected_time", mSelectTimes));
+                setResult(Activity.RESULT_FIRST_USER, new Intent().putParcelableArrayListExtra("selected_time", mSelectTimes));
                 finish();
                 break;
         }

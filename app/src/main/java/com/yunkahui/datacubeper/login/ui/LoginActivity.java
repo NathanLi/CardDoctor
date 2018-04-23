@@ -19,6 +19,7 @@ import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityBase;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
@@ -107,13 +108,13 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
 
     public void login(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.login(this, mEditTextPhone.getText().toString(), mEditTextPassword.getText().toString(), new SimpleCallBack<JsonObject>() {
+        mLogic.login(this, mEditTextPhone.getText().toString(), mEditTextPassword.getText().toString(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("登陆->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("登陆->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         SharedPreferencesUtils.save(LoginActivity.this,SharedPreferencesUtils.USER_NAME,mEditTextPhone.getText().toString());

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.util.Map;
@@ -19,16 +20,16 @@ public class HomeLogic {
     /**
      * 查询POS申请状态
      */
-    public void checkPosApplyStatus(Context context, SimpleCallBack<JsonObject> callBack){
+    public void checkPosApplyStatus(Context context, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).checkPosApplyStatus(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    public void loadUserFinance(Context context, SimpleCallBack<JsonObject> callBack){
+    public void loadUserFinance(Context context, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).loadUserFinance(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
 }

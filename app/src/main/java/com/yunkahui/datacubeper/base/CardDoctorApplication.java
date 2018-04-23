@@ -26,6 +26,7 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.utils.CustomConverterFactory;
 import com.yunkahui.datacubeper.common.utils.ImagePickerGlideLoader;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
@@ -37,13 +38,18 @@ import java.text.ParseException;
  */
 
 public class CardDoctorApplication extends Application {
+
     private static CardDoctorApplication mApp;
     private final int DESIGN_WIDTH = 375;
     private static Context mContext;
 
     public static CardDoctorApplication getInstance() {
         if (mApp == null) {
-            mApp = new CardDoctorApplication();
+            synchronized (CardDoctorApplication.class) {
+                if (mApp == null) {
+                    mApp = new CardDoctorApplication();
+                }
+            }
         }
         return mApp;
     }
@@ -58,6 +64,7 @@ public class CardDoctorApplication extends Application {
         mContext=getApplicationContext();
         final Context context = this;
         HttpManager.baseUrl(BaseUrl.HOME);
+        HttpManager.setFactory(CustomConverterFactory.create());
         initImagePicker();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 

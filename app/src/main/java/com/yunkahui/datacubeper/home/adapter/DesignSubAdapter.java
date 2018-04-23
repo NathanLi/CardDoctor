@@ -30,7 +30,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
         String operation = item.getOperation();
 
         helper.setBackgroundRes(R.id.iv_icon, type.equals("消费") ? R.mipmap.ic_spending : R.mipmap.ic_repay);
-        helper.setText(R.id.tv_title, type + "-" + bankCardName);
+        helper.setText(R.id.tv_title, type + " - " + bankCardName);
         //helper.setText(R.id.tv_msg, );
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", date));
         if ("10".equals(mIsPos)) {

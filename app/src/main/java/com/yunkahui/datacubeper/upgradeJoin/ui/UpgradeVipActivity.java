@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -76,9 +77,9 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 
     private void loadData(){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.loadData(this, new SimpleCallBack<BaseBeanList<VipPackage>>() {
+        mLogic.loadData(this, new SimpleCallBack<BaseBean<List<VipPackage>>>() {
             @Override
-            public void onSuccess(BaseBeanList<VipPackage> vipPackageBaseBeanList) {
+            public void onSuccess(BaseBean<List<VipPackage>> vipPackageBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("Vip会员套餐->"+vipPackageBaseBeanList.toString());
                 try {
@@ -161,11 +162,11 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 
     private void payVip(String vipId){
         LoadingViewDialog.getInstance().show(this);
-        mLogic.payVip(this, vipId, "ALIPAY", new SimpleCallBack<JsonObject>() {
+        mLogic.payVip(this, vipId, "ALIPAY", new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付信息->"+jsonObject.toString());
+                LogUtils.e("支付信息->"+baseBean.getJsonObject().toString());
 
             }
 

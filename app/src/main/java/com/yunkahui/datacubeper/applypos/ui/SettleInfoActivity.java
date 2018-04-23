@@ -94,12 +94,12 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
 
     //查询发卡行
     public void checkBankCardName(){
-        new AddCashCardLogic().checkBankCardName(this, mEditTextViewBankCardNumber.getText(), new SimpleCallBack<JsonObject>() {
+        new AddCashCardLogic().checkBankCardName(this, mEditTextViewBankCardNumber.getText(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
-                    LogUtils.e("发卡行->"+jsonObject.toString());
-                    JSONObject object=new JSONObject(jsonObject.toString());
+                    LogUtils.e("发卡行->"+baseBean.getJsonObject().toString());
+                    JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         mEditTextViewBankCardName.setText(object.optJSONObject("respData").optString("bankName"));
                     }
@@ -164,11 +164,22 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
     private void upLoadSettleInfo(){
         LoadingViewDialog.getInstance().show(this);
         mLogic.upLoadSettleInfo(this, mEditTextViewBankCardNumber.getText(), mEditTextViewBankCardName.getText(), mProvince, mCity, mTextViewBranch.getText().toString(),
-                mEditTextViewBranchNumber.getText(), new SimpleCallBack<JsonObject>() {
+                mEditTextViewBranchNumber.getText(), new SimpleCallBack<BaseBean>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
-                        LogUtils.e("结算信息提交->"+jsonObject.toString());
+                        LogUtils.e("结算信息提交->"+baseBean.getJsonObject().toString());
+                        try {
+                            JSONObject object=baseBean.getJsonObject();
+                            ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
+                            if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                     @Override

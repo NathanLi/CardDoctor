@@ -19,6 +19,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.UpLoadImageLogic;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -47,13 +48,13 @@ public class UpLoadHandPosFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_up_load_hand_pos, container, false);
-        mImageViewFront=view.findViewById(R.id.image_view_hand_pos_front);
+        View view = inflater.inflate(R.layout.fragment_up_load_hand_pos, container, false);
+        mImageViewFront = view.findViewById(R.id.image_view_hand_pos_front);
 
         view.findViewById(R.id.button_submit).setOnClickListener(this);
         mImageViewFront.setOnClickListener(this);
 
-        mLogic=new UpLoadImageLogic();
+        mLogic = new UpLoadImageLogic();
 
         return view;
     }
@@ -83,13 +84,13 @@ public class UpLoadHandPosFragment extends Fragment implements View.OnClickListe
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.upLoadImageFile(getActivity(), type, file, new SimpleCallBack<JsonObject>() {
+        mLogic.upLoadImageFile(getActivity(), type, file, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("上传图片->" + jsonObject.toString());
+                LogUtils.e("上传图片->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
+                    JSONObject object = baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         mFront = object.optJSONObject("respData").optString("url");
                     }
@@ -118,15 +119,15 @@ public class UpLoadHandPosFragment extends Fragment implements View.OnClickListe
             e.printStackTrace();
         }
         LoadingViewDialog.getInstance().show(getActivity());
-        mLogic.commitSaveImage(getActivity(), jsonArray.toString(), new SimpleCallBack<JsonObject>() {
+        mLogic.commitSaveImage(getActivity(), jsonArray.toString(), new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(JsonObject jsonObject) {
+            public void onSuccess(BaseBean baseBean) {
                 try {
                     LoadingViewDialog.getInstance().dismiss();
-                    LogUtils.e("手持POS提交->" + jsonObject.toString());
-                    JSONObject object = new JSONObject(jsonObject.toString());
-                    ToastUtils.show(getActivity(),object.optString("respDesc"));
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                    LogUtils.e("手持POS提交->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
+                    ToastUtils.show(getActivity(), object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         getActivity().setResult(getActivity().RESULT_OK);
                         getActivity().finish();
                     }
@@ -134,10 +135,11 @@ public class UpLoadHandPosFragment extends Fragment implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
     }
@@ -145,14 +147,14 @@ public class UpLoadHandPosFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_view_hand_pos_front:
                 ImagePicker.getInstance().setSelectLimit(1);
                 startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), RESULT_CODE_IMAGE_FRONT);
                 break;
             case R.id.button_submit:
-                if(TextUtils.isEmpty(mFront)){
-                    ToastUtils.show(getActivity(),"请完善信息");
+                if (TextUtils.isEmpty(mFront)) {
+                    ToastUtils.show(getActivity(), "请完善信息");
                     return;
                 }
                 submit();

@@ -12,13 +12,6 @@ import java.util.Map;
 
 public class PlanPickerLogic {
 
-    public void getMccList(Context context, SimpleCallBack<JsonObject> callBack){
-        Map<String,String> params= RequestUtils.newParams(context).create();
-        HttpManager.getInstance().create(ApiService.class).loadMccList(params)
-                .compose(HttpManager.<JsonObject>applySchedulers()).subscribe(callBack);
-
-    }
-
     public void confirmPlan(Context context, String cardId, String planDatas, String requestNo, SimpleCallBack<JsonObject> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("bank_card_id",cardId)

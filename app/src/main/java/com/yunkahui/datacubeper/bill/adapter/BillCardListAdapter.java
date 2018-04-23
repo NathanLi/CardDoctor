@@ -85,7 +85,9 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                         public void onClickSmartPlan() {
                             mContext.startActivity(new Intent(mContext, PlanPickerActivity.class)
                                     .putExtra("time", nBillDay)
-                                    .putExtra("user_credit_card_id", item.getUserCreditCardId()));
+                                    .putExtra("user_credit_card_id", item.getUserCreditCardId())
+                                    .putExtra("bank_card_name", item.getBankCardName())
+                                    .putExtra("bank_card_num", item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length())));
                         }
                     });
                 } else {

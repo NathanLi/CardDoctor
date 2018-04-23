@@ -50,22 +50,6 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mList = new ArrayList<>();
         mLogic = new PlanPickerLogic();
         initListener();
-        mLogic.getMccList(this, new SimpleCallBack<JsonObject>() {
-            @Override
-            public void onSuccess(JsonObject jsonObject) {
-                try {
-                    JSONObject object = new JSONObject(jsonObject.toString());
-                    Log.e(TAG, "onSuccess: "+object.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "onFailure: "+throwable.getMessage());
-            }
-        });
     }
 
     private void initListener() {
@@ -137,7 +121,6 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                     date.append(item.getYear()+"-"+item.getMonth()+"-"+item.getDay()+",");
                 }
                 date.deleteCharAt(date.toString().length() - 1);
-                Log.e(TAG, "onClick: "+getIntent().getIntExtra("user_credit_card_id", 0));
                 mLogic.generatePlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
                         date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<JsonObject>() {
                             @Override

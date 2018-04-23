@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.MineItem;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 
 import java.util.List;
 
@@ -22,12 +23,12 @@ public class CardTestAdapter extends BaseQuickAdapter<CardTestItem, BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder helper, CardTestItem item) {
-        helper.setBackgroundRes(R.id.iv_bank_icon, item.getIcon());
-        helper.setText(R.id.tv_user_name, item.getUserName());
-        helper.setText(R.id.tv_bank_name, item.getBankName());
-        helper.setText(R.id.tv_bank_id, item.getBankId());
-        helper.setText(R.id.tv_card_nick_name, item.getNickName());
-        helper.setText(R.id.tv_card_type, item.getCardType());
+        helper.setBackgroundRes(R.id.iv_bank_icon, DataUtils.getBankIconMap().get(item.getCard().getBank_name()));
+        helper.setText(R.id.tv_user_name, item.getCard().getCardholder());
+        helper.setText(R.id.tv_bank_name, item.getCard().getBank_name());
+        helper.setText(R.id.tv_bank_id, item.getCard().getBankcard_num());
+        helper.setText(R.id.tv_card_nick_name, item.getCard().getCard_brand());
+        helper.setText(R.id.tv_card_type, item.getCard().getCard_name());
     }
 
 }

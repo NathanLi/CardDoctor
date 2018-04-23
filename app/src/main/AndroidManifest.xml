@@ -69,15 +69,16 @@
         <activity android:name=".home.ui.WithdrawSuccessActivity" />
         <activity android:name=".home.ui.QrShareActivity" />
         <activity android:name=".bill.ui.PlanPickerActivity" />
-        <activity android:name=".bill.ui.PosPlanActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity
+            android:name=".bill.ui.PosPlanActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".bill.ui.AutoPlanActivity" />
         <activity android:name=".applypos.ui.UpdateApplyPhoneActivity" />
         <activity android:name=".applypos.ui.UpdateSettleActivity" />
         <activity android:name=".test.ui.TestResultActivity" />
-        <activity android:name=".test.ui.CardTestActivity"/>
-        <activity android:name=".bill.ui.TimePickerActivity">
-        </activity>
+        <activity android:name=".test.ui.CardTestActivity" />
+        <activity android:name=".bill.ui.TimePickerActivity"/>
+        <activity android:name=".test.ui.TestHistoryActivity"/>
         <activity android:name=".mine.ui.AboutUsActivity" />
     </application>
 

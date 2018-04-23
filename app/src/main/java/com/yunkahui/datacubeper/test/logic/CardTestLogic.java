@@ -7,8 +7,10 @@ import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +44,18 @@ public class CardTestLogic {
         HttpManager.getInstance().create(ApiService.class).submitCardTest(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    /**
+     * 查询用户测评过的卡片列表
+     */
+    public void loadTestCardList(Context context,SimpleCallBack<BaseBean<List<CardTestItem>>> callBack){
+        Map<String,String> params= RequestUtils.newParams(context)
+                .addParams("api_name_code","apistore-a12")
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadTestCardList(params)
+                .compose(HttpManager.<BaseBean<List<CardTestItem>>>applySchedulers()).subscribe(callBack);
+    }
+
 
 
 }

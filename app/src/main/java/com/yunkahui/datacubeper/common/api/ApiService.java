@@ -1,9 +1,9 @@
 package com.yunkahui.datacubeper.common.api;
 
-import com.google.gson.JsonObject;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.Branch;
+import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
@@ -271,6 +271,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/pos/planning/confirm_planning")       //pos规划-确认提交
     Observable<BaseBean> confirmPosPlan(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/planning/generate_planning")       //智能规划-生成数据
+    Observable<BaseBean> generatePlan(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/query_record_card")     //查询用户测评过的卡片列表
+    Observable<BaseBean<List<CardTestItem>>> loadTestCardList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/pos/planning/generate_planning")       //pos规划-生成数据

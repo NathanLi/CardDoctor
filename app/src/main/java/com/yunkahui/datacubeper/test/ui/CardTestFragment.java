@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -36,26 +38,19 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
 
     private final int RESULT_CODE_UPDATE=1001;
 
+    private AVLoadingIndicatorView mLoadingIndicatorView;
     private RecyclerView mRecyclerView;
 
     private CardTestLogic mLogic;
+    private List<CardTestItem> mCardTestItems;
+    private CardTestAdapter mCardTestAdapter;
 
     @Override
     public void initData() {
         mLogic=new CardTestLogic();
-        List<CardTestItem> cardTestItems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            CardTestItem cardTestItem = new CardTestItem();
-            cardTestItem.setIcon(R.mipmap.ic_launcher);
-            cardTestItem.setUserName("dian" + i);
-            cardTestItem.setBankName("中国" + i + "银行");
-            cardTestItem.setBankId("" + i + i + i + i + i + i);
-            cardTestItem.setNickName("vsa");
-            cardTestItem.setCardType("借记卡");
-            cardTestItems.add(cardTestItem);
-        }
-        CardTestAdapter cardTestAdapter = new CardTestAdapter(R.layout.layout_list_item_card_test, cardTestItems);
-        cardTestAdapter.bindToRecyclerView(mRecyclerView);
+        mCardTestItems=new ArrayList<>();
+        mCardTestAdapter = new CardTestAdapter(R.layout.layout_list_item_card_test, mCardTestItems);
+        mCardTestAdapter.bindToRecyclerView(mRecyclerView);
         View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_card_test, null);
         final CardTestView cardTestView = header.findViewById(R.id.card_test_view);
 
@@ -63,20 +58,23 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         header.findViewById(R.id.text_view_example).setOnClickListener(this);
         header.findViewById(R.id.text_view_history_test).setOnClickListener(this);
 
-        cardTestAdapter.addHeaderView(header);
-        cardTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mCardTestAdapter.addHeaderView(header);
+        mCardTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(cardTestAdapter);
+        mRecyclerView.setAdapter(mCardTestAdapter);
+
+        loadData();
     }
 
     @Override
     public void initView(View view) {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.tab_item_card_test));
+        mLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 
@@ -86,6 +84,36 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
     }
 
 
+    //查询用户测评过的卡片列表
+    public void loadData(){
+        mLoadingIndicatorView.setVisibility(View.VISIBLE);
+        mLogic.loadTestCardList(getActivity(), new SimpleCallBack<BaseBean<List<CardTestItem>>>() {
+            @Override
+            public void onSuccess(BaseBean<List<CardTestItem>> baseBean) {
+                mLoadingIndicatorView.setVisibility(View.GONE);
+                LogUtils.e("获取测评卡片列表->"+baseBean.toString());
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    List<CardTestItem> items=baseBean.getRespData();
+                    for (int i=0;i<items.size();i++){
+                        String cs=items.get(i).getApr_send_datas().replace("\\","");
+                        CardTestItem.Card card=new GsonBuilder().create().fromJson(cs, CardTestItem.Card.class);
+                        items.get(i).setCard(card);
+                    }
+                    mCardTestItems.clear();
+                    mCardTestItems.addAll(items);
+                    mCardTestAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                mLoadingIndicatorView.setVisibility(View.GONE);
+                LogUtils.e("获取测评卡片列表失败 "+throwable.toString());
+            }
+        });
+    }
+
+    //卡评测-获取评测价格
     public void loadTestMoney(){
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.loadTestMoney(getActivity(), new SimpleCallBack<BaseBean>() {
@@ -106,14 +134,12 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
             }
         });
-
     }
 
     @Override

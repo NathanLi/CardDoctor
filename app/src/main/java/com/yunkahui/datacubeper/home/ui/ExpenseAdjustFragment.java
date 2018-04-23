@@ -159,25 +159,33 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
             Toast.makeText(getActivity(), "连接错误", Toast.LENGTH_SHORT).show();
             return;
         }
-        LoadingViewDialog.getInstance().show(mActivity);
-        mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mTypeList.get(mIndex), mEditTextInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                LoadingViewDialog.getInstance().dismiss();
-                Intent intent = new Intent()
-                        .putExtra("amount", mEditTextInputMoney.getText().toString())
-                        .putExtra("business_type", mTypeList.get(mIndex))
-                        .putExtra("type", "expense");
-                mActivity.setResult(Activity.RESULT_OK, intent);
-                mActivity.finish();
-            }
+        if (((AdjustPlanActivity) getActivity()).isCommitToServer()) {
+            LoadingViewDialog.getInstance().show(mActivity);
+            mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mTypeList.get(mIndex), mEditTextInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
+                @Override
+                public void onSuccess(BaseBean baseBean) {
+                    finishSelf();
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    LoadingViewDialog.getInstance().dismiss();
+                    Log.e(TAG, "onFailure: " + throwable.getMessage());
+                }
+            });
+        } else {
+            finishSelf();
+        }
+    }
+
+    private void finishSelf() {
+        LoadingViewDialog.getInstance().dismiss();
+        Intent intent = new Intent()
+                .putExtra("amount", mEditTextInputMoney.getText().toString())
+                .putExtra("business_type", mTypeList.get(mIndex))
+                .putExtra("type", "expense");
+        mActivity.setResult(Activity.RESULT_OK, intent);
+        mActivity.finish();
     }
 
 

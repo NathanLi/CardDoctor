@@ -181,14 +181,29 @@ public class DesignSubFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && data != null) {
             String amount = data.getStringExtra("amount");
-            if (mIsTodayOperation) {
-                mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
-            } else {
-                mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+            if ("repay".equals(data.getStringExtra("type"))) {
+                if (mIsTodayOperation) {
+                    mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                } else {
+                    mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                }
+                // TODO: 2018/4/18 0018 set business type
+                mDesignSubAdapter.notifyItemChanged(mPosition);
+                Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
+            } else if ("expense".equals(data.getStringExtra("type"))) {
+                String businessType = data.getStringExtra("business_type");
+                if (mIsTodayOperation) {
+                    mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                    mTodayOperationSubList.get(mPosition).setBusiness_name(businessType);
+                } else {
+                    mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                    mSmartPlanSubList.get(mPosition).setBusiness_name(businessType);
+                }
+                // TODO: 2018/4/18 0018 set business type
+                mDesignSubAdapter.notifyItemChanged(mPosition);
+                Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
+
             }
-            // TODO: 2018/4/18 0018 set business type
-            mDesignSubAdapter.notifyItemChanged(mPosition);
-            Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
         }
     }
 

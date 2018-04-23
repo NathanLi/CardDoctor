@@ -43,15 +43,17 @@ public class PlanPickerActivity extends AppCompatActivity implements IActivitySt
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Class clazz = null;
                 if (position == 0) {
-                    startActivity(new Intent(PlanPickerActivity.this, PosPlanActivity.class)
-                            .putExtra("time", getIntent().getStringExtra("time"))
-                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
+                    clazz = PosPlanActivity.class;
                 } else if (position == 1) {
-                    startActivity(new Intent(PlanPickerActivity.this, AutoPlanActivity.class)
-                            .putExtra("time", getIntent().getStringExtra("time"))
-                            .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
+                    clazz = AutoPlanActivity.class;
                 }
+                startActivity(new Intent(PlanPickerActivity.this, clazz)
+                        .putExtra("time", getIntent().getStringExtra("time"))
+                        .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0))
+                        .putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"))
+                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num")));
             }
         });
         mRecyclerView.setHasFixedSize(true);

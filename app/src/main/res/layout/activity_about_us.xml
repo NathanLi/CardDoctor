@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f9">
+
+    <ImageView
+        android:id="@+id/show_icon"
+        android:layout_width="64pt"
+        android:layout_height="64pt"
+        android:layout_marginTop="21dp"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/ic_logo" />
+
+    <TextView
+        android:id="@+id/show_mess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="105dp"
+        android:text="@string/app_name"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/show_download"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/ic_download_qr"
+        android:layout_marginTop="150dp" />
+    <TextView
+        android:id="@+id/space1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="280dp"
+        android:text="@string/share_sub_run"
+        android:textColor="#666666"
+        android:textSize="15sp" />
+    <LinearLayout
+        android:layout_marginTop="340dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_share_app"
+            android:padding="12pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="15pt"
+                android:text="分享卡医生"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_next_gray"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20pt"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_check_update"
+            android:padding="12pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="15pt"
+                android:text="检测更新"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_next_gray"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20pt"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/show_protocol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="13sp"
+        android:textColor="#666666"
+        android:layout_centerHorizontal="true"
+        android:text="@string/service_agreement"/>
+
+</RelativeLayout>

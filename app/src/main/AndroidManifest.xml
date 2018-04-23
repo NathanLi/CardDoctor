@@ -77,8 +77,9 @@
         <activity android:name=".applypos.ui.UpdateSettleActivity" />
         <activity android:name=".test.ui.TestResultActivity" />
         <activity android:name=".test.ui.CardTestActivity" />
-        <activity android:name=".bill.ui.TimePickerActivity"></activity>
-        <activity android:name=".test.ui.TestHistoryActivity"></activity>
+        <activity android:name=".bill.ui.TimePickerActivity"/>
+        <activity android:name=".test.ui.TestHistoryActivity"/>
+        <activity android:name=".mine.ui.AboutUsActivity" />
     </application>
 
 </manifest>

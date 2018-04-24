@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
+import com.yunkahui.datacubeper.common.utils.TintUtil;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 break;
             case TYPE_LEVEL_1:
                 TradeRecordDetail lv1 = (TradeRecordDetail) item;
-                helper.setText(R.id.show_mess, lv1.getTitle());
+                helper.setText(R.id.tv_mess, lv1.getTitle());
                 helper.setText(R.id.show_time, lv1.getTime());
                 helper.setText(R.id.show_money, lv1.getMoney());
                 int colorID;
@@ -59,16 +60,8 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
                 }
-                helper.getView(R.id.iv_qr).setBackground(createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
-    }
-
-    private GradientDrawable createColorShape(int color, float topLeft, float topRight, float bottomRight, float bottomLeft) {
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setCornerRadii(new float[]{topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft, bottomLeft});
-        drawable.setColor(color);
-        return drawable;
     }
 }

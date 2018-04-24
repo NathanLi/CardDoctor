@@ -77,6 +77,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.layout_card_item:
                 l.onClickBillCard();
+                break;
             case R.id.btn_bill_sync:
                 l.onClickBillSync();
                 break;

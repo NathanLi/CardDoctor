@@ -1,7 +1,6 @@
-package com.yunkahui.datacubeper.home.adapter;
+package com.yunkahui.datacubeper.bill.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -12,19 +11,20 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
+import com.yunkahui.datacubeper.common.utils.TintUtil;
 
 import java.util.List;
 
-public class ExpandableProfitIncomeAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
     private Context mContext;
 
-    public ExpandableProfitIncomeAdapter(Context context, List<MultiItemEntity> data) {
+    public ExpandableBillDeatailAdapter(Context context, List<MultiItemEntity> data) {
         super(data);
         mContext = context;
-        addItemType(TYPE_LEVEL_0, R.layout.layout_list_header_trade_record_summary);
+        addItemType(TYPE_LEVEL_0, R.layout.layout_list_header_bill_detail_section);
         addItemType(TYPE_LEVEL_1, R.layout.layout_list_item_trade_record_detail);
     }
 
@@ -59,16 +59,8 @@ public class ExpandableProfitIncomeAdapter extends BaseMultiItemQuickAdapter<Mul
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
                 }
-                helper.getView(R.id.iv_qr).setBackground(createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
-    }
-
-    private GradientDrawable createColorShape(int color, float topLeft, float topRight, float bottomRight, float bottomLeft) {
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setCornerRadii(new float[]{topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft, bottomLeft});
-        drawable.setColor(color);
-        return drawable;
     }
 }

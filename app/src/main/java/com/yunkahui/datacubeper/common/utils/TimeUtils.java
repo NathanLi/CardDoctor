@@ -9,20 +9,20 @@ import retrofit2.http.FormUrlEncoded;
 
 public class TimeUtils {
 
-    //******** 时间戳格式化 ********
+    public static Calendar getCalendar(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        calendar.add(Calendar.HOUR, 8);
+        return calendar;
+    }
+
     public static String format(String pattern, long time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
+        calendar.add(Calendar.HOUR, 8);
         String timeStr = dateFormat.format(calendar.getTime());
         return timeStr;
-    }
-
-    public static Calendar formatCalendar(String format, String date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(format, new Locale("zh", "CN"));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sdf.parse(date));
-        return calendar;
     }
 
     /**

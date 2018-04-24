@@ -76,37 +76,28 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     }
 
     private void initTimeList() {
-        try {
-            ArrayList<TimeItem> selectedList = getIntent().getParcelableArrayListExtra("selected_time");
-            mList = new ArrayList<>();
-            mSelectTimes = new ArrayList<>();
-            String curDate = TimeUtils.format("yyyy-MM-dd", System.currentTimeMillis());
-            String endDate = getIntent().getStringExtra("time").replace(".", "-");
-            //String curDate = "2018-04-16";
-            //String endDate = "2018-05-15";
-            Calendar curCalendar = TimeUtils.formatCalendar("yyyy-MM-dd", curDate);
-            Calendar endCalendar = TimeUtils.formatCalendar("yyyy-MM-dd", endDate);
-            if (curCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                    curCalendar.get(Calendar.MONTH) + 1 == endCalendar.get(Calendar.MONTH) + 1 &&
-                    curCalendar.get(Calendar.DAY_OF_MONTH) + 1 == endCalendar.get(Calendar.DAY_OF_MONTH)) {
-                addTimeHeader(curCalendar);
-                addTimeItem(selectedList, curCalendar);
-            } else {
-                int lastMonth = 0;
-                while (curCalendar.get(Calendar.YEAR) != endCalendar.get(Calendar.YEAR) ||
-                        curCalendar.get(Calendar.MONTH) + 1 != endCalendar.get(Calendar.MONTH) + 1 ||
-                        curCalendar.get(Calendar.DAY_OF_MONTH) != endCalendar.get(Calendar.DAY_OF_MONTH)) {
-                    if (lastMonth != curCalendar.get(Calendar.MONTH) + 1) {
-                        int month = addTimeHeader(curCalendar);
-                        lastMonth = month;
-                    }
-                    addTimeItem(selectedList, curCalendar);
-                    curCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        ArrayList<TimeItem> selectedList = getIntent().getParcelableArrayListExtra("selected_time");
+        mList = new ArrayList<>();
+        mSelectTimes = new ArrayList<>();
+        Calendar curCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
+        Calendar endCalendar = TimeUtils.getCalendar(getIntent().getLongExtra("time", 0));
+        if (curCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                curCalendar.get(Calendar.MONTH) + 1 == endCalendar.get(Calendar.MONTH) + 1 &&
+                curCalendar.get(Calendar.DAY_OF_MONTH) + 1 == endCalendar.get(Calendar.DAY_OF_MONTH)) {
+            addTimeHeader(curCalendar);
+            addTimeItem(selectedList, curCalendar);
+        } else {
+            int lastMonth = 0;
+            while (curCalendar.get(Calendar.YEAR) != endCalendar.get(Calendar.YEAR) ||
+                    curCalendar.get(Calendar.MONTH) + 1 != endCalendar.get(Calendar.MONTH) + 1 ||
+                    curCalendar.get(Calendar.DAY_OF_MONTH) != endCalendar.get(Calendar.DAY_OF_MONTH)) {
+                if (lastMonth != curCalendar.get(Calendar.MONTH) + 1) {
+                    int month = addTimeHeader(curCalendar);
+                    lastMonth = month;
                 }
+                addTimeItem(selectedList, curCalendar);
+                curCalendar.add(Calendar.DAY_OF_MONTH, 1);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.e(TAG, "initTimeList: " + e.getMessage());
         }
     }
 

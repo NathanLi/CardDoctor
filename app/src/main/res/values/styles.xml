@@ -11,6 +11,13 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <declare-styleable name="FillSpinnerView" >
+        <attr name="title"/>
+        <attr name="isLine"/>
+        <attr name="src"/>
+        <attr name="entries" format="reference" />
+    </declare-styleable>
+
     <style name="TransToolBarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/white</item>
         <item name="actionMenuTextColor">#ffffff</item>

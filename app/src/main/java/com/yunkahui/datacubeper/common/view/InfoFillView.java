@@ -22,9 +22,9 @@ import com.yunkahui.datacubeper.R;
 public class InfoFillView extends LinearLayout {
 
     private TextView mTvDest;
-    private EditText mEtCardNum;
+    private EditText mEtInput;
     private View mLlInfo;
-    private TextView mTvName;
+    private TextView mTvInput;
     private TextWatcher watcher;
 
     public InfoFillView(Context context) {
@@ -39,12 +39,12 @@ public class InfoFillView extends LinearLayout {
         super(context, attrs, defStyleAttr);
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_info_fill_view, this);
-        TextView tvInfoName = view.findViewById(R.id.tv_info_name);
-        mEtCardNum = view.findViewById(R.id.et_info);
-        mTvDest = view.findViewById(R.id.tv_info_dest);
-        ImageView ivInfoIcon = view.findViewById(R.id.iv_info_icon);
+        TextView tvTitle = view.findViewById(R.id.tv_title);
+        mEtInput = view.findViewById(R.id.et_input);
+        mTvDest = view.findViewById(R.id.tv_dest);
+        ImageView ivIcon = view.findViewById(R.id.iv_icon);
         mLlInfo = view.findViewById(R.id.ll_info);
-        mTvName = view.findViewById(R.id.tv_info);
+        mTvInput = view.findViewById(R.id.tv_input);
         View line = view.findViewById(R.id.line_indicator);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.InfoFillView, defStyleAttr, 0);
@@ -57,34 +57,37 @@ public class InfoFillView extends LinearLayout {
         int destColor = a.getColor(R.styleable.InfoFillView_destColor, getResources().getColor(R.color.text_color_deep_gray_656565));
 
         line.setVisibility(a.getInt(R.styleable.InfoFillView_lineVisible, GONE));
-        tvInfoName.setText(name);
+        tvTitle.setText(name);
         mTvDest.setText(dest);
-        mEtCardNum.setHint(hint);
-        mEtCardNum.setHintTextColor(Color.parseColor("#cccccc"));
-        mEtCardNum.setVisibility(inputVisible);
+        mEtInput.setHint(hint);
+        mEtInput.setHintTextColor(Color.parseColor("#cccccc"));
+        mEtInput.setVisibility(inputVisible);
         mTvDest.setTextColor(destColor);
-        ivInfoIcon.setBackgroundResource(imgRes);
+        ivIcon.setBackgroundResource(imgRes);
         if (isTextView) {
-            mTvName.setVisibility(VISIBLE);
-            mEtCardNum.setVisibility(GONE);
+            mTvInput.setVisibility(VISIBLE);
+            mEtInput.setVisibility(GONE);
         } else {
-            mTvName.setVisibility(GONE);
-            mEtCardNum.setVisibility(VISIBLE);
+            mTvInput.setVisibility(GONE);
+            mEtInput.setVisibility(VISIBLE);
         }
-        mEtCardNum.addTextChangedListener(new TextWatcher() {
+        mEtInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                watcher.beforeTextChanged(charSequence, i, i1, i2);
+                if (watcher != null)
+                    watcher.beforeTextChanged(charSequence, i, i1, i2);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                watcher.onTextChanged(charSequence, i, i1, i2);
+                if (watcher != null)
+                    watcher.onTextChanged(charSequence, i, i1, i2);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                watcher.afterTextChanged(editable);
+                if (watcher != null)
+                    watcher.afterTextChanged(editable);
             }
         });
         a.recycle();
@@ -95,11 +98,15 @@ public class InfoFillView extends LinearLayout {
     }
 
     public String getCardNum() {
-        return mEtCardNum.getText().toString().trim();
+        return mEtInput.getText().toString().trim();
     }
 
     public String getDest() {
         return mTvDest.getText().toString().trim();
+    }
+
+    public void setDestColor(int color) {
+        mTvDest.setTextColor(color);
     }
 
     public void setDest(String dest) {
@@ -110,22 +117,22 @@ public class InfoFillView extends LinearLayout {
     }
 
     public String getName() {
-        return mTvName.getText().toString().trim();
+        return mTvInput.getText().toString().trim();
     }
 
     public void setName(String name) {
         if (name == null) {
             return;
         }
-        mTvName.setText(name);
+        mTvInput.setText(name);
     }
 
     public void setCursorVisible(boolean visible) {
-        mEtCardNum.setCursorVisible(visible);
+        mEtInput.setCursorVisible(visible);
     }
 
     public void setOnEditTextTouchListener(OnTouchListener l) {
-        mEtCardNum.setOnTouchListener(l);
+        mEtInput.setOnTouchListener(l);
     }
 
     public void addTextChangeListener(TextWatcher watcher) {

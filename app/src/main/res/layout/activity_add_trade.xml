@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f5f5f5">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_toolbar" />
+
+        <com.yunkahui.datacubeper.common.view.InfoFillView
+            android:id="@+id/ifv_card_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoName="卡片"
+            app:infoIcon="@mipmap/ic_next_gray"
+            app:isTextView="true"
+            app:lineVisible="visible" />
+        <com.yunkahui.datacubeper.common.view.InfoFillView
+            android:id="@+id/ifv_date"
+            android:layout_marginTop="10pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoName="日期"
+            app:infoDest="选择日期"
+            app:infoIcon="@mipmap/ic_next_gray"
+            app:isTextView="true"
+            app:lineVisible="visible" />
+        <com.yunkahui.datacubeper.common.view.InfoFillView
+            android:id="@+id/ifv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoName="时间"
+            app:infoDest="选择时间"
+            app:infoIcon="@mipmap/ic_next_gray"
+            app:isTextView="true"
+            app:lineVisible="visible" />
+        <com.yunkahui.datacubeper.common.view.InfoFillView
+            android:id="@+id/ifv_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoName="金额"
+            app:lineVisible="visible" />
+        <com.yunkahui.datacubeper.common.view.FillSpinnerView
+            android:id="@+id/fsv_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:entries="@array/bill_type"
+            app:title="类型" />
+
+        <com.yunkahui.datacubeper.common.view.FillSpinnerView
+            android:id="@+id/fsv_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="商户类型" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sure"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="确定"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

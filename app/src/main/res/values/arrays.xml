@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bill_type">
+        <item>消费</item>
+        <item>还款</item>
+    </string-array>
+</resources>

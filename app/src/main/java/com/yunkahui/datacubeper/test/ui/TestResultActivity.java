@@ -217,7 +217,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                     switch (section) {
                         case 1: {
                             holder.getView(R.id.show_top).setVisibility(View.VISIBLE);
-                            holder.setText(R.id.show_title, "交易概况统计").setText(R.id.show_detail, "").setText(R.id.show_left, "统计周期").setText(R.id.show_right, "交易金额(元)");
+                            holder.setText(R.id.show_title, "交易概况统计").setText(R.id.show_detail, "").setText(R.id.tv_left, "统计周期").setText(R.id.show_right, "交易金额(元)");
                         }
                         break;
                         case 2: {
@@ -274,17 +274,17 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                         break;
                         case 6: {
                             holder.getView(R.id.show_top).setVisibility(View.VISIBLE);
-                            holder.setText(R.id.show_title, "消费类别统计").setText(R.id.show_detail, "周期：近6个月").setText(R.id.show_left, "消费类别").setText(R.id.show_right, "消费金额(元)");
+                            holder.setText(R.id.show_title, "消费类别统计").setText(R.id.show_detail, "周期：近6个月").setText(R.id.tv_left, "消费类别").setText(R.id.show_right, "消费金额(元)");
                         }
                         break;
                         case 7: {
                             holder.getView(R.id.show_top).setVisibility(View.GONE);
-                            holder.setText(R.id.show_left, "休闲娱乐类").setText(R.id.show_right, "消费金额(元)");
+                            holder.setText(R.id.tv_left, "休闲娱乐类").setText(R.id.show_right, "消费金额(元)");
                         }
                         break;
                         case 8: {
                             holder.getView(R.id.show_top).setVisibility(View.GONE);
-                            holder.setText(R.id.show_left, "商旅出行类").setText(R.id.show_right, "消费金额(元)");
+                            holder.setText(R.id.tv_left, "商旅出行类").setText(R.id.show_right, "消费金额(元)");
                         }
                         break;
                         case 9: {
@@ -301,14 +301,14 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                         break;
                         case 10: {
                             holder.setText(R.id.show_title, "周末时间消费分布")
-                                    .setText(R.id.show_left, "周末时间")
+                                    .setText(R.id.tv_left, "周末时间")
                                     .setText(R.id.show_middle, "消费笔数")
                                     .setText(R.id.show_right, "消费金额(元)");
                         }
                         break;
                         case 11: {
                             holder.setText(R.id.show_title, "午夜时间消费分布")
-                                    .setText(R.id.show_left, "午夜时间")
+                                    .setText(R.id.tv_left, "午夜时间")
                                     .setText(R.id.show_middle, "消费金额")
                                     .setText(R.id.show_right, "消费金额占比");
                         }
@@ -539,7 +539,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
         holder.setImageResource(R.id.show_img, bankIconID);
         holder.setText(R.id.show_code, dataJson.optString("CA006"))
                 .setText(R.id.show_bank, dataJson.optString("CA005"))
-                .setText(R.id.show_mess, dataJson.optString("CA004"))
+                .setText(R.id.tv_mess, dataJson.optString("CA004"))
                 .setText(R.id.show_name, dataJson.optString("cardholder"))
                 .setText(R.id.show_num, DataUtils.transBankCardNum(dataJson.optString("bankcard"), 4));
         if (getIntent().getStringExtra("data") == null) {
@@ -752,7 +752,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
         scores.get(3 - TB122).setSelect(true);
 
         holder.setText(R.id.show_state, titles[3 - TB122]);
-        holder.setText(R.id.show_mess, messs[3 - TB122]);
+        holder.setText(R.id.tv_mess, messs[3 - TB122]);
     }
 
     /*

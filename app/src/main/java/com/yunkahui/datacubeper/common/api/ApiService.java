@@ -269,16 +269,12 @@ public interface ApiService {
     Observable<BaseBean> submitCardTest(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/pos/planning/confirm_planning")       //pos规划-确认提交
-    Observable<BaseBean> confirmPosPlan(@FieldMap Map<String,String> params);
-
-    @FormUrlEncoded
-    @POST("/app/pos/planning/generate_planning")       //智能规划-生成数据
-    Observable<BaseBean> generatePlan(@FieldMap Map<String,String> params);
-
-    @FormUrlEncoded
     @POST("/app/api/query_record_card")     //查询用户测评过的卡片列表
     Observable<BaseBean<List<CardTestItem>>> loadTestCardList(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/planning/confirm_planning")       //pos规划-确认提交
+    Observable<BaseBean> confirmPosPlan(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/pos/planning/generate_planning")       //pos规划-生成数据
@@ -300,5 +296,11 @@ public interface ApiService {
     @POST("/app/user/remobile_save")        //绑定新手机
     Observable<BaseBean> bindNewPhone(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/userbankcard/billdetail_top")       //获取交易明细顶部信息
+    Observable<BaseBean> loadBillDetailTop(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/userbankcard/billdetail")       //获取交易明细
+    Observable<BaseBean> loadBillDetail(@FieldMap Map<String,String> params);
 }

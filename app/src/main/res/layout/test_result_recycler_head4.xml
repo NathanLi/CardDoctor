@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@id/show_title" />
 
     <TextView
-        android:id="@+id/show_left"
+        android:id="@+id/tv_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -124,6 +124,6 @@
         android:background="#EEEEEE"
         app:layout_constraintLeft_toRightOf="@id/guideline1"
         app:layout_constraintRight_toLeftOf="@id/guideline4"
-        app:layout_constraintTop_toBottomOf="@id/show_left" />
+        app:layout_constraintTop_toBottomOf="@id/tv_left" />
 
 </android.support.constraint.ConstraintLayout>

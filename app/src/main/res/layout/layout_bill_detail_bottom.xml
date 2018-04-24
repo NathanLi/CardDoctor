@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/ll_update"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="56pt"
+        android:padding="3pt"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageview1"
+            android:src="@mipmap/ic_money"
+            android:layout_marginTop="1pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@+id/imageview1"
+            android:text="更新"
+            android:textSize="10sp"
+            android:paddingTop="2pt"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="#cccccc"/>
+    <RelativeLayout
+        android:id="@+id/ll_sign_un_repay"
+        android:orientation="vertical"
+        android:layout_width="56pt"
+        android:padding="3pt"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageview2"
+            android:src="@mipmap/ic_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@+id/imageview2"
+            android:text="标记未还清"
+            android:textSize="10sp"
+            android:paddingTop="2dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="#cccccc"/>
+    <Button
+        android:id="@+id/btn_add_trade"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="添加交易"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

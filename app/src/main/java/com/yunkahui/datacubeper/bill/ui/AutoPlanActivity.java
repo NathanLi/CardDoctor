@@ -173,7 +173,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                 for (GeneratePlan.PlanningListBean s1 : mBaseBean.getRespData().getPlanningList()) {
                     for (GeneratePlan.PlanningListBean.DetailsBean s2 : s1.getDetails()) {
                         for (GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean s3 : s2.getConsumption()) {
-                            Log.e(TAG, "onClick: "+s3.getMoney());
+                            Log.e(TAG, "onClick: " + s3.getMoney());
                         }
                     }
                 }
@@ -181,13 +181,13 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
-                        Log.e(TAG, "confirmPosPlan onSuccess: "+baseBean.getJsonObject().toString());
+                        Log.e(TAG, "confirmPosPlan onSuccess: " + baseBean.getJsonObject().toString());
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         LoadingViewDialog.getInstance().dismiss();
-                        Log.e(TAG, "confirmPosPlan onFailure: "+throwable.getMessage());
+                        Log.e(TAG, "confirmPosPlan onFailure: " + throwable.getMessage());
                     }
                 });
 
@@ -205,7 +205,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         switch (view.getId()) {
             case R.id.rl_select_date:
                 startActivityForResult(new Intent(this, TimePickerActivity.class)
-                        .putExtra("time", getIntent().getStringExtra("time"))
+                        .putExtra("time", getIntent().getLongExtra("time", 0))
                         .putParcelableArrayListExtra("selected_time", mCurrentTimeList), 1);
                 break;
             case R.id.tv_go_plan:
@@ -240,7 +240,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                 date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
                     @Override
                     public void onSuccess(BaseBean<GeneratePlan> baseBean) {
-                        Log.e(TAG, "onSuccess: "+baseBean.getJsonObject().toString());
+                        Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
                         try {
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;

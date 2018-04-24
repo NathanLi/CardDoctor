@@ -182,7 +182,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                             }
                         }
                     }
-                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean), new SimpleCallBack<BaseBean>() {
+                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
@@ -265,6 +265,18 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             date.append(item.getYear() + "-" + item.getMonth() + "-" + item.getDay() + ",");
         }
         date.deleteCharAt(date.toString().length() - 1);
+//        mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
+//                date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean>() {
+//                    @Override
+//                    public void onSuccess(BaseBean baseBean) {
+//                        Log.e(TAG, "onSuccess111: "+baseBean.getJsonObject().toString());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//                        Log.e(TAG, "onFailure: " + throwable.getMessage());
+//                    }
+//                });
         mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
                 date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
                     @Override

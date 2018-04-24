@@ -50,7 +50,7 @@ public class PlanPickerActivity extends AppCompatActivity implements IActivitySt
                     clazz = AutoPlanActivity.class;
                 }
                 startActivity(new Intent(PlanPickerActivity.this, clazz)
-                        .putExtra("time", getIntent().getStringExtra("time"))
+                        .putExtra("time", getIntent().getLongExtra("time", 0))
                         .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0))
                         .putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"))
                         .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num")));

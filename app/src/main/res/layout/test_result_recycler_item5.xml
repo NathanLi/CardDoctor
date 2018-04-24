@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="@+id/show_state" />
 
     <TextView
-        android:id="@+id/show_mess"
+        android:id="@+id/tv_mess"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text=""

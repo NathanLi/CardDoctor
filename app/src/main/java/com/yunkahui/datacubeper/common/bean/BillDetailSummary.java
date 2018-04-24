@@ -8,17 +8,41 @@ public class BillDetailSummary extends AbstractExpandableItem<BillDetailItem> im
 
     private String mess;
     private int year;
-    private String startDate;
-    private String endDate;
+    private int startMonth;
+    private int startDay;
+    private int endMonth;
+    private int endDay;
 
-    public BillDetailSummary() {
+    public int getStartMonth() {
+        return startMonth;
     }
 
-    public BillDetailSummary(String mess, int year, String startDate, String endDate) {
-        this.mess = mess;
-        this.year = year;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public void setStartMonth(int startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(int startDay) {
+        this.startDay = startDay;
+    }
+
+    public int getEndMonth() {
+        return endMonth;
+    }
+
+    public void setEndMonth(int endMonth) {
+        this.endMonth = endMonth;
+    }
+
+    public int getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(int endDay) {
+        this.endDay = endDay;
     }
 
     public String getMess() {
@@ -35,22 +59,6 @@ public class BillDetailSummary extends AbstractExpandableItem<BillDetailItem> im
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
     }
 
     @Override

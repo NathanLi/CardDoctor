@@ -42,8 +42,10 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     private TextView mTvTmp;
     private TextView mTvFix;
     private List<BillDetailSummary> mList;
+    private BillDetailSummary mSummary;
     private int mCardId;
     private long mBillDate;
+    private long mLastTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,25 +70,58 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mLogic.getBillDetail(this, mCardId, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
+                Log.e(TAG, "get data: " + baseBean.getJsonObject().toString());
                 try {
                     JSONObject jsonObject = baseBean.getJsonObject();
                     JSONObject respData = jsonObject.optJSONObject("respData");
                     JSONArray billUnoutArr = respData.optJSONArray("bill_unout");
                     JSONArray billOutArr = respData.optJSONArray("bill_out");
-                    Log.e(TAG, "onSuccess: " + billUnoutArr.length() + ", " + billOutArr.length());
-                    BillDetailSummary summary = new BillDetailSummary();
-                    summary.setMess("未出账单");
-                    summary.setEndDate(TimeUtils.format("MM-dd", mBillDate));
+                    Log.e(TAG, "arr size: " + billUnoutArr.length() + ", " + billOutArr.length());
+                    mSummary = new BillDetailSummary();
+                    mSummary.setMess("未出账单");
+                    mSummary.setYear(calendar.get(Calendar.YEAR));
+                    Log.e(TAG, "end date: " + (calendar.get(Calendar.MONTH) + 1) + ", " + calendar.get(Calendar.DAY_OF_MONTH));
+                    mSummary.setEndMonth(calendar.get(Calendar.MONTH) + 1);
+                    mSummary.setEndDay(calendar.get(Calendar.DAY_OF_MONTH));
                     calendar.add(Calendar.MONTH, -1);
                     calendar.add(Calendar.DAY_OF_MONTH, 1);
-                    summary.setStartDate(transMonth(calendar.get(Calendar.MONTH)) + "-" + calendar.get(Calendar.DAY_OF_MONTH));
-                    mList.add(summary);
+                    Log.e(TAG, "start date: " + (calendar.get(Calendar.MONTH) + 1) + ", " + calendar.get(Calendar.DAY_OF_MONTH));
+                    mSummary.setStartMonth(calendar.get(Calendar.MONTH) + 1);
+                    mSummary.setStartDay(calendar.get(Calendar.DAY_OF_MONTH));
+                    mList.add(mSummary);
+                    Log.e(TAG, "first lastTime: " + TimeUtils.format("yyyy-MM-dd", calendar.getTimeInMillis()));
+                    mLastTime = calendar.getTimeInMillis();
                     for (int i = 0; i < billUnoutArr.length(); i++) {
-                        summary.addSubItem(CreateBean(billUnoutArr.getJSONObject(i)));
+                        BillDetailItem item = CreateBean(billUnoutArr.getJSONObject(i));
+                        Log.e(TAG, "unout data: " + TimeUtils.format("yyyy-MM-dd", item.getTrade_date()));
+                        mSummary.addSubItem(item);
                     }
                     for (int i = 0; i < billOutArr.length(); i++) {
-                        CreateBean(billOutArr.getJSONObject(i));
+                        BillDetailItem item = CreateBean(billOutArr.getJSONObject(i));
+                        if (item.getTrade_date() < mLastTime) {
+                            mSummary = new BillDetailSummary();
+                            mSummary.setYear(calendar.get(Calendar.YEAR));
+                            mSummary.setMess(calendar.get(Calendar.MONTH) + 1 + "月");
+                            mSummary.setEndMonth(calendar.get(Calendar.MONTH) + 1);
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            Log.e(TAG, "end date: " + (calendar.get(Calendar.MONTH) + 1) + ", " + calendar.get(Calendar.DAY_OF_MONTH));
+                            mSummary.setEndDay(calendar.get(Calendar.DAY_OF_MONTH));
+                            calendar.add(Calendar.MONTH, -1);
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            Log.e(TAG, "start date: " + (calendar.get(Calendar.MONTH) + 1) + ", " + calendar.get(Calendar.DAY_OF_MONTH));
+                            mSummary.setStartMonth(calendar.get(Calendar.MONTH) + 1);
+                            mSummary.setStartDay(calendar.get(Calendar.DAY_OF_MONTH));
+                            mList.add(mSummary);
+                            Log.e(TAG, "lastTime: " + TimeUtils.format("yyyy-MM-dd", calendar.getTimeInMillis()));
+                            mLastTime = calendar.getTimeInMillis();
+                        }
+                        mSummary.addSubItem(item);
+                    }
+                    for (BillDetailSummary s1 : mList) {
+                        Log.e(TAG, "onSuccess---------: " + s1.getMess());
+                        for (BillDetailItem s2 : s1.getSubItems()) {
+                            Log.e(TAG, "onSuccess: " + s2.getTrade_date());
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,11 +146,6 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         tvMess.setText("- - - - - - - - " + cardNum.substring(cardNum.length() - 4, cardNum.length()) + getIntent().getStringExtra("card_holder"));
         tvRepay.setText(getIntent().getStringExtra("reday_date"));
         tvAccount.setText(TimeUtils.format("MM-dd", mBillDate));
-    }
-
-    private String transMonth(int month) {
-        String s = String.valueOf(month + 1);
-        return s.length() == 1 ? "0" + s : s;
     }
 
     private BillDetailItem CreateBean(JSONObject object) throws JSONException {

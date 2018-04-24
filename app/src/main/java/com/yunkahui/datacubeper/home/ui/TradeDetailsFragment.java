@@ -51,8 +51,8 @@ public class TradeDetailsFragment extends BaseFragment {
         mAdapter = new ExpandableTradeRecordAdapter(mActivity, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setEnableLoadMore(true);
-        mAdapter.expandAll();
         mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.expandAll();
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {

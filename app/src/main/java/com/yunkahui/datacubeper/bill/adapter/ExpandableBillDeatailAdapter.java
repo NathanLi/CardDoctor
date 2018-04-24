@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.bill.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -9,8 +10,9 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
-import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
+import com.yunkahui.datacubeper.common.bean.BillDetailItem;
+import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.TintUtil;
 
 import java.util.List;
@@ -30,37 +32,55 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    protected void convert(final BaseViewHolder helper, final MultiItemEntity item) {
+    protected void convert(final BaseViewHolder helper, final MultiItemEntity multiItemEntity) {
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
-                final TradeRecordSummary lv0 = (TradeRecordSummary) item;
-                helper.setText(R.id.tv_time, lv0.getTime());
-                helper.setText(R.id.tv_mess, lv0.getMessage());
+                final BillDetailSummary summary = (BillDetailSummary) multiItemEntity;
+                helper.setText(R.id.tv_month, summary.getMess());
+                if ("未出账单".equals(summary.getMess())) {
+                    helper.setTextColor(R.id.tv_month, mContext.getResources().getColor(R.color.text_color_orange_ff5c03));
+                } else {
+                    helper.setTextColor(R.id.tv_month, Color.BLACK);
+                }
+                helper.setText(R.id.tv_year, String.valueOf(summary.getYear()));
+                helper.setText(R.id.tv_date, String.format(mContext.getResources().getString(R.string.date_format),
+                        addZero(summary.getStartMonth()), addZero(summary.getStartDay()),
+                        addZero(summary.getEndMonth()), addZero(summary.getEndDay())));
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = helper.getAdapterPosition();
-                        if (lv0.isExpanded()) {
+                        if (summary.isExpanded()) {
                             collapse(position);
+                            helper.setImageResource(R.id.iv_icon, R.mipmap.ic_pull);
                         } else {
                             expand(position);
+                            helper.setImageResource(R.id.iv_icon, R.mipmap.ic_drop);
                         }
                     }
                 });
                 break;
             case TYPE_LEVEL_1:
-                TradeRecordDetail lv1 = (TradeRecordDetail) item;
-                helper.setText(R.id.tv_mess, lv1.getTitle());
-                helper.setText(R.id.show_time, lv1.getTime());
-                helper.setText(R.id.show_money, lv1.getMoney());
+                BillDetailItem item = (BillDetailItem) multiItemEntity;
+                boolean isExpense = "1".equals(item.getTrade_type());
+                helper.setText(R.id.tv_mess, isExpense ? "消费" : "还款");
+                helper.setText(R.id.show_time, TimeUtils.format("MM-dd hh:mm", item.getTrade_date()));
+                String money = String.valueOf(item.getTrade_money());
                 int colorID;
-                if ("03".equals(lv1.getTradeType())) {
-                    colorID = mContext.getResources().getColor(R.color.colorPrimary);
-                } else {
+                if (isExpense) {
+                    money = "-" + item.getTrade_money();
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
+                } else {
+                    colorID = mContext.getResources().getColor(R.color.text_color_green_469705);
                 }
+                helper.setText(R.id.show_money, money);
                 helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
+    }
+
+    private String addZero(int month) {
+        String s = month + "";
+        return s.length() == 1 ? "0" + s : s;
     }
 }

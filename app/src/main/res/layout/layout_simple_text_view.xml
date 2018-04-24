@@ -16,8 +16,8 @@
         android:ellipsize="end"
         android:textSize="15pt"/>
 
-    <EditText
-        android:id="@+id/edit_text_input"
+    <TextView
+        android:id="@+id/text_view_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:lines="1"

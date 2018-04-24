@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color_gray_f5f5f5"
+    tools:context="com.yunkahui.datacubeper.mine.ui.BindNewPhoneActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:orientation="vertical"
+       android:layout_weight="1">
+
+       <TextView
+           android:id="@+id/text_view_old_phone"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="16pt"
+           android:layout_marginLeft="15pt"
+           android:layout_marginRight="15pt"
+           android:layout_marginTop="30pt"
+           android:layout_marginBottom="15pt"/>
+
+
+       <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+           android:id="@+id/simple_input_item_new_phone"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:item_edit_input_type="number"
+           app:item_edit_title="新手机号码"
+           app:item_edit_hint="请输入新手机号码"/>
+
+       <View style="@style/common_line_margin_left_15"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50pt"
+           android:paddingLeft="15pt"
+           android:paddingRight="15pt"
+           android:background="@color/white">
+
+           <TextView
+               android:id="@+id/tv_title"
+               android:layout_width="110pt"
+               android:textColor="@color/black"
+               android:layout_height="wrap_content"
+               android:lines="1"
+               android:text="输入验证码"
+               android:ellipsize="end"
+               android:textSize="15pt"/>
+
+           <EditText
+               android:id="@+id/edit_text_auth_code"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:lines="1"
+               android:layout_weight="1"
+               android:inputType="number"
+               android:gravity="center_vertical"
+               android:textColor="@color/black"
+               android:layout_marginRight="10pt"
+               android:hint="验证码"
+               android:textColorHint="@color/text_color_gray_949494"
+               android:background="@null"
+               android:textSize="15pt"/>
+
+           <TextView
+               android:id="@+id/text_view_send_auth_code"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="发送验证码"
+               android:textColor="@color/colorPrimary"/>
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:text="确定绑定新手机"
+        android:background="@drawable/bg_button_blue_selector"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

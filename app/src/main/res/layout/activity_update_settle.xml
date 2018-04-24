@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_color_gray_f5f5f5"
     tools:context="com.yunkahui.datacubeper.applypos.ui.UpdateSettleActivity">
 
     <include layout="@layout/layout_toolbar" />
@@ -55,25 +56,23 @@
 
             <View style="@style/common_line"/>
 
-            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
-                android:id="@+id/simple_input_item_branch_area"
+            <com.yunkahui.datacubeper.common.view.SimpleTextView
+                android:id="@+id/simple_text_view_branch_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_edit_right_icon="@mipmap/ic_next_gray"
-                app:item_edit_focusable="false"
-                app:item_edit_title="开户行所在地"
-                app:item_edit_hint="请选择地区"/>
+                app:simple_right_icon="@mipmap/ic_next_gray"
+                app:simple_title="开户行所在地"
+                app:simple_hint="请选择地区"/>
 
             <View style="@style/common_line"/>
 
-            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
-                android:id="@+id/simple_input_item_branch_name"
+            <com.yunkahui.datacubeper.common.view.SimpleTextView
+                android:id="@+id/simple_text_view_branch_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_edit_right_icon="@mipmap/ic_next_gray"
-                app:item_edit_focusable="false"
-                app:item_edit_title="开户支行"
-                app:item_edit_hint="请输入开户支行名称"/>
+                app:simple_right_icon="@mipmap/ic_next_gray"
+                app:simple_title="开户支行"
+                app:simple_hint="请输入开户支行名称"/>
 
             <View style="@style/common_line"/>
 
@@ -86,43 +85,30 @@
 
             <View style="@style/common_line"/>
 
-            <TextView
-                android:id="@+id/text_view_id_card"
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_id_card_photo"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:gravity="center_vertical"
-                android:paddingLeft="15pt"
-                android:textColor="@color/black"
-                android:text="上传身份证正面照片"
-                android:textSize="16pt"
-                android:drawableRight="@mipmap/ic_next_gray"/>
+                android:layout_height="wrap_content"
+                app:menu_right_icon="@mipmap/ic_next_gray"
+                app:menu_title="上传身份证正面照片" />
 
             <View style="@style/common_line"/>
 
-            <TextView
-                android:id="@+id/text_view_bank_card"
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_bank_card_photo"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:gravity="center_vertical"
-                android:paddingLeft="15pt"
-                android:textColor="@color/black"
-                android:text="上传银行卡正面照片"
-                android:textSize="16pt"
-                android:drawableRight="@mipmap/ic_next_gray"/>
+                android:layout_height="wrap_content"
+                app:menu_right_icon="@mipmap/ic_next_gray"
+                app:menu_title="上传银行卡正面照片" />
 
             <View style="@style/common_line"/>
 
-            <TextView
-                android:id="@+id/text_view_hand_id_card"
+            <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+                android:id="@+id/simple_menu_hand_bank_card_photo"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:gravity="center_vertical"
-                android:paddingLeft="15pt"
-                android:textColor="@color/black"
-                android:text="上传手持银行卡正面照片"
-                android:textSize="16pt"
-                android:drawableRight="@mipmap/ic_next_gray"/>
-
+                android:layout_height="wrap_content"
+                app:menu_right_icon="@mipmap/ic_next_gray"
+                app:menu_title="上传手持银行卡正面照片" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -135,7 +121,6 @@
                 android:layout_marginLeft="15pt"
                 android:layout_marginRight="15pt"
                 android:text="变更信息需要审核，大概3-5个工作日"/>
-
 
             <Button
                 android:id="@+id/button_submit"

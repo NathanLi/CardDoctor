@@ -6,11 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 /**
  * Created by Administrator on 2018/4/11.
@@ -60,8 +62,8 @@ public class SimpleEditTextView extends LinearLayout {
         if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_focusable)){
             boolean focusable=ta.getBoolean(R.styleable.SimpleEditTextView_item_edit_focusable,true);
             mEditTextInput.setFocusable(focusable);
-            mEditTextInput.setFocusableInTouchMode(false);
-            mEditTextInput.setCursorVisible(false);
+//            mEditTextInput.setFocusableInTouchMode(false);
+//            mEditTextInput.setCursorVisible(false);
         }
 
         if(ta.hasValue(R.styleable.SimpleEditTextView_item_edit_right_icon)){
@@ -73,6 +75,7 @@ public class SimpleEditTextView extends LinearLayout {
         }
 
         ta.recycle();
+
     }
 
     public void setText(String text){
@@ -90,5 +93,9 @@ public class SimpleEditTextView extends LinearLayout {
     public EditText getEditTextInput(){
         return mEditTextInput;
     }
+
+
+
+
 
 }

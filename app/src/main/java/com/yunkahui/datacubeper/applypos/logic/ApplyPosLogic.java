@@ -28,12 +28,6 @@ public class ApplyPosLogic {
                 .compose(HttpManager.<BaseBean<PosApplyInfo>>applySchedulers()).subscribe(callBack);
     }
 
-//    public void checkPosApplyUploadDat(Context context, SimpleCallBack<BaseBean> callBack){
-//        Map<String,String> params= RequestUtils.newParams(context).create();
-//        HttpManager.getInstance().create(ApiService.class).checkPosApplyUploadData(params)
-//                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-//    }
-
 
     /**
      * 上传邮寄信息

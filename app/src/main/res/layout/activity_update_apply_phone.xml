@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_color_gray_f5f5f5"
     tools:context="com.yunkahui.datacubeper.applypos.ui.UpdateApplyPhoneActivity">
 
 

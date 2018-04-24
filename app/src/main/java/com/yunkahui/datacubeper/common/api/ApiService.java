@@ -251,7 +251,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/pos/pos_info")      //POS管理获取用户POS信息
-    Observable<BaseBean> loadPosManageData(@FieldMap Map<String,String> params);
+    Observable<BaseBean<PosApplyInfo>> loadPosManageData(@FieldMap Map<String,String> params);
 
     @POST("/app/user/hlb_recharge")       //充值
     Observable<BaseBean> rechargeMoney(@FieldMap Map<String,String> params);
@@ -291,4 +291,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/planning/generate_planning")       //智能规划-生成数据
     Observable<BaseBean<GeneratePlan>> generateAutoPlan(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/change_phone")          //POS管理-修改申请人手机号
+    Observable<BaseBean> updatePosApplyPhone(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/remobile_save")        //绑定新手机
+    Observable<BaseBean> bindNewPhone(@FieldMap Map<String,String> params);
+
+
 }

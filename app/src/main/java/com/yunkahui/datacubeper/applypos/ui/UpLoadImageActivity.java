@@ -13,6 +13,10 @@ public class UpLoadImageActivity extends AppCompatActivity implements IActivityS
     public static final int TYPE_BANK_CARD=103;
     public static final int TYPE_HAND_POS=104;
 
+    public static final int TYPE_SETTLE_ID_CARD=105;
+    public static final int TYPE_SETTLE_BANK_CARD=106;
+    public static final int TYPE_SETTLE_HANK_BAND_CARD=107;
+
     private int mType;
 
 
@@ -38,6 +42,16 @@ public class UpLoadImageActivity extends AppCompatActivity implements IActivityS
                 break;
             case TYPE_HAND_POS:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new UpLoadHandPosFragment()).commit();
+                break;
+            case TYPE_SETTLE_ID_CARD:
+            case TYPE_SETTLE_BANK_CARD:
+            case TYPE_SETTLE_HANK_BAND_CARD:
+                UpLoadSettleImageFragment fragment=new UpLoadSettleImageFragment();
+                Bundle bundle=new Bundle();
+                bundle.putInt("type",mType);
+                bundle.putString("image",getIntent().getStringExtra("image"));
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
                 break;
         }
     }

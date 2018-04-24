@@ -47,6 +47,13 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="SimpleTextView">
+        <attr name="simple_title" format="string|reference"/>
+        <attr name="simple_hint" format="string|reference"/>
+        <attr name="simple_text" format="string|reference"/>
+        <attr name="simple_right_icon" format="reference"/>
+    </declare-styleable>
+
     <declare-styleable name="UpgradeJoinItemView">
         <attr name="uj_icon_background_color" format="string"/>
         <attr name="uj_icon_title" format="string|reference"/>

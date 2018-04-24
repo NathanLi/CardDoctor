@@ -57,6 +57,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private final int RESULT_CODE_IMAGE = 1001;
+    private final int RESULT_CODE_UPDATE = 1002;
 
     private SimpleToolbar mSimpleToolbar;
     private RecyclerView mRecyclerView;
@@ -213,6 +214,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
             }
         }
+        if(resultCode==getActivity().RESULT_OK&&requestCode==RESULT_CODE_UPDATE){
+            loadData();
+        }
+
     }
 
     /**
@@ -299,6 +304,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 checkRealNameAuthStatus();
                 break;
             case 12:
+                startActivityForResult(new Intent(getActivity(),BindNewPhoneActivity.class),RESULT_CODE_UPDATE);
                 break;
             case 13:
                 startActivity(new Intent(getActivity(), PersonalInfoActivity.class));
@@ -356,12 +362,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         Window dialogWindow = dialog.getWindow();
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
         Point middlePoint = new Point();
-        WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         Display display = windowManager.getDefaultDisplay();
         display.getSize(middlePoint);
-        if (x != 0) {params.width = x > 1 ? transFromDip((int) x) : (int)(middlePoint.x * x);}
-        if (y != 0) {params.height = y > 1 ? transFromDip((int)y) : (int)(middlePoint.y * y);}
+        if (x != 0) {
+            params.width = x > 1 ? transFromDip((int) x) : (int) (middlePoint.x * x);
+        }
+        if (y != 0) {
+            params.height = y > 1 ? transFromDip((int) y) : (int) (middlePoint.y * y);
+        }
         dialogWindow.setAttributes(params);
     }
 

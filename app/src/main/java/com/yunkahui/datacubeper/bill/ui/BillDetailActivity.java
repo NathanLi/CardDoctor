@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
@@ -25,6 +26,7 @@ import com.yunkahui.datacubeper.bill.logic.BillDetailLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillDetailItem;
 import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
+import com.yunkahui.datacubeper.common.bean.TimeSection;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
@@ -33,7 +35,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import uk.co.senab.photoview.gestures.FroyoGestureDetector;
 
 /**
  * @author WYF on 2018/4/23/023.
@@ -50,13 +56,11 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     private TextView mTvFix;
     private TextView mTvSign;
     private List<MultiItemEntity> mList;
-    private BillDetailSummary mSummary;
     private int mCardId;
     private long mBillDate;
-    private long mLastTime;
     private ExpandableBillDeatailAdapter mAdapter;
     private boolean mIsRepaid;
-    private ArrayMap<Long, Long> mArrayMap;
+    private List<TimeSection> mSectionList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     @Override
     public void initData() {
         mList = new ArrayList<>();
-        mArrayMap = new ArrayMap<>();
+        mSectionList = new ArrayList<>();
         mCardId = getIntent().getIntExtra("user_credit_card_id", 0);
         mBillDate = getIntent().getLongExtra("bill_date", 0);
         mLogic = new BillDetailLogic();
@@ -84,9 +88,9 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         View headerView = LayoutInflater.from(this).inflate(R.layout.layout_list_header_bill_detail, null);
         initHeaderView(headerView);
         mAdapter.setHeaderView(headerView);
-        mAdapter.expandAll();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter.expandAll();
     }
 
     @SuppressLint("SetTextI18n")
@@ -115,41 +119,98 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 JSONObject respData = jsonObject.optJSONObject("respData");
                 JSONArray billUnoutArr = respData.optJSONArray("bill_unout");
                 JSONArray billOutArr = respData.optJSONArray("bill_out");
-                for (int i = 0; i < billOutArr.length(); i++) {
-                    Log.e(TAG, "遍历ing: "+billOutArr.optJSONObject(i).optLong("trade_date")+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, billOutArr.optJSONObject(i).optLong("trade_date")));
-                }
                 //******** 取出最早的一条记录 ********
                 BillDetailItem originalItem = CreateBean(billOutArr.optJSONObject(billOutArr.length() - 1));
                 String originalItemTradeDate = TimeUtils.format("yyyy-MM-dd", originalItem.getTrade_date());
                 long originalStartDateMillis = TimeUtils.getLongByDate("yyyy-MM-dd", originalItemTradeDate.substring(0, 7) + "-" + TimeUtils.addZero(billDay));
-                Calendar calendar = TimeUtils.getCalendar(originalStartDateMillis);
+                Calendar startCalendar = TimeUtils.getCalendar(originalStartDateMillis);
                 if (Integer.parseInt(originalItemTradeDate.substring(8)) < billDay) {
-                    calendar.add(Calendar.MONTH, -1);
+                    startCalendar.add(Calendar.MONTH, -1);
                 }
-                Log.e(TAG, "最早记录的开始时间: "+calendar.getTimeInMillis()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
-                long startMillis = calendar.getTimeInMillis();
-                calendar.add(Calendar.MONTH, 1);
-                calendar.add(Calendar.DAY_OF_MONTH, -1);
-                Log.e(TAG, "最早记录的结束时间: "+calendar.getTimeInMillis()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
+                Log.e(TAG, "最早记录的开始时间: " + startCalendar.getTimeInMillis() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, startCalendar.getTimeInMillis()));
+                long startMillis = startCalendar.getTimeInMillis();
+                startCalendar.add(Calendar.MONTH, 1);
+                startCalendar.add(Calendar.DAY_OF_MONTH, -1);
+                Log.e(TAG, "最早记录的结束时间: " + startCalendar.getTimeInMillis() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, startCalendar.getTimeInMillis()));
                 //******** 计算最早的时间戳，存入map ********
-                mArrayMap.put(startMillis, calendar.getTimeInMillis());
+
+                mSectionList.add(new TimeSection(startMillis, startCalendar.getTimeInMillis()));
                 //******** 取出最近的一条记录 ********
-                BillDetailItem endItem = CreateBean(billOutArr.optJSONObject(0));
-                Log.e(TAG, "endItem: "+endItem.getTrade_date()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, endItem.getTrade_date()));
-                Calendar endItemCalendar = TimeUtils.getCalendar(endItem.getTrade_date());
-                Log.e(TAG, "onSuccess 1: "+endItemCalendar.get(Calendar.YEAR)+", "+(endItemCalendar.get(Calendar.MONTH)+1)+", "+endItemCalendar.get(Calendar.DAY_OF_MONTH));
+                Calendar endItemCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
                 int destYear = endItemCalendar.get(Calendar.YEAR);
-                int destMonth = endItemCalendar.get(Calendar.MONTH) + (endItemCalendar.get(Calendar.DAY_OF_MONTH) > billDay - 1 ? 0 : 1);
-                Log.e(TAG, "onSuccess 2: "+destYear+"-"+destMonth+"-"+billDay);
-                long destStartMillis = TimeUtils.getLongByDate(TimeUtils.DEFAULT_PATTERN, destYear+"-"+destMonth+"-"+billDay);
-                Log.e(TAG, "destStartMillis: "+destStartMillis);
+                int destMonth = endItemCalendar.get(Calendar.MONTH) + (endItemCalendar.get(Calendar.DAY_OF_MONTH) < billDay ? 0 : 1);
+                long destStartMillis = TimeUtils.getLongByDate(TimeUtils.DEFAULT_PATTERN, destYear + "-" + destMonth + "-" + billDay);
+                Log.e(TAG, "最近记录的开始时间: " + destStartMillis + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, destStartMillis));
                 Calendar destCalendar = TimeUtils.getCalendar(destStartMillis);
                 destCalendar.add(Calendar.MONTH, 1);
                 destCalendar.add(Calendar.DAY_OF_MONTH, -1);
-                Log.e(TAG, "destCalendar: "+destCalendar.getTimeInMillis());
                 //******** 计算最近的时间戳，存入map ********
-                Log.e(TAG, "最近的: "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destStartMillis)+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destCalendar.getTimeInMillis()));
-                mArrayMap.put(destStartMillis, destCalendar.getTimeInMillis());
+                Log.e(TAG, "最近记录的结束时间: " + destCalendar.getTimeInMillis() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destCalendar.getTimeInMillis()));
+                //******** 循环组成时间数组 ********
+                Calendar calendar = TimeUtils.getCalendar(startCalendar.getTimeInMillis());
+                while (calendar.getTimeInMillis() < destCalendar.getTimeInMillis()) {
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    long start = calendar.getTimeInMillis();
+                    calendar.add(Calendar.MONTH, 1);
+                    calendar.add(Calendar.DAY_OF_MONTH, -1);
+                    mSectionList.add(new TimeSection(start, calendar.getTimeInMillis()));
+                }
+                //******** 初始化一个和时间数组一样大的bean数组 ********
+                for (int i = 0; i < mSectionList.size(); i++) {
+                    mList.add(new BillDetailSummary());
+                }
+                Log.e(TAG, "double arr size: " + mSectionList.size() + ", " + mList.size());
+                //******** 封装出账数据 ********
+                for (int i = 0; i < billOutArr.length(); i++) {
+                    BillDetailItem billDetailItem = CreateBean(billOutArr.optJSONObject(i));
+                    outer:for (int j = 0; j < mSectionList.size(); j++) {
+                        BillDetailSummary summary = (BillDetailSummary) mList.get(j);
+                        String startDate = TimeUtils.format("yyyy-MM-dd", mSectionList.get(j).getStartTimeStamp());
+                        String endDate = TimeUtils.format("yyyy-MM-dd", mSectionList.get(j).getEndTimeStamp());
+                        if (mSectionList.get(j).getStartTimeStamp() < billDetailItem.getTrade_date() &&
+                                billDetailItem.getTrade_date() < mSectionList.get(j).getEndTimeStamp()) {
+                            if (summary.getMess() == null) {
+                                summary.setStartDate(startDate.substring(5));
+                                summary.setEndDate(endDate.substring(5));
+                                String[] dateArr = endDate.split("-");
+                                summary.setYear(dateArr[0]);
+                                summary.setMess(dateArr[1] + "月");
+                            }
+                            summary.addSubItem(billDetailItem);
+                            break outer;
+                        }
+                    }
+                }
+                //******** 封装未出账数据 ********
+                BillDetailSummary summary = (BillDetailSummary) mList.get(mList.size() - 1);
+                String startDate = TimeUtils.format("MM-dd", mSectionList.get(mList.size() - 1).getStartTimeStamp());
+                String endDate = TimeUtils.format("yyyy-MM-dd", mSectionList.get(mList.size() - 1).getEndTimeStamp());
+                summary.setMess("未出账单");
+                summary.setStartDate(startDate);
+                summary.setEndDate(endDate.substring(5));
+                summary.setYear(endDate.substring(0, 4));
+                for (int i = 0; i < billUnoutArr.length(); i++) {
+                    summary.addSubItem(CreateBean(billUnoutArr.optJSONObject(i)));
+                }
+                List<BillDetailSummary> summaries = new ArrayList<>();
+                for (int i = mList.size() - 1; i >= 0; i--) {
+                    BillDetailSummary s = (BillDetailSummary) mList.get(i);
+                    if (s.getMess() == null)
+                        continue;
+                    summaries.add(s);
+                }
+                mList.clear();
+                mList.addAll(summaries);
+                mAdapter.notifyDataSetChanged();
+                for (int i = mList.size()-1; i >= 0; i--) {
+                    Log.e(TAG, "head info: " + ((BillDetailSummary) mList.get(i)).getMess());
+                    List<BillDetailItem> subItems = ((BillDetailSummary) mList.get(i)).getSubItems();
+                    if (subItems != null) {
+                        for (int j = 0; j < subItems.size(); j++) {
+                            Log.e(TAG, "    item: " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN, subItems.get(j).getTrade_date()));
+                        }
+                    }
+                }
             }
 
             @Override

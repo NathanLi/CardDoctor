@@ -34,12 +34,13 @@ public class CardTestLogic {
     /**
      * 卡测评-发起测评
      */
-    public void submitCardTest(Context context,String name,String idCard,String bankCardNumber,String phone,SimpleCallBack<BaseBean> callBack){
+    public void submitCardTest(Context context,String name,String idCard,String bankCardNumber,String phone,String payInfo,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("cardholder",name)
                 .addParams("identify_id",idCard)
                 .addParams("bankcard_num",bankCardNumber)
                 .addParams("bankcard_tel",phone)
+                .addParams("out_trade_no",payInfo)
                 .create();
         HttpManager.getInstance().create(ApiService.class).submitCardTest(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
@@ -56,6 +57,17 @@ public class CardTestLogic {
                 .compose(HttpManager.<BaseBean<List<CardTestItem>>>applySchedulers()).subscribe(callBack);
     }
 
-
+    /**
+     * 充值预下单接口（目前支持卡测评充值）
+     */
+    public void createCardTestPayOrder(Context context,String money,String payment,SimpleCallBack<BaseBean> callBack){
+        Map<String,String> params=RequestUtils.newParams(context)
+                .addParams("amount",money)
+                .addParams("payment_code",payment)
+                .addParams("trade_type","CARD_EVALUATION_RECHARGE")
+                .create();
+        HttpManager.getInstance().create(ApiService.class).createCardTestPayOrder(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
 
 }

@@ -24,9 +24,12 @@ import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
+import com.yunkahui.datacubeper.mine.logic.MineLogic;
+import com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity;
 import com.yunkahui.datacubeper.share.ui.ShareProfitActivity;
 import com.yunkahui.datacubeper.share.ui.WalletActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
+import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,43 +53,49 @@ public class HomeFragment extends BaseFragment {
         mLogic = new HomeLogic();
         initListener();
         initUserFinance();
-        String[] titles = new String[]{"今日操作", "实名认证", "升级加盟", "申请POS",
-                "个人征信", "借贷黑名单", "失信黑名单", "违章查询",
-                "一键办卡", "贷款专区", "保险服务", "更多"};
-        Integer[] imgs = {R.mipmap.ic_today_operation, R.mipmap.ic_name_verify,
-                R.mipmap.ic_upgrade_and_join, R.mipmap.ic_apply_pos,
-                R.mipmap.ic_personal_credit, R.mipmap.ic_blacklist_lending,
-                R.mipmap.ic_discredit_carried_out, R.mipmap.ic_query_car_illegal,
-                R.mipmap.ic_one_key_card, R.mipmap.ic_launcher,
-                R.mipmap.ic_insurance_service, R.mipmap.ic_launcher,};
-        List<HomeItem> homeItems = new ArrayList<>();
-        for (int i = 0; i < imgs.length; i++) {
-            HomeItem item = new HomeItem(imgs[i], titles[i]);
-            homeItems.add(item);
-        }
+        final List<HomeItem> homeItems = mLogic.parsingJSONForHomeItem(getActivity());
         HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);
         homeItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == 0) {
-                    startActivity(new Intent(mActivity, TodayOperationActivity.class));
-                } else if (position == 3) {
-                    checkApplyPosStatus();
-                } else if (position == 4) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
-                } else if (position == 5) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.025hmd.com"));
-                } else if (position == 6) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://shixin.court.gov.cn/"));
-                } else if (position == 7) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://m.46644.com/illegal/?tpltype=weixin"));
-                } else if (position == 8) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?uid=64"));
-                } else if (position == 9) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
-                } else if (position == 10) {
-                    startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.epicc.com.cn/wap/views/proposal/giveactivity/JBD_S/?productcode=JBD_S&plantype=B?cmpid=2017pcluodiye"));
+                switch (homeItems.get(position).getId()) {
+                    case 101:
+                        startActivity(new Intent(mActivity, TodayOperationActivity.class));
+                        break;
+                    case 102:
+                        checkRealNameAuthStatus();
+                        break;
+                    case 103:
+                        startActivity(new Intent(getActivity(), UpgradeJoinActivity.class));
+                        break;
+                    case 104:
+                        checkApplyPosStatus();
+                        break;
+                    case 105:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
+                        break;
+                    case 106:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.025hmd.com"));
+                        break;
+                    case 107:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://shixin.court.gov.cn/"));
+                        break;
+                    case 108:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://m.46644.com/illegal/?tpltype=weixin"));
+                        break;
+                    case 109:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?uid=64"));
+                        break;
+                    case 110:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
+                        break;
+                    case 111:
+                        break;
+                    case 112:
+                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.epicc.com.cn/wap/views/proposal/giveactivity/JBD_S/?productcode=JBD_S&plantype=B?cmpid=2017pcluodiye"));
+                        break;
                 }
+
             }
         });
         homeItemAdapter.bindToRecyclerView(mRecyclerView);
@@ -99,7 +108,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 try {
-                    JSONObject object =baseBean.getJsonObject();
+                    JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     mUserBalance = respData.optString("user_balance");
                     mUserFenruns = respData.optString("user_fenruns");
@@ -114,6 +123,48 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(Throwable throwable) {
 
+            }
+        });
+    }
+
+
+    //查询实名认证状态
+    private void checkRealNameAuthStatus() {
+        LoadingViewDialog.getInstance().show(getActivity());
+        new MineLogic().checkRealNameAuthStatus(getActivity(), new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态->" + baseBean.getJsonObject().toString());
+                try {
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        switch (object.optJSONObject("respData").optString("status")) {
+                            case "0":
+                                startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                                break;
+                            case "1":
+                                ToastUtils.show(getActivity(), "已实名认证");
+                                break;
+                            case "2":
+                                ToastUtils.show(getActivity(), "正在审核认证中");
+                                break;
+                            case "3":
+                                ToastUtils.show(getActivity(), "审核认证不成功，请重新认证");
+                                startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                                break;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态失败->" + throwable.toString());
             }
         });
     }
@@ -156,7 +207,7 @@ public class HomeFragment extends BaseFragment {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
                     LogUtils.e("POS状态->" + baseBean.getJsonObject().toString());
-                    JSONObject object =baseBean.getJsonObject();
+                    JSONObject object = baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         JSONObject json = object.optJSONObject("respData");
                         DataUtils.getInfo().setTruename(json.optString("truename"));
@@ -179,8 +230,8 @@ public class HomeFragment extends BaseFragment {
                                 case "10":  //手持POS照片审核通过
                                 case "11":  //手持POS照片审核不通过
                                 case "7":   //完成
-                                    Intent intent=new Intent(getActivity(),ApplyPosActivity.class);
-                                    intent.putExtra("type",Integer.parseInt(json.optString("tua_status")));
+                                    Intent intent = new Intent(getActivity(), ApplyPosActivity.class);
+                                    intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
                                     startActivity(intent);
                                     break;
                             }

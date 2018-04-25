@@ -18,7 +18,7 @@ public class SelectPlanAdapter extends BaseQuickAdapter<HomeItem, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, HomeItem item) {
-        helper.setImageResource(R.id.image, item.getImgRes());
+        helper.setImageResource(R.id.image, item.getIcon());
         helper.setText(R.id.title, item.getTitle());
     }
 

@@ -303,4 +303,18 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userbankcard/billdetail")       //获取交易明细
     Observable<BaseBean> loadBillDetail(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/query_record_list")     //查询用户测评过的所有记录列表
+    Observable<BaseBean<List<CardTestItem>>> loadTestRecord(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/payment/create_order")      //充值预下单接口（目前支持卡测评充值）
+    Observable<BaseBean> createCardTestPayOrder(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/query_record_detail")   //查看测评记录详情
+    Observable<BaseBean<CardTestItem>> loadTestRecordDetail(@FieldMap Map<String,String> params);
+
+
 }

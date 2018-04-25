@@ -138,7 +138,7 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
             @Override
             protected void onNoDoubleClick(View v) {
                 LoadingViewDialog.getInstance().show(AddTradeActivity.this);
-                long date = TimeUtils.getDateToLong("yyyy-MM-dd hh:mm", mIfvDate.getDest() +" "+mIfvTime.getDest());
+                long date = TimeUtils.getLongByDate(TimeUtils.DEFAULT_PATTERN_WITH_HM, mIfvDate.getDest() +" "+mIfvTime.getDest());
                 mLogic.createBill(AddTradeActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), mType, date, mIfvMoney.getEditText(), mMccType, "", new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {

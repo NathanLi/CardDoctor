@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.bill.adapter;
 
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,6 +33,7 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
             helper.getView(R.id.tv_msg).setVisibility(View.GONE);
         }
         helper.setText(R.id.tv_card_id, mCardId);
+        Log.e(TAG, "convert: "+item.getTimeStamp()+", "+TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getTimeStamp()));
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getTimeStamp()));
         helper.setText(R.id.tv_spend_amount, String.valueOf(item.getMoney()));
         helper.setText(R.id.tv_status, "调整 >");

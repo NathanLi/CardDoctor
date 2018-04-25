@@ -182,6 +182,7 @@ public interface ApiService {
     @POST("/app/news/selectNewsByNewId")       //根据ID查询消息
     Observable<BaseBean<List<Message>>> checkNewMessageById(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
     @POST("/app/pos/planning/update_planning_info")       //更新规划数据
     Observable<BaseBean> updatePlanningInfo(@FieldMap Map<String,String> params);
 

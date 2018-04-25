@@ -234,7 +234,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         switch (view.getId()) {
             case R.id.rl_select_date:
                 startActivityForResult(new Intent(this, TimePickerActivity.class)
-                        .putExtra("time", getIntent().getStringExtra("time"))
+                        .putExtra("time", getIntent().getLongExtra("time", 0))
                         .putParcelableArrayListExtra("selected_time", mCurrentTimeList), 1);
                 break;
             case R.id.tv_go_plan:

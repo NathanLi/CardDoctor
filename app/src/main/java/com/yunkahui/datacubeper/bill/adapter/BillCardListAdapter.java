@@ -28,7 +28,6 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
 
     private static final int DAY_MILLIIS = 1000 * 1 * 60 * 60 * 24;
     private Context mContext;
-    private long mEndDate;
 
     public BillCardListAdapter(Context context, int layoutResId, List data) {
         super(layoutResId, data);
@@ -64,7 +63,6 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             final String startDay = TimeUtils.format("yyyy.MM.dd", calendar.getTimeInMillis());
             calendar.add(Calendar.MONTH, 1);
             calendar.add(Calendar.DAY_OF_MONTH, -1);
-            mEndDate = calendar.getTimeInMillis();
             final String endDay = TimeUtils.format("yyyy.MM.dd", calendar.getTimeInMillis());
             billCardView.setBillCycle("账单周期：" + startDay.substring(5) + "-" + endDay.substring(5));
             //******** 设置还款日期 ********
@@ -96,7 +94,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                     @Override
                     public void onClickSmartPlan() {
                         mContext.startActivity(new Intent(mContext, PlanPickerActivity.class)
-                                .putExtra("time", mEndDate)
+                                .putExtra("time", item.getRepayDayDate())
                                 .putExtra("user_credit_card_id", item.getUserCreditCardId())
                                 .putExtra("bank_card_name", item.getBankCardName())
                                 .putExtra("bank_card_num", cardIdFormat));

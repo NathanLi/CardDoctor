@@ -89,7 +89,7 @@ public class TradeDetailsFragment extends BaseFragment {
                     mCurrentPosition = linearLayoutManager.findFirstVisibleItemPosition();
                     mSuspensionBar.setY(0);
 
-                    updateSuspensionBar();
+                    updateSuspensionBar(); 
                 }
             }
         });

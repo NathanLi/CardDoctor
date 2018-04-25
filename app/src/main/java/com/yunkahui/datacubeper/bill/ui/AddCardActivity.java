@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -25,7 +24,6 @@ import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -124,7 +122,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(mBankNameEn)) {
-                    mLogic.addBankCard(AddCardActivity.this, mInfoFillCardNum.getCardNum(), mInfoFillBankName.getDest(), mBankNameEn,
+                    mLogic.addBankCard(AddCardActivity.this, mInfoFillCardNum.getEditText(), mInfoFillBankName.getDest(), mBankNameEn,
                             mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
                                 @Override
                                 public void onSuccess(BaseBean baseBean) {

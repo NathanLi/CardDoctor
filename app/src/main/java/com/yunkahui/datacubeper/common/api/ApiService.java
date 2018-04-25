@@ -316,5 +316,11 @@ public interface ApiService {
     @POST("/app/api/query_record_detail")   //查看测评记录详情
     Observable<BaseBean<CardTestItem>> loadTestRecordDetail(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/userbankcard/markRepayed")       //标记已还清
+    Observable<BaseBean> requestSignRepaid(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/pos/planning/create_bill")       //添加交易
+    Observable<BaseBean> requestCreateBill(@FieldMap Map<String,String> params);
 }

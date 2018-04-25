@@ -7,7 +7,7 @@
         android:id="@+id/ll_update"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_width="56pt"
+        android:layout_width="64pt"
         android:padding="3pt"
         android:layout_height="wrap_content">
         <ImageView
@@ -30,9 +30,9 @@
         android:layout_height="match_parent"
         android:background="#cccccc"/>
     <RelativeLayout
-        android:id="@+id/ll_sign_un_repay"
+        android:id="@+id/ll_sign_repay"
         android:orientation="vertical"
-        android:layout_width="56pt"
+        android:layout_width="64pt"
         android:padding="3pt"
         android:layout_height="wrap_content">
         <ImageView
@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_sign"
             android:layout_below="@+id/imageview2"
             android:text="标记未还清"
             android:textSize="10sp"

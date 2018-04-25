@@ -281,8 +281,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
@@ -291,7 +289,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 LogUtils.e("查询实名认证状态失败->" + throwable.toString());
             }
         });
-
     }
 
     public void itemClick(int position) {

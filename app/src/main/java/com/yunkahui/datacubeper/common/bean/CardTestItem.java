@@ -1,5 +1,7 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by YD1 on 2018/4/9
  */
@@ -12,7 +14,7 @@ public class CardTestItem {
     private String apr_poundage_status;
     private String apr_query_result;
     private String apr_tiepai_id;
-    private String apr_once_request_price;
+    private double apr_once_request_price;
     private String apr_api_name_code;
     private int apr_api_id;
     private String apr_api_name;
@@ -22,7 +24,7 @@ public class CardTestItem {
 
     private Card card;
 
-    public class Card {
+    public class Card implements Serializable{
 
         String bankcard_tel;
         String card_level;
@@ -181,11 +183,11 @@ public class CardTestItem {
         this.apr_tiepai_id = apr_tiepai_id;
     }
 
-    public String getApr_once_request_price() {
-        return apr_once_request_price == null ? "" : apr_once_request_price;
+    public double getApr_once_request_price() {
+        return apr_once_request_price;
     }
 
-    public void setApr_once_request_price(String apr_once_request_price) {
+    public void setApr_once_request_price(double apr_once_request_price) {
         this.apr_once_request_price = apr_once_request_price;
     }
 

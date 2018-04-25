@@ -67,6 +67,21 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mCardTestAdapter);
 
+        mCardTestAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.btn_run_test:
+                        loadTestMoney(mCardTestItems.get(position).getCard());
+                        break;
+                    case R.id.text_view_report:
+                        Intent intent=new Intent(getActivity(),TestHistoryActivity.class);
+                        intent.putExtra("bankcard",mCardTestItems.get(position).getCard().getBankcard_num());
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
         loadData();
     }
 
@@ -114,7 +129,7 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
     }
 
     //卡评测-获取评测价格
-    public void loadTestMoney(){
+    public void loadTestMoney(final CardTestItem.Card card){
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.loadTestMoney(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
@@ -126,6 +141,9 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         Intent intent=new Intent(getActivity(),CardTestActivity.class);
                         intent.putExtra("money",object.getDouble("respData"));
+                        if(card!=null){
+                            intent.putExtra("card",card);
+                        }
                         startActivityForResult(intent,RESULT_CODE_UPDATE);
                     }else{
                         ToastUtils.show(getActivity(),object.optString("respDesc"));
@@ -146,12 +164,13 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_run_test:
-                loadTestMoney();
+                loadTestMoney(null);
                 break;
             case R.id.text_view_example:
                 TestResultActivity.actionStart(getActivity(), null, System.currentTimeMillis());
                 break;
             case R.id.text_view_history_test:
+                startActivity(new Intent(getActivity(),TestHistoryActivity.class));
                 break;
         }
     }

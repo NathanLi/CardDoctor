@@ -58,7 +58,7 @@
                 <ImageView
                     android:layout_width="24pt"
                     android:layout_height="24pt"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_icon_test_history" />
 
                 <TextView
                     android:id="@+id/text_view_history_test"
@@ -79,7 +79,7 @@
                 <ImageView
                     android:layout_width="24pt"
                     android:layout_height="24pt"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_icon_test_sample" />
 
                 <TextView
                     android:id="@+id/text_view_example"

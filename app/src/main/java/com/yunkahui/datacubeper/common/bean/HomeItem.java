@@ -6,27 +6,36 @@ package com.yunkahui.datacubeper.common.bean;
 
 public class HomeItem {
 
-    private int imgRes;
+    private int id;
+    private int icon;
     private String title;
 
     public HomeItem() {
     }
 
-    public HomeItem(int imgRes, String title) {
-        this.imgRes = imgRes;
+    public HomeItem(int icon, String title) {
+        this.icon = icon;
         this.title = title;
     }
 
-    public int getImgRes() {
-        return imgRes;
+    public int getId() {
+        return id;
     }
 
-    public void setImgRes(int imgRes) {
-        this.imgRes = imgRes;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
     public void setTitle(String title) {

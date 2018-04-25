@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10pt"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:background="#FFF6E9"
         android:layout_below="@+id/title_bar">
         <TextView
@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/ic_icon_warning"
             android:text="告知：只能查看近一个月的卡测评报告！"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:drawablePadding="10pt"
             android:textColor="#FF832E"/>
     </LinearLayout>
 

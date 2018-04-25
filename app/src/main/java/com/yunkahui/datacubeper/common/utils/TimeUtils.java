@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.common.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.http.FormUrlEncoded;
@@ -23,6 +24,20 @@ public class TimeUtils {
         calendar.add(Calendar.HOUR, 8);
         String timeStr = dateFormat.format(calendar.getTime());
         return timeStr;
+    }
+
+    public static long getDateToLong(String format, String time) {
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            Date date = sdf.parse(time);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(date.getTime());
+            calendar.add(Calendar.HOUR, -8);
+            return calendar.getTimeInMillis();
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -63,5 +78,10 @@ public class TimeUtils {
         int result = aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH);
         int month = (aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12;
         return Math.abs(month + result)+1;
+    }
+
+    public static String addZero(int month) {
+        String s = month + "";
+        return s.length() == 1 ? "0" + s : s;
     }
 }

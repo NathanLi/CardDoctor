@@ -303,4 +303,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userbankcard/billdetail")       //获取交易明细
     Observable<BaseBean> loadBillDetail(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userbankcard/markRepayed")       //标记已还清
+    Observable<BaseBean> requestSignRepaid(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/planning/create_bill")       //添加交易
+    Observable<BaseBean> requestCreateBill(@FieldMap Map<String,String> params);
 }

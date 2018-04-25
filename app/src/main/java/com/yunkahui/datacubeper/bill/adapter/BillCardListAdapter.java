@@ -74,7 +74,8 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             billCardView.setOnClickBillCardListener(new BillCardView.CustomBillCardListenr() {
                 @Override
                 public void onClickBillSync() {
-                    mContext.startActivity(new Intent(mContext, BillSyncActivity.class));
+                    mContext.startActivity(new Intent(mContext, BillSyncActivity.class)
+                            .putExtra("ban_card_num", item.getBankCardName()));
                 }
 
                 @Override

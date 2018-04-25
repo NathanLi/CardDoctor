@@ -50,9 +50,6 @@ public class TradeDetailsFragment extends BaseFragment {
         getTradeDetailsData();
         mAdapter = new ExpandableTradeRecordAdapter(mActivity, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
-        mAdapter.setEnableLoadMore(true);
-        mAdapter.expandAll();
-        mAdapter.disableLoadMoreIfNotFullPage();
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -63,6 +60,8 @@ public class TradeDetailsFragment extends BaseFragment {
                 }
             }
         }, mRecyclerView);
+        mAdapter.setEnableLoadMore(true);
+        mAdapter.disableLoadMoreIfNotFullPage();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,6 +94,7 @@ public class TradeDetailsFragment extends BaseFragment {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.expandAll();
     }
 
     private void getTradeDetailsData() {

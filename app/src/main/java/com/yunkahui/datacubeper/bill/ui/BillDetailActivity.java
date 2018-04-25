@@ -76,7 +76,6 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                     JSONObject respData = jsonObject.optJSONObject("respData");
                     JSONArray billUnoutArr = respData.optJSONArray("bill_unout");
                     JSONArray billOutArr = respData.optJSONArray("bill_out");
-                    Log.e(TAG, "arr size: " + billUnoutArr.length() + ", " + billOutArr.length());
                     mSummary = new BillDetailSummary();
                     mSummary.setMess("未出账单");
                     mSummary.setYear(calendar.get(Calendar.YEAR));
@@ -93,11 +92,12 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                     mLastTime = calendar.getTimeInMillis();
                     for (int i = 0; i < billUnoutArr.length(); i++) {
                         BillDetailItem item = CreateBean(billUnoutArr.getJSONObject(i));
-                        Log.e(TAG, "unout data: " + TimeUtils.format("yyyy-MM-dd", item.getTrade_date()));
+                        Log.e(TAG, "test unout data: " + TimeUtils.format("yyyy-MM-dd", item.getTrade_date()));
                         mSummary.addSubItem(item);
                     }
                     for (int i = 0; i < billOutArr.length(); i++) {
                         BillDetailItem item = CreateBean(billOutArr.getJSONObject(i));
+                        Log.e(TAG, "test out data: " + TimeUtils.format("yyyy-MM-dd", item.getTrade_date()));
                         if (item.getTrade_date() < mLastTime) {
                             mSummary = new BillDetailSummary();
                             mSummary.setYear(calendar.get(Calendar.YEAR));

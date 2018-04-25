@@ -25,9 +25,9 @@ public class BillDetailLogic {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("user_credit_card_id", String.valueOf(cardId))
                 .create();
-//        HttpManager.getInstance().addConverterFactory(CustomConverterFactory.create()).newBuilder().baseUrl("http://192.168.5.112:8014").build()
-//                .create(ApiService.class).loadBillDetail(params).compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-        HttpManager.getInstance().create(ApiService.class).loadBillDetail(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+        HttpManager.getInstance().addConverterFactory(CustomConverterFactory.create()).newBuilder().baseUrl("http://192.168.1.141:8014").build()
+                .create(ApiService.class).loadBillDetail(params).compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+//        HttpManager.getInstance().create(ApiService.class).loadBillDetail(params)
+//                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 }

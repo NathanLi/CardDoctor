@@ -99,7 +99,7 @@
     <string name="time_format">%1$d年%2$d月%3$d日 - %4$d年%5$d月%6$d日</string>
     <string name="service_agreement">《卡医生服务协议》</string>
     <string name="commit">提交</string>
-    <string name="date_format">%1$s-%2$s 至 %3$s-%4$s</string>
+    <string name="date_format">%1$s 至 %2$s</string>
     <string name="year_month_day">%1$04d-%2$02d-%3$02d</string>
     <string name="hour_minute">%1$02d:%2$02d</string>
 

@@ -129,16 +129,13 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                                 public void onSuccess(BaseBean baseBean) {
                                     Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
                                     try {
-                                        JSONObject object =baseBean.getJsonObject();
-                                        String respCode = object.optString("respCode");
-                                        Toast.makeText(AddCardActivity.this, object.optString("respDesc"), Toast.LENGTH_SHORT).show();
-                                        if (RequestUtils.SUCCESS.equals(respCode)) {
+                                        Toast.makeText(AddCardActivity.this,  baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                            finish();
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-
                                 }
 
                                 @Override

@@ -109,7 +109,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void initView(View view) {
         mSimpleToolbar = view.findViewById(R.id.tool_bar);
-        mSimpleToolbar.setTitleName(getString(R.string.tab_item_me));
+        mSimpleToolbar.setTitleName(getString(R.string.mine));
         mSimpleToolbar.setRightIcon(R.mipmap.ic_icon_message_white);
         mSimpleToolbar.setRightIconClickListener(new View.OnClickListener() {
             @Override

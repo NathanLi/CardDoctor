@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.bean.TimeHeader;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,10 +32,10 @@ import java.util.List;
  */
 public class TimePickerActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private RecyclerView mRecyclerView;
     private static final String TAG = "TimePickerActivity";
+    private RecyclerView mRecyclerView;
     private List<TimeHeader> mList;
-    private ArrayList<TimeItem> mSelectTimes;
+    private ArrayList<TimeItem> mSelectedTimeList;
 
     @Override
     public void initData() {
@@ -55,16 +53,16 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
                         tvDay.setTextColor(Color.BLACK);
                         TimeHeader timeHeader = mList.get(position);
                         if (!timeHeader.isHeader) {
-                            mSelectTimes.remove(new TimeItem(timeHeader.t.getYear(), timeHeader.t.getMonth(), timeHeader.t.getDay()));
+                            mSelectedTimeList.remove(new TimeItem(timeHeader.t.getYear(), timeHeader.t.getMonth(), timeHeader.t.getDay()));
                         }
                     } else {
                         ivCircle.setVisibility(View.VISIBLE);
                         tvDay.setTextColor(Color.WHITE);
                         TimeHeader timeHeader = mList.get(position);
                         if (!timeHeader.isHeader) {
-                            if (mSelectTimes == null)
-                                mSelectTimes = new ArrayList<>();
-                            mSelectTimes.add(new TimeItem(timeHeader.t.getYear(), timeHeader.t.getMonth(), timeHeader.t.getDay()));
+                            if (mSelectedTimeList == null)
+                                mSelectedTimeList = new ArrayList<>();
+                            mSelectedTimeList.add(new TimeItem(timeHeader.t.getYear(), timeHeader.t.getMonth(), timeHeader.t.getDay()));
                         }
                     }
                 }
@@ -78,36 +76,22 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     private void initTimeList() {
         ArrayList<TimeItem> selectedList = getIntent().getParcelableArrayListExtra("selected_time");
         mList = new ArrayList<>();
-        mSelectTimes = new ArrayList<>();
+        mSelectedTimeList = new ArrayList<>();
         Calendar curCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
+        //******** 不能选择当前这一天 ********
+        curCalendar.add(Calendar.DAY_OF_MONTH, 1);
         Calendar endCalendar = TimeUtils.getCalendar(getIntent().getLongExtra("time", 0));
-        if (curCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                curCalendar.get(Calendar.MONTH) + 1 == endCalendar.get(Calendar.MONTH) + 1 &&
-                curCalendar.get(Calendar.DAY_OF_MONTH) + 1 == endCalendar.get(Calendar.DAY_OF_MONTH)) {
-            addTimeHeader(curCalendar);
-            addTimeItem(selectedList, curCalendar);
-        } else {
-            int lastMonth = 0;
-            while (curCalendar.get(Calendar.YEAR) != endCalendar.get(Calendar.YEAR) ||
-                    curCalendar.get(Calendar.MONTH) + 1 != endCalendar.get(Calendar.MONTH) + 1 ||
-                    curCalendar.get(Calendar.DAY_OF_MONTH) != endCalendar.get(Calendar.DAY_OF_MONTH)) {
-                if (lastMonth != curCalendar.get(Calendar.MONTH) + 1) {
-                    int month = addTimeHeader(curCalendar);
-                    lastMonth = month;
-                }
-                addTimeItem(selectedList, curCalendar);
-                curCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        int lastMonth = 0;
+        while (curCalendar.get(Calendar.YEAR) != endCalendar.get(Calendar.YEAR) ||
+                curCalendar.get(Calendar.MONTH) + 1 != endCalendar.get(Calendar.MONTH) + 1 ||
+                curCalendar.get(Calendar.DAY_OF_MONTH) != endCalendar.get(Calendar.DAY_OF_MONTH)) {
+            if (lastMonth != curCalendar.get(Calendar.MONTH) + 1) {
+                int month = addTimeHeader(curCalendar);
+                lastMonth = month;
             }
+            addTimeItem(selectedList, curCalendar);
+            curCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
-    }
-
-    private void addTimeItem(ArrayList<TimeItem> selectedList, Calendar curCalendar) {
-        TimeItem bean = new TimeItem(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH) + 1, curCalendar.get(Calendar.DAY_OF_MONTH));
-        boolean contain = selectedList.contains(bean);
-        if (contain) {
-            mSelectTimes.add(bean);
-        }
-        mList.add(new TimeHeader(new TimeItem(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH) + 1, curCalendar.get(Calendar.DAY_OF_MONTH), contain)));
     }
 
     private int addTimeHeader(Calendar curCalendar) {
@@ -119,15 +103,13 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
         return month;
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_time_picker);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void initView() {
-        mRecyclerView = findViewById(R.id.recycler_view);
+    private void addTimeItem(ArrayList<TimeItem> selectedList, Calendar curCalendar) {
+        TimeItem bean = new TimeItem(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH) + 1, curCalendar.get(Calendar.DAY_OF_MONTH));
+        boolean contain = selectedList.contains(bean);
+        if (contain) {
+            mSelectedTimeList.add(bean);
+        }
+        mList.add(new TimeHeader(new TimeItem(curCalendar.get(Calendar.YEAR), curCalendar.get(Calendar.MONTH) + 1, curCalendar.get(Calendar.DAY_OF_MONTH), contain)));
     }
 
     @Override
@@ -140,11 +122,22 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                setResult(Activity.RESULT_FIRST_USER, new Intent().putParcelableArrayListExtra("selected_time", mSelectTimes));
+                setResult(Activity.RESULT_FIRST_USER, new Intent().putParcelableArrayListExtra("selected_time", mSelectedTimeList));
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_time_picker);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void initView() {
+        mRecyclerView = findViewById(R.id.recycler_view);
     }
 
     @Override

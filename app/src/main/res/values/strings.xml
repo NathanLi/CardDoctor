@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">卡医生</string>
-    <string name="tab_item_home">首页</string>
-    <string name="tab_item_bill">账单</string>
-    <string name="tab_item_card_test">卡·测评</string>
-    <string name="tab_item_share">分享</string>
-    <string name="share_sub_run">推荐好友扫码下载 卡医生APP  赚取分润</string>
-    <string name="tab_item_me">我的</string>
+    <string name="home">首页</string>
+    <string name="bill">账单</string>
+    <string name="card_test">卡·测评</string>
+    <string name="share">分享</string>
+    <string name="mine">我的</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="org_number">Y1000000001</string>
 
@@ -39,6 +38,9 @@
     <string name="name_tips">请输入姓名</string>
     <string name="weixin_tips">请输入微信号（选填）</string>
     <string name="city_tips">选择您所在的城市</string>
+    <string name="input_phone_num">请输入手机号码</string>
+    <string name="psd_tips">请输入密码</string>
+    <string name="forget_psd">忘记密码</string>
 
     <!--忘记密码-->
     <string name="bind_phone">绑定手机</string>
@@ -62,19 +64,10 @@
     <string name="today_operation">今日操作</string>
     <string name="plan_list">规划列表</string>
     <string name="day_sel_format">每月%1$02d日</string>
-
     <string name="card_number_tips">请输入银行卡号</string>
     <string name="bank_card_name">发卡银行</string>
     <string name="bank_phone_tips">请输入银行预留手机号</string>
-
-    <!--首页-->
-    <string name="pos">pos</string>
-    <string name="sign">标记</string>
-    <string name="pay_back_format">支出：-%s 收入：%s</string>
-    <string name="trade_time_format">交易时间：%s</string>
-    <string name="trade_status_format">交易状态：%s</string>
-    <string name="recharge_success">充值成功</string>
-    <string name="withdraw_success">提现成功</string>
+    <string name="share_sub_run">推荐好友扫码下载 卡医生APP  赚取分润</string>
 
     <!-- 账单页面 -->
     <string name="bank_card_tail_num">[%s]</string>
@@ -99,8 +92,22 @@
     <string name="time_format">%1$d年%2$d月%3$d日 - %4$d年%5$d月%6$d日</string>
     <string name="service_agreement">《卡医生服务协议》</string>
     <string name="commit">提交</string>
-    <string name="date_format">%1$s-%2$s 至 %3$s-%4$s</string>
+    <string name="date_format">%1$s 至 %2$s</string>
     <string name="year_month_day">%1$04d-%2$02d-%3$02d</string>
     <string name="hour_minute">%1$02d:%2$02d</string>
+
+    <!--首页-->
+    <string name="pos">pos</string>
+    <string name="sign">标记</string>
+    <string name="pay_back_format">支出：-%s 收入：%s</string>
+    <string name="trade_time_format">交易时间：%s</string>
+    <string name="trade_status_format">交易状态：%s</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="withdraw_success">提现成功</string>
+    <string name="profit">分润 (元)</string>
+    <string name="withdrawals_mode">提现方式</string>
+    <string name="withdrawals_money">提现金额：</string>
+    <string name="input_money">请输入提现金额</string>
+    <string name="sure_commit">确认提交</string>
 
 </resources>

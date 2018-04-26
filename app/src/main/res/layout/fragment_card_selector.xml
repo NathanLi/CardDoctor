@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8pt">
 
     <TextView
         android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="24pt"
         android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="16pt"
         android:text="@string/select_card"
-        android:layout_width="match_parent"
-        android:layout_height="24pt" />
+        android:textColor="@color/black"
+        android:textSize="18pt" />
+
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/tv"
         android:id="@+id/recycler_view"
+        android:layout_marginTop="4pt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv" />
 
 </RelativeLayout>

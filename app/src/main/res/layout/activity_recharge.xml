@@ -34,6 +34,7 @@
         android:padding="12pt"
         android:gravity="center_vertical">
         <ImageView
+            android:id="@+id/iv_withdraw_mode"
             android:background="@mipmap/ic_card_orange"
             android:layout_width="24pt"
             android:layout_height="24pt" />

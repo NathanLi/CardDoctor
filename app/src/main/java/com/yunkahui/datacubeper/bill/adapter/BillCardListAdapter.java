@@ -26,16 +26,12 @@ import java.util.List;
 
 public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditCard, BaseViewHolder> {
 
-    private static final int DAY_MILLIIS = 1000 * 1 * 60 * 60 * 24;
     private Context mContext;
-    private long mEndDate;
 
     public BillCardListAdapter(Context context, int layoutResId, List data) {
         super(layoutResId, data);
         this.mContext = context;
     }
-
-    private static final String TAG = "BillCardListAdapter";
 
     @Override
     protected void convert(BaseViewHolder helper, final BillCreditCard.CreditCard item) {
@@ -67,7 +63,6 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             final String startDay = TimeUtils.format("yyyy.MM.dd", calendar.getTimeInMillis());
             calendar.add(Calendar.MONTH, 1);
             calendar.add(Calendar.DAY_OF_MONTH, -1);
-            mEndDate = calendar.getTimeInMillis();
             final String endDay = TimeUtils.format("yyyy.MM.dd", calendar.getTimeInMillis());
             billCardView.setBillCycle("账单周期：" + startDay.substring(5) + "-" + endDay.substring(5));
             //******** 设置还款日期 ********
@@ -92,14 +87,25 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                 }
             });
             //******** 设置是否显示智能规划 ********
-            if (item.getBillDayDate() + DAY_MILLIIS < System.currentTimeMillis() && System.currentTimeMillis() < item.getRepayDayDate() - DAY_MILLIIS && item.getCanPlanning() == 1) {
+            //********
+            // 若当前时间大于还款日
+            // 若当前状态为不能规划
+            // 若明天为还款日，不显示 ********
+            Calendar repayCalendar = TimeUtils.getCalendar(item.getRepayDayDate());
+            Calendar currentCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
+            boolean isShouldRepayTomorrow = repayCalendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                    repayCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
+                    repayCalendar.get(Calendar.DAY_OF_MONTH) == currentCalendar.get(Calendar.DAY_OF_MONTH) + 1;
+            if (item.getBillDayDate() + TimeUtils.DAY_MILLIS < System.currentTimeMillis() &&
+                    System.currentTimeMillis() < item.getRepayDayDate() - TimeUtils.DAY_MILLIS &&
+                    item.getCanPlanning() == 1 && !isShouldRepayTomorrow) {
                 billCardView.setSmartPlanVisibility(View.VISIBLE);
                 billCardView.setOnClickSmartPlanListener(new BillCardView.OnClickSmartPlanListener() {
 
                     @Override
                     public void onClickSmartPlan() {
                         mContext.startActivity(new Intent(mContext, PlanPickerActivity.class)
-                                .putExtra("time", mEndDate)
+                                .putExtra("time", item.getRepayDayDate())
                                 .putExtra("user_credit_card_id", item.getUserCreditCardId())
                                 .putExtra("bank_card_name", item.getBankCardName())
                                 .putExtra("bank_card_num", cardIdFormat));

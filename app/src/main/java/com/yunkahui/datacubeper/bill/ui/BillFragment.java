@@ -111,7 +111,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(new Intent(mActivity, AddCardActivity.class));
                     }
                 });
-        toolbar.setTitleName(getString(R.string.tab_item_bill));
+        toolbar.setTitleName(getString(R.string.bill));
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mLlPromptAddCard = view.findViewById(R.id.ll_prompt_add_card);
         view.findViewById(R.id.tv_bind_card).setOnClickListener(this);

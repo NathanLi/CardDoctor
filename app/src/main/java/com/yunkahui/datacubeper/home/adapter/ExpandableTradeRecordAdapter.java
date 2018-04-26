@@ -1,7 +1,6 @@
 package com.yunkahui.datacubeper.home.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
-import com.yunkahui.datacubeper.common.utils.TintUtil;
+import com.yunkahui.datacubeper.common.utils.TintUtils;
 
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
                 }
-                helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(TintUtils.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
     }

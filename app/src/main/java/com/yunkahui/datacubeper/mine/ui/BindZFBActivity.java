@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -19,7 +18,6 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.mine.logic.MyZFBLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 //绑定支付宝
@@ -60,7 +58,7 @@ public class BindZFBActivity extends AppCompatActivity implements IActivityStatu
         return getResources().getColor(R.color.colorPrimary);
     }
 
-    private class InnerTextChangeListener extends CustomTextChangeListener{
+    private class InnerTextChangeListener extends CustomTextChangeListener {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 

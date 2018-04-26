@@ -13,7 +13,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.BillDetailItem;
 import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
-import com.yunkahui.datacubeper.common.utils.TintUtil;
+import com.yunkahui.datacubeper.common.utils.TintUtils;
 
 import java.util.List;
 
@@ -42,20 +42,17 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
                 } else {
                     helper.setTextColor(R.id.tv_month, Color.BLACK);
                 }
-                helper.setText(R.id.tv_year, String.valueOf(summary.getYear()));
-                helper.setText(R.id.tv_date, String.format(mContext.getResources().getString(R.string.date_format),
-                        TimeUtils.addZero(summary.getStartMonth()), TimeUtils.addZero(summary.getStartDay()),
-                        TimeUtils.addZero(summary.getEndMonth()), TimeUtils.addZero(summary.getEndDay())));
+                helper.setText(R.id.tv_year, summary.getYear())
+                        .setText(R.id.tv_date, String.format(mContext.getResources().getString(R.string.date_format), summary.getStartDate(), summary.getEndDate()))
+                        .setImageResource(R.id.iv_icon, summary.isExpanded() ? R.mipmap.ic_drop : R.mipmap.ic_pull);
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = helper.getAdapterPosition();
                         if (summary.isExpanded()) {
                             collapse(position);
-                            helper.setImageResource(R.id.iv_icon, R.mipmap.ic_pull);
                         } else {
                             expand(position);
-                            helper.setImageResource(R.id.iv_icon, R.mipmap.ic_drop);
                         }
                     }
                 });
@@ -74,7 +71,7 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
                     colorID = mContext.getResources().getColor(R.color.text_color_green_469705);
                 }
                 helper.setText(R.id.show_money, money);
-                helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(TintUtils.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
     }

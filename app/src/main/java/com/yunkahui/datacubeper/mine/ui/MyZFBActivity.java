@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -24,7 +22,6 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.mine.logic.MyZFBLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 //我的支付宝
@@ -108,7 +105,6 @@ public class MyZFBActivity extends AppCompatActivity implements IActivityStatusB
                 LogUtils.e("支付宝信息失败->" + throwable.toString());
             }
         });
-
     }
 
     //解绑支付宝账号

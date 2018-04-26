@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.ApplyPosLogic;
@@ -24,10 +23,7 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.mine.logic.AddCashCardLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Observable;
 
 //结算信息
 public class SettleInfoActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {

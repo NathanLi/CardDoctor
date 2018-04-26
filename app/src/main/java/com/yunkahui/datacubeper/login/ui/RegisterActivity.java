@@ -1,19 +1,11 @@
 package com.yunkahui.datacubeper.login.ui;
 
-import android.os.Build;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
-import com.yunkahui.datacubeper.base.IActivityBase;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -22,17 +14,15 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.logic.RegisterLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity implements IActivityStatusBar {
 
+    private RegisterLogic mLogic;
     private String mPhone;
     private String mNickName;
     private String mPassword;
     private String mInviteCode;
-
-    private RegisterLogic mLogic;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,21 +33,21 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
 
     @Override
     public void initData() {
-        mLogic=new RegisterLogic();
+        mLogic = new RegisterLogic();
     }
 
     @Override
     public void initView() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new RegisterFirstFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new RegisterFirstFragment()).commit();
     }
 
     /**
      * 跳转到注册第二步
      */
-    public void registerSecond(){
+    public void registerSecond() {
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.anim_fragment_enter,R.anim.anim_fragment_exit)
-                .replace(R.id.frame_layout,new RegisterSecondFragment()).commitNowAllowingStateLoss();
+                .setCustomAnimations(R.anim.anim_fragment_enter, R.anim.anim_fragment_exit)
+                .replace(R.id.frame_layout, new RegisterSecondFragment()).commitNowAllowingStateLoss();
     }
 
     @Override
@@ -65,70 +55,56 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
         return getResources().getColor(R.color.colorPrimary);
     }
 
-
-
-    public RegisterLogic getLogic(){
+    public RegisterLogic getLogic() {
         return mLogic;
     }
 
-
-    public void verifyPhone(final String phone, String code, final String inviteCode){
+    public void verifyPhone(final String phone, String code, final String inviteCode) {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkSMSCode(this,phone, code, new SimpleCallBack<BaseBean>() {
+        mLogic.checkSMSCode(this, phone, code, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("验证短信->"+baseBean.toString());
-                try {
-                    JSONObject object=baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        setPhone(phone);
-                        setInviteCode(inviteCode);
-                        registerSecond();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                LogUtils.e("验证短信->" + baseBean.toString());
+                JSONObject object = baseBean.getJsonObject();
+                ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    setPhone(phone);
+                    setInviteCode(inviteCode);
+                    registerSecond();
                 }
-
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"短信验证失败");
+                ToastUtils.show(getApplicationContext(), "短信验证失败");
             }
         });
 
     }
 
-    public void register(){
+    public void register() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.register(this, mPhone, mNickName, mPassword, mInviteCode, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                try {
-                    LogUtils.e("注册->"+baseBean.getJsonObject().toString());
-                    JSONObject object=baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        finish();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                LogUtils.e("注册->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"注册请求失败");
+                ToastUtils.show(getApplicationContext(), "注册请求失败");
 
             }
         });
-
     }
 
     public void setPhone(String phone) {

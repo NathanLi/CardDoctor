@@ -4,17 +4,15 @@ package com.yunkahui.datacubeper.login.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 
 /**
@@ -60,16 +58,10 @@ public class RegisterSecondFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private class InnerTextChangerListener implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
+    private class InnerTextChangerListener extends CustomTextChangeListener {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             if(!TextUtils.isEmpty(mEditTextNickName.getText().toString())&&!TextUtils.isEmpty(mEditTextPassword.getText().toString())
                     &&!TextUtils.isEmpty(mEditTextPasswordRepeat.getText().toString())){
                 mButtonSubmit.setEnabled(true);
@@ -78,11 +70,6 @@ public class RegisterSecondFragment extends Fragment implements View.OnClickList
                 mButtonSubmit.setEnabled(false);
                 mButtonSubmit.setBackgroundColor(Color.parseColor("#CCCCCC"));
             }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
 
         }
     }

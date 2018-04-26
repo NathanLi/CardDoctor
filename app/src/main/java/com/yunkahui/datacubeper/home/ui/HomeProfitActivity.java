@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class HomeProfitActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private static final String TAG = "HomeProfitActivity";
     private TabLayout mTabLayout;
     private CustomViewPager mViewPager;
 
@@ -51,7 +50,7 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1,1,1,"提现").setIcon(R.mipmap.ic_withdraw_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1, 1, 1, "提现").setIcon(R.mipmap.ic_withdraw_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 

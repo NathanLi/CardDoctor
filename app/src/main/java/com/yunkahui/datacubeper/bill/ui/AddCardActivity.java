@@ -22,6 +22,7 @@ import com.yunkahui.datacubeper.bill.logic.AddCardLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
 
 import org.json.JSONObject;
@@ -130,8 +131,9 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                                     try {
                                         JSONObject object =baseBean.getJsonObject();
                                         String respCode = object.optString("respCode");
-                                        if ("0023".equals(respCode)) {
-                                            Toast.makeText(AddCardActivity.this, object.optString("respDesc"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AddCardActivity.this, object.optString("respDesc"), Toast.LENGTH_SHORT).show();
+                                        if (RequestUtils.SUCCESS.equals(respCode)) {
+                                           finish();
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();

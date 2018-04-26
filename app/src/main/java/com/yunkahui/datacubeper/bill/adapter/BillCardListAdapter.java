@@ -39,6 +39,9 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
 
     @Override
     protected void convert(BaseViewHolder helper, final BillCreditCard.CreditCard item) {
+
+        helper.addOnClickListener(R.id.btn_bill_sync);
+
         //******** item 为空，证明没数据，显示默认样例 ********
         if (item != null) {
             helper.setVisible(R.id.iv_sample, false);

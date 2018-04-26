@@ -116,7 +116,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 JSONArray billUnoutArr = respData.optJSONArray("bill_unout");
                 JSONArray billOutArr = respData.optJSONArray("bill_out");
                 for (int i = 0; i < billOutArr.length(); i++) {
-                    Log.e(TAG, "遍历ing: "+billOutArr.optJSONObject(i).optLong("trade_date")+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, billOutArr.optJSONObject(i).optLong("trade_date")));
+                    Log.e(TAG, "遍历ing: " + billOutArr.optJSONObject(i).optLong("trade_date") + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, billOutArr.optJSONObject(i).optLong("trade_date")));
                 }
                 //******** 取出最早的一条记录 ********
                 BillDetailItem originalItem = CreateBean(billOutArr.optJSONObject(billOutArr.length() - 1));
@@ -126,29 +126,29 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 if (Integer.parseInt(originalItemTradeDate.substring(8)) < billDay) {
                     calendar.add(Calendar.MONTH, -1);
                 }
-                Log.e(TAG, "最早记录的开始时间: "+calendar.getTimeInMillis()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
+                Log.e(TAG, "最早记录的开始时间: " + calendar.getTimeInMillis() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
                 long startMillis = calendar.getTimeInMillis();
                 calendar.add(Calendar.MONTH, 1);
                 calendar.add(Calendar.DAY_OF_MONTH, -1);
-                Log.e(TAG, "最早记录的结束时间: "+calendar.getTimeInMillis()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
+                Log.e(TAG, "最早记录的结束时间: " + calendar.getTimeInMillis() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, calendar.getTimeInMillis()));
                 //******** 计算最早的时间戳，存入map ********
                 mArrayMap.put(startMillis, calendar.getTimeInMillis());
                 //******** 取出最近的一条记录 ********
                 BillDetailItem endItem = CreateBean(billOutArr.optJSONObject(0));
-                Log.e(TAG, "endItem: "+endItem.getTrade_date()+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, endItem.getTrade_date()));
+                Log.e(TAG, "endItem: " + endItem.getTrade_date() + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HMS, endItem.getTrade_date()));
                 Calendar endItemCalendar = TimeUtils.getCalendar(endItem.getTrade_date());
-                Log.e(TAG, "onSuccess 1: "+endItemCalendar.get(Calendar.YEAR)+", "+(endItemCalendar.get(Calendar.MONTH)+1)+", "+endItemCalendar.get(Calendar.DAY_OF_MONTH));
+                Log.e(TAG, "onSuccess 1: " + endItemCalendar.get(Calendar.YEAR) + ", " + (endItemCalendar.get(Calendar.MONTH) + 1) + ", " + endItemCalendar.get(Calendar.DAY_OF_MONTH));
                 int destYear = endItemCalendar.get(Calendar.YEAR);
                 int destMonth = endItemCalendar.get(Calendar.MONTH) + (endItemCalendar.get(Calendar.DAY_OF_MONTH) > billDay - 1 ? 0 : 1);
-                Log.e(TAG, "onSuccess 2: "+destYear+"-"+destMonth+"-"+billDay);
-                long destStartMillis = TimeUtils.getLongByDate(TimeUtils.DEFAULT_PATTERN, destYear+"-"+destMonth+"-"+billDay);
-                Log.e(TAG, "destStartMillis: "+destStartMillis);
+                Log.e(TAG, "onSuccess 2: " + destYear + "-" + destMonth + "-" + billDay);
+                long destStartMillis = TimeUtils.getLongByDate(TimeUtils.DEFAULT_PATTERN, destYear + "-" + destMonth + "-" + billDay);
+                Log.e(TAG, "destStartMillis: " + destStartMillis);
                 Calendar destCalendar = TimeUtils.getCalendar(destStartMillis);
                 destCalendar.add(Calendar.MONTH, 1);
                 destCalendar.add(Calendar.DAY_OF_MONTH, -1);
-                Log.e(TAG, "destCalendar: "+destCalendar.getTimeInMillis());
+                Log.e(TAG, "destCalendar: " + destCalendar.getTimeInMillis());
                 //******** 计算最近的时间戳，存入map ********
-                Log.e(TAG, "最近的: "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destStartMillis)+", "+TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destCalendar.getTimeInMillis()));
+                Log.e(TAG, "最近的: " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destStartMillis) + ", " + TimeUtils.format(TimeUtils.DEFAULT_PATTERN, destCalendar.getTimeInMillis()));
                 mArrayMap.put(destStartMillis, destCalendar.getTimeInMillis());
             }
 

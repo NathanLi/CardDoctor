@@ -25,39 +25,39 @@ public class StringUtils {
 
     /**
      * 验证手机号码
+     *
      * @param phone
      * @return
      */
-    public static boolean verifyPhone(String phone){
-            if (phone != null && phone.length() == 11) {
-                Pattern pattern = Pattern.compile("^1[3|4|5|6|7|8][0-9]\\d{8}$");
-                Matcher matcher = pattern.matcher(phone);
-                return matcher.matches();
-            }
-            return false;
+    public static boolean verifyPhone(String phone) {
+        if (phone != null && phone.length() == 11) {
+            Pattern pattern = Pattern.compile("^1[3|4|5|6|7|8][0-9]\\d{8}$");
+            Matcher matcher = pattern.matcher(phone);
+            return matcher.matches();
+        }
+        return false;
     }
 
     /**
      * 读取本地JSON文件
+     *
      * @param context
      * @param fileName
      * @return
      */
-    public static String getJsonForLocation(Context context, String fileName){
-        StringBuilder stringBuilder = new StringBuilder();
-        AssetManager assetManager =  context.getAssets();
+    public static String getJsonForLocation(Context context, String fileName) {
+        StringBuffer stringBuffer = new StringBuffer();
+        AssetManager assetManager = context.getAssets();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    assetManager.open(fileName),"UTF-8"));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetManager.open(fileName), "UTF-8"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
+                stringBuffer.append(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return stringBuilder.toString();
+        return stringBuffer.toString();
     }
 
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.bill.adapter.BillCardListAdapter;
@@ -21,8 +20,6 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
-import com.yunkahui.datacubeper.common.utils.TimeUtils;
-import com.yunkahui.datacubeper.common.view.BillCardView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.TodayOperationActivity;
 
@@ -116,7 +113,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(new Intent(mActivity, AddCardActivity.class));
                     }
                 });
-        toolbar.setTitleName(getString(R.string.tab_item_bill));
+        toolbar.setTitleName(getString(R.string.bill));
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mLlPromptAddCard = view.findViewById(R.id.ll_prompt_add_card);
         view.findViewById(R.id.tv_bind_card).setOnClickListener(this);

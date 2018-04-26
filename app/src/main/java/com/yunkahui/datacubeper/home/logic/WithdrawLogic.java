@@ -29,4 +29,10 @@ public class WithdrawLogic {
         HttpManager.getInstance().create(ApiService.class).withdrawMoney(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    public void checkUserZFB(Context context, SimpleCallBack<BaseBean> callBack){
+        Map<String,String> params= RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).checkUserBindZFB(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
 }

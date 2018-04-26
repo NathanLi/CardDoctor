@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:checked="false"
         android:textColor="@color/recharge_radio_color_selector"
-        android:textSize="14pt" />
+        android:textSize="16pt" />
 
 </LinearLayout>

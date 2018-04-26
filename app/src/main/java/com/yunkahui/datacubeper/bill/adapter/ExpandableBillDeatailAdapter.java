@@ -13,10 +13,9 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.BillDetailItem;
 import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
-import com.yunkahui.datacubeper.common.utils.TintUtil;
+import com.yunkahui.datacubeper.common.utils.TintUtils;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
@@ -72,7 +71,7 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
                     colorID = mContext.getResources().getColor(R.color.text_color_green_469705);
                 }
                 helper.setText(R.id.show_money, money);
-                helper.getView(R.id.iv_qr).setBackground(TintUtil.createColorShape(colorID, 20, 20, 20, 20));
+                helper.getView(R.id.iv_qr).setBackground(TintUtils.createColorShape(colorID, 20, 20, 20, 20));
                 break;
         }
     }

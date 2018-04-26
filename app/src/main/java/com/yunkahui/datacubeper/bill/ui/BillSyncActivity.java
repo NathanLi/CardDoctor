@@ -1,24 +1,15 @@
 package com.yunkahui.datacubeper.bill.ui;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
-import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.view.CustomViewPager;
-import com.yunkahui.datacubeper.common.view.ExportTipView;
-import com.yunkahui.datacubeper.home.ui.DesignSubFragment;
 
 import java.util.ArrayList;
 import java.util.List;

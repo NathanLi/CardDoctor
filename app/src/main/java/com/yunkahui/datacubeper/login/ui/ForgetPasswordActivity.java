@@ -35,10 +35,4 @@ public class ForgetPasswordActivity extends AppCompatActivity implements IActivi
         return getResources().getColor(R.color.colorPrimary);
     }
 
-    public void startToResetFragment(){
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.anim_fragment_enter,R.anim.anim_fragment_exit)
-                .replace(R.id.frame_layout,new ResetPasswordFragment()).commitNowAllowingStateLoss();
-    }
-
 }

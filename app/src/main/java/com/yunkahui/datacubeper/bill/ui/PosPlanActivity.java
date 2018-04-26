@@ -36,7 +36,6 @@ import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
-import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinIntroduceActivity;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeVipActivity;
 
 import java.util.ArrayList;
@@ -45,18 +44,18 @@ import java.util.List;
 public class PosPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private static final String TAG = "PosPlanActivity";
-    private int mPosition;
-    private List<GeneratePlanItem> mList;
+    private PosPlanLogic mLogic;
+    private RecyclerView mRecyclerView;
     private TextView mTvRepayDate;
     private EditText mEtInputAmount;
     private EditText mEtInputTimes;
-    private RecyclerView mRecyclerView;
-    private ArrayList<TimeItem> mCurrentTimeList;
-    private ArrayList<TimeItem> mResultList;
     private TextView mTvGoPlan;
-    private PosPlanLogic mLogic;
+    private List<GeneratePlanItem> mList;
+    private ArrayList<TimeItem> mSelectedTimeList;
+    private ArrayList<TimeItem> mResultList;
     private GenerateDataAdapter mAdapter;
     private BaseBean<GeneratePlan> mBaseBean;
+    private int mLastClickPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,9 +66,9 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
 
     @Override
     public void initData() {
-        mCurrentTimeList = new ArrayList<>();
         mLogic = new PosPlanLogic();
         mList = new ArrayList<>();
+        mSelectedTimeList = new ArrayList<>();
         initListener();
         mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"));
         mAdapter.bindToRecyclerView(mRecyclerView);
@@ -87,7 +86,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         .putExtra("amount", String.valueOf(mList.get(position).getMoney()))
                         .putExtra("business_type", mList.get(position).getMccType())
                         .putExtra("is_commit_to_server", false), 1);
-                mPosition = position;
+                mLastClickPosition = position;
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -123,9 +122,9 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mEtInputAmount = findViewById(R.id.et_input_amount);
         mEtInputTimes = findViewById(R.id.et_input_times);
         mRecyclerView = findViewById(R.id.recycler_view);
-        findViewById(R.id.rl_select_date).setOnClickListener(this);
         mTvGoPlan = findViewById(R.id.tv_go_plan);
         mTvGoPlan.setOnClickListener(this);
+        findViewById(R.id.rl_select_date).setOnClickListener(this);
     }
 
     @Override
@@ -144,9 +143,10 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         return super.onOptionsItemSelected(item);
     }
 
+    //******** 展示确认弹窗 ********
     private void showBottomSheetDialog() {
-        TimeItem startTime = mCurrentTimeList.get(0);
-        TimeItem endTime = mCurrentTimeList.get(mCurrentTimeList.size() - 1);
+        TimeItem startTime = mSelectedTimeList.get(0);
+        TimeItem endTime = mSelectedTimeList.get(mSelectedTimeList.size() - 1);
         View contentView = LayoutInflater.from(this).inflate(R.layout.layout_sure_dialog, null);
         if (mBaseBean != null) {
             GeneratePlan.PlanningAdditionalBean additional = mBaseBean.getRespData().getPlanningAdditional();
@@ -175,20 +175,17 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 public void onClick(View view) {
                     bottomSheetDialog.dismiss();
                     LoadingViewDialog.getInstance().show(PosPlanActivity.this);
-                    for (GeneratePlan.PlanningListBean s1 : mBaseBean.getRespData().getPlanningList()) {
-                        for (GeneratePlan.PlanningListBean.DetailsBean s2 : s1.getDetails()) {
-                            for (GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean s3 : s2.getConsumption()) {
-                                Log.e(TAG, "onClick: " + s3.getMoney());
-                            }
-                        }
-                    }
                     mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            Log.e(TAG, "confirmPosPlan onSuccess: " + baseBean.getJsonObject().toString());
-                            if ("0214".equals(baseBean.getRespCode())) {
+                            if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                Toast.makeText(PosPlanActivity.this, "规划成功", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if ("0214".equals(baseBean.getRespCode())) {
                                 showUpgradeJoinDialog(baseBean.getRespDesc());
+                            } else {
+                                Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -204,6 +201,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         }
     }
 
+    //******** 跳往升级会员页面 ********
     private void showUpgradeJoinDialog(String desc) {
         new AlertDialog.Builder(this)
                 .setMessage(desc)
@@ -235,7 +233,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             case R.id.rl_select_date:
                 startActivityForResult(new Intent(this, TimePickerActivity.class)
                         .putExtra("time", getIntent().getLongExtra("time", 0))
-                        .putParcelableArrayListExtra("selected_time", mCurrentTimeList), 1);
+                        .putParcelableArrayListExtra("selected_time", mSelectedTimeList), 1);
                 break;
             case R.id.tv_go_plan:
                 generateData();
@@ -243,6 +241,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         }
     }
 
+    //******** 进行规划 ********
     private void generateData() {
         if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
             Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
@@ -265,18 +264,6 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             date.append(item.getYear() + "-" + item.getMonth() + "-" + item.getDay() + ",");
         }
         date.deleteCharAt(date.toString().length() - 1);
-//        mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
-//                date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean>() {
-//                    @Override
-//                    public void onSuccess(BaseBean baseBean) {
-//                        Log.e(TAG, "onSuccess111: "+baseBean.getJsonObject().toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable throwable) {
-//                        Log.e(TAG, "onFailure: " + throwable.getMessage());
-//                    }
-//                });
         mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
                 date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
                     @Override
@@ -284,7 +271,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         try {
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
-                                GeneratePlanItem item = null;
+                                GeneratePlanItem item;
                                 for (int x = 0; x < baseBean.getRespData().getPlanningList().size(); x++) {
                                     List<GeneratePlan.PlanningListBean.DetailsBean> details = baseBean.getRespData().getPlanningList().get(x).getDetails();
                                     for (int y = 0; y < details.size(); y++) {
@@ -326,42 +313,53 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_FIRST_USER) {
-            mResultList = data.getParcelableArrayListExtra("selected_time");
-            if (mResultList.size() > 0) {
-                if (mEtInputAmount.getText().toString().length() > 0 && mEtInputTimes.getText().toString().length() > 0) {
-                    mTvGoPlan.setSelected(true);
-                }
-                mCurrentTimeList.clear();
-                mCurrentTimeList.addAll(mResultList);
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < mResultList.size(); i++) {
-                    if (i == mResultList.size() - 1) {
-                        builder.append(mCurrentTimeList.get(i).getDay());
-                    } else {
-                        builder.append(mCurrentTimeList.get(i).getDay() + ",");
-                    }
-                }
-                mTvRepayDate.setText(builder.toString());
-                mTvRepayDate.setTextColor(Color.BLACK);
-            } else {
-                mTvRepayDate.setText(getString(R.string.repay_date));
-                mTvRepayDate.setTextColor(getResources().getColor(R.color.text_color_gray_9d9d9d));
-            }
+            handleTime(data);
         } else if (resultCode == Activity.RESULT_OK) {
-            int amount = Integer.parseInt(data.getStringExtra("amount"));
-            GeneratePlanItem item = mList.get(mPosition);
-            item.setMoney(amount);
-            GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(0).getDetails().get(item.getSection());
-            if ("repay".equals(data.getStringExtra("type"))) {
-                detailsBean.getRepayment().setMoney(amount);
-            } else if ("expense".equals(data.getStringExtra("type"))) {
-                GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(mList.get(mPosition).getSection());
-                consumptionBean.setMoney(amount);
-                consumptionBean.setMccType(data.getStringExtra("business_type"));
-                item.setMccType(data.getStringExtra("business_type"));
+            handleInfo(data);
+        }
+    }
+
+    //******** 处理修改信息 ********
+    private void handleInfo(Intent data) {
+        int amount = Integer.parseInt(data.getStringExtra("amount"));
+        GeneratePlanItem item = mList.get(mLastClickPosition);
+        item.setMoney(amount);
+        GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(0).getDetails().get(item.getSection());
+        if ("repay".equals(data.getStringExtra("type"))) {
+            detailsBean.getRepayment().setMoney(amount);
+        } else if ("expense".equals(data.getStringExtra("type"))) {
+            GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(mList.get(mLastClickPosition).getSection());
+            consumptionBean.setMoney(amount);
+            consumptionBean.setMccType(data.getStringExtra("business_type"));
+            item.setMccType(data.getStringExtra("business_type"));
+        }
+        mAdapter.notifyItemChanged(mLastClickPosition);
+        Toast.makeText(PosPlanActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+    }
+
+    //******** 处理时间选择结果 ********
+    private void handleTime(Intent data) {
+        mResultList = data.getParcelableArrayListExtra("selected_time");
+        if (mResultList.size() > 0) {
+            if (mEtInputAmount.getText().toString().length() > 0 && mEtInputTimes.getText().toString().length() > 0) {
+                mTvGoPlan.setSelected(true);
             }
-            mAdapter.notifyItemChanged(mPosition);
-            Toast.makeText(PosPlanActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+            mSelectedTimeList.clear();
+            mSelectedTimeList.addAll(mResultList);
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < mResultList.size(); i++) {
+                if (i == mResultList.size() - 1) {
+                    builder.append(mSelectedTimeList.get(i).getDay());
+                } else {
+                    builder.append(mSelectedTimeList.get(i).getDay() + ",");
+                }
+            }
+            mTvRepayDate.setText(builder.toString());
+            mTvRepayDate.setTextColor(Color.BLACK);
+        } else {
+            mSelectedTimeList.clear();
+            mTvRepayDate.setText(getString(R.string.repay_date));
+            mTvRepayDate.setTextColor(getResources().getColor(R.color.text_color_gray_9d9d9d));
         }
     }
 }

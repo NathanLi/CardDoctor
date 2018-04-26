@@ -143,6 +143,7 @@ public interface ApiService {
     @POST("/app/user/check_identify")       //查询用户实名认证状态
     Observable<BaseBean> checkRealNameAuthStatus(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
     @POST("/app/userbankcard/checkCard")     //查询银行卡号所属银行
     Observable<BaseBean> queryBankByCardId(@FieldMap Map<String,String> params);
 

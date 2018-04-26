@@ -1,36 +1,34 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.home.adapter.RechargeAdapter;
 import com.yunkahui.datacubeper.home.logic.RechargeLogic;
+import com.yunkahui.datacubeper.mine.ui.BindZFBActivity;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by YD1 on 2018/4/10
@@ -38,45 +36,101 @@ import java.util.List;
 public class RechargeActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private static final String TAG = "RechargeActivity";
-    private RechargeLogic mLogic;
-    private ArrayList<CardSelectorBean> mList;
+    private ImageView mIvWithdrawMode;
     private TextView mTvUserBalance;
     private LinearLayout mLlShowDialog;
-    private TextView mTvCardSelected;
     private EditText mEtInputMoney;
+    private TextView mTvCardSelected;
+
+    private RechargeLogic mLogic;
+    private ArrayList<CardSelectorBean> mList;
     private String mCurrentCardNum;
 
     @Override
     public void initData() {
         mLogic = new RechargeLogic();
         mList = new ArrayList<>();
-        if (getIntent().getStringExtra("money") != null) {
+        if (getIntent().getStringExtra("money") != null)
             mTvUserBalance.setText(getIntent().getStringExtra("money"));
-        }
         LoadingViewDialog.getInstance().show(this);
-        mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
+        String fromPage = getIntent().getStringExtra("from");
+        if ("share".equals(fromPage)) {
+            checkUserZFB();
+        } else {
+            getCardList();
+        }
+    }
+
+    private void checkUserZFB() {
+        mIvWithdrawMode.setBackgroundResource(R.mipmap.ic_zfb_blue);
+        mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(BaseBean<BillCreditCard> baseBean) {
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                mList.clear();
-                CardSelectorBean bean;
-                for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
-                    bean = new CardSelectorBean();
-                    bean.setBankCardName(item.getBankCardName());
-                    bean.setBankCardNum(item.getBankCardNum());
-                    bean.setChecked(false);
-                    mList.add(bean);
+                LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    String account = object.optJSONObject("respData").optString("alipay_account");
+                    String name = object.optJSONObject("respData").optString("ail_true_name");
+                    mTvCardSelected.setText(account + "(" + name + ")");
+                } else {
+                    showBindZFBDialog();
                 }
-                mList.get(0).setChecked(true);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "onFailure: "+throwable.getMessage());
+                LogUtils.e("支付宝信息失败->" + throwable.toString());
+            }
+        });
+    }
+
+    private void getCardList() {
+        mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
+            @Override
+            public void onSuccess(BaseBean<BillCreditCard> baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询卡列表->" + baseBean.toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mList.clear();
+                    CardSelectorBean bean;
+                    for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
+                        bean = new CardSelectorBean();
+                        bean.setBankCardName(item.getBankCardName());
+                        bean.setBankCardNum(item.getBankCardNum());
+                        bean.setChecked(false);
+                        mList.add(bean);
+                    }
+                    mList.get(0).setChecked(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                Log.e(TAG, "onFailure: " + throwable.getMessage());
                 Toast.makeText(RechargeActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showBindZFBDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("尚未绑定支付宝，请前往绑定")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(RechargeActivity.this, BindZFBActivity.class));
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     @Override
@@ -85,8 +139,10 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
         mLlShowDialog = findViewById(R.id.ll_show_dialog);
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
-        findViewById(R.id.btn_commit).setOnClickListener(this);
+        mIvWithdrawMode = findViewById(R.id.iv_withdraw_mode);
+
         mLlShowDialog.setOnClickListener(this);
+        findViewById(R.id.btn_commit).setOnClickListener(this);
     }
 
     @Override
@@ -108,26 +164,29 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
                 showSelectCardDialog();
                 break;
             case R.id.btn_commit:
-                if (mCurrentCardNum == null)
-                    return;
-                mLogic.rechargeMoney(this, mCurrentCardNum, mEtInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
-                    @Override
-                    public void onSuccess(BaseBean baseBean) {
-                        try {
-                            JSONObject object = baseBean.getJsonObject();
-                            Log.e(TAG, "onSuccess: "+object.toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.e(TAG, "onFailure: "+throwable.getMessage());
-                    }
-                });
+                rechargeAccount();
                 break;
         }
+    }
+
+    //******** 充值 ********
+    private void rechargeAccount() {
+        if (mCurrentCardNum == null) {
+            Toast.makeText(this, "银行卡号为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mLogic.rechargeMoney(this, mCurrentCardNum, mEtInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("充值->" + baseBean.toString());
+                JSONObject object = baseBean.getJsonObject();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.e(TAG, "onFailure: " + throwable.getMessage());
+            }
+        });
     }
 
     private void showSelectCardDialog() {
@@ -139,7 +198,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
             @Override
             public void onCheckedChange(String bankName, String num) {
                 mCurrentCardNum = num;
-                mTvCardSelected.setText(bankName+String.format(getResources().getString(R.string.bank_card_tail_num), num.substring(num.length() - 4, num.length())));
+                mTvCardSelected.setText(bankName + String.format(getResources().getString(R.string.bank_card_tail_num), num.substring(num.length() - 4, num.length())));
             }
         });
         dialog.show(getSupportFragmentManager(), "DialogFragment");

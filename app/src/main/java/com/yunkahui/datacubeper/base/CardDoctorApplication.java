@@ -39,8 +39,8 @@ import java.text.ParseException;
 
 public class CardDoctorApplication extends Application {
 
+    private static final int DESIGN_WIDTH = 375;
     private static CardDoctorApplication mApp;
-    private final int DESIGN_WIDTH = 375;
     private static Context mContext;
 
     public static CardDoctorApplication getInstance() {

@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -28,7 +25,6 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.mine.logic.ResetLoginPasswordLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -77,7 +73,7 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
     }
 
 
-    private class InnerTextChangeListener extends CustomTextChangeListener{
+    private class InnerTextChangeListener extends CustomTextChangeListener {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(TextUtils.isEmpty(mEditTextAuthCode.getText().toString())||TextUtils.isEmpty(mEditTextViewOldPassword.getText())

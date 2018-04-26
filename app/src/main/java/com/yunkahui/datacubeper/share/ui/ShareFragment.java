@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
@@ -16,7 +15,6 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -91,7 +89,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void initView(View view) {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
-        toolbar.setTitleName(getString(R.string.tab_item_share));
+        toolbar.setTitleName(getString(R.string.share));
         mDoubleBlockView1 = view.findViewById(R.id.double_block_view_1);
         mDoubleBlockView2 = view.findViewById(R.id.double_block_view_2);
         mTvRestCode = view.findViewById(R.id.tv_rest_code);

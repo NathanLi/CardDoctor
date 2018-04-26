@@ -29,16 +29,18 @@ import java.util.List;
 /**
  * Created by YD1 on 2018/4/10
  */
-public class WalletActivity extends AppCompatActivity implements IActivityStatusBar{
+public class WalletActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private String mFrom;
     private RecyclerView mRecyclerView;
+
+    private String mFromPage;
     private boolean isQualified;
 
     @Override
     public void initData() {
-        mFrom = getIntent().getStringExtra("from");
-        isQualified = "1".equals(DataUtils.getInfo().getIdentify_status().equals(DataUtils.getInfo().getVIP_status()));
+        mFromPage = getIntent().getStringExtra("from");
+        isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
+
         final String money = getIntent().getStringExtra("money");
         int[] imgs = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] strs = {"充值", "提现"};
@@ -58,20 +60,17 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
         walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == 0) {
-                    startActivity(new Intent(WalletActivity.this, RechargeActivity.class).putExtra("money", money));
-//                    if (isQualified) {
-//                        startActivity(new Intent(WalletActivity.this, RechargeActivity.class).putExtra("money", money));
-//                    } else {
-//                        Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
-//                    }
-                } else if (position == 1) {
-                    startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("money", money));
-//                    if (isQualified) {
-//                        startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("money", money));
-//                    } else {
-//                        Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
-//                    }
+                if (isQualified) {
+                    if (position == 0) {
+                        startActivity(new Intent(WalletActivity.this, RechargeActivity.class)
+                                .putExtra("money", money));
+                    } else if (position == 1) {
+                        startActivity(new Intent(WalletActivity.this, WithdrawActivity.class)
+                                .putExtra("money", money)
+                                .putExtra("from", mFromPage));
+                    }
+                } else {
+                    Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -94,9 +93,9 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                if ("home".equals(mFrom)) {
+                if ("home".equals(mFromPage)) {
                     startActivity(new Intent(this, TradeRecordActivity.class));
-                } else if ("share".equals(mFrom)) {
+                } else if ("share".equals(mFromPage)) {
                     startActivity(new Intent(this, TradeDetailActivity.class));
                 }
                 break;

@@ -32,7 +32,7 @@ public class TimeUtils {
         return timeStr;
     }
 
-    public static long getLongByDate(String format, String time) {
+    public static long getTimeStampByDate(String format, String time) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);
             sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));

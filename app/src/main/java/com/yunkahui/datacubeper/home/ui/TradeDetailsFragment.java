@@ -63,7 +63,6 @@ public class TradeDetailsFragment extends BaseFragment {
         mAdapter.setEnableLoadMore(true);
         mAdapter.disableLoadMoreIfNotFullPage();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -93,6 +92,7 @@ public class TradeDetailsFragment extends BaseFragment {
                 }
             }
         });
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.expandAll();
     }

@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
@@ -24,7 +23,6 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.test.adapter.CardTestAdapter;
 import com.yunkahui.datacubeper.test.logic.CardTestLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -88,7 +86,7 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void initView(View view) {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
-        toolbar.setTitleName(getString(R.string.tab_item_card_test));
+        toolbar.setTitleName(getString(R.string.card_test));
         mLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }

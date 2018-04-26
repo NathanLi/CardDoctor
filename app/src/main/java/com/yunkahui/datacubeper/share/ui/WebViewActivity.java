@@ -43,7 +43,6 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
             mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         mWebView.getSettings().setSupportZoom(true);
-
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);

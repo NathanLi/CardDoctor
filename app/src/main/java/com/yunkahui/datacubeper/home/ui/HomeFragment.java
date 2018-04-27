@@ -62,7 +62,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(mActivity, HomeProfitActivity.class));
             }
         });
-
         initUserFinance();
         final List<HomeItem> homeItems = mLogic.parsingJSONForHomeItem(getActivity());
         HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);

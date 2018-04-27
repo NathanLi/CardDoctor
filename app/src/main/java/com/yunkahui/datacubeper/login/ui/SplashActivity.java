@@ -28,6 +28,7 @@ public class SplashActivity extends AppCompatActivity implements IActivityStatus
 
     @Override
     public void initData() {
+
     }
 
     @Override

@@ -61,6 +61,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
         }
     }
 
+    //******** 查询支付宝 ********
     private void checkUserZFB() {
         mIvWithdrawMode.setBackgroundResource(R.mipmap.ic_zfb_blue);
         mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
@@ -86,6 +87,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
         });
     }
 
+    //******** 查询已添加卡列表 ********
     private void getCardList() {
         mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override

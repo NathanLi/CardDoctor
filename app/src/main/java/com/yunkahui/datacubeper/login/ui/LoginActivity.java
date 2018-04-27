@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
 
                     }
                 });
-
     }
 
     @Override

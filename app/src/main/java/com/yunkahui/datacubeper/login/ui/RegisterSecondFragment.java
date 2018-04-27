@@ -51,9 +51,10 @@ public class RegisterSecondFragment extends Fragment implements View.OnClickList
                     ToastUtils.show(getActivity(),"两次密码输入不一致");
                     return;
                 }
-                ((RegisterActivity)getActivity()).setNickName(mEditTextNickName.getText().toString());
-                ((RegisterActivity)getActivity()).setPassword(mEditTextPassword.getText().toString());
-                ((RegisterActivity)getActivity()).register();
+                RegisterActivity activity = (RegisterActivity) getActivity();
+                activity.setNickName(mEditTextNickName.getText().toString());
+                activity.setPassword(mEditTextPassword.getText().toString());
+                activity.register();
                 break;
         }
     }

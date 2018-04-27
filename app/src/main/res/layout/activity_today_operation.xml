@@ -7,10 +7,10 @@
 
     <com.yunkahui.datacubeper.common.view.SegmentView
         android:id="@+id/segment_view"
-        app:leftSegment="@string/today_operation"
-        app:rightSegment="@string/plan_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:leftSegment="@string/today_operation"
+        app:rightSegment="@string/plan_list" />
 
     <com.yunkahui.datacubeper.common.view.CustomViewPager
         android:id="@+id/view_pager"

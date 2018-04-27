@@ -43,12 +43,12 @@ public class BillDetailLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    public void signRepaid(Context context, int cardId, int status, SimpleCallBack<BaseBean> callBack) {
+    public void signRepay(Context context, int cardId, int status, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bank_card_id", String.valueOf(cardId))
                 .addParams("repay_status", status)
                 .create();
-        HttpManager.getInstance().create(ApiService.class).requestSignRepaid(params)
+        HttpManager.getInstance().create(ApiService.class).requestSignRepay(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 

@@ -1,42 +1,34 @@
 package com.yunkahui.datacubeper.home.ui;
 
-import android.annotation.SuppressLint;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.home.adapter.ExpandableProfitIncomeAdapter;
-import com.yunkahui.datacubeper.home.logic.HomeProfitLogic;
+import com.yunkahui.datacubeper.home.logic.ProfitIncomeLogic;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfitIncomeFragment extends BaseFragment {
 
-    private static final String TAG = "ProfitIncomeFragment";
-    private HomeProfitLogic mLogic;
     private RecyclerView mRecyclerView;
+
+    private ProfitIncomeLogic mLogic;
+    private ExpandableProfitIncomeAdapter mAdapter;
     private List<MultiItemEntity> mList;
     private int mAllPage;
     private int mCurrentPage;
-    private ExpandableProfitIncomeAdapter mAdapter;
     private ConstraintLayout mSuspensionBar;
     private int mSuspensionHeight;
     private int mCurrentPosition;
@@ -45,14 +37,10 @@ public class ProfitIncomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        mLogic = new HomeProfitLogic();
+        mLogic = new ProfitIncomeLogic();
         mList = new ArrayList<>();
         getProfitIncomeData();
         mAdapter = new ExpandableProfitIncomeAdapter(mActivity, mList);
-        mAdapter.bindToRecyclerView(mRecyclerView);
-        mAdapter.setEnableLoadMore(true);
-        mAdapter.expandAll();
-        mAdapter.disableLoadMoreIfNotFullPage();
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -64,7 +52,6 @@ public class ProfitIncomeFragment extends BaseFragment {
             }
         }, mRecyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -93,84 +80,32 @@ public class ProfitIncomeFragment extends BaseFragment {
                 }
             }
         });
+        mAdapter.setEnableLoadMore(true);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter.setEmptyView(R.layout.layout_no_data);
+        mAdapter.expandAll();
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    //******** 查询分润收入 ********
     private void getProfitIncomeData() {
         mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                try {
-                    JSONObject object =baseBean.getJsonObject();
-                    JSONObject respData = object.getJSONObject("respData");
-                    mAllPage = respData.optInt("pages");
-                    JSONArray jsonArray = respData.getJSONArray("list");
-                    TradeRecordDetail item;
-                    TradeRecordSummary summary = new TradeRecordSummary();
-                    TradeRecordDetail lastItem = null;
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject j = new JSONObject(jsonArray.get(i).toString());
-                        item = new TradeRecordDetail();
-                        item.setTimeStamp(j.optLong("create_time"));
-                        item.setTradeType(j.optString("trade_type"));
-                        item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("MM-dd hh:mm", j.optLong("create_time")));
-                        item.setMoney(j.optString("amountString"));
-                        item.setTitle(j.optString("trade_type_ios"));
-                        if (lastItem != null) {
-                            if (item.getTime().startsWith("0") && lastItem.getTime().startsWith("0") &&
-                                    Integer.parseInt(lastItem.getTime().substring(1, 2)) > Integer.parseInt(item.getTime().substring(1, 2))) {
-                                summaryInfo(summary);
-                                mList.add(summary);
-                                summary = new TradeRecordSummary();
-                                summary.addSubItem(item);
-                            } else if (!item.getTime().startsWith("0") && lastItem.getTime().startsWith("0")) {
-                                summaryInfo(summary);
-                                mList.add(summary);
-                                summary = new TradeRecordSummary();
-                                summary.addSubItem(item);
-                            } else {
-                                summary.addSubItem(item);
-                            }
-                        } else {
-                            summary.addSubItem(item);
-                        }
-                        if (i == jsonArray.length() - 1) {
-                            summaryInfo(summary);
-                            mList.add(summary);
-                        } else {
-                            lastItem = item;
-                        }
-                    }
-                    initSuspensionBar();
-                    if (mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                mList.addAll(mLogic.parsingJSONForProfitIncome(baseBean));
+                initSuspensionBar();
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                Toast.makeText(mActivity, "获取分润收入失败", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    //******** 统计月份信息并设置给数据体 ********
-    @SuppressLint("StringFormatMatches")
-    private void summaryInfo(TradeRecordSummary summary) {
-        double pay = 0, back = 0;
-        for (TradeRecordDetail detail : summary.getSubItems()) {
-            if ("03".equals(detail.getTradeType())) {
-                back += Double.parseDouble(detail.getMoney());
-            } else {
-                pay += Double.parseDouble(detail.getMoney());
-            }
-        }
-        DecimalFormat df = new java.text.DecimalFormat("#.00");
-        summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
-        summary.setMessage(String.format(getString(R.string.pay_back_format), String.valueOf(df.format(pay)), String.valueOf(df.format(back))));
     }
 
     //******** 初始化悬浮条信息 ********

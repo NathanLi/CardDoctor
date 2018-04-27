@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -15,6 +15,8 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.home.adapter.RechargeRecordAdapter;
 import com.yunkahui.datacubeper.home.adapter.WithdrawRecordAdapter;
@@ -25,12 +27,12 @@ import java.util.List;
 
 public class TradeRecordFragment extends BaseFragment {
 
-    private static final String TAG = "TradeRecordFragment";
-    private TradeRecordLogic mLogic;
     private RecyclerView mRecyclerView;
-    private List<RechargeRecord.RechargeDetail> mRechargeDetails;
-    private List<WithdrawRecord.WithdrawDetail> mWithdrawDetails;
+
+    private TradeRecordLogic mLogic;
     private BaseQuickAdapter mAdapter;
+    private List<WithdrawRecord.WithdrawDetail> mWithdrawDetails;
+    private List<RechargeRecord.RechargeDetail> mRechargeDetails;
     private int mCurrentPage;
     private int mAllPages;
 
@@ -50,85 +52,36 @@ public class TradeRecordFragment extends BaseFragment {
         int kind = getArguments().getInt("kind");
         switch (kind) {
             case 0:
-                getData("recharge", 20, 1);
+                getTradeData("recharge", 20, 1);
+                mAdapter = new RechargeRecordAdapter(R.layout.layout_list_item_trade_record, mRechargeDetails);
                 break;
             case 1:
-                getData("withdraw", 20, 1);
+                getTradeData("withdraw", 20, 1);
+                mAdapter = new WithdrawRecordAdapter(R.layout.layout_list_item_trade_record, mWithdrawDetails);
                 break;
         }
-        initRecyclerView();
-    }
-
-    public void getData(final String pdType, int pageSize, int pageNum) {
-        if ("recharge".equals(pdType)) {
-            mLogic.getRechargeRecord(mActivity, pdType, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
-                @Override
-                public void onSuccess(BaseBean<RechargeRecord> baseBean) {
-                    mCurrentPage = baseBean.getRespData().getPageNum();
-                    mAllPages = baseBean.getRespData().getPages();
-                    mRechargeDetails.clear();
-                    mRechargeDetails.addAll(baseBean.getRespData().getList());
-                    if (mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    Log.e(TAG, "getRechargeRecord onFailure: " + throwable.getMessage());
-                }
-            });
-        } else {
-            mLogic.getWithdrawRecord(mActivity, pdType, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
-                @Override
-                public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
-                    mCurrentPage = baseBean.getRespData().getPageNum();
-                    mAllPages = baseBean.getRespData().getPages();
-                    mWithdrawDetails.clear();
-                    mWithdrawDetails.addAll(baseBean.getRespData().getList());
-                    if (mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    Log.e(TAG, "getWithdrawRecord onFailure: " + throwable.getMessage());
-                }
-            });
-        }
-    }
-
-    private void initRecyclerView() {
-        if (0 == getArguments().getInt("kind")) {
-            mAdapter = new RechargeRecordAdapter(R.layout.layout_list_item_trade_record, mRechargeDetails);
-        } else {
-            mAdapter = new WithdrawRecordAdapter(R.layout.layout_list_item_trade_record, mWithdrawDetails);
-        }
-        mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String action = null, time = null, money = null, status = null;
+                String action, time, money, status;
                 if (0 == getArguments().getInt("kind")) {
                     RechargeRecord.RechargeDetail detail = mRechargeDetails.get(position);
                     action = "账户充值";
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getAmount());
-                    status = getRechargeStatus(detail.getOrder_state());
+                    status = getTradeStatus(detail.getOrder_state(), "充值");
                 } else {
                     WithdrawRecord.WithdrawDetail detail = mWithdrawDetails.get(position);
                     action = "账户提现";
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getWithdraw_amount());
-                    status = getWithdrawStatus(detail.getOrder_state());
+                    status = getTradeStatus(detail.getOrder_state(), "提现");
                 }
-                Intent intent = new Intent(mActivity, SingleRecordActivity.class)
+                startActivity(new Intent(mActivity, SingleRecordActivity.class)
                         .putExtra("time", time)
                         .putExtra("money", money)
                         .putExtra("status", status)
-                        .putExtra("action", action);
-                startActivity(intent);
+                        .putExtra("action", action));
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -138,52 +91,83 @@ public class TradeRecordFragment extends BaseFragment {
                     mAdapter.loadMoreEnd();
                 } else {
                     if (0 == getArguments().getInt("kind")) {
-                        getData("recharge", 20, 1);
+                        getTradeData("recharge", 20, ++mCurrentPage);
                     } else {
-                        getData("withdraw", 20, 1);
+                        getTradeData("withdraw", 20, ++mCurrentPage);
                     }
                 }
             }
-        });
+        }, mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
         mAdapter.setEnableLoadMore(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public String getWithdrawStatus(String state) {
-        String status;
-        switch (state) {
-            case "0":
-                status = "提现初始化";
-                break;
-            case "1":
-                status = "提现成功";
-                break;
-            case "2":
-                status = "提现失败";
-                break;
-            default:
-                status = "提现处理中";
-                break;
+    //******** 获取对应页面数据 ********
+    public void getTradeData(final String pdType, int pageSize, int pageNum) {
+        if ("recharge".equals(pdType)) {
+            mLogic.getRechargeRecord(mActivity, pdType, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
+                @Override
+                public void onSuccess(BaseBean<RechargeRecord> baseBean) {
+                    LogUtils.e("充值页面->" + baseBean.toString());
+                    if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                        mCurrentPage = baseBean.getRespData().getPageNum();
+                        mAllPages = baseBean.getRespData().getPages();
+                        mRechargeDetails.addAll(baseBean.getRespData().getList());
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Toast.makeText(mActivity, "获取充值数据失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            mLogic.getWithdrawRecord(mActivity, pdType, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
+                @Override
+                public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
+                    LogUtils.e("提现页面->" + baseBean.toString());
+                    if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                        mCurrentPage = baseBean.getRespData().getPageNum();
+                        mAllPages = baseBean.getRespData().getPages();
+                        mWithdrawDetails.addAll(baseBean.getRespData().getList());
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Toast.makeText(mActivity, "获取提现数据失败", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-        return status;
     }
 
-    public String getRechargeStatus(String state) {
+    public String getTradeStatus(String state, String action) {
         String status;
         switch (state) {
             case "0":
-                status = "充值初始化";
+                status = action + "初始化";
                 break;
             case "1":
-                status = "充值成功";
+                status = action + "成功";
                 break;
             case "2":
-                status = "充值失败";
+                status = action + "失败";
                 break;
             default:
-                status = "充值处理中";
+                status = action + "处理中";
                 break;
         }
         return status;

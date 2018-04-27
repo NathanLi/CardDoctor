@@ -6,14 +6,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -25,15 +23,12 @@ import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +38,14 @@ import java.util.List;
  */
 public class DesignSubFragment extends BaseFragment {
 
-    private static final String TAG = "DesignSubFragment";
-    private List<TodayOperationSub.DesignSub> mTodayOperationSubList = new ArrayList<>();
-    private List<SmartPlanSub> mSmartPlanSubList = new ArrayList<>();
     private SwipeMenuRecyclerView mRecyclerView;
+    private ImageView mIvNoData;
+
     private DesignSubLogic mLogic;
     private DesignSubAdapter mDesignSubAdapter;
+    private List<TodayOperationSub.DesignSub> mTodayOperationSubList = new ArrayList<>();
+    private List<SmartPlanSub> mSmartPlanSubList = new ArrayList<>();
     private String mIsPos;
-    private ImageView mIvNoData;
     private int mCurrentPage;
     private int mAllPages;
     private boolean mIsTodayOperation;
@@ -68,6 +63,12 @@ public class DesignSubFragment extends BaseFragment {
     public void initData() {
         mLogic = new DesignSubLogic();
         int kind = getArguments().getInt("kind");
+        getDesignData(kind);
+        mIsTodayOperation = kind < 3;
+        initRecyclerView();
+    }
+
+    private void getDesignData(int kind) {
         switch (kind) {
             case 0:
                 mIsPos = "10";
@@ -94,8 +95,6 @@ public class DesignSubFragment extends BaseFragment {
                 getSmartPlan(10, 1);
                 break;
         }
-        mIsTodayOperation = kind < 3;
-        initRecyclerView();
     }
 
     private void initRecyclerView() {
@@ -121,7 +120,12 @@ public class DesignSubFragment extends BaseFragment {
                 public void onItemClick(SwipeMenuBridge menuBridge) {
                     menuBridge.closeMenu();
                     int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
-                    mTodayOperationSubList.remove(adapterPosition);
+                    if (mIsTodayOperation && mTodayOperationSubList.size() > 0) {
+                        mTodayOperationSubList.remove(adapterPosition);
+                    } else if (!mIsTodayOperation && mSmartPlanSubList.size() > 0) {
+                        mSmartPlanSubList.remove(adapterPosition);
+                    }
+                    // TODO: 2018/4/27 0027 delete data from server
                     notifyDataSetChanged();
                 }
             };
@@ -166,12 +170,13 @@ public class DesignSubFragment extends BaseFragment {
                 } else {
                     if (mIsTodayOperation) {
                         getTodayOperation(10, ++mCurrentPage);
-                    } else {
-                        getSmartPlan(10, ++mCurrentPage);
                     }
+//                    else {
+//                        getSmartPlan(10, 1);
+//                    }
                 }
             }
-        });
+        }, mRecyclerView);
         mRecyclerView.addItemDecoration(new DefaultItemDecoration(mActivity.getResources().getColor(R.color.bg_color_gray_f5f5f5)));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mDesignSubAdapter);
@@ -187,7 +192,6 @@ public class DesignSubFragment extends BaseFragment {
                 } else {
                     mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
                 }
-                // TODO: 2018/4/18 0018 set business type
                 mDesignSubAdapter.notifyItemChanged(mPosition);
                 Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
             } else if ("expense".equals(data.getStringExtra("type"))) {
@@ -241,83 +245,46 @@ public class DesignSubFragment extends BaseFragment {
     }*/
 
     //******** 查询智能规划数据 ********
-    /*private void getSmartPlan(String num, String page) {
-        mLogic.requestSP(mActivity, mIsPos, num, page, new SimpleCallBack<JsonObject>() {
-            @Override
-            public void onSuccess(JsonObject baseBean) {
-                try {
-                    String s = new JSONObject(baseBean.toString()).toString();
-                    Log.e(TAG, "requestSP: "+mIsPos+", "+s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "getSmartPlan onFailure: " + mIsPos + ", " + throwable.toString());
-            }
-        });
-    }
-
-    //******** 查询今日操作数据 ********
-    private void getTodayOperation(String num, String page) {
-        mLogic.requestTO(mActivity, mIsPos, num, page, new SimpleCallBack<JsonObject>() {
-
-            @Override
-            public void onSuccess(JsonObject baseBean) {
-                try {
-                    String s = new JSONObject(baseBean.toString()).toString();
-                    Log.e(TAG, "requestTO: "+mIsPos+", "+s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "getTodayOperation onFailure: " + mIsPos + ", " + throwable.toString());
-            }
-        });
-    }*/
-
-    //******** 查询智能规划数据 ********
-    private void getSmartPlan(int num, int page) {
-        mLogic.requestSmartPlan(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
+    private void getSmartPlan(int pageSize, int pageNum) {
+        mLogic.requestSmartPlan(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
             public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
+                LogUtils.e("智能规划->"+mIsPos+", " + baseBean.getJsonObject().toString());
                 if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    mSmartPlanSubList.clear();
                     mSmartPlanSubList.addAll(baseBean.getRespData());
                     notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "getSmartPlan onFailure: " + mIsPos + ", " + throwable.toString());
+                Toast.makeText(mActivity, "获取智能规划数据失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     //******** 查询今日操作数据 ********
-    private void getTodayOperation(int num, int page) {
-        mLogic.requestTodayOperation(mActivity, mIsPos, num, page, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
+    private void getTodayOperation(int pageSize, int pageNum) {
+        mLogic.requestTodayOperation(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
+                LogUtils.e("今日操作->" + baseBean.toString());
                 if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
                     mCurrentPage = baseBean.getRespData().getPageNum();
                     mAllPages = baseBean.getRespData().getPages();
-                    mTodayOperationSubList.clear();
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
                     notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "getTodayOperation onFailure: " + mIsPos + ", " + throwable.toString());
+                Toast.makeText(mActivity, "获取今日操作数据失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

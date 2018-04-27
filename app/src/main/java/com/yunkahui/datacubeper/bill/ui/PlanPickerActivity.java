@@ -26,6 +26,7 @@ public class PlanPickerActivity extends AppCompatActivity implements IActivitySt
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_plan);
         super.onCreate(savedInstanceState);
+        setTitle("选择规划方式");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.base;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.TintUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
@@ -44,6 +49,25 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result == null) {
+            LogUtils.e("onCreate null");
+        } else {
+            LogUtils.e("onCreate not null");
+        }
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "扫码取消！", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -102,38 +126,13 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         fragments.add(new CardTestFragment());
         fragments.add(new ShareFragment());
         fragments.add(new MineFragment());
+
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};
         MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
         mViewPager.setOffscreenPageLimit(5);
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int index = 0;
-                switch (checkedId) {
-                    case R.id.rb_home:
-                        index = 0;
-                        break;
-                    case R.id.rb_bill:
-                        index = 1;
-                        break;
-                    case R.id.rb_card_test:
-                        index = 2;
-                        break;
-                    case R.id.rb_share:
-                        index = 3;
-                        break;
-                    case R.id.rb_mine:
-                        index = 4;
-                        break;
-                }
-                changeTabColor(index, true);
-                changeTabColor(lastPosition, false);
-                mViewPager.setCurrentItem(index);
-                lastPosition = index;
-            }
-        });
+        mRadioGroup.setOnCheckedChangeListener(new InnerCheckChangeListener());
     }
 
     @Override
@@ -143,6 +142,35 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
             mTime = System.currentTimeMillis();
         } else {
             finish();
+        }
+    }
+
+    private class InnerCheckChangeListener implements RadioGroup.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            int index = 0;
+            switch (checkedId) {
+                case R.id.rb_home:
+                    index = 0;
+                    break;
+                case R.id.rb_bill:
+                    index = 1;
+                    break;
+                case R.id.rb_card_test:
+                    index = 2;
+                    break;
+                case R.id.rb_share:
+                    index = 3;
+                    break;
+                case R.id.rb_mine:
+                    index = 4;
+                    break;
+            }
+            changeTabColor(index, true);
+            changeTabColor(lastPosition, false);
+            mViewPager.setCurrentItem(index);
+            lastPosition = index;
         }
     }
 }

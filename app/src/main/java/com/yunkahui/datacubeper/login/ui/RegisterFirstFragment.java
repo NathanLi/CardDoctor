@@ -1,21 +1,18 @@
 package com.yunkahui.datacubeper.login.ui;
 
-
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -29,7 +26,7 @@ import org.json.JSONObject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterFirstFragment extends Fragment implements View.OnClickListener {
+public class RegisterFirstFragment extends BaseFragment implements View.OnClickListener {
 
     private EditText mEditTextPhone;
     private EditText mEditTextAuthCode;
@@ -41,9 +38,12 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
     private boolean mRunning;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register_first, container, false);
+    public void initData() {
+
+    }
+
+    @Override
+    public void initView(View view) {
         mEditTextPhone = view.findViewById(R.id.edit_text_phone);
         mEditTextAuthCode = view.findViewById(R.id.edit_text_auth_code);
         mEditTextInviteCode = view.findViewById(R.id.edit_text_invite_code);
@@ -57,7 +57,11 @@ public class RegisterFirstFragment extends Fragment implements View.OnClickListe
         mTextViewSendCode.setOnClickListener(this);
         mButtonNext.setOnClickListener(this);
         mButtonNext.setEnabled(false);
-        return view;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_register_first;
     }
 
     //短信倒数handler

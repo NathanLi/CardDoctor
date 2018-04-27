@@ -2,7 +2,6 @@ package com.yunkahui.datacubeper.bill.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,7 +15,6 @@ import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.view.BillCardView;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,21 +33,16 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
 
     @Override
     protected void convert(BaseViewHolder helper, final BillCreditCard.CreditCard item) {
-
         helper.addOnClickListener(R.id.btn_bill_sync);
-
+        helper.addOnClickListener(R.id.layout_card_item);
         //******** item 为空，证明没数据，显示默认样例 ********
         if (item != null) {
             helper.setVisible(R.id.iv_sample, false);
             BillCardView billCardView = helper.getView(R.id.bill_card);
-            //******** 设置银行图标 ********
             billCardView.setIcon(DataUtils.getBankIconMap().containsKey(item.getBankCardName()) ? DataUtils.getBankIconMap().get(item.getBankCardName()) : R.mipmap.bank_other);
-            //******** 设置银行名字 ********
             billCardView.setBankName(item.getBankCardName());
-            //******** 设置银行卡id ********
             final String cardIdFormat = String.format(mContext.getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length()));
             billCardView.setCardId(cardIdFormat);
-            //******** 设置相关还款信息 ********
             billCardView.setShouldRepayAmount(String.valueOf(item.getThisShouldRepay()));
             billCardView.setShouldRepay(Integer.parseInt(item.getRepayStatus()) == 1 ? "已经还清" : "应还金额");
             billCardView.setLeaveDate(String.valueOf(item.getDistanceDay()));
@@ -57,6 +50,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             billCardView.setBillAmount("账单金额：" + "-");
             billCardView.setUnrepayAmount("剩余未还：" + item.getSurPlusRepay());
             billCardView.setFixedAmount("固定金额：" + item.getFixLine());
+
             //******** 设置账单周期 ********
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(item.getBillDayDate());
@@ -69,15 +63,9 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             final String itemTime = TimeUtils.format("yyyy-MM-dd", item.getRepayDayDate());
             billCardView.setRepayDate(itemTime.substring(5));
             //******** 设置银行卡和账单同步的点击事件 ********
-            billCardView.setOnClickBillCardListener(new BillCardView.CustomBillCardListenr() {
+            billCardView.setOnClickBillCardListener(new View.OnClickListener() {
                 @Override
-                public void onClickBillSync() {
-                    mContext.startActivity(new Intent(mContext, BillSyncActivity.class)
-                            .putExtra("ban_card_num", item.getBankCardName()));
-                }
-
-                @Override
-                public void onClickBillCard() {
+                public void onClick(View v) {
                     mContext.startActivity(new Intent(mContext, BillDetailActivity.class)
                             .putExtra("user_credit_card_id", item.getUserCreditCardId())
                             .putExtra("card_holder", item.getCardHolder())

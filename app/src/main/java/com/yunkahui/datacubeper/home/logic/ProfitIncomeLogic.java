@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.home.logic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.ArrayMap;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.JsonObject;
@@ -11,7 +12,6 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
@@ -26,31 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TradeRecordLogic {
+public class ProfitIncomeLogic {
 
-    public void getRechargeRecord(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", pdType)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum))
-                .create();
-        HttpManager.getInstance().create(ApiService.class).loadRechargeRecord(params)
-                .compose(HttpManager.<BaseBean<RechargeRecord>>applySchedulers()).subscribe(callBack);
-
-    }
-
-    public void getWithdrawRecord(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", pdType)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum))
-                .create();
-        HttpManager.getInstance().create(ApiService.class).loadWithdrawRecord(params)
-                .compose(HttpManager.<BaseBean<WithdrawRecord>>applySchedulers()).subscribe(callBack);
-
-    }
-
-    public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
+    public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
@@ -58,10 +36,9 @@ public class TradeRecordLogic {
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-
     }
 
-    public List<MultiItemEntity> parsingJSONForTradeDetail(BaseBean baseBean) {
+    public List<MultiItemEntity> parsingJSONForProfitIncome(BaseBean baseBean) {
         List<MultiItemEntity> list = null;
         try {
             list = new ArrayList<>();

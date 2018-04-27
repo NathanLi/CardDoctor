@@ -27,13 +27,13 @@
                 android:id="@+id/double_block_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:leftName="账户余额"
-                app:rightName="累计分润" />
+                app:leftTitle="账户余额"
+                app:rightTitle="累计分润" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10pt"
-                android:background="#F5F5F5" />
+                android:background="@color/white" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"

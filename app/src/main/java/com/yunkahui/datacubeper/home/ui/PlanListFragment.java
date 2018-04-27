@@ -2,7 +2,6 @@ package com.yunkahui.datacubeper.home.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.yunkahui.datacubeper.R;
@@ -34,6 +33,7 @@ public class PlanListFragment extends BaseFragment {
         MainTabAdapter mAdapter = new MainTabAdapter(getChildFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(2);
     }
 
     @Override

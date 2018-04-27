@@ -9,81 +9,82 @@
         android:id="@+id/edit_text_nick_name"
         android:layout_width="match_parent"
         android:layout_height="55pt"
-        android:background="@null"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:hint="@string/nick_name_tips"
+        android:layout_marginTop="50pt"
+        android:background="@null"
         android:drawableLeft="@mipmap/ic_username2"
-        android:drawableStart="@mipmap/ic_username2"
-        android:textSize="16pt"
-        android:textColor="#000000"
         android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_username2"
+        android:hint="@string/nick_name_tips"
         android:lines="1"
-        android:layout_marginTop="50pt"/>
+        android:textColor="#000000"
+        android:textSize="16pt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
+
     <EditText
         android:id="@+id/edit_text_password"
         android:layout_width="match_parent"
         android:layout_height="55pt"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:hint="@string/password_tips"
-        android:drawableLeft="@mipmap/ic_password"
-        android:drawableStart="@mipmap/ic_password"
-        android:drawablePadding="15pt"
-        android:textSize="16pt"
-        android:textColor="#000000"
-        android:lines="1"
         android:background="@null"
-        android:inputType="textPassword" />
+        android:drawableLeft="@mipmap/ic_password"
+        android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_password"
+        android:hint="@string/password_tips"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:textColor="#000000"
+        android:textSize="16pt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
 
     <EditText
         android:id="@+id/edit_text_password_repeat"
         android:layout_width="match_parent"
         android:layout_height="55pt"
-        android:background="@null"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:hint="@string/password_repeat_tips"
+        android:background="@null"
         android:drawableLeft="@mipmap/ic_password_repeat"
-        android:drawableStart="@mipmap/ic_password_repeat"
-        android:textSize="16pt"
-        android:textColor="#000000"
         android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_password_repeat"
+        android:hint="@string/password_repeat_tips"
+        android:inputType="textPassword"
         android:lines="1"
-        android:inputType="textPassword" />
+        android:textColor="#000000"
+        android:textSize="16pt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
 
     <Button
         android:id="@+id/button_next"
         android:layout_width="match_parent"
         android:layout_height="45pt"
-        android:text="@string/immediately_register"
-        android:textColor="@color/white"
-        android:textSize="16pt"
-        android:background="#CCCCCC"
         android:layout_marginLeft="30pt"
         android:layout_marginRight="30pt"
-        android:layout_marginTop="40pt"/>
+        android:layout_marginTop="40pt"
+        android:background="#CCCCCC"
+        android:text="@string/immediately_register"
+        android:textColor="@color/white"
+        android:textSize="16pt" />
 
 
 </LinearLayout>

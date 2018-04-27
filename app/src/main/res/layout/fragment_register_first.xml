@@ -9,64 +9,64 @@
         android:id="@+id/edit_text_phone"
         android:layout_width="match_parent"
         android:layout_height="55pt"
-        android:background="@null"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:hint="@string/phone_tips2"
+        android:layout_marginTop="50pt"
+        android:background="@null"
         android:drawableLeft="@mipmap/ic_phone"
-        android:drawableStart="@mipmap/ic_phone"
-        android:textSize="16pt"
-        android:textColor="#000000"
         android:drawablePadding="15pt"
-        android:lines="1"
+        android:drawableStart="@mipmap/ic_phone"
+        android:hint="@string/phone_tips2"
         android:inputType="phone"
-        android:layout_marginTop="50pt"/>
+        android:lines="1"
+        android:textColor="#000000"
+        android:textSize="16pt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55pt"
-        android:gravity="center_vertical"
         android:layout_marginLeft="25pt"
-        android:layout_marginRight="25pt">
+        android:layout_marginRight="25pt"
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/edit_text_auth_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/auth_code_tips"
-            android:drawableLeft="@mipmap/ic_message"
-            android:drawableStart="@mipmap/ic_message"
-            android:drawablePadding="15pt"
-            android:textSize="16pt"
-            android:textColor="#000000"
-            android:lines="1"
+            android:layout_weight="1"
             android:background="@null"
+            android:drawableLeft="@mipmap/ic_message"
+            android:drawablePadding="15pt"
+            android:drawableStart="@mipmap/ic_message"
+            android:hint="@string/auth_code_tips"
             android:inputType="number"
-            android:layout_weight="1"/>
+            android:lines="1"
+            android:textColor="#000000"
+            android:textSize="16pt" />
 
         <View
             android:layout_width="0.7dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="12pt"
             android:layout_marginBottom="12pt"
-            android:background="@color/line_blue_23a2fd"/>
+            android:layout_marginTop="12pt"
+            android:background="@color/line_blue_23a2fd" />
 
         <TextView
             android:id="@+id/text_view_send_auth_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16pt"
             android:layout_marginLeft="10pt"
             android:layout_marginStart="10pt"
-            android:text="@string/send_auth_code"/>
+            android:text="@string/send_auth_code"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16pt" />
 
 
     </LinearLayout>
@@ -76,42 +76,42 @@
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
 
     <EditText
         android:id="@+id/edit_text_invite_code"
         android:layout_width="match_parent"
         android:layout_height="55pt"
-        android:background="@null"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:hint="@string/invite_code_tips"
+        android:background="@null"
         android:drawableLeft="@mipmap/ic_edit_blue"
-        android:drawableStart="@mipmap/ic_edit_blue"
-        android:textSize="16pt"
-        android:textColor="#000000"
         android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_edit_blue"
+        android:hint="@string/invite_code_tips"
+        android:inputType="number"
         android:lines="1"
-        android:inputType="number" />
+        android:textColor="#000000"
+        android:textSize="16pt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_marginLeft="25pt"
         android:layout_marginRight="25pt"
-        android:background="@color/line_blue_23a2fd"/>
+        android:background="@color/line_blue_23a2fd" />
 
     <Button
         android:id="@+id/button_next"
         android:layout_width="match_parent"
         android:layout_height="45pt"
-        android:text="@string/button_next"
-        android:textColor="@color/white"
-        android:textSize="16pt"
-        android:background="#CCCCCC"
         android:layout_marginLeft="30pt"
         android:layout_marginRight="30pt"
-        android:layout_marginTop="40pt"/>
+        android:layout_marginTop="40pt"
+        android:background="#CCCCCC"
+        android:text="@string/button_next"
+        android:textColor="@color/white"
+        android:textSize="16pt" />
 
 
 </LinearLayout>

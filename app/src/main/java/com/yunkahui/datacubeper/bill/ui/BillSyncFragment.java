@@ -27,27 +27,12 @@ public class BillSyncFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initData() {
-        if (getArguments().getInt("kind") == 0) {
-            mEtwCardId.getMsg().setHint("用户名");
-            mEtwCardId.getTip().setText("官方网上银行设置的用户名");
-        } else {
-            mEtwCardId.getMsg().setHint("卡号");
-            mEtwCardId.getTip().setText("信用卡卡号 (12-20位数字)");
-        }
+        mEtwCardId.getMsg().setHint(getArguments().getInt("kind") == 0 ? "用户名" : "卡号");
+        mEtwCardId.getTip().setText(getArguments().getInt("kind") == 0 ? "官方网上银行设置的用户名" : "信用卡卡号 (12-20位数字)");
         mEtwPsd.getMsg().setHint("登录密码");
         mEtwPsd.getTip().setText("开通网银时的登录密码，未开通网银可登录官网自助开通");
-        mEtwCardId.getMsg().addTextChangedListener(new CustomTextChangeListener() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                setCommitButtonBg(s);
-            }
-        });
-        mEtwPsd.getMsg().addTextChangedListener(new CustomTextChangeListener() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                setCommitButtonBg(s);
-            }
-        });
+        mEtwCardId.getMsg().addTextChangedListener(new InnerTextChangeListener());
+        mEtwPsd.getMsg().addTextChangedListener(new InnerTextChangeListener());
     }
 
     @Override
@@ -58,14 +43,6 @@ public class BillSyncFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_service_agreement:
                 startActivity(new Intent(mActivity, WebShowActivity.class).putExtra("url", "authorization_agreement.html"));
                 break;
-        }
-    }
-
-    private void setCommitButtonBg(CharSequence s) {
-        if (s.length() > 0 && mEtwPsd.getMsg().getText().toString().length() > 0) {
-            mTvCommit.setSelected(true);
-        } else {
-            mTvCommit.setSelected(false);
         }
     }
 
@@ -80,5 +57,13 @@ public class BillSyncFragment extends BaseFragment implements View.OnClickListen
     @Override
     public int getLayoutId() {
         return R.layout.fragment_bill_sync;
+    }
+
+    private class InnerTextChangeListener extends CustomTextChangeListener {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mTvCommit.setSelected(mEtwCardId.getMsg().getText().toString().length() > 0 && mEtwPsd.getMsg().getText().toString().length() > 0);
+        }
     }
 }

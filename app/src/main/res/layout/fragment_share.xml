@@ -24,8 +24,8 @@
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
             android:id="@+id/double_block_view_1"
-            app:leftName="我的钱包"
-            app:rightName="累计分润"
+            app:leftTitle="我的钱包"
+            app:rightTitle="累计分润"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -127,8 +127,8 @@
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
             android:id="@+id/double_block_view_2"
-            app:leftName="普通会员"
-            app:rightName="VIP会员"
+            app:leftTitle="普通会员"
+            app:rightTitle="VIP会员"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

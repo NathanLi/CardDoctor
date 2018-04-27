@@ -104,8 +104,12 @@
         <activity android:name=".bill.ui.BillDetailActivity" />
         <activity android:name=".bill.ui.AddTradeActivity" />
         <activity android:name=".bill.ui.BillSynchronousActivity" />
-
         <service android:name=".bill.ui.BillSynchronousService"/>
+        <activity android:name=".home.ui.ScanActivity"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>

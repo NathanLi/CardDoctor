@@ -34,25 +34,23 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
     private RecyclerView mRecyclerView;
 
     private String mFromPage;
-    private boolean isQualified;
 
     @Override
     public void initData() {
         mFromPage = getIntent().getStringExtra("from");
-        isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
+        final boolean isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
 
-        final String money = getIntent().getStringExtra("money");
-        int[] imgs = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
-        String[] strs = {"充值", "提现"};
+        int[] icons = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
+        String[] titles = {"充值", "提现"};
         List<HomeItem> walletItems = new ArrayList<>();
-        for (int i = 0; i < strs.length; i++) {
-            HomeItem homeItem = new HomeItem(imgs[i], strs[i]);
+        for (int i = 0; i < titles.length; i++) {
+            HomeItem homeItem = new HomeItem(icons[i], titles[i]);
             walletItems.add(homeItem);
         }
         WalletAdapter walletAdapter = new WalletAdapter(R.layout.layout_list_item_wallet, walletItems);
-        walletAdapter.bindToRecyclerView(mRecyclerView);
         View header = LayoutInflater.from(this).inflate(R.layout.layout_list_header_wallet, null);
         TextView tvUserBalance = header.findViewById(R.id.tv_user_balance);
+        final String money = getIntent().getStringExtra("money");
         if (money != null) {
             tvUserBalance.setText(money);
         }
@@ -74,6 +72,7 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
                 }
             }
         });
+        walletAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(walletAdapter);
     }

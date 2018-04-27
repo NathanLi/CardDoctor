@@ -3,11 +3,12 @@ package com.yunkahui.datacubeper.home.ui;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
@@ -39,9 +40,8 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = "HomeFragment";
-    private RecyclerView mRecyclerView;
     private DoubleBlockView mDoubleBlockView;
+    private RecyclerView mRecyclerView;
 
     private HomeLogic mLogic;
     private String mUserBalance;
@@ -62,7 +62,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(mActivity, HomeProfitActivity.class));
             }
         });
-
         initUserFinance();
         final List<HomeItem> homeItems = mLogic.parsingJSONForHomeItem(getActivity());
         HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);
@@ -119,12 +118,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mLogic.loadUserFinance(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("获取余额、分润->" + baseBean.toString());
+                LogUtils.e("余额、分润->" + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     mUserBalance = respData.optString("user_balance");
-                    mDoubleBlockView.setLeftNum(mUserBalance).setRightNum(respData.optString("user_fenruns"));
+                    mDoubleBlockView.setLeftValue(mUserBalance).setRightValue(respData.optString("user_fenruns"));
                 } else {
                     Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
@@ -132,7 +131,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                Toast.makeText(mActivity, "获取余额、分润失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -228,6 +227,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         toolbar.setTitleName(getString(R.string.home));
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mDoubleBlockView = view.findViewById(R.id.double_block_view);
+
+        view.findViewById(R.id.rl_scan).setOnClickListener(this);
+        view.findViewById(R.id.rl_qr).setOnClickListener(this);
+        view.findViewById(R.id.rl_receive_money).setOnClickListener(this);
     }
 
     @Override
@@ -239,11 +242,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_scan:
+                IntentIntegrator integrator = new IntentIntegrator(mActivity);
+                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setCaptureActivity(ScanActivity.class);
+                integrator.setPrompt("将二维码/条码放入框内，即可自动扫描"); //底部的提示文字，设为""可以置空
+                integrator.setCameraId(0); //前置或者后置摄像头
+                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
+                integrator.setBarcodeImageEnabled(true);
+                integrator.initiateScan();
                 break;
             case R.id.rl_qr:
                 break;
             case R.id.rl_receive_money:
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result == null) {
+            LogUtils.e("fragment null");
+        } else {
+            LogUtils.e("fragment not null");
+        }
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(mActivity, "扫码取消！", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mActivity, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,13 +42,13 @@ import java.util.List;
 
 public class PosPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
-    private static final String TAG = "PosPlanActivity";
-    private PosPlanLogic mLogic;
     private RecyclerView mRecyclerView;
     private TextView mTvRepayDate;
     private EditText mEtInputAmount;
     private EditText mEtInputTimes;
     private TextView mTvGoPlan;
+
+    private PosPlanLogic mLogic;
     private List<GeneratePlanItem> mList;
     private ArrayList<TimeItem> mSelectedTimeList;
     private ArrayList<TimeItem> mResultList;
@@ -69,20 +68,15 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mLogic = new PosPlanLogic();
         mList = new ArrayList<>();
         mSelectedTimeList = new ArrayList<>();
-        initListener();
+        mEtInputAmount.addTextChangedListener(new InnerTextChangeListener());
+        mEtInputTimes.addTextChangedListener(new InnerTextChangeListener());
         mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"));
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String type;
-                if (mList.get(position).getType() == 0) {
-                    type = "消费";
-                } else {
-                    type = "还款";
-                }
                 startActivityForResult(new Intent(PosPlanActivity.this, AdjustPlanActivity.class)
-                        .putExtra("type", type)
+                        .putExtra("type", mList.get(position).getType() == 0 ? "消费" : "还款")
                         .putExtra("amount", String.valueOf(mList.get(position).getMoney()))
                         .putExtra("business_type", mList.get(position).getMccType())
                         .putExtra("is_commit_to_server", false), 1);
@@ -91,29 +85,6 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void initListener() {
-        mEtInputAmount.addTextChangedListener(new CustomTextChangeListener() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mResultList != null && mResultList.size() > 0 && s.length() > 0 && mEtInputTimes.getText().toString().length() > 0) {
-                    mTvGoPlan.setSelected(true);
-                } else {
-                    mTvGoPlan.setSelected(false);
-                }
-            }
-        });
-        mEtInputTimes.addTextChangedListener(new CustomTextChangeListener() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mResultList != null && mResultList.size() > 0 && s.length() > 0 && mEtInputAmount.getText().toString().length() > 0) {
-                    mTvGoPlan.setSelected(true);
-                } else {
-                    mTvGoPlan.setSelected(false);
-                }
-            }
-        });
     }
 
     @Override
@@ -179,20 +150,18 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
+                            Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                                Toast.makeText(PosPlanActivity.this, "规划成功", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else if ("0214".equals(baseBean.getRespCode())) {
                                 showUpgradeJoinDialog(baseBean.getRespDesc());
-                            } else {
-                                Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
                             LoadingViewDialog.getInstance().dismiss();
-                            Log.e(TAG, "confirmPosPlan onFailure: " + throwable.getMessage());
+                            Toast.makeText(PosPlanActivity.this, "POS规划失败", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -243,77 +212,60 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
 
     //******** 进行规划 ********
     private void generateData() {
-        if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
-            Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) < 1000) {
-            Toast.makeText(this, "还款金额不能少于1000.00元！", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) % 100 != 0) {
-            Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {
-            Toast.makeText(this, "为了完善您的信用体制，每天还款不能超过1笔！", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) < mResultList.size()) {
-            Toast.makeText(this, "还款笔数必须大于或等于天数", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        StringBuilder date = new StringBuilder();
-        for (TimeItem item : mResultList) {
-            date.append(item.getYear() + "-" + item.getMonth() + "-" + item.getDay() + ",");
-        }
-        date.deleteCharAt(date.toString().length() - 1);
-        mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
-                date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
-                    @Override
-                    public void onSuccess(BaseBean<GeneratePlan> baseBean) {
-                        try {
+        if (check()) {
+            StringBuilder date = new StringBuilder();
+            for (TimeItem item : mResultList) {
+                date.append(item.getYear() + "-" + item.getMonth() + "-" + item.getDay() + ",");
+            }
+            date.deleteCharAt(date.toString().length() - 1);
+            LoadingViewDialog.getInstance().show(this);
+            mLogic.generatePosPlan(this, getIntent().getIntExtra("user_credit_card_id", 0), mEtInputAmount.getText().toString(),
+                    date.toString(), mEtInputTimes.getText().toString(), new SimpleCallBack<BaseBean<GeneratePlan>>() {
+                        @Override
+                        public void onSuccess(BaseBean<GeneratePlan> baseBean) {
+                            LoadingViewDialog.getInstance().dismiss();
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
-                                GeneratePlanItem item;
-                                for (int x = 0; x < baseBean.getRespData().getPlanningList().size(); x++) {
-                                    List<GeneratePlan.PlanningListBean.DetailsBean> details = baseBean.getRespData().getPlanningList().get(x).getDetails();
-                                    for (int y = 0; y < details.size(); y++) {
-                                        GeneratePlan.PlanningListBean.DetailsBean detailsBean = details.get(y);
-                                        item = new GeneratePlanItem();
-                                        item.setType(1);
-                                        item.setGroup(y);
-                                        item.setSection(-1);
-                                        item.setMoney(detailsBean.getRepayment().getMoney());
-                                        item.setTimeStamp(detailsBean.getRepayment().getTime());
-                                        mList.add(item);
-                                        for (int z = 0; z < detailsBean.getConsumption().size(); z++) {
-                                            item = new GeneratePlanItem();
-                                            item.setType(0);
-                                            item.setGroup(y);
-                                            item.setSection(z);
-                                            GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(0);
-                                            item.setMoney(consumptionBean.getMoney());
-                                            item.setTimeStamp(consumptionBean.getTime());
-                                            item.setMccType(consumptionBean.getMccType());
-                                            mList.add(item);
-                                        }
-                                    }
-                                }
+                                mList.addAll(mLogic.parsingJSONForPosPlan(baseBean));
                                 mAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.e(TAG, "onFailure: " + throwable.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            LoadingViewDialog.getInstance().dismiss();
+                            Toast.makeText(PosPlanActivity.this, "生成POS规划数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private boolean check() {
+        if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
+            Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) < 1000) {
+            Toast.makeText(this, "还款金额不能少于1000.00元！", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) % 100 != 0) {
+            Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {
+            Toast.makeText(this, "为了完善您的信用体制，每天还款不能超过1笔！", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) < mResultList.size()) {
+            Toast.makeText(this, "还款笔数必须大于或等于天数", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_FIRST_USER) {
-            handleTime(data);
+            handleSelectedTime(data);
         } else if (resultCode == Activity.RESULT_OK) {
             handleInfo(data);
         }
@@ -338,7 +290,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
     }
 
     //******** 处理时间选择结果 ********
-    private void handleTime(Intent data) {
+    private void handleSelectedTime(Intent data) {
         mResultList = data.getParcelableArrayListExtra("selected_time");
         if (mResultList.size() > 0) {
             if (mEtInputAmount.getText().toString().length() > 0 && mEtInputTimes.getText().toString().length() > 0) {
@@ -360,6 +312,19 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             mSelectedTimeList.clear();
             mTvRepayDate.setText(getString(R.string.repay_date));
             mTvRepayDate.setTextColor(getResources().getColor(R.color.text_color_gray_9d9d9d));
+        }
+    }
+
+    private class InnerTextChangeListener extends CustomTextChangeListener {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mResultList != null && mResultList.size() > 0 && s.length() > 0 && mEtInputAmount.getText().toString().length() > 0
+                    && mEtInputTimes.getText().toString().length() > 0) {
+                mTvGoPlan.setSelected(true);
+            } else {
+                mTvGoPlan.setSelected(false);
+            }
         }
     }
 }

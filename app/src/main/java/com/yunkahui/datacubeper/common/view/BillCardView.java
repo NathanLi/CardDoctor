@@ -32,7 +32,6 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     private LinearLayout mLayoutExtend;
     private OnClickSmartPlanListener onClickSmartPlanListener;
     private TextView mTvSmartPlan;
-    private OnClickBillCardListener l;
 
     public BillCardView(Context context) {
         this(context, null);
@@ -46,10 +45,10 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_bill_card, this);
+
         mIvCardIcon = view.findViewById(R.id.iv_bank_icon);
         mTvBankName = view.findViewById(R.id.tv_bank_name);
         mTvCardId = view.findViewById(R.id.tv_bank_card_id);
-        TextView btnBillSync = view.findViewById(R.id.btn_bill_sync);
         mTvShouldRepayAmount = view.findViewById(R.id.tv_should_repay_amount);
         mTvLeaveDate = view.findViewById(R.id.tv_leave_date);
         mTvRepayDate = view.findViewById(R.id.tv_repay_date);
@@ -65,8 +64,7 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         mTvShouldRepay = view.findViewById(R.id.tv_should_repay);
         mIvSample = view.findViewById(R.id.iv_sample);
 
-        findViewById(R.id.layout_card_item).setOnClickListener(this);
-        btnBillSync.setOnClickListener(this);
+        view.findViewById(R.id.btn_bill_sync).setOnClickListener(this);
         mTvSmartPlan.setOnClickListener(this);
         mIvArrowExtend.setOnClickListener(this);
         mIvArrowCover.setOnClickListener(this);
@@ -75,12 +73,6 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.layout_card_item:
-                l.onClickBillCard();
-                break;
-            case R.id.btn_bill_sync:
-                l.onClickBillSync();
-                break;
             case R.id.tv_smart_plan:
                 onClickSmartPlanListener.onClickSmartPlan();
                 break;
@@ -185,24 +177,8 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
         void onClickSmartPlan();
     }
 
-    public interface OnClickBillCardListener {
-        void onClickBillSync();
-        void onClickBillCard();
+    public void setOnClickBillCardListener(OnClickListener l) {
+        findViewById(R.id.layout_card_item).setOnClickListener(l);
     }
 
-    public void setOnClickBillCardListener(OnClickBillCardListener l) {
-        this.l = l;
-    }
-
-    public abstract static class CustomBillCardListenr implements OnClickBillCardListener {
-        @Override
-        public void onClickBillCard() {
-
-        }
-
-        @Override
-        public void onClickBillSync() {
-
-        }
-    }
 }

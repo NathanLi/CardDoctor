@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.yunkahui.datacubeper.base.MainActivity">
 
     <com.yunkahui.datacubeper.common.view.CustomViewPager
@@ -14,9 +14,9 @@
         android:layout_weight="1" />
 
     <View
-        android:background="#ccc"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp" />
+        android:layout_height="0.5dp"
+        android:background="#ccc" />
 
     <RadioGroup
         android:id="@+id/radio_group"
@@ -27,34 +27,34 @@
 
         <RadioButton
             android:id="@+id/rb_home"
-            android:text="@string/home"
-            android:checked="true"
             style="@style/MainRadioButton"
-            android:drawableTop="@mipmap/ic_home_selected" />
+            android:checked="true"
+            android:drawableTop="@mipmap/ic_home_selected"
+            android:text="@string/home" />
 
         <RadioButton
             android:id="@+id/rb_bill"
-            android:text="@string/bill"
             style="@style/MainRadioButton"
-            android:drawableTop="@mipmap/ic_bill_normal" />
+            android:drawableTop="@mipmap/ic_bill_normal"
+            android:text="@string/bill" />
 
         <RadioButton
             android:id="@+id/rb_card_test"
-            android:text="@string/card_test"
             style="@style/MainRadioButton"
-            android:drawableTop="@mipmap/ic_card_test_normal" />
+            android:drawableTop="@mipmap/ic_card_test_normal"
+            android:text="@string/card_test" />
 
         <RadioButton
             android:id="@+id/rb_share"
-            android:text="@string/share"
             style="@style/MainRadioButton"
-            android:drawableTop="@mipmap/ic_share_normal" />
+            android:drawableTop="@mipmap/ic_share_normal"
+            android:text="@string/share" />
 
         <RadioButton
             android:id="@+id/rb_mine"
-            android:text="@string/mine"
             style="@style/MainRadioButton"
-            android:drawableTop="@mipmap/ic_mine_normal" />
+            android:drawableTop="@mipmap/ic_mine_normal"
+            android:text="@string/mine" />
 
     </RadioGroup>
 

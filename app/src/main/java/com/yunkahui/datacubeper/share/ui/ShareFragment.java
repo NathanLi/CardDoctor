@@ -1,7 +1,6 @@
 package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +9,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
@@ -23,9 +23,9 @@ import org.json.JSONObject;
 
 public class ShareFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = "ShareFragment";
     private DoubleBlockView mDoubleBlockView1;
     private DoubleBlockView mDoubleBlockView2;
+
     private ShareLogic mShareLogic;
     private TextView mTvRestCode;
     private TextView mTvMyCode;
@@ -34,6 +34,10 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     public void initData() {
         mShareLogic = new ShareLogic();
         initListener();
+        requestSharePageInfo();
+    }
+
+    private void requestSharePageInfo() {
         mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
@@ -41,10 +45,10 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     if (respData != null) {
-                        mDoubleBlockView1.setLeftNum(respData.optString("userCommissions"))
-                                .setRightNum(respData.optString("userFenruns"));
-                        mDoubleBlockView2.setLeftNum(String.valueOf(respData.optInt("commonMemberCount")))
-                                .setRightNum(String.valueOf(respData.optInt("vipMemberCount")));
+                        mDoubleBlockView1.setLeftValue(respData.optString("userCommissions"))
+                                .setRightValue(respData.optString("userFenruns"));
+                        mDoubleBlockView2.setLeftValue(String.valueOf(respData.optInt("commonMemberCount")))
+                                .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
                         mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                         mTvMyCode.setText(respData.optString("userUniqueCode"));
                     }
@@ -65,7 +69,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, WalletActivity.class)
-                .putExtra("from", "share"));
+                        .putExtra("from", "share"));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +98,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView2 = view.findViewById(R.id.double_block_view_2);
         mTvRestCode = view.findViewById(R.id.tv_rest_code);
         mTvMyCode = view.findViewById(R.id.tv_my_code);
+
         view.findViewById(R.id.btn_produce_code).setOnClickListener(this);
         view.findViewById(R.id.tv_link_share).setOnClickListener(this);
         view.findViewById(R.id.tv_qr_share).setOnClickListener(this);
@@ -107,20 +112,13 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 mShareLogic.createActivationCode(mActivity, new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
-                        try {
-                            JSONObject object = baseBean.getJsonObject();
-                            if ("0074".equals(object.getString("respCode"))) {
-                                Toast.makeText(mActivity, object.getString("respDesc"), Toast.LENGTH_SHORT).show();
-                            }
-                            Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        LogUtils.e("生成激活码->" + baseBean.toString());
+                        Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        Toast.makeText(mActivity, "生成激活码失败", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;

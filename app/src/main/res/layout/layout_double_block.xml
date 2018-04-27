@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_left_num"
+            android:id="@+id/tv_left_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
@@ -20,7 +20,7 @@
             android:textSize="24pt" />
 
         <TextView
-            android:id="@+id/tv_left_name"
+            android:id="@+id/tv_left_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5pt"
@@ -28,6 +28,11 @@
             android:textColor="@color/text_color_gray_666666"
             android:textSize="17pt" />
     </LinearLayout>
+
+    <View
+        android:layout_width="1pt"
+        android:layout_height="match_parent"
+        android:background="@color/line_gray_e6e6e6" />
 
     <LinearLayout
         android:id="@+id/ll_right_block"
@@ -38,7 +43,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_right_num"
+            android:id="@+id/tv_right_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
@@ -46,7 +51,7 @@
             android:textSize="24pt" />
 
         <TextView
-            android:id="@+id/tv_right_name"
+            android:id="@+id/tv_right_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5pt"

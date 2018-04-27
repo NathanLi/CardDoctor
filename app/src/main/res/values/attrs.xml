@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DoubleBlockView">
-        <attr name="leftName" format="string" />
-        <attr name="rightName" format="string" />
+        <attr name="leftTitle" format="string" />
+        <attr name="rightTitle" format="string" />
     </declare-styleable>
 
     <declare-styleable name="SegmentView">

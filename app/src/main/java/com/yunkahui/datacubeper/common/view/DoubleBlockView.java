@@ -34,24 +34,21 @@ public class DoubleBlockView extends LinearLayout {
     public DoubleBlockView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        initView(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_double_block, this);
+
+        mTvLeftName = view.findViewById(R.id.tv_left_title);
+        mTvRightName = view.findViewById(R.id.tv_right_title);
+        mTvLeftNum = view.findViewById(R.id.tv_left_value);
+        mTvRightNum = view.findViewById(R.id.tv_right_value);
+        mLeftBlock = view.findViewById(R.id.ll_left_block);
+        mRightBlock = view.findViewById(R.id.ll_right_block);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DoubleBlockView, defStyleAttr, 0);
-        String leftName = a.getString(R.styleable.DoubleBlockView_leftName);
-        String rightName = a.getString(R.styleable.DoubleBlockView_rightName);
+        String leftName = a.getString(R.styleable.DoubleBlockView_leftTitle);
+        String rightName = a.getString(R.styleable.DoubleBlockView_rightTitle);
         mTvLeftName.setText(leftName);
         mTvRightName.setText(rightName);
         a.recycle();
-    }
-
-    private void initView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_double_block, this);
-        mTvLeftName = view.findViewById(R.id.tv_left_name);
-        mTvRightName = view.findViewById(R.id.tv_right_name);
-        mTvLeftNum = view.findViewById(R.id.tv_left_num);
-        mTvRightNum = view.findViewById(R.id.tv_right_num);
-        mLeftBlock = view.findViewById(R.id.ll_left_block);
-        mRightBlock = view.findViewById(R.id.ll_right_block);
     }
 
     public DoubleBlockView setOnLeftBlockClickListener(OnClickListener l) {
@@ -64,22 +61,22 @@ public class DoubleBlockView extends LinearLayout {
         return this;
     }
 
-    public DoubleBlockView setLeftName(String value) {
+    public DoubleBlockView setLeftTitle(String value) {
         mTvLeftName.setText(value);
         return this;
     }
 
-    public DoubleBlockView setRightName(String value) {
+    public DoubleBlockView setRightTitle(String value) {
         mTvRightName.setText(value);
         return this;
     }
 
-    public DoubleBlockView setLeftNum(String value) {
+    public DoubleBlockView setLeftValue(String value) {
         mTvLeftNum.setText(value);
         return this;
     }
 
-    public DoubleBlockView setRightNum(String value) {
+    public DoubleBlockView setRightValue(String value) {
         mTvRightNum.setText(value);
         return this;
     }

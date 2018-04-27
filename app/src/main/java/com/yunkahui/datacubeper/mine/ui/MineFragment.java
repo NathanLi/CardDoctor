@@ -87,7 +87,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         mIvIcon.setOnClickListener(this);
 
-        // TODO: 2018/4/3 set user info
         mMineItemAdapter.addHeaderView(headerView);
         mMineItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

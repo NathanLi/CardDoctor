@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.base.IActivityBase;
 
 import java.lang.ref.WeakReference;
 
-public class SplashActivity extends AppCompatActivity implements IActivityStatusBar {
+public class SplashActivity extends AppCompatActivity implements IActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +28,8 @@ public class SplashActivity extends AppCompatActivity implements IActivityStatus
 
     @Override
     public void initData() {
-    }
 
-    @Override
-    public int getStatusBarColor() {
-        return 0;
     }
-
 
     private static class InnerThread extends Thread {
 
@@ -60,7 +55,7 @@ public class SplashActivity extends AppCompatActivity implements IActivityStatus
             e.printStackTrace();
         }
         Looper.prepare();
-        new MyHandler(SplashActivity.this).sendEmptyMessage(0);
+        new InnerHandler(SplashActivity.this).obtainMessage().sendToTarget();
         Looper.loop();
     }
 
@@ -68,11 +63,12 @@ public class SplashActivity extends AppCompatActivity implements IActivityStatus
         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         finish();
     }
-    private static class MyHandler extends Handler {
+
+    private static class InnerHandler extends Handler {
 
         WeakReference<SplashActivity> mReference;
 
-        MyHandler(SplashActivity activity) {
+        InnerHandler(SplashActivity activity) {
             mReference = new WeakReference<>(activity);
         }
 

@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/layout_toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@mipmap/ic_upgrade_join_2"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:drawablePadding="20dp"
-        android:gravity="center"
         android:layout_marginTop="50dp"
-        android:text="升级加盟"/>
+        android:drawablePadding="20dp"
+        android:drawableTop="@mipmap/ic_upgrade_join_2"
+        android:gravity="center"
+        android:text="升级加盟"
+        android:textColor="#000000"
+        android:textSize="18sp" />
 
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
@@ -27,39 +27,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:elevation="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:elevation="10dp"
-        app:uj_title="VIP会员"
         app:uj_button_text="升级"
         app:uj_icon="@mipmap/ic_upgrade_vip_1"
-        app:uj_sub_title="三大套餐，解锁不同功能"/>
+        app:uj_sub_title="三大套餐，解锁不同功能"
+        app:uj_title="VIP会员" />
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
         android:id="@+id/upgrade_join_item_view2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_marginTop="20dp"
         android:elevation="10dp"
-        app:uj_title="代理商"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:uj_button_text="申请"
         app:uj_icon="@mipmap/ic_upgrade_agent"
-        app:uj_sub_title="创客、运营商、合伙人"/>
+        app:uj_sub_title="创客、运营商、合伙人"
+        app:uj_title="代理商" />
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
         android:id="@+id/upgrade_join_item_view3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:elevation="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:visibility="visible"
-        android:layout_marginTop="20dp"
-        android:elevation="10dp"
-        app:uj_title="独立品牌OEM定制"
         app:uj_button_text="申请"
         app:uj_icon="@mipmap/ic_upgrade_oem"
-        app:uj_sub_title="代理、销售、推广等技术支持"/>
+        app:uj_sub_title="代理、销售、推广等技术支持"
+        app:uj_title="独立品牌OEM定制"
+        tools:targetApi="lollipop" />
 
 </LinearLayout>

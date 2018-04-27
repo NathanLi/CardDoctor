@@ -320,7 +320,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/userbankcard/markRepayed")       //标记已还清
-    Observable<BaseBean> requestSignRepaid(@FieldMap Map<String,String> params);
+    Observable<BaseBean> requestSignRepay(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/pos/planning/create_bill")       //添加交易

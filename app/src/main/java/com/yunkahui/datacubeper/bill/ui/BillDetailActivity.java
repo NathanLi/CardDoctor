@@ -9,7 +9,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -22,18 +21,15 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.ExpandableBillDeatailAdapter;
 import com.yunkahui.datacubeper.bill.logic.BillDetailLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.BillDetailItem;
-import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
 import com.yunkahui.datacubeper.common.bean.TimeSection;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -41,8 +37,6 @@ import java.util.List;
  */
 public class BillDetailActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
-    private static final String TAG = "BillDetailActivity";
-    private BillDetailLogic mLogic;
     private RecyclerView mRecyclerView;
     private TextView mTvLeft;
     private TextView mTvBack;
@@ -50,9 +44,11 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     private TextView mTvTmp;
     private TextView mTvFix;
     private TextView mTvSign;
+
+    private BillDetailLogic mLogic;
+    private ExpandableBillDeatailAdapter mAdapter;
     private List<TimeSection> mSectionList;
     private List<MultiItemEntity> mList;
-    private ExpandableBillDeatailAdapter mAdapter;
     private int mCardId;
     private boolean mIsRepaid;
 
@@ -91,11 +87,13 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 .setText("账单日：" + TimeUtils.format("MM-dd", getIntent().getLongExtra("bill_date", 0)));
     }
 
+    //******** 获取账单详情 ********
     private void getBillDetailData(final int billDay) {
         mLogic.getBillDetail(this, mCardId, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                mList.clear();
+                LogUtils.e("账单详情->" + baseBean.toString());
+                Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 mList.addAll(mLogic.handleData(baseBean, billDay));
                 LoadingViewDialog.getInstance().dismiss();
                 mAdapter.notifyDataSetChanged();
@@ -104,17 +102,19 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                Toast.makeText(BillDetailActivity.this, "获取账单详情失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    //******** 获取账单头部信息 ********
     private void getBillDetailTop() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.getBillDetailTop(this, mCardId, new SimpleCallBack<BaseBean>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("账单头部->" + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject jsonObject = baseBean.getJsonObject();
                     JSONObject respData = jsonObject.optJSONObject("respData");
@@ -126,13 +126,15 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                     mIsRepaid = "1".equals(respData.optString("repay_status"));
                     mTvSign.setText(mIsRepaid ? "本期已还清" : "本期未还清");
                     getBillDetailData(Integer.parseInt(respData.optString("bill_day")));
+                } else {
+                    Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "getBillDetailTop onFailure: " + throwable.getMessage());
+                Toast.makeText(BillDetailActivity.this, "获取账单头部信息失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -144,21 +146,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 startActivity(new Intent(this, BillSyncActivity.class));
                 break;
             case R.id.ll_sign_repay:
-                mLogic.signRepaid(this, mCardId, mIsRepaid ? 0 : 1, new SimpleCallBack<BaseBean>() {
-                    @Override
-                    public void onSuccess(BaseBean baseBean) {
-                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                            mIsRepaid = !mIsRepaid;
-                            mTvSign.setText(mIsRepaid ? "标记已还清" : "标记未还清");
-                            Toast.makeText(BillDetailActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.e(TAG, "signRepaid onFailure: " + throwable.getMessage());
-                    }
-                });
+                signRepay();
                 break;
             case R.id.btn_add_trade:
                 startActivity(new Intent(this, AddTradeActivity.class)
@@ -166,6 +154,26 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                         .putExtra("card_num", getIntent().getStringExtra("card_num")));
                 break;
         }
+    }
+
+    //******** 标记还清 ********
+    private void signRepay() {
+        mLogic.signRepay(this, mCardId, mIsRepaid ? 0 : 1, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("标记->" + baseBean.toString());
+                Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mIsRepaid = !mIsRepaid;
+                    mTvSign.setText(mIsRepaid ? "标记已还清" : "标记未还清");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Toast.makeText(BillDetailActivity.this, "标记失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -179,6 +187,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     public void initView() {
         mRecyclerView = findViewById(R.id.recycler_view);
         mTvSign = findViewById(R.id.tv_sign);
+
         findViewById(R.id.ll_update).setOnClickListener(this);
         findViewById(R.id.ll_sign_repay).setOnClickListener(this);
         findViewById(R.id.btn_add_trade).setOnClickListener(this);

@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,10 +33,8 @@ import java.util.ArrayList;
  */
 public class RechargeActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
-    private static final String TAG = "RechargeActivity";
     private ImageView mIvWithdrawMode;
     private TextView mTvUserBalance;
-    private LinearLayout mLlShowDialog;
     private EditText mEtInputMoney;
     private TextView mTvCardSelected;
 
@@ -57,10 +53,11 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
         if ("share".equals(fromPage)) {
             checkUserZFB();
         } else {
-            getCardList();
+            queryCreditCardList();
         }
     }
 
+    //******** 查询支付宝信息 ********
     private void checkUserZFB() {
         mIvWithdrawMode.setBackgroundResource(R.mipmap.ic_zfb_blue);
         mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
@@ -81,12 +78,13 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付宝信息失败->" + throwable.toString());
+                Toast.makeText(RechargeActivity.this, "获取支付宝信息失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void getCardList() {
+    //******** 查询已添加卡列表 ********
+    private void queryCreditCardList() {
         mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
@@ -109,8 +107,7 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
-                Toast.makeText(RechargeActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RechargeActivity.this, "获取卡信息失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,12 +133,11 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
     @Override
     public void initView() {
         mTvUserBalance = findViewById(R.id.tv_user_balance);
-        mLlShowDialog = findViewById(R.id.ll_show_dialog);
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
         mIvWithdrawMode = findViewById(R.id.iv_withdraw_mode);
 
-        mLlShowDialog.setOnClickListener(this);
+        findViewById(R.id.ll_show_dialog).setOnClickListener(this);
         findViewById(R.id.btn_commit).setOnClickListener(this);
     }
 
@@ -164,13 +160,13 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
                 showSelectCardDialog();
                 break;
             case R.id.btn_commit:
-                rechargeAccount();
+                recharge();
                 break;
         }
     }
 
     //******** 充值 ********
-    private void rechargeAccount() {
+    private void recharge() {
         if (mCurrentCardNum == null) {
             Toast.makeText(this, "银行卡号为空", Toast.LENGTH_SHORT).show();
             return;
@@ -179,12 +175,11 @@ public class RechargeActivity extends AppCompatActivity implements IActivityStat
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("充值->" + baseBean.toString());
-                JSONObject object = baseBean.getJsonObject();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                Toast.makeText(RechargeActivity.this, "充值失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

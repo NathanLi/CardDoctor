@@ -1,13 +1,10 @@
 package com.yunkahui.datacubeper.login.ui;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 public class ForgetPasswordActivity extends AppCompatActivity implements IActivityStatusBar {

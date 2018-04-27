@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -33,12 +32,12 @@ import java.util.List;
 
 public class BillFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = "BillFragment";
-    private BillLogic mLogic;
     private RecyclerView mRecyclerView;
-    private List<BillCreditCard.CreditCard> list = new ArrayList<>();
     private View mLlPromptAddCard;
+
+    private BillLogic mLogic;
     private BillCardListAdapter mAdapter;
+    private List<BillCreditCard.CreditCard> mList;
 
     public static Fragment getInstance(String data) {
         BillFragment f = new BillFragment();
@@ -50,7 +49,6 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData() {
-        mLogic = new BillLogic();
         // TODO: 2018/4/16 0016 查询规划失败列表
         /*mLogic.queryCardCountOflanFailed(mActivity, new SimpleCallBack<JsonObject>() {
             @Override
@@ -63,41 +61,35 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 Log.e(TAG, "queryCardCountOfPlanFailed onFailure: " + throwable.getMessage());
             }
         });*/
-        mAdapter = new BillCardListAdapter(mActivity, R.layout.layout_list_item_bill_card, list);
+        mLogic = new BillLogic();
+        mList = new ArrayList<>();
+        mAdapter = new BillCardListAdapter(mActivity, R.layout.layout_list_item_bill_card, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_bill, null);
         TextView tvCardCount = headerView.findViewById(R.id.tv_card_count);
         TextView tvRepayCount = headerView.findViewById(R.id.tv_repay_count);
         TextView tvUnRepayCount = headerView.findViewById(R.id.tv_unrepay_count);
-        Button btnTodayOperation = headerView.findViewById(R.id.btn_today_operation);
-        btnTodayOperation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mActivity, TodayOperationActivity.class));
-            }
-        });
+        headerView.findViewById(R.id.btn_today_operation).setOnClickListener(this);
         mAdapter.addHeaderView(headerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mAdapter);
-
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.btn_bill_sync:
-                        List<String> tabs=new ArrayList<>();
+                        List<String> tabs = new ArrayList<>();
                         tabs.add("用户名");
                         tabs.add("卡号");
-                        Intent intent=new Intent(getActivity(),BillSynchronousActivity.class);
-                        intent.putExtra("title",list.get(position).getBankCardName());
+                        Intent intent = new Intent(getActivity(), BillSynchronousActivity.class);
+                        intent.putExtra("title", mList.get(position).getBankCardName());
                         intent.putStringArrayListExtra("tabs", (ArrayList<String>) tabs);
                         startActivity(intent);
                         break;
                 }
             }
         });
-
-        loadData();
+        getCreditCardList();
     }
 
 
@@ -122,29 +114,29 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         return R.layout.fragment_bill;
     }
 
-
-    private void loadData() {
+    //******** 查询信用卡列表 ********
+    private void getCreditCardList() {
         mLogic.queryCreditCardList(mActivity, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
                 LogUtils.e("账单->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
-                    list.clear();
                     if (details.size() > 0) {
-                        list.addAll(details);
+                        mList.addAll(details);
                     } else {
-                        list.add(null);
+                        mList.add(null);
                         mLlPromptAddCard.setVisibility(View.VISIBLE);
                     }
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                Toast.makeText(mActivity, "获取卡列表失败", Toast.LENGTH_SHORT).show();
                 mLlPromptAddCard.setVisibility(View.VISIBLE);
             }
         });
@@ -155,6 +147,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.tv_bind_card:
                 startActivity(new Intent(mActivity, AddCardActivity.class));
+                break;
+            case R.id.btn_today_operation:
+                startActivity(new Intent(mActivity, TodayOperationActivity.class));
                 break;
         }
     }

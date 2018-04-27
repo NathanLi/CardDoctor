@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +21,7 @@ import com.yunkahui.datacubeper.bill.logic.AddCardLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
 
@@ -31,12 +31,12 @@ import java.util.ArrayList;
 
 public class AddCardActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private static final String TAG = "AddCardActivity";
     private InfoFillView mInfoFillName;
     private InfoFillView mInfoFillCardNum;
     private InfoFillView mInfoFillBankName;
     private InfoFillView mInfoFillBill;
     private InfoFillView mInfoFillRepay;
+
     private AddCardLogic mLogic;
     private Button mBtnCommit;
     private String mBankNameEn;
@@ -62,6 +62,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                 if (MotionEvent.ACTION_DOWN == event.getAction()) {
                     mInfoFillCardNum.setCursorVisible(true);// 再次点击显示光标
                 }
+                view.performClick();
                 return false;
             }
         });
@@ -72,23 +73,20 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                     mLogic.queryBankByCardId(AddCardActivity.this, s.toString(), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
-                            try {
+                            LogUtils.e("卡归属->" + baseBean.toString());
+                            if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 JSONObject object = baseBean.getJsonObject();
-                                String respCode = object.optString("respCode");
-                                if ("0000".equals(respCode)) {
-                                    JSONObject respData = object.optJSONObject("respData");
-                                    mInfoFillBankName.setDest(respData.optString("bankName"));
-                                    mBankNameEn = respData.optString("bankNameEn");
-                                    Log.e(TAG, "onSuccess: " + mBankNameEn + ", " + baseBean.getJsonObject().toString());
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                JSONObject respData = object.optJSONObject("respData");
+                                mInfoFillBankName.setDest(respData.optString("bankName"));
+                                mBankNameEn = respData.optString("bankNameEn");
+                            } else {
+                                Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            Log.e(TAG, "onFailure: " + throwable.getMessage());
+                            Toast.makeText(AddCardActivity.this, "获取卡归属失败", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -127,20 +125,17 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                             mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
                                 @Override
                                 public void onSuccess(BaseBean baseBean) {
-                                    Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
-                                    try {
-                                        Toast.makeText(AddCardActivity.this,  baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                                           finish();
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                    LogUtils.e("添加卡->" + baseBean.toString());
+                                    if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                        finish();
+                                    } else {
+                                        Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Throwable throwable) {
-                                    Log.e(TAG, "onFailure: " + throwable.getMessage());
+                                    Toast.makeText(AddCardActivity.this, "添加卡片失败", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {

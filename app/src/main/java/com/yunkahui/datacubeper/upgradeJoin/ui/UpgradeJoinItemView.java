@@ -18,7 +18,7 @@ import com.yunkahui.datacubeper.common.bean.VipPackage;
 
 public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickListener {
 
-    public static final int BUTTON_SUBMIT= R.id.text_view_submit;    //右边按钮
+    public static final int BUTTON_SUBMIT = R.id.text_view_submit;    //右边按钮
 
     private LinearLayout mLinearLayoutIcon;
     private TextView mTextViewIconTitle;
@@ -31,32 +31,32 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
     private OnChildClickListener mClickListener;
 
     public UpgradeJoinItemView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public UpgradeJoinItemView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public UpgradeJoinItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.layout_upgrade_to_join_item_view,this);
+        inflate(context, R.layout.layout_upgrade_to_join_item_view, this);
 
-        mLinearLayoutIcon=findViewById(R.id.linear_layout_icon);
-        mTextViewIconTitle=findViewById(R.id.text_view_icon_title);
-        mTextViewIconSubTitle=findViewById(R.id.text_view_icon_sub_title);
+        mLinearLayoutIcon = findViewById(R.id.linear_layout_icon);
+        mTextViewIconTitle = findViewById(R.id.text_view_icon_title);
+        mTextViewIconSubTitle = findViewById(R.id.text_view_icon_sub_title);
 
-        mTextViewTitle=findViewById(R.id.tv_title);
-        mTextViewSubTitle=findViewById(R.id.text_view_sub_title);
-        mTextViewSubmit=findViewById(R.id.text_view_submit);
+        mTextViewTitle = findViewById(R.id.tv_title);
+        mTextViewSubTitle = findViewById(R.id.text_view_sub_title);
+        mTextViewSubmit = findViewById(R.id.text_view_submit);
 
-        TypedArray ta=context.obtainStyledAttributes(attrs, R.styleable.UpgradeJoinItemView);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.UpgradeJoinItemView);
 
-        if(ta.hasValue(R.styleable.UpgradeJoinItemView_uj_icon_background_color)){
+        if (ta.hasValue(R.styleable.UpgradeJoinItemView_uj_icon_background_color)) {
             mLinearLayoutIcon.setBackgroundColor(Color.parseColor(ta.getString(R.styleable.UpgradeJoinItemView_uj_icon_background_color)));
         }
-        if(ta.hasValue(R.styleable.UpgradeJoinItemView_uj_icon)){
-            mLinearLayoutIcon.setBackgroundResource(ta.getResourceId(R.styleable.UpgradeJoinItemView_uj_icon,0));
+        if (ta.hasValue(R.styleable.UpgradeJoinItemView_uj_icon)) {
+            mLinearLayoutIcon.setBackgroundResource(ta.getResourceId(R.styleable.UpgradeJoinItemView_uj_icon, 0));
         }
 
         mTextViewIconTitle.setText(ta.getString(R.styleable.UpgradeJoinItemView_uj_icon_title));
@@ -70,22 +70,24 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
         mTextViewSubmit.setOnClickListener(this);
     }
 
-    public void setIconTitle(String text){
+    public void setIconTitle(String text) {
         mTextViewIconTitle.setText(text);
     }
-    public void setIconSubTitle(String text){
+
+    public void setIconSubTitle(String text) {
         mTextViewIconSubTitle.setText(text);
     }
-    public void setData(VipPackage vipPackage){
-        if(vipPackage!=null){
+
+    public void setData(VipPackage vipPackage) {
+        if (vipPackage != null) {
             mTextViewTitle.setText(vipPackage.getName());
             mTextViewSubTitle.setText(vipPackage.getShortDesc());
-            mTextViewIconTitle.setText((vipPackage.getPrice()+"").split("\\.")[0]+"元");
+            mTextViewIconTitle.setText((vipPackage.getPrice() + "").split("\\.")[0] + "元");
             mTextViewIconSubTitle.setText(vipPackage.getAlias());
-            if("00".equals(vipPackage.getOpenState())){
+            if ("00".equals(vipPackage.getOpenState())) {
                 mTextViewSubmit.setText("开通");
                 mTextViewSubmit.setEnabled(true);
-            }else if("01".equals(vipPackage.getOpenState())){
+            } else if ("01".equals(vipPackage.getOpenState())) {
                 mTextViewSubmit.setText("已开通");
                 mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
                 mTextViewSubmit.setEnabled(false);
@@ -93,27 +95,27 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
         }
     }
 
-    public TextView getButton(){
+    public TextView getButton() {
         return mTextViewSubmit;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.text_view_submit:
-                if(mClickListener!=null){
-                    mClickListener.onChildClick(this,v);
+                if (mClickListener != null) {
+                    mClickListener.onChildClick(this, v);
                 }
                 break;
         }
     }
 
-    public void setOnChildClickListener(OnChildClickListener listener){
-        mClickListener=listener;
+    public void setOnChildClickListener(OnChildClickListener listener) {
+        mClickListener = listener;
     }
 
-    public interface OnChildClickListener{
-       void onChildClick(View parent, View view);
+    public interface OnChildClickListener {
+        void onChildClick(View parent, View view);
     }
 
 

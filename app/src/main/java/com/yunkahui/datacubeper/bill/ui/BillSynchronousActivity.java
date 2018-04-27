@@ -21,7 +21,6 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -37,6 +36,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     private LinearLayout mLinearLayoutPassword;
 
     private List<String> mTabList;
+    private boolean mIsBind;
 
     private LocalBroadcastManager mBroadcastManager;
     private MyBroadcastReceiver mReceiver;
@@ -51,7 +51,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         mReceiver = new MyBroadcastReceiver();
         mBroadcastManager = LocalBroadcastManager.getInstance(this);
 
-        mServiceConnection=new ServiceConnection() {
+        mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
 
@@ -162,13 +162,14 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
             case R.id.button_submit:
                 Intent intent = new Intent(this, BillSynchronousService.class);
 //                startService(intent);
-                bindService(intent,mServiceConnection,BIND_AUTO_CREATE);
+                bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+                mIsBind = true;
                 break;
             case R.id.text_view_agreement:
                 LogUtils.e("点击发送RADIO_SEND_MESSAGE");
                 Intent intent1 = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
                 intent1.putExtra("message", "{\"type\":\"analyzer_do_spider\",\"login_pwd\":\"909193\",\"login_uid\":\"450802199311042058\",\n" +
-                        "\"card_id\":\"6225768607613864\",\"uid\":\"jjjjj7777744444\",\"user_code\":\""+ BaseUrl.getUSER_ID()+"\",\"org_number\":\""+getResources().getString(R.string.org_number)+"\"}");
+                        "\"card_id\":\"6225768607613864\",\"uid\":\"jjjjj7777744444\",\"user_code\":\"" + BaseUrl.getUSER_ID() + "\",\"org_number\":\"" + getResources().getString(R.string.org_number) + "\"}");
                 mBroadcastManager.sendBroadcast(intent1);
                 break;
         }
@@ -183,9 +184,9 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                 String message = intent.getStringExtra("message");
                 LogUtils.e("接收的消息为 = " + message);
                 try {
-                    JSONObject object=new JSONObject(message);
+                    JSONObject object = new JSONObject(message);
 
-                    switch (object.optString("type")){
+                    switch (object.optString("type")) {
                         case "returnImgUrl":    //接收图片验证码
                             break;
                     }
@@ -210,7 +211,9 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
 
     @Override
     protected void onDestroy() {
-        unbindService(mServiceConnection);
+        if (mIsBind)
+            unbindService(mServiceConnection);
+        mBroadcastManager.unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 }

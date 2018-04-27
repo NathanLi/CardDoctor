@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
-import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.view.CustomViewPager;
 import com.yunkahui.datacubeper.common.view.SegmentView;
@@ -43,8 +42,8 @@ public class TodayOperationActivity extends AppCompatActivity implements IActivi
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new TodayOperationFragment());
         fragments.add(new PlanListFragment());
-        String[] s = {"", ""};
-        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, s);
+        String[] titles = {"", ""};
+        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mAdapter);
     }
 

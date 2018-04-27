@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -15,9 +14,7 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.upgradeJoin.logic.UpgradeJoinLogic;
-import com.yunkahui.datacubeper.upgradeJoin.logic.UpgradeVipLogic;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 //升级加盟
@@ -86,15 +83,15 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("查询是否申请代理->"+baseBean.getJsonObject().toString());
+                LogUtils.e("查询是否申请代理->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=baseBean.getJsonObject();
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        Intent intent=new Intent(UpgradeJoinActivity.this,AgentApplyActivity.class);
-                        intent.putExtra("type",isOem?AgentApplyActivity.TYPE_OEM:AgentApplyActivity.TYPE_AGENT);
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        Intent intent = new Intent(UpgradeJoinActivity.this, AgentApplyActivity.class);
+                        intent.putExtra("type", isOem ? AgentApplyActivity.TYPE_OEM : AgentApplyActivity.TYPE_AGENT);
                         startActivity(intent);
-                    }else{
-                        ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
+                    } else {
+                        ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     }
 
                 } catch (Exception e) {
@@ -106,8 +103,8 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("查询是否申请代理失败->"+throwable.toString());
-                ToastUtils.show(getApplicationContext(),"请求失败");
+                LogUtils.e("查询是否申请代理失败->" + throwable.toString());
+                ToastUtils.show(getApplicationContext(), "请求失败");
             }
         });
     }

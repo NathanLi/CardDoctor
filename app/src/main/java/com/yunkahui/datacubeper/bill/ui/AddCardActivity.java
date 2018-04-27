@@ -127,10 +127,14 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                             mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
                                 @Override
                                 public void onSuccess(BaseBean baseBean) {
-                                    if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-
-                                    } else {
-                                        Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "onSuccess: " + baseBean.getJsonObject().toString());
+                                    try {
+                                        Toast.makeText(AddCardActivity.this,  baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                           finish();
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
 

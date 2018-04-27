@@ -19,24 +19,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--支付宝支付 start -->
+        <!-- 支付宝支付 start -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
-        <!--支付宝支付 end -->
-
-
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- 支付宝支付 end -->
 
         <activity
             android:name=".base.MainActivity"
@@ -102,11 +98,14 @@
         <activity android:name=".bill.ui.TimePickerActivity" />
         <activity android:name=".test.ui.TestHistoryActivity" />
         <activity android:name=".mine.ui.AboutUsActivity" />
-        <activity android:name=".mine.ui.BindNewPhoneActivity"/>
+        <activity android:name=".mine.ui.BindNewPhoneActivity" />
         <activity android:name=".bill.ui.BillSyncActivity" />
         <activity android:name=".bill.ui.WebShowActivity" />
         <activity android:name=".bill.ui.BillDetailActivity" />
         <activity android:name=".bill.ui.AddTradeActivity" />
+        <activity android:name=".bill.ui.BillSynchronousActivity" />
+
+        <service android:name=".bill.ui.BillSynchronousService"/>
     </application>
 
 </manifest>

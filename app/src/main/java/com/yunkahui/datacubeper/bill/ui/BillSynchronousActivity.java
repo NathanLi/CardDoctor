@@ -50,9 +50,6 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
 
         mReceiver = new MyBroadcastReceiver();
         mBroadcastManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BillSynchronousService.RADIO_RECEIVE_MESSAGE);
-        mBroadcastManager.registerReceiver(mReceiver, filter);
 
         mServiceConnection=new ServiceConnection() {
             @Override
@@ -66,6 +63,24 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
             }
         };
 
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BillSynchronousService.RADIO_RECEIVE_MESSAGE);
+        mBroadcastManager.registerReceiver(mReceiver, filter);
     }
 
     @Override
@@ -188,9 +203,14 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mBroadcastManager.unregisterReceiver(mReceiver);
+    }
+
+    @Override
     protected void onDestroy() {
         unbindService(mServiceConnection);
-        mBroadcastManager.unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 }

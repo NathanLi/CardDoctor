@@ -14,6 +14,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.home.adapter.ExpandableProfitIncomeAdapter;
 import com.yunkahui.datacubeper.home.logic.ProfitIncomeLogic;
 
@@ -93,11 +94,13 @@ public class ProfitIncomeFragment extends BaseFragment {
         mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
-                mList.addAll(mLogic.parsingJSONForProfitIncome(baseBean));
-                initSuspensionBar();
-                if (mAdapter != null) {
-                    mAdapter.notifyDataSetChanged();
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                    mList.addAll(mLogic.parsingJSONForProfitIncome(baseBean));
+                    initSuspensionBar();
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.mine.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,13 +21,16 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SimpleDateFormatUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.greendao.DaoMaster;
+import com.yunkahui.datacubeper.greendao.MessageDao;
+import com.yunkahui.datacubeper.mine.logic.MessageLogic;
 
 import java.lang.ref.PhantomReference;
 import java.util.List;
 import java.util.Map;
 
 //消息详情
-public class MessageDetailActivity extends AppCompatActivity implements IActivityStatusBar{
+public class MessageDetailActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private TextView mTextViewTitle;
     private TextView mTextViewTime;
@@ -42,30 +46,31 @@ public class MessageDetailActivity extends AppCompatActivity implements IActivit
 
     @Override
     public void initData() {
-        String id=getIntent().getStringExtra("id");
+        String id = getIntent().getStringExtra("id");
         loadData(id);
     }
 
     @Override
     public void initView() {
-        mTextViewTitle=findViewById(R.id.text_view_title);
-        mTextViewTime=findViewById(R.id.text_view_time);
-        mImageViewMessage=findViewById(R.id.image_view_message);
-        mTextViewMessage=findViewById(R.id.text_view_message);
+        mTextViewTitle = findViewById(R.id.text_view_title);
+        mTextViewTime = findViewById(R.id.text_view_time);
+        mImageViewMessage = findViewById(R.id.image_view_message);
+        mTextViewMessage = findViewById(R.id.text_view_message);
     }
 
-    private void loadData(String id){
+    private void loadData(String id) {
         LoadingViewDialog.getInstance().show(this);
-        Map<String,String> params= RequestUtils.newParams(this)
-                .addParams("news_id",id)
+        Map<String, String> params = RequestUtils.newParams(this)
+                .addParams("news_id", id)
                 .create();
         HttpManager.getInstance().create(ApiService.class).checkNewMessageById(params)
                 .compose(HttpManager.<BaseBean<List<Message>>>applySchedulers()).subscribe(new SimpleCallBack<BaseBean<List<Message>>>() {
             @Override
             public void onSuccess(BaseBean<List<Message>> messageBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
-                if(RequestUtils.SUCCESS.equals(messageBaseBeanList.getRespCode())){
-                    Message message=messageBaseBeanList.getRespData().get(0);
+                Log.e("2018", "消息详情->" + messageBaseBeanList.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(messageBaseBeanList.getRespCode())) {
+                    Message message = messageBaseBeanList.getRespData().get(0);
                     mTextViewTitle.setText(message.getTitle());
                     mTextViewTime.setText(SimpleDateFormatUtils.formatYMDHS(message.getCreate_time()));
                     GlideApp.with(MessageDetailActivity.this).load(message.getContent_img()).thumbnail(0.1f).into(mImageViewMessage);
@@ -77,7 +82,7 @@ public class MessageDetailActivity extends AppCompatActivity implements IActivit
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
 

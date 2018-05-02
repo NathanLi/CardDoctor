@@ -7,46 +7,76 @@
     android:orientation="vertical"
     tools:context="com.yunkahui.datacubeper.mine.ui.MessageActivity">
 
+    <include layout="@layout/layout_toolbar" />
 
-    <include layout="@layout/layout_toolbar"/>
-
-    <RadioGroup
-        android:id="@+id/radio_group_message"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35pt"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_margin="20pt">
+        android:layout_margin="20pt"
+        android:gravity="center_vertical">
 
-        <RadioButton
-            android:id="@+id/radio_button_notice"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linear_layout_radio_1"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="通知信息"
-            android:checked="true"
-            android:gravity="center"
-            android:background="@drawable/bg_radio_button_left_selector"
-            android:button="@null"
-            android:textColor="@drawable/text_color_radio_selector"/>
+            android:background="@drawable/bg_left_button_shape_normal"
+            android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/radio_button_system"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_view_radio_text_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="通知信息"
+                android:textColor="#0085ff" />
+
+            <TextView
+                android:id="@+id/text_view_angle_1"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
+                android:layout_marginLeft="5pt"
+                android:background="@drawable/bg_circle_shape_red"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12pt"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_radio_2"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="系统信息"
-            android:background="@drawable/bg_radio_button_right_selector"
-            android:button="@null"
-            android:textColor="@drawable/text_color_radio_selector"/>
+            android:background="@drawable/bg_right_button_shape_normal"
+            android:gravity="center">
 
-    </RadioGroup>
+            <TextView
+                android:id="@+id/text_view_radio_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统信息"
+                android:textColor="#0085ff" />
+
+            <TextView
+                android:id="@+id/text_view_angle_2"
+                android:layout_width="20pt"
+                android:layout_height="20pt"
+                android:layout_marginLeft="5pt"
+                android:background="@drawable/bg_circle_shape_red"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12pt"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.yunkahui.datacubeper.common.view.CustomViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

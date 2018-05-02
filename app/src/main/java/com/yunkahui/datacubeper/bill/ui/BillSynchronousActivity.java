@@ -20,6 +20,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import org.json.JSONObject;
 
@@ -166,11 +167,16 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                 mIsBind = true;
                 break;
             case R.id.text_view_agreement:
-                LogUtils.e("点击发送RADIO_SEND_MESSAGE");
-                Intent intent1 = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
-                intent1.putExtra("message", "{\"type\":\"analyzer_do_spider\",\"login_pwd\":\"909193\",\"login_uid\":\"450802199311042058\",\n" +
-                        "\"card_id\":\"6225768607613864\",\"uid\":\"jjjjj7777744444\",\"user_code\":\"" + BaseUrl.getUSER_ID() + "\",\"org_number\":\"" + getResources().getString(R.string.org_number) + "\"}");
-                mBroadcastManager.sendBroadcast(intent1);
+                Intent intent2 = new Intent(this, WebViewActivity.class);
+                intent2.putExtra("title", "协议");
+                intent2.putExtra("url", "file:///android_asset/test_agreement.html");
+                startActivity(intent2);
+
+//                LogUtils.e("点击发送RADIO_SEND_MESSAGE");
+//                Intent intent1 = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
+//                intent1.putExtra("message", "{\"type\":\"analyzer_do_spider\",\"login_pwd\":\"909193\",\"login_uid\":\"450802199311042058\",\n" +
+//                        "\"card_id\":\"6225768607613864\",\"uid\":\"jjjjj7777744444\",\"user_code\":\"" + BaseUrl.getUSER_ID() + "\",\"org_number\":\"" + getResources().getString(R.string.org_number) + "\"}");
+//                mBroadcastManager.sendBroadcast(intent1);
                 break;
         }
     }

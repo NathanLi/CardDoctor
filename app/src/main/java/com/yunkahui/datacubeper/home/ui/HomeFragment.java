@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.home.ui;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -82,27 +83,41 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         checkApplyPosStatus();
                         break;
                     case 105:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "个人征信")
+                                .putExtra("url", "https://ipcrs.pbccrc.org.cn/"));
                         break;
                     case 106:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.025hmd.com"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "信贷黑名单")
+                                .putExtra("url", "http://www.025hmd.com"));
                         break;
                     case 107:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://shixin.court.gov.cn/"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "失信黑名单")
+                                .putExtra("url", "http://shixin.court.gov.cn/"));
                         break;
                     case 108:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://m.46644.com/illegal/?tpltype=weixin"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "违章查询")
+                                .putExtra("url", "http://m.46644.com/illegal/?tpltype=weixin"));
                         break;
                     case 109:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?uid=64"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "一键办卡")
+                                .putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?uid=64"));
                         break;
                     case 110:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "贷款专区")
+                                .putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
                         break;
                     case 111:
                         break;
                     case 112:
-                        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.epicc.com.cn/wap/views/proposal/giveactivity/JBD_S/?productcode=JBD_S&plantype=B?cmpid=2017pcluodiye"));
+                        startActivity(new Intent(mActivity, WebViewActivity.class)
+                                .putExtra("title", "保险服务")
+                                .putExtra("url", "http://www.epicc.com.cn/wap/views/proposal/giveactivity/JBD_S/?productcode=JBD_S&plantype=B?cmpid=2017pcluodiye"));
                         break;
                 }
 
@@ -231,6 +246,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.rl_scan).setOnClickListener(this);
         view.findViewById(R.id.rl_qr).setOnClickListener(this);
         view.findViewById(R.id.rl_receive_money).setOnClickListener(this);
+        view.findViewById(R.id.text_view_qr_code).setOnClickListener(this);
     }
 
     @Override
@@ -256,6 +272,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_receive_money:
                 break;
+            case R.id.text_view_qr_code:
+                if (TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())) {
+                    ToastUtils.show(getActivity(), "数据加载中...");
+                } else {
+                    startActivity(new Intent(mActivity, QrShareActivity.class).putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
+                }
+                break;
         }
     }
 
@@ -267,8 +290,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             LogUtils.e("fragment not null");
         }
-        if(result != null) {
-            if(result.getContents() == null) {
+        if (result != null) {
+            if (result.getContents() == null) {
                 Toast.makeText(mActivity, "扫码取消！", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(mActivity, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();

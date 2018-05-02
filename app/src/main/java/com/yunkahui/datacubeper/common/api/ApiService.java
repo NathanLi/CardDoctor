@@ -325,4 +325,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/pos/planning/create_bill")       //添加交易
     Observable<BaseBean> requestCreateBill(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/setnewpsw_msg")        //忘记密码
+    Observable<BaseBean> forgerPassword(@FieldMap Map<String,String> params);
+
 }

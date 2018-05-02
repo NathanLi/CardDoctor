@@ -19,7 +19,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements IActivi
     @Override
     public void initView() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout,new ForgetPasswordFragment()).commit();
+                .replace(R.id.frame_layout, new ForgetPasswordFragment()).commit();
     }
 
     @Override
@@ -30,6 +30,17 @@ public class ForgetPasswordActivity extends AppCompatActivity implements IActivi
     @Override
     public int getStatusBarColor() {
         return getResources().getColor(R.color.colorPrimary);
+    }
+
+    //跳转到忘记密码第二步
+    public void passwordSecond(String phone) {
+        ForgetPasswordSecondFragment forgetPasswordSecondFragment = new ForgetPasswordSecondFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("phone", phone);
+        forgetPasswordSecondFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_fragment_enter, R.anim.anim_fragment_exit)
+                .replace(R.id.frame_layout, forgetPasswordSecondFragment).commitNowAllowingStateLoss();
     }
 
 }

@@ -46,7 +46,7 @@ public class MessageItemView extends LinearLayout {
         mTextViewTitle.setText(message.getTitle());
         mTextViewMessage.setText(message.getContent_text());
         if(message.isSee()){
-            mTextViewStatus.setVisibility(GONE);
+            mTextViewStatus.setVisibility(INVISIBLE);
         }else{
             mTextViewStatus.setVisibility(VISIBLE);
             mTextViewStatus.setText("未读");

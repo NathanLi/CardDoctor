@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.test.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -21,6 +22,7 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
+import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 import com.yunkahui.datacubeper.test.logic.CardTestLogic;
 
 import org.json.JSONObject;
@@ -32,7 +34,6 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
     private SimpleEditTextView mEditTextViewBankCardNumber;
     private SimpleEditTextView mEditTextViewPhone;
     private CheckBox mCheckBoxAgreement;
-    private TextView mTextViewAgreement;
     private TextView mTextViewMoney;
     private Button mButtonSubmit;
 
@@ -71,7 +72,6 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
         mEditTextViewBankCardNumber = findViewById(R.id.simple_input_item_bank_card_number);
         mEditTextViewPhone = findViewById(R.id.simple_input_item_phone);
         mCheckBoxAgreement = findViewById(R.id.check_box_agreement);
-        mTextViewAgreement = findViewById(R.id.text_view_agreement);
         mTextViewMoney = findViewById(R.id.text_view_money);
         mButtonSubmit = findViewById(R.id.button_submit);
 
@@ -81,6 +81,7 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
         mEditTextViewPhone.getEditTextInput().addTextChangedListener(new InnerTextChangeListener());
         mTextViewMoney.setOnClickListener(this);
         mButtonSubmit.setOnClickListener(this);
+        findViewById(R.id.text_view_agreement).setOnClickListener(this);
 
     }
 
@@ -195,6 +196,10 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
                 }
                 break;
             case R.id.text_view_agreement:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("title", "协议");
+                intent.putExtra("url", "file:///android_asset/test_agreement.html");
+                startActivity(intent);
                 break;
         }
     }

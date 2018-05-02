@@ -167,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
                     index = 4;
                     break;
             }
-            changeTabColor(index, true);
             changeTabColor(lastPosition, false);
+            changeTabColor(index, true);
             mViewPager.setCurrentItem(index);
             lastPosition = index;
         }

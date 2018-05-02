@@ -39,6 +39,7 @@
             android:layout_width="28pt"
             android:layout_height="28pt" />
         <TextView
+            android:id="@+id/text_view_qr_code"
             android:layout_marginTop="8pt"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_qr"

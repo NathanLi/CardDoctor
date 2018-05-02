@@ -1,5 +1,7 @@
 package com.yunkahui.datacubeper.share.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,13 +11,17 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.DefaultWebClient;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
@@ -24,71 +30,56 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
  */
 public class WebViewActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private WebView mWebView;
-    private ProgressBar mProgressBar;
+    private AgentWeb mAgentWeb;
+    private LinearLayout mLinearLayoutWebView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_web_view);
         super.onCreate(savedInstanceState);
+
+        String title = getIntent().getStringExtra("title");
+        setTitle(title);
+
     }
 
     private static final String TAG = "testweb";
+
     @Override
     public void initData() {
-        mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        mWebView.getSettings().setSupportZoom(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        mWebView.getSettings().setSupportZoom(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-            }
-        });
-        mWebView.setWebChromeClient(new WebChromeClient() {
-
+        String url = getIntent().getStringExtra("url");
+        mAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mLinearLayoutWebView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .useDefaultIndicator(-1, 3)
+                .setWebViewClient(new WebViewClient())
+                .setWebChromeClient(new WebChromeClient())
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
+                .interceptUnkownUrl()
+                .createAgentWeb()
+                .ready()
+                .go(url);
+        mAgentWeb.getWebCreator().getWebView().setDownloadListener(new DownloadListener() {
             @Override
-            public void onProgressChanged(WebView view, int progress) {
-                if (progress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                } else {
-                    if (View.GONE == mProgressBar.getVisibility())
-                        mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressBar.setProgress(progress);
-                }
-                super.onProgressChanged(view, progress);
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
-
         });
-        mWebView.loadUrl(getIntent().getStringExtra("url"));
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
+    public void onBackPressed() {
+        if (!mAgentWeb.back()) {
+            finish();
         }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public void initView() {
-        mProgressBar = findViewById(R.id.progress_bar);
-        mWebView = findViewById(R.id.web_view);
+        mLinearLayoutWebView = findViewById(R.id.linear_layout_webview);
     }
 
     @Override
@@ -97,10 +88,21 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
     }
 
     @Override
+    protected void onResume() {
+        mAgentWeb.getWebLifeCycle().onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mAgentWeb.getWebLifeCycle().onPause();
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
+        mAgentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
-        ((ViewGroup) mWebView.getParent()).removeView(mWebView);
-        mWebView.destroy();
     }
 }
 

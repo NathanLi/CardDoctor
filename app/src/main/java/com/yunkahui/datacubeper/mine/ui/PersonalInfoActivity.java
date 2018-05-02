@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.mine.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,6 +23,7 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.MenuSimpleItemView;
+import com.yunkahui.datacubeper.home.ui.QrShareActivity;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 
 import org.json.JSONObject;
@@ -131,6 +133,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
                 startActivityForResult(intent, RESULT_CODE_IMAGE);
                 break;
             case R.id.menu_simple_item_qr_code:
+                if(TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())){
+                    ToastUtils.show(this,"暂无数据");
+                }else{
+                    startActivity(new Intent(this, QrShareActivity.class).putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
+                }
                 break;
         }
     }

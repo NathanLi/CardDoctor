@@ -24,6 +24,7 @@ import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.logic.LoginLogic;
+import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import org.json.JSONObject;
 
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
         findViewById(R.id.button_login).setOnClickListener(this);
         findViewById(R.id.button_register).setOnClickListener(this);
         findViewById(R.id.text_view_forget_password).setOnClickListener(this);
+        findViewById(R.id.text_view_agreement).setOnClickListener(this);
     }
 
     public boolean check() {
@@ -143,6 +145,12 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
                 break;
             case R.id.button_register:
                 startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.text_view_agreement:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("title", "协议");
+                intent.putExtra("url", "file:///android_asset/resistrate_agreement.html");
+                startActivity(intent);
                 break;
         }
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class MessageFragment extends Fragment {
     private MessageLogic mLogic;
     private List<Message> mMessageList;
     private MessageListAdapter mListAdapter;
+    private int mNoReadNumber;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,14 +70,25 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
-    private void initData(){
+    private void initData() {
 
         mListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent=new Intent(getActivity(),MessageDetailActivity.class);
-                intent.putExtra("id",mMessageList.get(position).getSys_notice_id());
+                if (!mMessageList.get(position).isSee()) {
+                    mNoReadNumber--;
+                    if (mType == TYPE_NOTICE) {
+                        ((MessageActivity) getActivity()).setNoticeNuReadNumber(mNoReadNumber);
+                    } else {
+                        ((MessageActivity) getActivity()).setSystemNuReadNumber(mNoReadNumber);
+                    }
+                }
+                Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                intent.putExtra("id", mMessageList.get(position).getSys_notice_id());
                 startActivity(intent);
+                mMessageList.get(position).setIsSee(true);
+                mListAdapter.notifyDataSetChanged();
+                new MessageLogic().insert(getActivity(), mMessageList.get(position));
             }
         });
 
@@ -83,7 +97,7 @@ public class MessageFragment extends Fragment {
             public void onLoadMoreRequested() {
                 loadData();
             }
-        },mRecyclerViewMessage);
+        }, mRecyclerViewMessage);
     }
 
 
@@ -99,28 +113,40 @@ public class MessageFragment extends Fragment {
             public void onSuccess(BaseBean<MessageGroup> messageGroupBaseBean) {
                 LogUtils.e("消息->" + messageGroupBaseBean.toString());
                 if (RequestUtils.SUCCESS.equals(messageGroupBaseBean.getRespCode())) {
-                    mPageSum=messageGroupBaseBean.getRespData().getPages();
+                    mPageSum = messageGroupBaseBean.getRespData().getPages();
                     mMessageList.addAll(messageGroupBaseBean.getRespData().getList());
+                    for (int i = 0; i < mMessageList.size(); i++) {
+                        if (mLogic.isUnReadMessage(getActivity(), mMessageList.get(i))) {
+                            mMessageList.get(i).setIsSee(true);
+                        }else{
+                            mNoReadNumber++;
+                        }
+                    }
+                    if (mType == TYPE_NOTICE) {
+                        ((MessageActivity) getActivity()).setNoticeNuReadNumber(mNoReadNumber);
+                    } else {
+                        ((MessageActivity) getActivity()).setSystemNuReadNumber(mNoReadNumber);
+                    }
                     mListAdapter.notifyDataSetChanged();
-                    if(mMessageList.size()==0){
+                    if (mMessageList.size() == 0) {
                         mImageViewNoData.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         mImageViewNoData.setVisibility(View.GONE);
                     }
-                    if(mPage>=mPageSum){
+                    if (mPage >= mPageSum) {
                         mListAdapter.loadMoreEnd();
-                    }else{
+                    } else {
                         mPage++;
                         mListAdapter.loadMoreComplete();
                     }
-                }else{
+                } else {
                     mListAdapter.loadMoreFail();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
 

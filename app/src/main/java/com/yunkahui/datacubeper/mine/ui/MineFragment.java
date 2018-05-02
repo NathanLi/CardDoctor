@@ -29,6 +29,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.PosManageActivity;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.login.ui.LoginActivity;
+import com.yunkahui.datacubeper.mine.logic.MessageLogic;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -102,8 +103,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mMineItemAdapter.notifyDataSetChanged();
 
         loadData();
-        checkNewMessage();
     }
+
 
     @Override
     public void initView(View view) {
@@ -128,7 +129,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.e("onResume");
+        checkNewMessage();
         if (!TextUtils.isEmpty(DataUtils.getInfo().getUser_mobile())) {
             fillData(DataUtils.getInfo());
         }
@@ -160,12 +161,18 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+    //查询消息数量
     private void checkNewMessage() {
 
         mLogic.checkNewMessage(getActivity(), "", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("消息->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    List<String> ids = mLogic.getIdListForMessage(baseBean.getJsonObject().optJSONObject("respData"));
+                    int num = new MessageLogic().getUnReadMessageNumber(getActivity(), ids);
+                    mSimpleToolbar.setAngle(num);
+                }
             }
 
             @Override
@@ -213,7 +220,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
             }
         }
-        if(resultCode==getActivity().RESULT_OK&&requestCode==RESULT_CODE_UPDATE){
+        if (resultCode == getActivity().RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
             loadData();
         }
 
@@ -300,7 +307,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 checkRealNameAuthStatus();
                 break;
             case 12:
-                startActivityForResult(new Intent(getActivity(),BindNewPhoneActivity.class),RESULT_CODE_UPDATE);
+                startActivityForResult(new Intent(getActivity(), BindNewPhoneActivity.class), RESULT_CODE_UPDATE);
                 break;
             case 13:
                 startActivity(new Intent(getActivity(), PersonalInfoActivity.class));

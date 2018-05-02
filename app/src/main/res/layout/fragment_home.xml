@@ -44,7 +44,7 @@
                 android:id="@+id/iv_save_credit_card"
                 android:layout_width="match_parent"
                 android:layout_height="80pt"
-                android:background="@mipmap/ic_launcher"
+                android:background="@mipmap/ic_home_banner_normal"
                 android:contentDescription="@string/default_content_description" />
 
         </LinearLayout>

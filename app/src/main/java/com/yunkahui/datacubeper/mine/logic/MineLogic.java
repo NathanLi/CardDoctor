@@ -69,7 +69,7 @@ public class MineLogic {
     /**
      * 获取个人信息
      */
-    public void loadPersonalInformation(Context context,SimpleCallBack<BaseBean<PersonalInfo>> callBack) {
+    public void loadPersonalInformation(Context context, SimpleCallBack<BaseBean<PersonalInfo>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadPersonalInformation(params)
@@ -79,18 +79,18 @@ public class MineLogic {
     /**
      * 上传头像
      */
-    public void upLoadAvatar(Context context,String path,SimpleCallBack<BaseBean> callBack){
-        Map<String, RequestBody> textBody= MultipartUtil.newInstance()
+    public void upLoadAvatar(Context context, String path, SimpleCallBack<BaseBean> callBack) {
+        Map<String, RequestBody> textBody = MultipartUtil.newInstance()
                 .addParam("user_code", BaseUrl.getUSER_ID())
-                .addParam("key",BaseUrl.getKEY())
-                .addParam("org_number",context.getResources().getString(R.string.org_number))
+                .addParam("key", BaseUrl.getKEY())
+                .addParam("org_number", context.getResources().getString(R.string.org_number))
                 .Build();
-        File file=new File(path);
-        if(file.exists()){
-            List<File> files=new ArrayList<>();
+        File file = new File(path);
+        if (file.exists()) {
+            List<File> files = new ArrayList<>();
             files.add(file);
-            List<MultipartBody.Part> parts=MultipartUtil.makeMultpart("avatar",files);
-            HttpManager.getInstance().create(ApiService.class).upLoadPersonalAvatar(textBody,parts.get(0))
+            List<MultipartBody.Part> parts = MultipartUtil.makeMultpart("avatar", files);
+            HttpManager.getInstance().create(ApiService.class).upLoadPersonalAvatar(textBody, parts.get(0))
                     .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
         }
     }
@@ -98,8 +98,8 @@ public class MineLogic {
     /**
      * 查询用户实名认证状态
      */
-    public void checkRealNameAuthStatus(Context context,SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params=RequestUtils.newParams(context).create();
+    public void checkRealNameAuthStatus(Context context, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).checkRealNameAuthStatus(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
@@ -108,15 +108,36 @@ public class MineLogic {
     /**
      * 根据时间查询新增的消息
      */
-    public void checkNewMessage(Context context,String time,SimpleCallBack<BaseBean> callBack){
-        Calendar calendar=Calendar.getInstance();
+    public void checkNewMessage(Context context, String time, SimpleCallBack<BaseBean> callBack) {
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.MONTH,-2);
-        Map<String,String> params=RequestUtils.newParams(context)
-                .addParams("update_time", calendar.getTimeInMillis()+"")
+        calendar.add(Calendar.MONTH, -2);
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("update_time", calendar.getTimeInMillis() + "")
                 .create();
         HttpManager.getInstance().create(ApiService.class).checkNewMessage(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
+
+    /**
+     * 将消息数量数据整理成列表集合
+     */
+    public List<String> getIdListForMessage(JSONObject object) {
+        List<String> ids = new ArrayList<>();
+        try {
+            JSONArray noticeArray = object.optJSONArray("notice");
+            JSONArray sysArray = object.optJSONArray("sys_news");
+            for (int i = 0; i < noticeArray.length(); i++) {
+                ids.add((String) noticeArray.opt(i));
+            }
+            for (int i = 0; i < sysArray.length(); i++) {
+                ids.add((String) sysArray.opt(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
     }
 
 

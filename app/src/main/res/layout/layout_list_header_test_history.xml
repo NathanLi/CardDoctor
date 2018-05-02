@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.yunkahui.datacubeper.test.ui.CardTestView
+        android:id="@+id/card_test_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15pt"/>
+
+    <View  android:layout_marginTop="5pt" style="@style/common_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15pt">
+
+        <TextView
+            android:layout_width="5pt"
+            android:layout_height="15pt"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/text_view_test_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="16pt"
+            android:textColor="@color/black"
+            android:layout_marginLeft="25pt"/>
+
+    </RelativeLayout>
+
+    <View style="@style/common_line"/>
+
+</LinearLayout>

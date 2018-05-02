@@ -34,7 +34,7 @@ import java.util.List;
 
 public class CardTestFragment extends BaseFragment implements View.OnClickListener {
 
-    private final int RESULT_CODE_UPDATE=1001;
+    private final int RESULT_CODE_UPDATE = 1001;
 
     private AVLoadingIndicatorView mLoadingIndicatorView;
     private RecyclerView mRecyclerView;
@@ -45,8 +45,8 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initData() {
-        mLogic=new CardTestLogic();
-        mCardTestItems=new ArrayList<>();
+        mLogic = new CardTestLogic();
+        mCardTestItems = new ArrayList<>();
         mCardTestAdapter = new CardTestAdapter(R.layout.layout_list_item_card_test, mCardTestItems);
         mCardTestAdapter.bindToRecyclerView(mRecyclerView);
         View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_card_test, null);
@@ -68,13 +68,14 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         mCardTestAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.btn_run_test:
                         loadTestMoney(mCardTestItems.get(position).getCard());
                         break;
                     case R.id.text_view_report:
-                        Intent intent=new Intent(getActivity(),TestHistoryActivity.class);
-                        intent.putExtra("bankcard",mCardTestItems.get(position).getCard().getBankcard_num());
+                        Intent intent = new Intent(getActivity(), TestHistoryActivity.class);
+                        intent.putExtra("bankcard", mCardTestItems.get(position).getCard().getBankcard_num());
+                        intent.putExtra("card", mCardTestItems.get(position).getCard());
                         startActivity(intent);
                         break;
                 }
@@ -87,7 +88,7 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
     public void initView(View view) {
         SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
         toolbar.setTitleName(getString(R.string.card_test));
-        mLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
+        mLoadingIndicatorView = view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 
@@ -98,18 +99,18 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
 
 
     //查询用户测评过的卡片列表
-    public void loadData(){
+    public void loadData() {
         mLoadingIndicatorView.setVisibility(View.VISIBLE);
         mLogic.loadTestCardList(getActivity(), new SimpleCallBack<BaseBean<List<CardTestItem>>>() {
             @Override
             public void onSuccess(BaseBean<List<CardTestItem>> baseBean) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
-                LogUtils.e("获取测评卡片列表->"+baseBean.toString());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    List<CardTestItem> items=baseBean.getRespData();
-                    for (int i=0;i<items.size();i++){
-                        String cs=items.get(i).getApr_send_datas().replace("\\","");
-                        CardTestItem.Card card=new GsonBuilder().create().fromJson(cs, CardTestItem.Card.class);
+                LogUtils.e("获取测评卡片列表->" + baseBean.toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    List<CardTestItem> items = baseBean.getRespData();
+                    for (int i = 0; i < items.size(); i++) {
+                        String cs = items.get(i).getApr_send_datas().replace("\\", "");
+                        CardTestItem.Card card = new GsonBuilder().create().fromJson(cs, CardTestItem.Card.class);
                         items.get(i).setCard(card);
                     }
                     mCardTestItems.clear();
@@ -121,39 +122,40 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onFailure(Throwable throwable) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
-                LogUtils.e("获取测评卡片列表失败 "+throwable.toString());
+                LogUtils.e("获取测评卡片列表失败 " + throwable.toString());
             }
         });
     }
 
     //卡评测-获取评测价格
-    public void loadTestMoney(final CardTestItem.Card card){
+    public void loadTestMoney(final CardTestItem.Card card) {
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.loadTestMoney(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("卡测评->"+baseBean.getJsonObject().toString());
-                    JSONObject object=baseBean.getJsonObject();
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        Intent intent=new Intent(getActivity(),CardTestActivity.class);
-                        intent.putExtra("money",object.getDouble("respData"));
-                        if(card!=null){
-                            intent.putExtra("card",card);
+                    LogUtils.e("卡测评->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        Intent intent = new Intent(getActivity(), CardTestActivity.class);
+                        intent.putExtra("money", object.getDouble("respData"));
+                        if (card != null) {
+                            intent.putExtra("card", card);
                         }
-                        startActivityForResult(intent,RESULT_CODE_UPDATE);
-                    }else{
-                        ToastUtils.show(getActivity(),object.optString("respDesc"));
+                        startActivityForResult(intent, RESULT_CODE_UPDATE);
+                    } else {
+                        ToastUtils.show(getActivity(), object.optString("respDesc"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
     }
@@ -168,7 +170,7 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                 TestResultActivity.actionStart(getActivity(), null, System.currentTimeMillis());
                 break;
             case R.id.text_view_history_test:
-                startActivity(new Intent(getActivity(),TestHistoryActivity.class));
+                startActivity(new Intent(getActivity(), TestHistoryActivity.class));
                 break;
         }
     }

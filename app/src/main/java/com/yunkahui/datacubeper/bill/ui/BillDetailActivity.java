@@ -93,10 +93,12 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("账单详情->" + baseBean.toString());
-                Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                mList.addAll(mLogic.handleData(baseBean, billDay));
                 LoadingViewDialog.getInstance().dismiss();
-                mAdapter.notifyDataSetChanged();
+                Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    mList.addAll(mLogic.handleData(baseBean, billDay));
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

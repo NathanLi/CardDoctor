@@ -103,6 +103,8 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.tv_link_share).setOnClickListener(this);
         view.findViewById(R.id.tv_qr_share).setOnClickListener(this);
         view.findViewById(R.id.tv_vip_course).setOnClickListener(this);
+
+        toolbar.getRoot().setBackgroundResource(0);
     }
 
     @Override

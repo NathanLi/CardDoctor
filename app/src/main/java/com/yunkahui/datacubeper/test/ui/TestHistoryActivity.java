@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.GsonBuilder;
@@ -35,6 +37,8 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
     private TestHistoryLogic mLogic;
     private String mBankCardNumber;
     private List<CardTestItem> mCardTestItems;
+    private CardTestItem.Card mCard;
+    private TextView mTextViewCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
     @Override
     public void initData() {
         mBankCardNumber = getIntent().getStringExtra("bankcard");
+        mCard = (CardTestItem.Card) getIntent().getSerializableExtra("card");
         mLogic = new TestHistoryLogic();
         mCardTestItems = new ArrayList<>();
         mListAdapter = new TestHistoryListAdapter(R.layout.layout_lsit_item_test_history, mCardTestItems);
@@ -57,14 +62,26 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
             }
         });
         mRecyclerView.setAdapter(mListAdapter);
-
         mListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 loadTestRecordDetail(mCardTestItems.get(position).getApr_id());
             }
         });
+        addHeader();
         loadData();
+    }
+
+    //添加头部
+    private void addHeader() {
+        if (!TextUtils.isEmpty(mBankCardNumber) && mCard != null) {
+            View view = getLayoutInflater().inflate(R.layout.layout_list_header_test_history, null);
+            CardTestView cardTestView = view.findViewById(R.id.card_test_view);
+            cardTestView.setData(mCard);
+            mTextViewCount = view.findViewById(R.id.text_view_test_count);
+
+            mListAdapter.addHeaderView(view);
+        }
     }
 
     @Override
@@ -91,6 +108,9 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
                     mCardTestItems.clear();
                     mCardTestItems.addAll(items);
                     mListAdapter.notifyDataSetChanged();
+                    if (mTextViewCount != null) {
+                        mTextViewCount.setText("历史评测（" + mCardTestItems.size() + "）");
+                    }
 
                     if (mCardTestItems.size() > 0) {
                         mImageViewNoData.setVisibility(View.GONE);
@@ -119,10 +139,10 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
             public void onSuccess(BaseBean<CardTestItem> baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("卡测评详情->" + baseBean.getJsonObject().toString());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    TestResultActivity.actionStart(TestHistoryActivity.this,baseBean.getRespData().getApr_return_datas(),System.currentTimeMillis());
-                }else{
-                    ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    TestResultActivity.actionStart(TestHistoryActivity.this, baseBean.getRespData().getApr_return_datas(), System.currentTimeMillis());
+                } else {
+                    ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                 }
             }
 

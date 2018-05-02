@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,24 +9,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.yunkahui.datacubeper.common.view.SimpleToolbar
-            android:id="@+id/tool_bar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_share_header"
-            android:background="#ff0"
-            android:contentDescription="@string/default_content_description"
-            android:layout_width="match_parent"
-            android:layout_height="94pt" />
+            <ImageView
+                android:id="@+id/iv_share_header"
+                android:layout_width="match_parent"
+                android:layout_height="150pt"
+                android:src="@mipmap/ic_share_top" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleToolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
             android:id="@+id/double_block_view_1"
-            app:leftTitle="我的钱包"
-            app:rightTitle="累计分润"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:leftTitle="我的钱包"
+            app:rightTitle="累计分润" />
 
         <View
             android:layout_width="match_parent"
@@ -38,18 +43,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="8pt"
-            android:paddingBottom="8pt"
             android:layout_marginLeft="20pt"
-            android:layout_marginRight="20pt">
+            android:layout_marginRight="20pt"
+            android:orientation="horizontal"
+            android:paddingBottom="8pt"
+            android:paddingTop="8pt">
 
             <ImageView
                 android:id="@+id/iv_activation_code"
                 android:layout_width="24pt"
                 android:layout_height="19pt"
-                android:contentDescription="@string/default_content_description"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/default_content_description"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
@@ -59,8 +64,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10pt"
                 android:layout_marginStart="10pt"
-                android:layout_toRightOf="@id/iv_activation_code"
                 android:layout_toEndOf="@id/iv_activation_code"
+                android:layout_toRightOf="@id/iv_activation_code"
                 android:text="@string/rest_activation_code"
                 android:textColor="@color/text_color_gray_a4aab3"
                 android:textSize="17pt" />
@@ -80,13 +85,13 @@
                 android:id="@+id/btn_produce_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:textSize="12pt"
-                android:padding="8pt"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/bg_create_code_button"
+                android:padding="8pt"
+                android:text="@string/produce_activation_code"
                 android:textColor="@color/white"
-                android:text="@string/produce_activation_code" />
+                android:textSize="12pt" />
         </RelativeLayout>
 
         <View
@@ -97,10 +102,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4pt"
             android:layout_marginLeft="20pt"
             android:layout_marginStart="20pt"
-            android:layout_marginTop="4pt"
-            android:layout_marginBottom="4pt">
+            android:layout_marginTop="4pt">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,36 +126,36 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2pt"
+            android:layout_marginBottom="12pt"
             android:layout_marginTop="4pt"
-            android:background="@color/bg_color_gray_f5f5f5"
-            android:layout_marginBottom="12pt"/>
+            android:background="@color/bg_color_gray_f5f5f5" />
 
         <com.yunkahui.datacubeper.common.view.DoubleBlockView
             android:id="@+id/double_block_view_2"
-            app:leftTitle="普通会员"
-            app:rightTitle="VIP会员"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:leftTitle="普通会员"
+            app:rightTitle="VIP会员" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16pt"
             android:layout_marginBottom="16pt"
             android:layout_marginLeft="20pt"
-            android:layout_marginRight="20pt">
+            android:layout_marginRight="20pt"
+            android:layout_marginTop="16pt">
 
             <ImageView
                 android:layout_width="20pt"
                 android:layout_height="20pt"
-                android:contentDescription="@string/default_content_description"
-                android:background="@mipmap/ic_launcher"/>
+                android:background="@mipmap/ic_launcher"
+                android:contentDescription="@string/default_content_description" />
 
             <TextView
-                android:layout_marginLeft="12pt"
-                android:layout_marginStart="12pt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12pt"
+                android:layout_marginStart="12pt"
                 android:text="查看更多奖励、分润、升级、加盟政策   >>"
                 android:textColor="@color/line_blue_23a2fd"
                 android:textSize="14pt" />

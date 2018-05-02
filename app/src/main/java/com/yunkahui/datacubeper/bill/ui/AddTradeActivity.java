@@ -18,8 +18,10 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.logic.AddTradeLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.FillSpinnerView;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
@@ -143,8 +145,10 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
+                        LogUtils.e("添加交易->"+baseBean.getJsonObject().toString());
+                        ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                            Toast.makeText(AddTradeActivity.this, "添加完毕", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
 

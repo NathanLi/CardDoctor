@@ -13,7 +13,6 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.view.CustomViewPager;
-import com.yunkahui.datacubeper.share.ui.ProfitWithdrawalsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, ProfitWithdrawalsActivity.class));
+                startActivity(new Intent(this, WithdrawForCardActivity.class).putExtra("withdrawType", "01"));
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -14,7 +14,7 @@ import com.yunkahui.datacubeper.base.CardDoctorApplication;
  * 该类是用以保存一些和长度、尺寸等内容相关的工具类
  */
 
-public class SizeUtil {
+public class SizeUtils {
     /**
      * 获取屏幕尺寸
      */

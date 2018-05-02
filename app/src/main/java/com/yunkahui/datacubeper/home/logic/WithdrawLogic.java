@@ -35,4 +35,13 @@ public class WithdrawLogic {
         HttpManager.getInstance().create(ApiService.class).checkUserBindZFB(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    public void queryWithdrawFee(Context context, float withdrawAmount, String withdrawType, SimpleCallBack<BaseBean> callBack) {
+        Map<String,String> params= RequestUtils.newParams(context)
+                .addParams("withdrawAmount", String.valueOf(withdrawAmount))
+                .addParams("withdrawType", withdrawType)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).queryWithdrawFee(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
 }

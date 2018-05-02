@@ -108,6 +108,10 @@ public interface ApiService {
     Observable<BaseBean<List<SmartPlanSub>>> loadSmartPlan(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/pos/planning/do_huankuan_pos")     //标记还款交易
+    Observable<BaseBean> signRepay(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/planing/getToday")     //查询今日操作
     Observable<BaseBean> loadTO(@FieldMap Map<String,String> params);
 
@@ -162,6 +166,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user/check_user_alipay")        //检查用户是否绑定支付宝
     Observable<BaseBean> checkUserBindZFB(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/searcWithdrawFee")        //查询提现手续费
+    Observable<BaseBean> queryWithdrawFee(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/user/bind_user_alipay")     //绑定支付宝账号
@@ -255,6 +263,7 @@ public interface ApiService {
     @POST("/app/pos/pos_info")      //POS管理获取用户POS信息
     Observable<BaseBean<PosApplyInfo>> loadPosManageData(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
     @POST("/app/user/hlb_recharge")       //充值
     Observable<BaseBean> rechargeMoney(@FieldMap Map<String,String> params);
 

@@ -1,10 +1,12 @@
 package com.yunkahui.datacubeper.home.ui;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +101,7 @@ public class DesignSubFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if ("11".equals(mIsPos)) {
+            //******** 设置侧滑删除 ********
             SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
                 @Override
                 public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
@@ -140,7 +143,7 @@ public class DesignSubFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_sign:
-                        //showSignDialog();
+                        showSignDialog(position, mIsTodayOperation ? mTodayOperationSubList.get(position).getAp_id() : mSmartPlanSubList.get(position).getAp_id());
                         break;
                     case R.id.tv_status:
                         if ("11".equals(mIsPos) && "0".equals(mIsTodayOperation ?
@@ -211,46 +214,47 @@ public class DesignSubFragment extends BaseFragment {
         }
     }
 
-    /*private void showSignDialog() {
-        new AlertDialog.Builder(getActivity()).setBankCardName("标记交易成功")
+    private void showSignDialog(final int position, final int id) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("标记交易成功")
                 .setMessage("如此次笔交易已经还款成功，请进行标记交易成功")
                 .setPositiveButton("标记", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Map<String, String> param = new HashMap<>();
-                        param.put("auto_planning_id", bean.getId());
-                        param.put("version",BaseApplication.getVersion());
-                        RequestHelper helper = new RequestHelper(new SpecialConverterFactory(SpecialConverterFactory.ConverterType.Converter_Single));
-                        helper.getRequestApi().requestCommon(getString(R.string.slink_do_huankuan_pos), param)
-                                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TopBean>() {
-                            @Override public void onCompleted() {}
-                            @Override public void onError(Throwable e) {
-                                RemindUtil.dismiss();
-                                Toast.makeText(BaseApplication.getContext(), "连接超时", Toast.LENGTH_SHORT).show();
-                            }
-                            @Override public void onNext(TopBean topBean) {
-                                RemindUtil.dismiss();
-                                if (topBean.getCode() == RequestHelper.success) {
-                                    PosAdjustEvent event=new PosAdjustEvent();
-                                    event.setEvent(PosAdjustEvent.TAG);
-                                    event.setObj(bean);
-                                    EventBus.getDefault().post(event);
+                        mLogic.signRepay(mActivity, id, new SimpleCallBack<BaseBean>() {
+                            @Override
+                            public void onSuccess(BaseBean baseBean) {
+                                LogUtils.e("标记->" + baseBean.getJsonObject().toString());
+                                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                    if (mIsTodayOperation) {
+                                        mTodayOperationSubList.get(position).setOperation("1");
+                                    } else {
+                                        mSmartPlanSubList.get(position).setOperation("1");
+                                    }
+                                    mDesignSubAdapter.notifyItemChanged(position);
+                                } else {
+                                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                                 }
-                                Toast.makeText(BaseApplication.getContext(), topBean.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Toast.makeText(mActivity, "标记交易失败", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 })
-                .setNegativeButton("取消", null).show();
-    }*/
+                .setNegativeButton("取消", null)
+                .show();
+    }
 
     //******** 查询智能规划数据 ********
     private void getSmartPlan(int pageSize, int pageNum) {
         mLogic.requestSmartPlan(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
             public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
-                LogUtils.e("智能规划->"+mIsPos+", " + baseBean.getJsonObject().toString());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mSmartPlanSubList.addAll(baseBean.getRespData());
                     notifyDataSetChanged();
                 } else {
@@ -260,7 +264,7 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取智能规划数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取智能规划数据失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -271,8 +275,8 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
-                LogUtils.e("今日操作->" + baseBean.toString());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
                     mAllPages = baseBean.getRespData().getPages();
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
@@ -284,7 +288,7 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取今日操作数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取今日操作数据失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

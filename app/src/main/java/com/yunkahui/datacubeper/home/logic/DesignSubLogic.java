@@ -41,4 +41,12 @@ public class DesignSubLogic {
         HttpManager.getInstance().create(ApiService.class).loadSmartPlan(params)
                 .compose(HttpManager.<BaseBean<List<SmartPlanSub>>>applySchedulers()).subscribe(callBack);
     }
+
+    public void signRepay(Context context, int autoPlanningId, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("auto_planning_id", String.valueOf(autoPlanningId))
+                .create();
+        HttpManager.getInstance().create(ApiService.class).signRepay(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
 }

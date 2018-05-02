@@ -77,7 +77,7 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
             public void onSuccess(BaseBean<PosApplyInfo> bean) {
                 LoadingViewDialog.getInstance().dismiss();
                 if (RequestUtils.SUCCESS.equals(bean.getRespCode())) {
-                    LogUtils.e("pos已上传资料->" + bean.toString());
+                    LogUtils.e("pos已上传资料->" + bean.getJsonObject().toString());
                     updateData(bean.getRespData());
                 }
 

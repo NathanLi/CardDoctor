@@ -28,9 +28,9 @@ import java.util.Map;
 
 public class TradeRecordLogic {
 
-    public void getRechargeRecord(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
+    public void getRechargeRecord(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", pdType)
+                .addParams("pdType", "recharge")
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();
@@ -39,9 +39,9 @@ public class TradeRecordLogic {
 
     }
 
-    public void getWithdrawRecord(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack){
+    public void getWithdrawRecord(Context context , int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", pdType)
+                .addParams("pdType", "withdraw")
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();

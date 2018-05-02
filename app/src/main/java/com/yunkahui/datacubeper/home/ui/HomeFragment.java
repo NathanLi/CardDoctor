@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
@@ -28,7 +26,6 @@ import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 import com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity;
-import com.yunkahui.datacubeper.share.ui.WalletActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 
@@ -53,9 +50,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mDoubleBlockView.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mActivity, WalletActivity.class)
-                        .putExtra("from", "home")
-                        .putExtra("money", mUserBalance));
+                startActivity(new Intent(mActivity, HomeWalletActivity.class).putExtra("money", mUserBalance));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +58,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(mActivity, HomeProfitActivity.class));
             }
         });
+
         initUserFinance();
         final List<HomeItem> homeItems = mLogic.parsingJSONForHomeItem(getActivity());
         HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);
@@ -133,7 +129,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mLogic.loadUserFinance(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("余额、分润->" + baseBean.toString());
+                LogUtils.e("余额、分润->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
@@ -146,7 +142,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取余额、分润失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取余额、分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -258,15 +254,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_scan:
-                IntentIntegrator integrator = new IntentIntegrator(mActivity);
-                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-                integrator.setCaptureActivity(ScanActivity.class);
-                integrator.setPrompt("将二维码/条码放入框内，即可自动扫描"); //底部的提示文字，设为""可以置空
-                integrator.setCameraId(0); //前置或者后置摄像头
-                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
-                integrator.setBarcodeImageEnabled(true);
-                integrator.initiateScan();
+                startActivity(new Intent(mActivity, ScanActivity.class));
                 break;
             case R.id.rl_qr:
                 break;
@@ -284,20 +272,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result == null) {
-            LogUtils.e("fragment null");
-        } else {
-            LogUtils.e("fragment not null");
-        }
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(mActivity, "扫码取消！", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(mActivity, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+//        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+//        if (result != null) {
+//            if (result.getContents() == null) {
+//                Toast.makeText(mActivity, "扫码取消！", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(mActivity, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
+//            }
+//        } else {
+//            super.onActivityResult(requestCode, resultCode, data);
+//        }
     }
 }

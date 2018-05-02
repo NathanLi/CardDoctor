@@ -45,7 +45,7 @@ public class CardSelectorDialogFragment extends DialogFragment {
                 list.get(position).setChecked(true);
                 adapter.notifyDataSetChanged();
                 dismiss();
-                listener.onCheckedChange(list.get(position).getBankCardName(), list.get(position).getBankCardNum());
+                listener.onCheckedChange(list.get(position));
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -58,6 +58,6 @@ public class CardSelectorDialogFragment extends DialogFragment {
     }
 
     public interface OnCheckedChangeListener {
-        void onCheckedChange(String bankName, String num);
+        void onCheckedChange(CardSelectorBean bean);
     }
 }

@@ -53,8 +53,7 @@ dependencies {
     implementation 'com.clint:incrementadapter:1.1.4'
     implementation files('libs/alibaba-cloudapi-sdk-core-1.1.0.jar')
     implementation 'com.just.agentweb:agentweb:4.0.2'
-    compile 'com.yanzhenjie:recyclerview-swipe:1.1.3'
+    compile 'com.yanzhenjie:recyclerview-swipe:1.1.4'
     implementation files('libs/alipaySdk-20180403.jar')
-    compile('com.journeyapps:zxing-android-embedded:3.6.0')
-    compile 'com.google.zxing:core:3.3.0'
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
 }

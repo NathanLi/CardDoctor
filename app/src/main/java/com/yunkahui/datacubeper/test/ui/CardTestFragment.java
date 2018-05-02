@@ -105,12 +105,12 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onSuccess(BaseBean<List<CardTestItem>> baseBean) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
-                LogUtils.e("获取测评卡片列表->" + baseBean.toString());
-                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    List<CardTestItem> items = baseBean.getRespData();
-                    for (int i = 0; i < items.size(); i++) {
-                        String cs = items.get(i).getApr_send_datas().replace("\\", "");
-                        CardTestItem.Card card = new GsonBuilder().create().fromJson(cs, CardTestItem.Card.class);
+                LogUtils.e("获取测评卡片列表->"+baseBean.getJsonObject().toString());
+                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    List<CardTestItem> items=baseBean.getRespData();
+                    for (int i=0;i<items.size();i++){
+                        String cs=items.get(i).getApr_send_datas().replace("\\","");
+                        CardTestItem.Card card=new GsonBuilder().create().fromJson(cs, CardTestItem.Card.class);
                         items.get(i).setCard(card);
                     }
                     mCardTestItems.clear();

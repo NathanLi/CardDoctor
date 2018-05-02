@@ -31,7 +31,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
-import com.yunkahui.datacubeper.common.utils.SizeUtil;
+import com.yunkahui.datacubeper.common.utils.SizeUtils;
 import com.yunkahui.datacubeper.common.view.chart.ChartAxis;
 import com.yunkahui.datacubeper.common.view.chart.ChartCircleView;
 import com.yunkahui.datacubeper.common.view.chart.ChartLinearView;
@@ -436,13 +436,13 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
             String[] times = {"元旦", "春节", "清明", "劳动节", "端午", "中秋", "国庆"};
 
 
-            linearView.addAxis(new ChartAxis.Builder(0, base, mCapacity).startOffset(SizeUtil.transFromDip(4))
+            linearView.addAxis(new ChartAxis.Builder(0, base, mCapacity).startOffset(SizeUtils.transFromDip(4))
                     .unit("").auxiliary(true).create(), true);
-            linearView.addAxis(new ChartAxis.Builder(0, base, nCapacity).startOffset(SizeUtil.transFromDip(4)).isInteger(true)
+            linearView.addAxis(new ChartAxis.Builder(0, base, nCapacity).startOffset(SizeUtils.transFromDip(4)).isInteger(true)
                     .unit("笔").auxiliary(true).create(), false);
             linearView.addAxis(new ChartAxis.Builder(Arrays.asList(times))
                     .startPadding(-1).endPadding(-1)
-                    .startOffset(SizeUtil.transFromDip(5)).endOffset(SizeUtil.transFromDip(5))
+                    .startOffset(SizeUtils.transFromDip(5)).endOffset(SizeUtils.transFromDip(5))
                     .create(), true);
             linearView.addPillars(moneys, Color.parseColor("#5AC8FA"), true);
             linearView.addPillars(numbers, Color.parseColor("#FF9500"), false);
@@ -722,12 +722,12 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
 
             capacity = (int) ((maxNum / 5) + 1);
             linearView.addAxis(new ChartAxis.Builder(0, base, capacity).isInteger(true)
-                    .unit("笔").auxiliary(true).startOffset(SizeUtil.transFromDip(4)).create(), true);
+                    .unit("笔").auxiliary(true).startOffset(SizeUtils.transFromDip(4)).create(), true);
             linearView.addAxis(new ChartAxis.Builder(0, base, capacity).isInteger(true)
-                    .unit("笔").auxiliary(true).startOffset(SizeUtil.transFromDip(4)).create(), false);
+                    .unit("笔").auxiliary(true).startOffset(SizeUtils.transFromDip(4)).create(), false);
             linearView.addAxis(new ChartAxis.Builder(timeList)
                     .startPadding(-1).endPadding(-1).auxiliary(true)
-                    .startOffset(SizeUtil.transFromDip(5)).endOffset(SizeUtil.transFromDip(5)).create(), true);
+                    .startOffset(SizeUtils.transFromDip(5)).endOffset(SizeUtils.transFromDip(5)).create(), true);
             linearView.addPoints(points, Color.parseColor("#4A90E2"), true);
             linearView.showAni();
         }
@@ -794,13 +794,13 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
             nCapacity = (int) ((maxNumber / 5) + 1);
             mCapacity = (int) ((maxMoney / 5) + 1);
 
-            linearView.addAxis(new ChartAxis.Builder(0, base, mCapacity).startOffset(SizeUtil.transFromDip(4)).isInteger(true)
+            linearView.addAxis(new ChartAxis.Builder(0, base, mCapacity).startOffset(SizeUtils.transFromDip(4)).isInteger(true)
                     .unit("").auxiliary(true).create(), true);
-            linearView.addAxis(new ChartAxis.Builder(0, base, nCapacity).startOffset(SizeUtil.transFromDip(4)).isInteger(true)
+            linearView.addAxis(new ChartAxis.Builder(0, base, nCapacity).startOffset(SizeUtils.transFromDip(4)).isInteger(true)
                     .unit("笔").auxiliary(true).create(), false);
             linearView.addAxis(new ChartAxis.Builder(Arrays.asList(times))
                     .startPadding(-1).endPadding(-1)
-                    .startOffset(SizeUtil.transFromDip(5)).endOffset(SizeUtil.transFromDip(5))
+                    .startOffset(SizeUtils.transFromDip(5)).endOffset(SizeUtils.transFromDip(5))
                     .create(), true);
             linearView.addPillars(moneys, Color.parseColor("#7ED321"), true);
             linearView.addPoints(numbers, Color.parseColor("#F5A623"), false);

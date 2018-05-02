@@ -16,11 +16,10 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.home.ui.WithdrawForCardActivity;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
-import com.yunkahui.datacubeper.home.ui.RechargeActivity;
-import com.yunkahui.datacubeper.home.ui.TradeRecordActivity;
-import com.yunkahui.datacubeper.home.ui.WithdrawActivity;
+import com.yunkahui.datacubeper.home.ui.RechargeForCardActivity;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
 import java.util.ArrayList;
@@ -29,17 +28,13 @@ import java.util.List;
 /**
  * Created by YD1 on 2018/4/10
  */
-public class WalletActivity extends AppCompatActivity implements IActivityStatusBar {
+public class ShareWalletActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private RecyclerView mRecyclerView;
 
-    private String mFromPage;
-
     @Override
     public void initData() {
-        mFromPage = getIntent().getStringExtra("from");
         final boolean isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
-
         int[] icons = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] titles = {"充值", "提现"};
         List<HomeItem> walletItems = new ArrayList<>();
@@ -60,15 +55,15 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (isQualified) {
                     if (position == 0) {
-                        startActivity(new Intent(WalletActivity.this, RechargeActivity.class)
+                        startActivity(new Intent(ShareWalletActivity.this, RechargeForZFBActivity.class)
                                 .putExtra("money", money));
                     } else if (position == 1) {
-                        startActivity(new Intent(WalletActivity.this, WithdrawActivity.class)
+                        startActivity(new Intent(ShareWalletActivity.this, WithdrawForZFBActivity.class)
                                 .putExtra("money", money)
-                                .putExtra("from", mFromPage));
+                                .putExtra("withdrawType", "00"));
                     }
                 } else {
-                    Toast.makeText(WalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareWalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -84,7 +79,7 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1, 1, 1, "明细").setIcon(R.mipmap.ic_detail_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1, 1, 1, "提现").setIcon(R.mipmap.ic_withdraw_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -92,11 +87,7 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                if ("home".equals(mFromPage)) {
-                    startActivity(new Intent(this, TradeRecordActivity.class));
-                } else if ("share".equals(mFromPage)) {
-                    startActivity(new Intent(this, TradeDetailActivity.class));
-                }
+                startActivity(new Intent(this, TradeDetailActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -104,7 +95,7 @@ public class WalletActivity extends AppCompatActivity implements IActivityStatus
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_wallet);
+        setContentView(R.layout.activity_home_wallet);
         super.onCreate(savedInstanceState);
         setTitle("我的钱包");
     }

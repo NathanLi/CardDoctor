@@ -7,15 +7,30 @@ public class CardSelectorBean implements Parcelable{
 
     private String bankCardName;
     private String bankCardNum;
+    private int cardId;
     private boolean checked;
 
     public CardSelectorBean() {
     }
 
-    public CardSelectorBean(Parcel in) {
+    protected CardSelectorBean(Parcel in) {
         bankCardName = in.readString();
         bankCardNum = in.readString();
+        cardId = in.readInt();
         checked = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bankCardName);
+        dest.writeString(bankCardNum);
+        dest.writeInt(cardId);
+        dest.writeByte((byte) (checked ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CardSelectorBean> CREATOR = new Creator<CardSelectorBean>() {
@@ -30,14 +45,6 @@ public class CardSelectorBean implements Parcelable{
         }
     };
 
-    public String getBankCardNum() {
-        return bankCardNum;
-    }
-
-    public void setBankCardNum(String bankCardNum) {
-        this.bankCardNum = bankCardNum;
-    }
-
     public String getBankCardName() {
         return bankCardName;
     }
@@ -46,23 +53,27 @@ public class CardSelectorBean implements Parcelable{
         this.bankCardName = bankCardName;
     }
 
+    public String getBankCardNum() {
+        return bankCardNum;
+    }
+
+    public void setBankCardNum(String bankCardNum) {
+        this.bankCardNum = bankCardNum;
+    }
+
+    public int getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
+    }
+
     public boolean isChecked() {
         return checked;
     }
 
     public void setChecked(boolean checked) {
         this.checked = checked;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(bankCardName);
-        dest.writeString(bankCardNum);
-        dest.writeByte((byte) (checked ? 1 : 0));
     }
 }

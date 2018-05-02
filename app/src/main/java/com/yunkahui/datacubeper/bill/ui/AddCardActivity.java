@@ -73,7 +73,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                     mLogic.queryBankByCardId(AddCardActivity.this, s.toString(), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
-                            LogUtils.e("卡归属->" + baseBean.toString());
+                            LogUtils.e("卡归属->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 JSONObject object = baseBean.getJsonObject();
                                 JSONObject respData = object.optJSONObject("respData");
@@ -125,7 +125,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                             mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
                                 @Override
                                 public void onSuccess(BaseBean baseBean) {
-                                    LogUtils.e("添加卡->" + baseBean.toString());
+                                    LogUtils.e("添加卡->" + baseBean.getJsonObject().toString());
                                     if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                         finish();
                                     } else {

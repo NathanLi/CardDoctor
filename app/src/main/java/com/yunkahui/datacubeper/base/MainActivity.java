@@ -1,6 +1,5 @@
 package com.yunkahui.datacubeper.base;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
-import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.TintUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
@@ -40,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     private RadioButton mRbShare;
     private RadioButton mRbMine;
 
+    private int[] icons = {R.mipmap.ic_home_selected, R.mipmap.ic_bill_normal, R.mipmap.ic_card_test_normal,
+            R.mipmap.ic_share_normal, R.mipmap.ic_mine_normal};
     private ColorStateList mSelectColor;
     private ColorStateList mUnSelectedColor;
     private int lastPosition;
@@ -49,25 +46,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result == null) {
-            LogUtils.e("onCreate null");
-        } else {
-            LogUtils.e("onCreate not null");
-        }
-        if(result != null) {
-            if(result.getContents() == null) {
-                Toast.makeText(this, "扫码取消！", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     @Override
@@ -88,30 +66,24 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
 
     private void changeTabColor(int index, boolean isSelected) {
         RadioButton radioButton = mRbHome;
-        int res = R.mipmap.ic_home_selected;
         switch (index) {
             case 0:
                 radioButton = mRbHome;
-                res = R.mipmap.ic_home_selected;
                 break;
             case 1:
                 radioButton = mRbBill;
-                res = R.mipmap.ic_bill_normal;
                 break;
             case 2:
                 radioButton = mRbCardTest;
-                res = R.mipmap.ic_card_test_normal;
                 break;
             case 3:
                 radioButton = mRbShare;
-                res = R.mipmap.ic_share_normal;
                 break;
             case 4:
                 radioButton = mRbMine;
-                res = R.mipmap.ic_mine_normal;
                 break;
         }
-        radioButton.setCompoundDrawablesWithIntrinsicBounds(null, TintUtils.tintDrawable(getResources().getDrawable(res),
+        radioButton.setCompoundDrawablesWithIntrinsicBounds(null, TintUtils.tintDrawable(getResources().getDrawable(icons[index]),
                 isSelected ? mSelectColor : mUnSelectedColor), null, null);
     }
 

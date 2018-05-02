@@ -10,9 +10,11 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
+import com.yunkahui.datacubeper.home.ui.HomeWalletActivity;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
 import org.json.JSONObject;
@@ -37,11 +39,13 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         requestSharePageInfo();
     }
 
+    //******** 获取分享页面数据 ********
     private void requestSharePageInfo() {
         mShareLogic.requestSharePageInfo(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                try {
+                LogUtils.e("分享页面->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
                     if (respData != null) {
@@ -52,14 +56,14 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                         mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                         mTvMyCode.setText(respData.optString("userUniqueCode"));
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                Toast.makeText(mActivity, "获取分享页面数据失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -68,7 +72,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView1.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, WalletActivity.class)
+                startActivity(new Intent(mActivity, ShareWalletActivity.class)
                         .putExtra("from", "share"));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
@@ -112,7 +116,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 mShareLogic.createActivationCode(mActivity, new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
-                        LogUtils.e("生成激活码->" + baseBean.toString());
+                        LogUtils.e("生成激活码->" + baseBean.getJsonObject().toString());
                         Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                     }
 

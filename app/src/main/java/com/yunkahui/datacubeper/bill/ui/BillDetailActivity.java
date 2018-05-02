@@ -92,11 +92,13 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mLogic.getBillDetail(this, mCardId, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("账单详情->" + baseBean.toString());
+                LogUtils.e("账单详情->" + baseBean.getJsonObject().toString());
                 Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                mList.addAll(mLogic.handleData(baseBean, billDay));
-                LoadingViewDialog.getInstance().dismiss();
-                mAdapter.notifyDataSetChanged();
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mList.addAll(mLogic.handleData(baseBean, billDay));
+                    LoadingViewDialog.getInstance().dismiss();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -114,7 +116,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("账单头部->" + baseBean.toString());
+                LogUtils.e("账单头部->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject jsonObject = baseBean.getJsonObject();
                     JSONObject respData = jsonObject.optJSONObject("respData");
@@ -161,7 +163,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mLogic.signRepay(this, mCardId, mIsRepaid ? 0 : 1, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("标记->" + baseBean.toString());
+                LogUtils.e("标记->" + baseBean.getJsonObject().toString());
                 Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mIsRepaid = !mIsRepaid;

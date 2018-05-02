@@ -147,7 +147,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
-                        LogUtils.e("提交自动规划->" + baseBean.toString());
+                        LogUtils.e("提交自动规划->" + baseBean.getJsonObject().toString());
                         Toast.makeText(AutoPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                             finish();
@@ -197,7 +197,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                         @Override
                         public void onSuccess(BaseBean<GeneratePlan> baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            LogUtils.e("提交自动规划数据->" + baseBean.toString());
+                            LogUtils.e("提交自动规划数据->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
                                 mList.addAll(mLogic.parsingJSONForAutoPlan(baseBean));

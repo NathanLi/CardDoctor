@@ -91,12 +91,12 @@ public class TradeDetailsFragment extends BaseFragment {
         mAdapter.expandAll();
     }
 
-    //******** 获取交易记录全部数据 ********
+    //******** 获取交易详情 ********
     private void getTradeDetailsData() {
         mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("全部交易记录->" + baseBean.toString());
+                LogUtils.e("全部交易记录->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                     mList.addAll(mLogic.parsingJSONForTradeDetail(baseBean));

@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.home.adapter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -31,6 +32,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
 
         helper.setBackgroundRes(R.id.iv_icon, type.equals("消费") ? R.mipmap.ic_spending : R.mipmap.ic_repay);
         helper.setText(R.id.tv_title, type + " - " + bankCardName);
+        Log.e(TAG, "convert: "+type + " - " + bankCardName);
         //helper.setText(R.id.tv_msg, );
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", date));
         if ("10".equals(mIsPos)) {
@@ -50,7 +52,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
                 break;
             case "1":
                 status = "交易成功";
-                textColor = mContext.getResources().getColor(R.color.colorPrimary);
+                textColor = mContext.getResources().getColor(R.color.text_color_green_469705);
                 break;
             case "6":
                 status = "交易失败";

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
@@ -104,7 +105,7 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
         mLogic.checkBankCardName(this, mEditTextViewNewBankCard.getText(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("查询所属银行->" + baseBean.toString());
+                LogUtils.e("查询所属银行->" + baseBean.getJsonObject().toString());
                 JSONObject object = baseBean.getJsonObject();
                 if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                     String bankName = object.optJSONObject("respData").optString("bankName");
@@ -115,7 +116,7 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
 
             @Override
             public void onFailure(Throwable throwable) {
-                LogUtils.e("查询所属银行失败->" + throwable.toString());
+                Toast.makeText(UpdateSettleActivity.this, "查询所属银行失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

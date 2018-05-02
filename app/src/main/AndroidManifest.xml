@@ -51,12 +51,16 @@
         <activity android:name=".bill.ui.AddCardActivity" />
         <activity android:name=".home.ui.TodayOperationActivity" />
         <activity android:name=".share.ui.WebViewActivity" />
-        <activity android:name=".share.ui.WalletActivity" />
+        <activity android:name=".home.ui.HomeWalletActivity" />
+        <activity android:name=".home.ui.HomeProfitActivity" />
+        <activity android:name=".common.DispostResultActivity" />
+        <activity android:name=".home.ui.WithdrawForCardActivity" />
+        <activity android:name=".share.ui.WithdrawForZFBActivity" />
+        <activity android:name=".home.ui.RechargeForCardActivity" />
+        <activity android:name=".share.ui.RechargeForZFBActivity" />
         <activity android:name=".share.ui.TradeDetailActivity" />
-        <activity android:name=".home.ui.RechargeActivity" />
-        <activity android:name=".home.ui.WithdrawActivity" />
+        <activity android:name=".share.ui.ShareWalletActivity" />
         <activity android:name=".share.ui.ShareProfitActivity" />
-        <activity android:name=".share.ui.ProfitWithdrawalsActivity" />
         <activity android:name=".share.ui.MemberActivity" />
         <activity android:name=".mine.ui.EditPasswordActivity" />
         <activity android:name=".upgradeJoin.ui.UpgradeJoinActivity" />
@@ -81,7 +85,6 @@
         <activity android:name=".home.ui.TradeRecordActivity" />
         <activity android:name=".applypos.ui.UpLoadImageActivity" />
         <activity android:name=".home.ui.SingleRecordActivity" />
-        <activity android:name=".home.ui.HomeProfitActivity" />
         <activity android:name=".applypos.ui.PosManageActivity" />
         <activity android:name=".home.ui.RechargeSuccessActivity" />
         <activity android:name=".home.ui.WithdrawSuccessActivity" />
@@ -104,12 +107,13 @@
         <activity android:name=".bill.ui.BillDetailActivity" />
         <activity android:name=".bill.ui.AddTradeActivity" />
         <activity android:name=".bill.ui.BillSynchronousActivity" />
-        <service android:name=".bill.ui.BillSynchronousService"/>
-        <activity android:name=".home.ui.ScanActivity"
+
+        <service android:name=".bill.ui.BillSynchronousService" />
+        <activity
+            android:name=".home.ui.ScanActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

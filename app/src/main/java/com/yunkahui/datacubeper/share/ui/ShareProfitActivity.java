@@ -3,8 +3,6 @@ package com.yunkahui.datacubeper.share.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +35,7 @@ public class ShareProfitActivity extends AppCompatActivity implements IActivityS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, ProfitWithdrawalsActivity.class));
+                startActivity(new Intent(this, WithdrawForZFBActivity.class).putExtra("withdrawType", "01"));
                 break;
         }
         return super.onOptionsItemSelected(item);

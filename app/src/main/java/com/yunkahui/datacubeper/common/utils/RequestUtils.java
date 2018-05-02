@@ -28,7 +28,6 @@ public class RequestUtils {
         return new InnerParam(context);
     }
 
-
     /**
      * 拼接参数 加上user_id,key
      * @param map

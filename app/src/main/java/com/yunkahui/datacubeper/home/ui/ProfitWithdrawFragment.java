@@ -57,7 +57,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
         mLogic.getProfitWithdraw(mActivity, "withdraw_fenruns", 20, ++mCurrentPage, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("分润收入->" + baseBean.toString());
+                LogUtils.e("分润提现->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.toString())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                     mList.addAll(mLogic.parsingJSONForProfitWithdraw(baseBean));
@@ -69,7 +69,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取分润收入失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取分润提现失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

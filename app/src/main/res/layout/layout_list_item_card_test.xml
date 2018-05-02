@@ -114,10 +114,11 @@
             <Button
                 android:id="@+id/btn_run_test"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35pt"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="立刻测评"
+                android:background="@drawable/bg_circle_shape_blue"
                 android:textColor="@color/white" />
         </RelativeLayout>
 

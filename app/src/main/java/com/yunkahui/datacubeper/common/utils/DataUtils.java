@@ -15,6 +15,9 @@ public class DataUtils {
     private static PersonalInfo mInfo;
     private static Map<String, Integer> bankIconMap;
 
+    private static String mRealName;    //实名
+    private static String invitateCode;    //邀请码
+
     public static PersonalInfo getInfo() {
         return mInfo==null? new PersonalInfo():mInfo;
     }
@@ -25,6 +28,22 @@ public class DataUtils {
 
     public static void setBankIconMap(Map<String, Integer> bankIconMap) {
         DataUtils.bankIconMap = bankIconMap;
+    }
+
+    public static String getRealName() {
+        return mRealName == null ? "" : mRealName;
+    }
+
+    public static void setRealName(String mRealName) {
+        DataUtils.mRealName = mRealName;
+    }
+
+    public static String getInvitateCode() {
+        return invitateCode == null ? "" : invitateCode;
+    }
+
+    public static void setInvitateCode(String invitateCode) {
+        DataUtils.invitateCode = invitateCode;
     }
 
     public static Map<String, Integer> getBankIconMap() {

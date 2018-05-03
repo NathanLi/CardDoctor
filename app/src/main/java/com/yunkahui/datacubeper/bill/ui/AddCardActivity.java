@@ -23,7 +23,9 @@ import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.InfoFillView;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import org.json.JSONObject;
 
@@ -33,7 +35,6 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
 
     public static final int TYPE_ADD = 101;
     public static final int TYPE_EDIT = 102;
-
 
     private InfoFillView mInfoFillName;
     private InfoFillView mInfoFillCardNum;
@@ -46,20 +47,41 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
     private String mBankNameEn;
     private int mBillDay;
     private int mRepayDay;
+    private int mBankCardId;
+    private String mBankCardName;
+    private int mType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_add_card);
         super.onCreate(savedInstanceState);
-        setTitle("添加卡片");
+        mType = getIntent().getIntExtra("type", TYPE_ADD);
+        switch (mType) {
+            case TYPE_ADD:
+                setTitle("添加卡片");
+                break;
+            case TYPE_EDIT:
+                setTitle("修改卡片");
+                break;
+        }
+
     }
 
     @Override
     public void initData() {
         mLogic = new AddCardLogic();
         setOnClickListener();
-        mInfoFillName.setName(DataUtils.getInfo().getTruename());
+        mInfoFillName.setName(DataUtils.getRealName());
         mInfoFillCardNum.setCursorVisible(false);
+        mBankCardId = getIntent().getIntExtra("card_id",0);
+        String cardNum = getIntent().getStringExtra("card_number");
+        if (!TextUtils.isEmpty(cardNum)) {
+            mInfoFillCardNum.setText(cardNum);
+        }
+        mBankCardName=getIntent().getStringExtra("bank_card_name");
+        if(!TextUtils.isEmpty(mBankCardName)){
+            mInfoFillBankName.setDest(mBankCardName);
+        }
         mInfoFillCardNum.setOnEditTextTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -84,13 +106,13 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                                 mInfoFillBankName.setDest(respData.optString("bankName"));
                                 mBankNameEn = respData.optString("bankNameEn");
                             } else {
-                                Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            Toast.makeText(AddCardActivity.this, "获取卡归属失败", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(AddCardActivity.this, "获取卡归属失败", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -108,6 +130,72 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
         mBtnCommit = findViewById(R.id.btn_commit);
     }
 
+    private boolean check() {
+        if (TextUtils.isEmpty(mInfoFillCardNum.getEditText())) {
+            ToastUtils.show(getApplicationContext(), "请输入卡号");
+            return false;
+        }
+        if (TextUtils.isEmpty(mInfoFillBankName.getDest())) {
+            ToastUtils.show(getApplicationContext(), "发卡行识别有误");
+            return false;
+        }
+        if (mBillDay == 0) {
+            ToastUtils.show(getApplicationContext(), "请选择账单日");
+            return false;
+        }
+        if (mRepayDay == 0) {
+            ToastUtils.show(getApplicationContext(), "请选择还款日");
+            return false;
+        }
+        return true;
+    }
+
+    //添加卡片
+    private void addCard() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.addBankCard(AddCardActivity.this, mInfoFillCardNum.getEditText(), mInfoFillBankName.getDest(), mBankNameEn,
+                mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
+                    @Override
+                    public void onSuccess(BaseBean baseBean) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        LogUtils.e("添加卡->" + baseBean.getJsonObject().toString());
+                        ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        Toast.makeText(AddCardActivity.this, "添加卡片失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    //修改卡片
+    private void editCard() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.editCard(this, mInfoFillCardNum.getEditText(), mInfoFillBankName.getDest(), mInfoFillName.getName(), mBillDay, mRepayDay, mBankCardId, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
+            }
+        });
+    }
+
+
     private void setOnClickListener() {
         mInfoFillBill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,26 +212,16 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
         mBtnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.isEmpty(mBankNameEn)) {
-                    mLogic.addBankCard(AddCardActivity.this, mInfoFillCardNum.getEditText(), mInfoFillBankName.getDest(), mBankNameEn,
-                            mInfoFillName.getName(), mBillDay, mRepayDay, new SimpleCallBack<BaseBean>() {
-                                @Override
-                                public void onSuccess(BaseBean baseBean) {
-                                    LogUtils.e("添加卡->" + baseBean.getJsonObject().toString());
-                                    if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                                        finish();
-                                    } else {
-                                        Toast.makeText(AddCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Throwable throwable) {
-                                    Toast.makeText(AddCardActivity.this, "添加卡片失败", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                } else {
-                    Toast.makeText(AddCardActivity.this, "未能获取到对应银行卡信息", Toast.LENGTH_SHORT).show();
+                if (!check()) {
+                    return;
+                }
+                switch (mType) {
+                    case TYPE_ADD:
+                        addCard();
+                        break;
+                    case TYPE_EDIT:
+                        editCard();
+                        break;
                 }
             }
         });

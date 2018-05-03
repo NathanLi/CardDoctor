@@ -69,10 +69,12 @@
             android:text="3423534" />
 
         <TextView
-            android:layout_marginLeft="72pt"
             android:textSize="16pt"
             android:textColor="@color/white"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:text="推荐人：" />
 
@@ -82,6 +84,8 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="文艺范" />
     </LinearLayout>
 </LinearLayout>

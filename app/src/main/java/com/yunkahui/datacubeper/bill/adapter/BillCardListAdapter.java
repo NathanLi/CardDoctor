@@ -96,7 +96,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                                 .putExtra("time", item.getRepayDayDate())
                                 .putExtra("user_credit_card_id", item.getUserCreditCardId())
                                 .putExtra("bank_card_name", item.getBankCardName())
-                                .putExtra("bank_card_num", cardIdFormat));
+                                .putExtra("bank_card_num", item.getBankCardNum()));
                     }
                 });
             } else {

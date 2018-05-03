@@ -113,6 +113,10 @@ public class InfoFillView extends LinearLayout {
         mTvDest.setTextColor(color);
     }
 
+    public void setText(String text){
+        mEtInput.setText(text);
+    }
+
     public void setDest(String dest) {
         if (dest == null) {
             return;

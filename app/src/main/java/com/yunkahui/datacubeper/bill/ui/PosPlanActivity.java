@@ -34,8 +34,10 @@ import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
+import com.yunkahui.datacubeper.mine.ui.AddCashCardActivity;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeVipActivity;
 
 import java.util.ArrayList;
@@ -71,7 +73,9 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mSelectedTimeList = new ArrayList<>();
         mEtInputAmount.addTextChangedListener(new InnerTextChangeListener());
         mEtInputTimes.addTextChangedListener(new InnerTextChangeListener());
-        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"));
+        String card = getIntent().getStringExtra("bank_card_num");
+        String cardFormat = String.format(getResources().getString(R.string.bank_card_tail_num), card.substring(card.length() - 4, card.length()));
+        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), cardFormat);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -151,14 +155,13 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                            LogUtils.e("提交规划--》"+baseBean.getJsonObject().toString());
+                            LogUtils.e("提交规划--》" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 finish();
-                            } else if ("0214".equals(baseBean.getRespCode())) {
+                            } else if ("0265".equals(baseBean.getRespCode())) {
                                 showUpgradeJoinDialog(baseBean.getRespDesc());
-                            }else if("0265".equals(baseBean.getRespCode())){
-
+                            } else {
+                                ToastUtils.show(PosPlanActivity.this, baseBean.getRespDesc());
                             }
                         }
 
@@ -174,14 +177,19 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         }
     }
 
-    //******** 跳往升级会员页面 ********
+    //******** 跳往修改卡片 ********
     private void showUpgradeJoinDialog(String desc) {
         new AlertDialog.Builder(this)
                 .setMessage(desc)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(PosPlanActivity.this, UpgradeVipActivity.class));
+                        Intent intent = new Intent(PosPlanActivity.this, AddCardActivity.class);
+                        intent.putExtra("type", AddCardActivity.TYPE_EDIT);
+                        intent.putExtra("card_id", getIntent().getIntExtra("user_credit_card_id", 0));
+                        intent.putExtra("card_number", getIntent().getStringExtra("bank_card_num"));
+                        intent.putExtra("bank_card_name",getIntent().getStringExtra("bank_card_name"));
+                        startActivity(intent);
                         dialogInterface.dismiss();
                     }
                 })

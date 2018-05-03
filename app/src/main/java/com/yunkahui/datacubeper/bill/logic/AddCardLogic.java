@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class AddCardLogic {
 
-    public void queryBankByCardId(Context context, String bankCardNum, SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("bank_card_num",bankCardNum)
+    public void queryBankByCardId(Context context, String bankCardNum, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bank_card_num", bankCardNum)
                 .create();
         HttpManager.getInstance().create(ApiService.class).queryBankByCardId(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
@@ -23,7 +23,7 @@ public class AddCardLogic {
 
     public void addBankCard(Context context, String cardNum, String cardName, String cardBin, String cardHolder,
                             int billDay, int repayDay, SimpleCallBack<BaseBean> callBack) {
-        Map<String,String> params= RequestUtils.newParams(context)
+        Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bankcard_num", cardNum)
                 .addParams("bankcard_name", cardName)
                 .addParams("bankcard_bin", cardBin)
@@ -34,4 +34,19 @@ public class AddCardLogic {
         HttpManager.getInstance().create(ApiService.class).addBankCard(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    //修改信用卡
+    public void editCard(Context context, String cardNum, String bankCardName, String name, int billDay, int repayDay, int cardId, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bankcard_num", cardNum)
+                .addParams("bankcard_name", bankCardName)
+                .addParams("cardholder", name)
+                .addParams("bill_day", billDay)
+                .addParams("repay_day_date", repayDay)
+                .addParams("userbankcard_id", cardId)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).editCard(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
 }

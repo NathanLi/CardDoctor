@@ -136,7 +136,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
                 if(TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())){
                     ToastUtils.show(this,"暂无数据");
                 }else{
-                    startActivity(new Intent(this, QrShareActivity.class).putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
+                    startActivity(new Intent(this, QrShareActivity.class).putExtra("code", DataUtils.getInvitateCode()));
                 }
                 break;
         }

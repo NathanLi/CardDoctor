@@ -339,4 +339,8 @@ public interface ApiService {
     @POST("/app/user/setnewpsw_msg")        //忘记密码
     Observable<BaseBean> forgerPassword(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user_bankcard/edit_card")   //修改信用卡
+    Observable<BaseBean> editCard(@FieldMap Map<String,String> params);
+
 }

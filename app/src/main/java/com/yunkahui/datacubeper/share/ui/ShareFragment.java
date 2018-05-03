@@ -10,6 +10,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
@@ -61,6 +62,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                                 .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
                         mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                         mTvMyCode.setText(respData.optString("userUniqueCode"));
+                        DataUtils.setInvitateCode(respData.optString("userUniqueCode"));
                     }
                 } else {
                     Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();

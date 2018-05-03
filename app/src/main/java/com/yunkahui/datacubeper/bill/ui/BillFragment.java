@@ -40,6 +40,8 @@ import java.util.List;
 
 public class BillFragment extends BaseFragment implements View.OnClickListener {
 
+    private final int RESULT_CODE_ADD = 1001;
+
     private RecyclerView mRecyclerView;
     private View mLlPromptAddCard;
 
@@ -125,6 +127,13 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         return R.layout.fragment_bill;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK && requestCode == RESULT_CODE_ADD) {
+            getCreditCardList();
+        }
+    }
+
     //******** 查询信用卡列表 ********
     private void getCreditCardList() {
         mLogic.queryCreditCardList(mActivity, new SimpleCallBack<BaseBean<BillCreditCard>>() {
@@ -132,7 +141,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
                 LogUtils.e("账单->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    DataUtils.setRealName(baseBean.getRespData().getTrueName());
                     List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
+                    mList.clear();
                     if (details.size() > 0) {
                         mList.addAll(details);
                     } else {
@@ -168,8 +179,8 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         switch (object.optJSONObject("respData").optString("status")) {
                             case "1":
-                                DataUtils.getInfo().setTruename(object.optJSONObject("respData").optString("true_name"));
-                                startActivity(new Intent(mActivity, AddCardActivity.class));
+                                DataUtils.setRealName(object.optJSONObject("respData").optString("true_name"));
+                                startActivityForResult(new Intent(mActivity, AddCardActivity.class), RESULT_CODE_ADD);
                                 break;
                             default:
                                 ToastUtils.show(getActivity(), "请先实名认证");

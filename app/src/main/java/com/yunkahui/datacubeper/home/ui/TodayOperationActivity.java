@@ -42,8 +42,7 @@ public class TodayOperationActivity extends AppCompatActivity implements IActivi
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new TodayOperationFragment());
         fragments.add(new PlanListFragment());
-        String[] titles = {"", ""};
-        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, titles);
+        MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, null);
         mViewPager.setAdapter(mAdapter);
     }
 

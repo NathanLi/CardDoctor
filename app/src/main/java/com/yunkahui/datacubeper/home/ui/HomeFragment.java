@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         checkRealNameAuthStatus();
                         break;
                     case 103:
-                        startActivity(new Intent(getActivity(), UpgradeJoinActivity.class));
+                        startActivity(new Intent(mActivity, UpgradeJoinActivity.class));
                         break;
                     case 104:
                         ApplyPosActivity.startAction(getActivity());
@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         homeItemAdapter.bindToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(getActivity(), 4));
+        mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(mActivity, 4));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
@@ -133,12 +133,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mRecyclerView.setAdapter(homeItemAdapter);
     }
 
-    //******** 设置余额、分润 ********
+    //******** 获取余额、分润 ********
     private void initUserFinance() {
+        LoadingViewDialog.getInstance().show(mActivity);
         mLogic.loadUserFinance(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("余额、分润->" + baseBean.getJsonObject().toString());
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("余额分润->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
@@ -151,7 +153,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取余额、分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                LoadingViewDialog.getInstance().dismiss();
+                Toast.makeText(mActivity, "获取余额分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -159,8 +162,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     //查询实名认证状态
     private void checkRealNameAuthStatus() {
-        LoadingViewDialog.getInstance().show(getActivity());
-        new MineLogic().checkRealNameAuthStatus(getActivity(), new SimpleCallBack<BaseBean>() {
+        LoadingViewDialog.getInstance().show(mActivity);
+        new MineLogic().checkRealNameAuthStatus(mActivity, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
@@ -169,17 +172,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                     switch (object.optJSONObject("respData").optString("status")) {
                         case "0":
-                            startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                            startActivity(new Intent(mActivity, RealNameAuthActivity.class));
                             break;
                         case "1":
-                            ToastUtils.show(getActivity(), "已实名认证");
+                            ToastUtils.show(mActivity, "已实名认证");
                             break;
                         case "2":
-                            ToastUtils.show(getActivity(), "正在审核认证中");
+                            ToastUtils.show(mActivity, "正在审核认证中");
                             break;
                         case "3":
-                            ToastUtils.show(getActivity(), "审核认证不成功，请重新认证");
-                            startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                            ToastUtils.show(mActivity, "审核认证不成功，请重新认证");
+                            startActivity(new Intent(mActivity, RealNameAuthActivity.class));
                             break;
                     }
                 }
@@ -192,7 +195,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
     }
-
 
     @Override
     public void initView(View view) {
@@ -224,25 +226,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.text_view_qr_code:
                 if (TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())) {
-                    ToastUtils.show(getActivity(), "数据加载中...");
+                    ToastUtils.show(mActivity, "数据加载中...");
                 } else {
-                    startActivity(new Intent(mActivity, QrShareActivity.class).putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
+                    startActivity(new Intent(mActivity, QrShareActivity.class)
+                            .putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-//        if (result != null) {
-//            if (result.getContents() == null) {
-//                Toast.makeText(mActivity, "扫码取消！", Toast.LENGTH_LONG).show();
-//            } else {
-//                Toast.makeText(mActivity, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
-//            }
-//        } else {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
     }
 }

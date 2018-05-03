@@ -29,6 +29,7 @@ import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
 
@@ -86,15 +87,15 @@ public class DesignSubFragment extends BaseFragment {
                 break;
             case 3:
                 mIsPos = "10";
-                getSmartPlan(10, 1);
+                getPlanList(10, 1);
                 break;
             case 4:
                 mIsPos = "11";
-                getSmartPlan(10, 1);
+                getPlanList(10, 1);
                 break;
             case 5:
                 mIsPos = "other";
-                getSmartPlan(10, 1);
+                getPlanList(10, 1);
                 break;
         }
     }
@@ -128,7 +129,6 @@ public class DesignSubFragment extends BaseFragment {
                     } else if (!mIsTodayOperation && mSmartPlanSubList.size() > 0) {
                         mSmartPlanSubList.remove(adapterPosition);
                     }
-                    // TODO: 2018/4/27 0027 delete data from server
                     notifyDataSetChanged();
                 }
             };
@@ -175,7 +175,7 @@ public class DesignSubFragment extends BaseFragment {
                         getTodayOperation(10, ++mCurrentPage);
                     }
 //                    else {
-//                        getSmartPlan(10, 1);
+//                        getPlanList(10, 1);
 //                    }
                 }
             }
@@ -248,11 +248,13 @@ public class DesignSubFragment extends BaseFragment {
                 .show();
     }
 
-    //******** 查询智能规划数据 ********
-    private void getSmartPlan(int pageSize, int pageNum) {
-        mLogic.requestSmartPlan(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
+    //******** 查询规划列表 ********
+    private void getPlanList(int pageSize, int pageNum) {
+        LoadingViewDialog.getInstance().show(mActivity);
+        mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
             public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mSmartPlanSubList.addAll(baseBean.getRespData());
@@ -262,17 +264,20 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取智能规划数据失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                LoadingViewDialog.getInstance().dismiss();
+                Toast.makeText(mActivity, "获取智能规划失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    //******** 查询今日操作数据 ********
+    //******** 查询今日操作 ********
     private void getTodayOperation(int pageSize, int pageNum) {
+        LoadingViewDialog.getInstance().show(mActivity);
         mLogic.requestTodayOperation(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -284,7 +289,8 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(mActivity, "获取今日操作数据失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                LoadingViewDialog.getInstance().dismiss();
+                Toast.makeText(mActivity, "获取今日操作失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

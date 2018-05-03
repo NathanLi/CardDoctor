@@ -1,11 +1,13 @@
 package com.yunkahui.datacubeper.base;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -28,15 +30,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private ViewPager mViewPager;
-    private RadioGroup mRadioGroup;
-    private RadioButton mRbHome;
-    private RadioButton mRbBill;
-    private RadioButton mRbCardTest;
-    private RadioButton mRbShare;
-    private RadioButton mRbMine;
 
     private int[] icons = {R.mipmap.ic_home_selected, R.mipmap.ic_bill_normal, R.mipmap.ic_card_test_normal,
             R.mipmap.ic_share_normal, R.mipmap.ic_mine_normal};
+    private SparseArray<RadioButton> mRadioButtons;
     private ColorStateList mSelectColor;
     private ColorStateList mUnSelectedColor;
     private int lastPosition;
@@ -49,46 +46,25 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     }
 
     @Override
-    public int getStatusBarColor() {
-        return getResources().getColor(R.color.colorPrimary);
-    }
-
-    @Override
     public void initView() {
         mViewPager = findViewById(R.id.view_pager);
-        mRadioGroup = findViewById(R.id.radio_group);
-        mRbHome = findViewById(R.id.rb_home);
-        mRbBill = findViewById(R.id.rb_bill);
-        mRbCardTest = findViewById(R.id.rb_card_test);
-        mRbShare = findViewById(R.id.rb_share);
-        mRbMine = findViewById(R.id.rb_mine);
     }
 
     private void changeTabColor(int index, boolean isSelected) {
-        RadioButton radioButton = mRbHome;
-        switch (index) {
-            case 0:
-                radioButton = mRbHome;
-                break;
-            case 1:
-                radioButton = mRbBill;
-                break;
-            case 2:
-                radioButton = mRbCardTest;
-                break;
-            case 3:
-                radioButton = mRbShare;
-                break;
-            case 4:
-                radioButton = mRbMine;
-                break;
-        }
-        radioButton.setCompoundDrawablesWithIntrinsicBounds(null, TintUtils.tintDrawable(getResources().getDrawable(icons[index]),
-                isSelected ? mSelectColor : mUnSelectedColor), null, null);
+        Drawable tint = TintUtils.tintDrawable(getResources().getDrawable(icons[index]), isSelected ? mSelectColor : mUnSelectedColor);
+        mRadioButtons.get(index).setCompoundDrawablesWithIntrinsicBounds(null, tint, null, null);
     }
 
     @Override
     public void initData() {
+        mRadioButtons = new SparseArray<>();
+        mRadioButtons.put(0, (RadioButton) findViewById(R.id.rb_home));
+        mRadioButtons.put(1, (RadioButton) findViewById(R.id.rb_bill));
+        mRadioButtons.put(2, (RadioButton) findViewById(R.id.rb_card_test));
+        mRadioButtons.put(3, (RadioButton) findViewById(R.id.rb_share));
+        mRadioButtons.put(4, (RadioButton) findViewById(R.id.rb_mine));
+
+        ((RadioGroup) findViewById(R.id.radio_group)).setOnCheckedChangeListener(new InnerCheckChangeListener());
         mSelectColor = ColorStateList.valueOf(getResources().getColor(R.color.text_color_blue_0085ff));
         mUnSelectedColor = ColorStateList.valueOf(getResources().getColor(R.color.bg_color_gray_88888888));
 
@@ -104,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
         mViewPager.setOffscreenPageLimit(5);
-        mRadioGroup.setOnCheckedChangeListener(new InnerCheckChangeListener());
     }
 
     @Override
@@ -144,5 +119,10 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
             mViewPager.setCurrentItem(index);
             lastPosition = index;
         }
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 }

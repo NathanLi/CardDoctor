@@ -2,23 +2,14 @@ package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.DownloadListener;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
@@ -42,8 +33,6 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
         setTitle(title);
 
     }
-
-    private static final String TAG = "testweb";
 
     @Override
     public void initData() {

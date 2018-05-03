@@ -79,7 +79,7 @@
             android:id="@+id/button_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_recharge_button"
+            android:background="@drawable/bg_recharge_button_clickable"
             android:textSize="15sp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"

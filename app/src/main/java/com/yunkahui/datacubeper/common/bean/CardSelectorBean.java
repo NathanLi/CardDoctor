@@ -7,6 +7,8 @@ public class CardSelectorBean implements Parcelable{
 
     private String bankCardName;
     private String bankCardNum;
+    private String cardHolder;
+    private String bankCardTel;
     private int cardId;
     private boolean checked;
 
@@ -16,6 +18,8 @@ public class CardSelectorBean implements Parcelable{
     protected CardSelectorBean(Parcel in) {
         bankCardName = in.readString();
         bankCardNum = in.readString();
+        cardHolder = in.readString();
+        bankCardTel = in.readString();
         cardId = in.readInt();
         checked = in.readByte() != 0;
     }
@@ -24,6 +28,8 @@ public class CardSelectorBean implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(bankCardName);
         dest.writeString(bankCardNum);
+        dest.writeString(cardHolder);
+        dest.writeString(bankCardTel);
         dest.writeInt(cardId);
         dest.writeByte((byte) (checked ? 1 : 0));
     }
@@ -75,5 +81,21 @@ public class CardSelectorBean implements Parcelable{
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public String getCardHolder() {
+        return cardHolder;
+    }
+
+    public void setCardHolder(String cardHolder) {
+        this.cardHolder = cardHolder;
+    }
+
+    public String getBankCardTel() {
+        return bankCardTel;
+    }
+
+    public void setBankCardTel(String bankCardTel) {
+        this.bankCardTel = bankCardTel;
     }
 }

@@ -34,8 +34,8 @@ public class LoadingViewDialog extends DialogFragment {
 
 
     public static LoadingViewDialog getInstance() {
-        if(mViewDialog==null){
-            mViewDialog=new LoadingViewDialog();
+        if (mViewDialog == null) {
+            mViewDialog = new LoadingViewDialog();
         }
         return mViewDialog;
     }
@@ -48,9 +48,9 @@ public class LoadingViewDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        Window window=getDialog().getWindow();
-        WindowManager.LayoutParams layoutParams=window.getAttributes();
-        layoutParams.dimAmount=0.0f;
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        layoutParams.dimAmount = 0.0f;
         window.setAttributes(layoutParams);
     }
 
@@ -62,11 +62,11 @@ public class LoadingViewDialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().setCanceledOnTouchOutside(false);
 
-        View view=inflater.inflate(R.layout.layout_loading_view,null);
-        mAVLoadingIndicatorView=view.findViewById(R.id.av_loading_view);
-        mTextViewTitle=view.findViewById(R.id.text_view_loading_title);
+        View view = inflater.inflate(R.layout.layout_loading_view, null);
+        mAVLoadingIndicatorView = view.findViewById(R.id.av_loading_view);
+        mTextViewTitle = view.findViewById(R.id.text_view_loading_title);
 
-        if(!TextUtils.isEmpty(mTitle)){
+        if (!TextUtils.isEmpty(mTitle)) {
             mTextViewTitle.setText(mTitle);
         }
         return view;
@@ -79,21 +79,22 @@ public class LoadingViewDialog extends DialogFragment {
     }
 
 
-    public void setTitle(String title){
-        mTitle=title;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
-    public void show(Activity activity){
-        if(mAVLoadingIndicatorView!=null){
-            if(mAVLoadingIndicatorView.getVisibility()==View.GONE){
+    public void show(Activity activity) {
+        if (mAVLoadingIndicatorView != null) {
+            if (mAVLoadingIndicatorView.getVisibility() == View.GONE) {
                 mAVLoadingIndicatorView.setVisibility(View.VISIBLE);
             }
             mAVLoadingIndicatorView.show();
         }
-        super.show(activity.getFragmentManager(),"LoadingViewDialog");
+        super.show(activity.getFragmentManager(), "LoadingViewDialog");
     }
-    public void dismiss(){
-        if(mAVLoadingIndicatorView!=null){
+
+    public void dismiss() {
+        if (mAVLoadingIndicatorView != null) {
             mAVLoadingIndicatorView.hide();
         }
         super.dismiss();
@@ -101,7 +102,7 @@ public class LoadingViewDialog extends DialogFragment {
 
     @Override
     public void onDestroyView() {
-        if(mAVLoadingIndicatorView!=null){
+        if (mAVLoadingIndicatorView != null) {
             mAVLoadingIndicatorView.hide();
         }
         super.onDestroyView();

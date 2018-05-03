@@ -43,7 +43,7 @@
         android:id="@+id/btn_add_credit_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_recharge_button"
+        android:background="@drawable/bg_recharge_button_clickable"
         android:layout_margin="16pt"
         android:text="+ 添加信用卡"
         android:textColor="@color/white"

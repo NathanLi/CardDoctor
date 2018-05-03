@@ -1,30 +1,24 @@
 package com.yunkahui.datacubeper.home.logic;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
-import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
-import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ProfitWithdrawLogic {
 
+    //******** 查询分润提现 ********
     public void getProfitWithdraw(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pdType", pdType)

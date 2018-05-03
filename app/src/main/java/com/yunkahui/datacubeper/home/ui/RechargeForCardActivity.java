@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
     private TextView mTvUserBalance;
     private EditText mEtInputMoney;
     private TextView mTvCardSelected;
+    private Button mBtnCommit;
 
     private RechargeLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
@@ -82,6 +84,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
         mTvUserBalance = findViewById(R.id.tv_user_balance);
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
+        mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.ll_show_dialog).setOnClickListener(this);
         findViewById(R.id.btn_commit).setOnClickListener(this);
@@ -152,6 +155,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
             public void onCheckedChange(CardSelectorBean bean) {
                 mBindId = String.valueOf(bean.getCardId());
                 String cardNum = bean.getBankCardNum();
+                mBtnCommit.setEnabled(true);
                 mTvCardSelected.setText(bean.getBankCardName() + String.format(getResources().getString(R.string.bank_card_tail_num), cardNum.substring(cardNum.length() - 4, cardNum.length())));
             }
         });

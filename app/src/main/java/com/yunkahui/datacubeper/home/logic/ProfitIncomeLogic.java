@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class ProfitIncomeLogic {
 
+    //******** 查询分润收入 ********
     public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))

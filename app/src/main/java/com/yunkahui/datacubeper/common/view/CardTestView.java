@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
  */
 public class CardTestView extends FrameLayout {
 
-    private static final String TAG = "ViewTestCard";
     private String[] scaleValue = {"0", "10", "20", "30", "40", "较差", "中等", "良好", "优秀", "极好", "100"};
     private int radius = 14;
     private ScoreView scoreView;

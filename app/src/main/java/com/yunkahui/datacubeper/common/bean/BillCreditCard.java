@@ -8,6 +8,7 @@ public class BillCreditCard {
     private int planCount;
     private String avatarUrl;
     private int cardCount;
+    private int payOffCount;
     private List<CreditCard> cardDetail;
 
     public static class CreditCard {
@@ -272,6 +273,14 @@ public class BillCreditCard {
 
     public List<CreditCard> getCardDetail() {
         return cardDetail;
+    }
+
+    public int getPayOffCount() {
+        return payOffCount;
+    }
+
+    public void setPayOffCount(int payOffCount) {
+        this.payOffCount = payOffCount;
     }
 
     public void setCardDetail(List<CreditCard> cardDetail) {

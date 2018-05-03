@@ -250,21 +250,17 @@ public class DesignSubFragment extends BaseFragment {
 
     //******** 查询规划列表 ********
     private void getPlanList(int pageSize, int pageNum) {
-        LoadingViewDialog.getInstance().show(mActivity);
         mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
             public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
-                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mSmartPlanSubList.addAll(baseBean.getRespData());
                     notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(mActivity, "获取智能规划失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -272,12 +268,10 @@ public class DesignSubFragment extends BaseFragment {
 
     //******** 查询今日操作 ********
     private void getTodayOperation(int pageSize, int pageNum) {
-        LoadingViewDialog.getInstance().show(mActivity);
         mLogic.requestTodayOperation(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
-                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -289,7 +283,6 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(mActivity, "获取今日操作失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -44,6 +44,10 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private View mLlPromptAddCard;
+    private TextView mTvCardCount;
+    private TextView mTvRepayCount;
+    private TextView mTvUnRepayCount;
+    private TextView mTextViewPlan;
 
     private BillLogic mLogic;
     private BillCardListAdapter mAdapter;
@@ -76,9 +80,10 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mAdapter = new BillCardListAdapter(mActivity, R.layout.layout_list_item_bill_card, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_bill, null);
-        TextView tvCardCount = headerView.findViewById(R.id.tv_card_count);
-        TextView tvRepayCount = headerView.findViewById(R.id.tv_repay_count);
-        TextView tvUnRepayCount = headerView.findViewById(R.id.tv_unrepay_count);
+        mTvCardCount = headerView.findViewById(R.id.tv_card_count);
+        mTvRepayCount = headerView.findViewById(R.id.tv_repay_count);
+        mTvUnRepayCount = headerView.findViewById(R.id.tv_unrepay_count);
+        mTextViewPlan = headerView.findViewById(R.id.text_view_plan);
         headerView.findViewById(R.id.btn_today_operation).setOnClickListener(this);
         mAdapter.addHeaderView(headerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -143,10 +148,19 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     DataUtils.setRealName(baseBean.getRespData().getTrueName());
                     List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
-                    mList.clear();
-                    if (details.size() > 0) {
-                        mList.addAll(details);
-                    } else {
+                    mTextViewPlan.setText(baseBean.getRespData().getPlanCount() + "");
+                    mTvCardCount.setText(baseBean.getRespData().getCardCount() + "");
+                    mTvRepayCount.setText(baseBean.getRespData().getPayOffCount() + "");
+                    mTvUnRepayCount.setText(baseBean.getRespData().getCardCount() - baseBean.getRespData().getPayOffCount() + "");
+                    if (details != null) {
+                        mList.clear();
+                        if (details.size() > 0) {
+                            mList.addAll(details);
+                        } else {
+                            mList.add(null);
+                            mLlPromptAddCard.setVisibility(View.VISIBLE);
+                        }
+                    }else{
                         mList.add(null);
                         mLlPromptAddCard.setVisibility(View.VISIBLE);
                     }

@@ -74,7 +74,9 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_smart_plan:
-                onClickSmartPlanListener.onClickSmartPlan();
+                if(onClickSmartPlanListener!=null){
+                    onClickSmartPlanListener.onClickSmartPlan();
+                }
                 break;
             case R.id.iv_arrow_extend:
                 mIvArrowExtend.setVisibility(INVISIBLE);

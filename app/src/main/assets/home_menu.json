@@ -46,12 +46,12 @@
   },
   {
     "title": "贷款专区",
-    "icon": "ic_apply_pos",
+    "icon": "ic_loan_zone",
     "id": 110
   },
   {
     "title": "银行资讯",
-    "icon": "ic_apply_pos",
+    "icon": "ic_bank_information",
     "id": 111
   },
   {

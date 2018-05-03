@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.applypos.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,18 +13,20 @@ import com.yunkahui.datacubeper.applypos.logic.PosManageLogic;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleTextView;
+import com.yunkahui.datacubeper.home.logic.HomeLogic;
 
 import org.json.JSONObject;
 
 //POS管理
 public class PosManageActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
-    private final int RESULT_CODE_UPDATE=1001;
+    private final int RESULT_CODE_UPDATE = 1001;
 
     private SimpleTextView mSimpleTextViewBusinessNumber;
     private SimpleTextView mSimpleTextViewTerminalNumber;
@@ -49,6 +52,49 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
         super.onCreate(savedInstanceState);
         setTitle("POS管理");
     }
+
+    /**
+     * 跳转前置
+     */
+    public static void startAction(Activity activity) {
+        checkApplyPosStatus(activity);
+    }
+
+    //跳转前查询POS开通状态
+    private static void checkApplyPosStatus(final Activity activity) {
+        LoadingViewDialog.getInstance().show(activity);
+        new HomeLogic().checkPosApplyStatus(activity, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("POS状态->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    JSONObject json = object.optJSONObject("respData");
+                    DataUtils.getInfo().setTruename(json.optString("truename"));
+                    switch (json.optString("tua_status")) {
+                        case "7":   //完成
+                        case "12":
+                        case "13":
+                        case "14":
+                            Intent intent = new Intent(activity, PosManageActivity.class);
+                            activity.startActivity(intent);
+                            break;
+                        default:
+                            ToastUtils.show(activity.getApplicationContext(), "请先申请POS终端");
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(activity.getApplicationContext(), "请求失败 " + throwable.toString());
+            }
+        });
+    }
+
 
     @Override
     public void initData() {
@@ -84,7 +130,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
     }
 
 
-    private void updateData(PosApplyInfo info){
+    private void updateData(PosApplyInfo info) {
 
         mSimpleTextViewBusinessNumber.setText(info.getMerchant_number());
         mSimpleTextViewTerminalNumber.setText(info.getTerminal_number());
@@ -92,13 +138,13 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
         mSimpleTextViewIdType.setText("身份证");
         mSimpleTextViewIdCard.setText(info.getLegal_identity_num());
         mSimpleTextViewPhone.setText(info.getLegal_phone());
-        mSimpleTextViewApplyArea.setText(info.getLegal_province()+"-"+info.getLegal_city());
+        mSimpleTextViewApplyArea.setText(info.getLegal_province() + "-" + info.getLegal_city());
         mSimpleTextViewBusAddress.setText(info.getManage_address());
 
         mSimpleTextViewAccountName.setText(info.getUser_name());
         mSimpleTextViewBankCardNumber.setText(info.getBank_card_num());
         mSimpleTextViewBankCardName.setText(info.getBank_card_name());
-        mSimpleTextViewBranchAddress.setText(info.getDeposit_province()+"-"+info.getDeposit_city());
+        mSimpleTextViewBranchAddress.setText(info.getDeposit_province() + "-" + info.getDeposit_city());
         mSimpleTextViewBranch.setText(info.getDeposit_bank());
         mSimpleTextViewBranchNumber.setText(info.getCouplet_num());
 
@@ -112,15 +158,16 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
             public void onSuccess(BaseBean<PosApplyInfo> baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("POS管理->" + baseBean.getJsonObject().toString());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    mApplyInfo=baseBean.getRespData();
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mApplyInfo = baseBean.getRespData();
                     updateData(baseBean.getRespData());
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
     }
@@ -128,25 +175,25 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==RESULT_OK&&requestCode==RESULT_CODE_UPDATE){
+        if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
             loadData();
         }
     }
 
     //检查POS申请状态
-    private void checkPosStatus(){
+    private void checkPosStatus() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.checkPosApplyStatus(this, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                JSONObject object=baseBean.getJsonObject();
-                if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                    switch (object.optJSONObject("respData").optString("tua_status")){
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    switch (object.optJSONObject("respData").optString("tua_status")) {
                         case "7":  //pos申请完成
                         case "13":  //pos结算信息修改审核通过
-                            Intent intent=new Intent(PosManageActivity.this,UpdateSettleActivity.class);
-                            intent.putExtra("name",mApplyInfo.getUser_name());
+                            Intent intent = new Intent(PosManageActivity.this, UpdateSettleActivity.class);
+                            intent.putExtra("name", mApplyInfo.getUser_name());
                             startActivity(intent);
                             break;
                         case "12":  //pos结算信息修改审核中
@@ -154,7 +201,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                         case "14":  //pos结算信息修改审核不通过
                             break;
                         default:
-                            ToastUtils.show(getApplicationContext(),"暂未开放");
+                            ToastUtils.show(getApplicationContext(), "暂未开放");
                             break;
                     }
                 }
@@ -163,7 +210,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
 
@@ -172,11 +219,11 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.simple_text_view_apply_phone:
-                Intent intent=new Intent(this,UpdateApplyPhoneActivity.class);
-                intent.putExtra("phone",mApplyInfo.getLegal_phone());
-                startActivityForResult(intent,RESULT_CODE_UPDATE);
+                Intent intent = new Intent(this, UpdateApplyPhoneActivity.class);
+                intent.putExtra("phone", mApplyInfo.getLegal_phone());
+                startActivityForResult(intent, RESULT_CODE_UPDATE);
                 break;
             case R.id.simple_text_view_bank_card_number:
                 checkPosStatus();

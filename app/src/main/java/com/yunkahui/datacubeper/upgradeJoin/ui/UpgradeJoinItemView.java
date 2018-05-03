@@ -84,14 +84,29 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
             mTextViewSubTitle.setText(vipPackage.getShortDesc());
             mTextViewIconTitle.setText((vipPackage.getPrice() + "").split("\\.")[0] + "元");
             mTextViewIconSubTitle.setText(vipPackage.getAlias());
-            if ("00".equals(vipPackage.getOpenState())) {
-                mTextViewSubmit.setText("开通");
-                mTextViewSubmit.setEnabled(true);
-            } else if ("01".equals(vipPackage.getOpenState())) {
-                mTextViewSubmit.setText("已开通");
-                mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
-                mTextViewSubmit.setEnabled(false);
+
+            switch (vipPackage.getOpenState()) {
+                case "00":
+                    mTextViewSubmit.setText("开通");
+                    mTextViewSubmit.setEnabled(true);
+                    break;
+                case "01":
+                    mTextViewSubmit.setText("申请中");
+                    mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
+                    mTextViewSubmit.setEnabled(false);
+                    break;
+                case "02":
+                    mTextViewSubmit.setText("已开通");
+                    mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
+                    mTextViewSubmit.setEnabled(false);
+                    break;
+                case "03":
+                    mTextViewSubmit.setText("已禁止");
+                    mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
+                    mTextViewSubmit.setEnabled(false);
+                    break;
             }
+
         }
     }
 

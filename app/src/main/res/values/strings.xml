@@ -6,7 +6,10 @@
     <string name="share">分享</string>
     <string name="mine">我的</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="org_number">Y1000000001</string>
+    <string name="service_agreement">《卡医生服务协议》</string>
+    <string name="share_policy_1"><![CDATA[ 邀请您的好友升级VIP可获得<font color="#000000">100元直接奖励+交易分润万分之10</font> ]]></string>
+    <string name="share_policy_2"><![CDATA[ 您好友邀请好友升级VIP，您可获得<font color="#000000">50元间接奖励+交易分润万分之5</font> ]]></string>
+    <string name="org_number">Y1000000006</string>
 
     <!--升级加盟-->
     <string name="upgrade_mess">升级VIP会员，享受卡医生所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
@@ -90,7 +93,6 @@
     <string name="money_format">%1$d元</string>
     <string name="num_format">%1$d笔</string>
     <string name="time_format">%1$d年%2$d月%3$d日 - %4$d年%5$d月%6$d日</string>
-    <string name="service_agreement">《卡医生服务协议》</string>
     <string name="commit">提交</string>
     <string name="date_format">%1$s 至 %2$s</string>
     <string name="year_month_day">%1$04d-%2$02d-%3$02d</string>

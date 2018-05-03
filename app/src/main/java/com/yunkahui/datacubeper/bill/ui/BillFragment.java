@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,10 +19,17 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.bill.logic.BillLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.TodayOperationActivity;
+import com.yunkahui.datacubeper.mine.logic.MineLogic;
+import com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +84,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mList.get(position) == null) {
+                    return;
+                }
                 switch (view.getId()) {
                     case R.id.btn_bill_sync:
                         List<String> tabs = new ArrayList<>();
@@ -100,7 +111,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 .setRightIconClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(mActivity, AddCardActivity.class));
+                        checkRealNameAuthStatus();
                     }
                 });
         toolbar.setTitleName(getString(R.string.bill));
@@ -130,7 +141,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                     }
                     mAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                    mList.add(null);
+                    mAdapter.notifyDataSetChanged();
+                    mLlPromptAddCard.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -142,11 +155,45 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         });
     }
 
+    //查询实名认证状态
+    private void checkRealNameAuthStatus() {
+        LoadingViewDialog.getInstance().show(getActivity());
+        new MineLogic().checkRealNameAuthStatus(getActivity(), new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态->" + baseBean.getJsonObject().toString());
+                try {
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        switch (object.optJSONObject("respData").optString("status")) {
+                            case "1":
+                                DataUtils.getInfo().setTruename(object.optJSONObject("respData").optString("true_name"));
+                                startActivity(new Intent(mActivity, AddCardActivity.class));
+                                break;
+                            default:
+                                ToastUtils.show(getActivity(), "请先实名认证");
+                                break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("查询实名认证状态失败->" + throwable.toString());
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_bind_card:
-                startActivity(new Intent(mActivity, AddCardActivity.class));
+                checkRealNameAuthStatus();
                 break;
             case R.id.btn_today_operation:
                 startActivity(new Intent(mActivity, TodayOperationActivity.class));

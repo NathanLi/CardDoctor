@@ -97,7 +97,6 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override

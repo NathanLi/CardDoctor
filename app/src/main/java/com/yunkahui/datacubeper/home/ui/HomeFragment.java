@@ -1,7 +1,9 @@
 package com.yunkahui.datacubeper.home.ui;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -76,7 +78,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(new Intent(mActivity, UpgradeJoinActivity.class));
                         break;
                     case 104:
-                        checkApplyPosStatus();
+                        ApplyPosActivity.startAction(getActivity());
                         break;
                     case 105:
                         startActivity(new Intent(mActivity, WebViewActivity.class)
@@ -121,6 +123,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         });
         homeItemAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new NotScrollGridLayoutManager(mActivity, 4));
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+                outRect.right = 3;
+                outRect.bottom = 3;
+            }
+        });
         mRecyclerView.setAdapter(homeItemAdapter);
     }
 
@@ -183,54 +192,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("查询实名认证状态失败->" + throwable.toString());
-            }
-        });
-    }
-
-    //查询POS开通状态
-    private void checkApplyPosStatus() {
-        LoadingViewDialog.getInstance().show(mActivity);
-        mLogic.checkPosApplyStatus(mActivity, new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("POS状态->" + baseBean.getJsonObject().toString());
-                JSONObject object = baseBean.getJsonObject();
-                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
-                    JSONObject json = object.optJSONObject("respData");
-                    DataUtils.getInfo().setTruename(json.optString("truename"));
-                    if (!"1".equals(json.optString("identify_status"))) {
-                        ToastUtils.show(getActivity(), "请先实名认证");
-                    } else if (!"1".equals(json.optString("VIP_status"))) {
-                        ToastUtils.show(getActivity(), "请先升级VIP");
-                    } else {
-                        switch (json.optString("tua_status")) {
-                            case "-1":  //落地POS没开通
-                                ToastUtils.show(getActivity(), "请先开通落地POS");
-                                break;
-                            case "0":   //已付款
-                            case "1":   //审核中
-                            case "2":   //审核通过
-                            case "3":   //审核不通过
-                            case "4":   //审核关闭
-                            case "5":   //已寄出
-                            case "9":   //手持POS照片提交成功
-                            case "10":  //手持POS照片审核通过
-                            case "11":  //手持POS照片审核不通过
-                            case "7":   //完成
-                                Intent intent = new Intent(mActivity, ApplyPosActivity.class);
-                                intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
-                                startActivity(intent);
-                                break;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(mActivity.getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
     }

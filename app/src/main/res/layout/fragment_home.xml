@@ -38,7 +38,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="270pt" />
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color_gray_f5f5f5"
+                android:padding="1dp"/>
 
             <ImageView
                 android:id="@+id/iv_save_credit_card"

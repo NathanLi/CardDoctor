@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +33,15 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
     private ShareLogic mShareLogic;
     private TextView mTvRestCode;
     private TextView mTvMyCode;
+    private TextView mTextViewPolicy1;
+    private TextView mTextViewPolicy2;
 
     @Override
     public void initData() {
         mShareLogic = new ShareLogic();
+        mTextViewPolicy1.setText(Html.fromHtml(getResources().getString(R.string.share_policy_1)));
+        mTextViewPolicy2.setText(Html.fromHtml(getResources().getString(R.string.share_policy_2)));
+
         initListener();
         requestSharePageInfo();
     }
@@ -104,6 +110,8 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView2 = view.findViewById(R.id.double_block_view_2);
         mTvRestCode = view.findViewById(R.id.tv_rest_code);
         mTvMyCode = view.findViewById(R.id.tv_my_code);
+        mTextViewPolicy1 = view.findViewById(R.id.text_view_share_policy_1);
+        mTextViewPolicy2 = view.findViewById(R.id.text_view_share_policy_2);
 
         view.findViewById(R.id.btn_produce_code).setOnClickListener(this);
         view.findViewById(R.id.tv_link_share).setOnClickListener(this);
@@ -131,13 +139,18 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 });
                 break;
             case R.id.tv_link_share:
-                startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://www.yunkahui.cn/zbl_web/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim()));
+                startActivity(new Intent(mActivity, WebViewActivity.class)
+                        .putExtra("title","链接分享")
+                        .putExtra("url", "http://www.yunkahui.cn/zbl_web/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim()));
                 break;
             case R.id.tv_qr_share:
-                startActivity(new Intent(mActivity, QrShareActivity.class).putExtra("code", mTvMyCode.getText().toString()));
+                startActivity(new Intent(mActivity, QrShareActivity.class)
+                        .putExtra("code", mTvMyCode.getText().toString()));
                 break;
             case R.id.tv_vip_course:
-                startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));
+                startActivity(new Intent(mActivity, WebViewActivity.class)
+                        .putExtra("title","VIP教程")
+                        .putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));
                 break;
         }
     }

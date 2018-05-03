@@ -259,8 +259,6 @@ public class DesignSubFragment extends BaseFragment {
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mSmartPlanSubList.addAll(baseBean.getRespData());
                     notifyDataSetChanged();
-                } else {
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -286,8 +284,6 @@ public class DesignSubFragment extends BaseFragment {
                     mAllPages = baseBean.getRespData().getPages();
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
                     notifyDataSetChanged();
-                } else {
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 

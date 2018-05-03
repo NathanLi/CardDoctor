@@ -60,7 +60,7 @@ public class PosPlanLogic {
                     item.setType(0);
                     item.setGroup(y);
                     item.setSection(z);
-                    GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(0);
+                    GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(z);
                     item.setMoney(consumptionBean.getMoney());
                     item.setTimeStamp(consumptionBean.getTime());
                     item.setMccType(consumptionBean.getMccType());

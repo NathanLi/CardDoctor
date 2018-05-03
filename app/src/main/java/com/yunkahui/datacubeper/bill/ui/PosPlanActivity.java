@@ -32,6 +32,7 @@ import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.GeneratePlanItem;
 import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
@@ -151,10 +152,13 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
                             Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                            LogUtils.e("提交规划--》"+baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 finish();
                             } else if ("0214".equals(baseBean.getRespCode())) {
                                 showUpgradeJoinDialog(baseBean.getRespDesc());
+                            }else if("0265".equals(baseBean.getRespCode())){
+
                             }
                         }
 
@@ -226,6 +230,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                             LoadingViewDialog.getInstance().dismiss();
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
+                                mList.clear();
                                 mList.addAll(mLogic.parsingJSONForPosPlan(baseBean));
                                 mAdapter.notifyDataSetChanged();
                             } else {
@@ -276,7 +281,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         int amount = Integer.parseInt(data.getStringExtra("amount"));
         GeneratePlanItem item = mList.get(mLastClickPosition);
         item.setMoney(amount);
-        GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(0).getDetails().get(item.getSection());
+        GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(item.getGroup()).getDetails().get(0);
         if ("repay".equals(data.getStringExtra("type"))) {
             detailsBean.getRepayment().setMoney(amount);
         } else if ("expense".equals(data.getStringExtra("type"))) {

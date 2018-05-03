@@ -55,7 +55,7 @@
                 android:layout_height="19pt"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/default_content_description"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_icon_bar_code" />
 
             <TextView
                 android:id="@+id/tv_rest_activation_code_text"
@@ -78,7 +78,7 @@
                 android:layout_toEndOf="@id/tv_rest_activation_code_text"
                 android:layout_toRightOf="@id/tv_rest_activation_code_text"
                 android:text="3000"
-                android:textColor="@color/black"
+                android:textColor="@color/bg_color_orange_ff5a00"
                 android:textSize="17pt" />
 
             <TextView
@@ -141,24 +141,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16pt"
-            android:layout_marginLeft="20pt"
-            android:layout_marginRight="20pt"
-            android:layout_marginTop="16pt">
-
-            <ImageView
-                android:layout_width="20pt"
-                android:layout_height="20pt"
-                android:background="@mipmap/ic_launcher"
-                android:contentDescription="@string/default_content_description" />
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt"
+            android:layout_marginTop="16pt"
+            android:background="@drawable/bg_dotted_line"
+            android:orientation="vertical"
+            android:padding="10pt">
 
             <TextView
+                android:id="@+id/text_view_share_policy_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12pt"
-                android:layout_marginStart="12pt"
-                android:text="查看更多奖励、分润、升级、加盟政策   >>"
-                android:textColor="@color/line_blue_23a2fd"
-                android:textSize="14pt" />
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/text_view_share_policy_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10pt"
+                android:textSize="10pt" />
+
         </LinearLayout>
 
         <View
@@ -169,9 +171,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10pt"
-            android:layout_marginRight="10pt"
-            android:layout_marginTop="24pt">
+            android:layout_marginBottom="20pt"
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt"
+            android:layout_marginTop="20pt">
 
             <TextView
                 android:id="@+id/tv_link_share"
@@ -179,39 +182,54 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:padding="10pt"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
                 android:text="@string/link_share"
                 android:textColor="@color/bg_color_orange_ff5a00"
-                android:textSize="17pt" />
+                android:textSize="15pt" />
 
             <TextView
                 android:id="@+id/tv_qr_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10pt"
-                android:layout_marginStart="10pt"
+                android:layout_marginLeft="20pt"
+                android:layout_marginStart="20pt"
                 android:layout_weight="1"
                 android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:padding="10pt"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
                 android:text="@string/qr_share"
                 android:textColor="@color/bg_color_orange_ff5a00"
-                android:textSize="17pt" />
+                android:textSize="15pt" />
 
             <TextView
                 android:id="@+id/tv_vip_course"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10pt"
-                android:layout_marginStart="10pt"
+                android:layout_marginLeft="20pt"
+                android:layout_marginStart="20pt"
                 android:layout_weight="1"
                 android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:padding="10pt"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
                 android:text="@string/vip_course"
                 android:textColor="@color/bg_color_orange_ff5a00"
-                android:textSize="17pt" />
+                android:textSize="15pt" />
 
         </LinearLayout>
 

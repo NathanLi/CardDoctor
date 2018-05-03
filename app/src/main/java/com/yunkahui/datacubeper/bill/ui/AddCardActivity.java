@@ -31,6 +31,10 @@ import java.util.ArrayList;
 
 public class AddCardActivity extends AppCompatActivity implements IActivityStatusBar {
 
+    public static final int TYPE_ADD = 101;
+    public static final int TYPE_EDIT = 102;
+
+
     private InfoFillView mInfoFillName;
     private InfoFillView mInfoFillCardNum;
     private InfoFillView mInfoFillBankName;
@@ -54,7 +58,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
     public void initData() {
         mLogic = new AddCardLogic();
         setOnClickListener();
-        mInfoFillName.setName(DataUtils.getInfo().getParent_name());
+        mInfoFillName.setName(DataUtils.getInfo().getTruename());
         mInfoFillCardNum.setCursorVisible(false);
         mInfoFillCardNum.setOnEditTextTouchListener(new View.OnTouchListener() {
             @Override

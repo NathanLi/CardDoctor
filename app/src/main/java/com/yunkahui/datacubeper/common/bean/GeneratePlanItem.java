@@ -56,4 +56,16 @@ public class GeneratePlanItem {
     public void setMoney(int money) {
         this.money = money;
     }
+
+    @Override
+    public String toString() {
+        return "GeneratePlanItem{" +
+                "type=" + type +
+                ", timeStamp=" + timeStamp +
+                ", money=" + money +
+                ", mccType='" + mccType + '\'' +
+                ", group=" + group +
+                ", section=" + section +
+                '}';
+    }
 }

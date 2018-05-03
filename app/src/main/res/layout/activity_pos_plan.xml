@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/text_view_repay_date_title"
             android:textColor="@color/black"
             android:textSize="14pt"
             android:layout_centerVertical="true"
@@ -24,9 +25,14 @@
             android:textSize="14pt"
             android:layout_centerVertical="true"
             android:text="@string/repay_date"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_toLeftOf="@+id/iv_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginLeft="15pt"
+            android:layout_toRightOf="@+id/text_view_repay_date_title"/>
         <ImageView
             android:id="@+id/iv_next"
             android:layout_alignParentRight="true"
@@ -58,6 +64,7 @@
             android:textSize="14pt"
             android:layout_centerVertical="true"
             android:hint="@string/input_repay_amount"
+            android:textColorHint="@color/text_color_gray_949494"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
@@ -84,6 +91,7 @@
             android:layout_toRightOf="@+id/tv_times"
             android:textSize="14pt"
             android:layout_centerVertical="true"
+            android:textColorHint="@color/text_color_gray_949494"
             android:hint="@string/input_repay_times"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -96,8 +104,8 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_go_plan"
-        android:layout_marginLeft="8pt"
-        android:layout_marginRight="8pt"
+        android:layout_marginLeft="15pt"
+        android:layout_marginRight="15pt"
         android:paddingTop="8pt"
         android:paddingBottom="8pt"
         android:gravity="center"

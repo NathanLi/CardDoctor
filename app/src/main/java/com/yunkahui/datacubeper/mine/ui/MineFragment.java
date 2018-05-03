@@ -143,6 +143,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(BaseBean<PersonalInfo> personalInfoBaseBean) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
+                LogUtils.e("个人信息->"+personalInfoBaseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(personalInfoBaseBean.getRespCode())) {
                     PersonalInfo info = personalInfoBaseBean.getRespData();
                     if (info != null) {
@@ -326,7 +327,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(mActivity, MyZFBActivity.class));
                 break;
             case 32:
-                startActivity(new Intent(mActivity, PosManageActivity.class));
+                PosManageActivity.startAction(getActivity());
                 break;
             case 40:
                 startActivity(new Intent(mActivity, AboutUsActivity.class));

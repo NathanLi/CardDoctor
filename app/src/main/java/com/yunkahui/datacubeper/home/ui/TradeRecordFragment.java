@@ -56,7 +56,7 @@ public class TradeRecordFragment extends BaseFragment {
                 mAdapter = new RechargeRecordAdapter(R.layout.layout_list_item_trade_record, mRechargeDetails);
                 break;
             case 1:
-                getWithdrawData(20, 1);
+                getWithdrawRecord(20, 1);
                 mAdapter = new WithdrawRecordAdapter(R.layout.layout_list_item_trade_record, mWithdrawDetails);
                 break;
         }
@@ -93,7 +93,7 @@ public class TradeRecordFragment extends BaseFragment {
                     if (0 == getArguments().getInt("kind")) {
                         getRechargeData(20, ++mCurrentPage);
                     } else {
-                        getWithdrawData(20, ++mCurrentPage);
+                        getWithdrawRecord(20, ++mCurrentPage);
                     }
                 }
             }
@@ -105,7 +105,8 @@ public class TradeRecordFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void getWithdrawData(int pageSize, int pageNum) {
+    //******** 获取提现记录 ********
+    private void getWithdrawRecord(int pageSize, int pageNum) {
         mLogic.getWithdrawRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
             @Override
             public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
@@ -129,6 +130,7 @@ public class TradeRecordFragment extends BaseFragment {
         });
     }
 
+    //******** 获取充值记录 ********
     private void getRechargeData(int pageSize, int pageNum) {
         mLogic.getRechargeRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
             @Override

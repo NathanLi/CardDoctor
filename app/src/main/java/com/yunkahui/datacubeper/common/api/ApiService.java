@@ -104,8 +104,8 @@ public interface ApiService {
     Observable<BaseBean<TodayOperationSub>> loadTodayOperation(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/planing/getPlanning")     //查询智能规划
-    Observable<BaseBean<List<SmartPlanSub>>> loadSmartPlan(@FieldMap Map<String,String> params);
+    @POST("/app/planing/getPlanning")     //查询规划列表
+    Observable<BaseBean<List<SmartPlanSub>>> loadPlanList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/pos/planning/do_huankuan_pos")     //标记还款交易

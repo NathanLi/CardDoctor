@@ -170,7 +170,8 @@ public class BillCardView extends LinearLayout implements View.OnClickListener {
     }
 
     public void setOnClickSmartPlanListener(OnClickSmartPlanListener l) {
-        this.onClickSmartPlanListener = l;
+        if (l != null)
+            this.onClickSmartPlanListener = l;
     }
 
     public interface OnClickSmartPlanListener {

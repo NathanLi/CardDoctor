@@ -16,10 +16,10 @@ import com.yunkahui.datacubeper.R;
  */
 public class DoubleBlockView extends LinearLayout {
 
-    private TextView mTvLeftName;
-    private TextView mTvRightName;
-    private TextView mTvLeftNum;
-    private TextView mTvRightNum;
+    private TextView mTvLeftTitle;
+    private TextView mTvRightTitle;
+    private TextView mTvLeftValue;
+    private TextView mTvRightValue;
     private LinearLayout mLeftBlock;
     private LinearLayout mRightBlock;
 
@@ -35,19 +35,18 @@ public class DoubleBlockView extends LinearLayout {
         super(context, attrs, defStyleAttr);
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_double_block, this);
-
-        mTvLeftName = view.findViewById(R.id.tv_left_title);
-        mTvRightName = view.findViewById(R.id.tv_right_title);
-        mTvLeftNum = view.findViewById(R.id.tv_left_value);
-        mTvRightNum = view.findViewById(R.id.tv_right_value);
+        mTvLeftTitle = view.findViewById(R.id.tv_left_title);
+        mTvRightTitle = view.findViewById(R.id.tv_right_title);
+        mTvLeftValue = view.findViewById(R.id.tv_left_value);
+        mTvRightValue = view.findViewById(R.id.tv_right_value);
         mLeftBlock = view.findViewById(R.id.ll_left_block);
         mRightBlock = view.findViewById(R.id.ll_right_block);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DoubleBlockView, defStyleAttr, 0);
-        String leftName = a.getString(R.styleable.DoubleBlockView_leftTitle);
-        String rightName = a.getString(R.styleable.DoubleBlockView_rightTitle);
-        mTvLeftName.setText(leftName);
-        mTvRightName.setText(rightName);
+        if (a.hasValue(R.styleable.DoubleBlockView_leftTitle))
+            mTvLeftTitle.setText(a.getString(R.styleable.DoubleBlockView_leftTitle));
+        if (a.hasValue(R.styleable.DoubleBlockView_rightTitle))
+            mTvLeftTitle.setText(a.getString(R.styleable.DoubleBlockView_rightTitle));
         a.recycle();
     }
 
@@ -62,22 +61,22 @@ public class DoubleBlockView extends LinearLayout {
     }
 
     public DoubleBlockView setLeftTitle(String value) {
-        mTvLeftName.setText(value);
+        mTvLeftTitle.setText(value);
         return this;
     }
 
     public DoubleBlockView setRightTitle(String value) {
-        mTvRightName.setText(value);
+        mTvRightTitle.setText(value);
         return this;
     }
 
     public DoubleBlockView setLeftValue(String value) {
-        mTvLeftNum.setText(value);
+        mTvLeftValue.setText(value);
         return this;
     }
 
     public DoubleBlockView setRightValue(String value) {
-        mTvRightNum.setText(value);
+        mTvRightValue.setText(value);
         return this;
     }
 }

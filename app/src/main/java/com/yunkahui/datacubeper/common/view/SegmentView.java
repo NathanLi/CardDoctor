@@ -22,6 +22,7 @@ public class SegmentView extends LinearLayout implements View.OnClickListener {
     private ImageView mIvSegmentBack;
     private TextView mTvLeftSegment;
     private TextView mTvRightSegment;
+
     private OnSelectChangeLitener listener;
 
     public SegmentView(Context context) {
@@ -35,7 +36,13 @@ public class SegmentView extends LinearLayout implements View.OnClickListener {
     public SegmentView(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        initView(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_segment_view, this);
+        mIvSegmentBack = view.findViewById(R.id.iv_segment_back);
+        mTvLeftSegment = view.findViewById(R.id.tv_left_segment);
+        mTvRightSegment = view.findViewById(R.id.tv_right_segment);
+        mTvLeftSegment.setOnClickListener(this);
+        mTvRightSegment.setOnClickListener(this);
+        mTvLeftSegment.setSelected(true);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SegmentView, defStyleAttr, 0);
         String leftSegment = a.getString(R.styleable.SegmentView_leftSegment);
@@ -45,22 +52,13 @@ public class SegmentView extends LinearLayout implements View.OnClickListener {
         a.recycle();
     }
 
-    private void initView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_segment_view, this);
-        mIvSegmentBack = view.findViewById(R.id.iv_segment_back);
-        mTvLeftSegment = view.findViewById(R.id.tv_left_segment);
-        mTvRightSegment = view.findViewById(R.id.tv_right_segment);
-        mTvLeftSegment.setOnClickListener(this);
-        mTvRightSegment.setOnClickListener(this);
-        mTvLeftSegment.setSelected(true);
-    }
-
     public void setOnBackSegmentClickListener(OnClickListener l) {
         mIvSegmentBack.setOnClickListener(l);
     }
 
     public void setOnSelectChangeListener(OnSelectChangeLitener listener) {
-        this.listener = listener;
+        if (listener != null)
+            this.listener = listener;
     }
 
     @Override

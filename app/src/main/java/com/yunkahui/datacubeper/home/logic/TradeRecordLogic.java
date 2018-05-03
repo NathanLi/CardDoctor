@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class TradeRecordLogic {
 
+    //******** 获取充值记录 ********
     public void getRechargeRecord(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pdType", "recharge")
@@ -39,6 +40,7 @@ public class TradeRecordLogic {
 
     }
 
+    //******** 获取提现记录 ********
     public void getWithdrawRecord(Context context , int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pdType", "withdraw")
@@ -50,6 +52,7 @@ public class TradeRecordLogic {
 
     }
 
+    //******** 获取交易明细 ********
     public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))

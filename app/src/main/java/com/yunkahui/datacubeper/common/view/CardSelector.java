@@ -26,16 +26,13 @@ public class CardSelector extends LinearLayout {
     public CardSelector(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
         this.mContext = context;
-        init();
+
+        LayoutInflater.from(mContext).inflate(R.layout.layout_card_selector, this);
+        rbCard = findViewById(R.id.rb_bank);
     }
 
     public CardSelector(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public void init() {
-        LayoutInflater.from(mContext).inflate(R.layout.layout_card_selector, this);
-        rbCard = findViewById(R.id.rb_bank);
     }
 
     public void setText(String text) {

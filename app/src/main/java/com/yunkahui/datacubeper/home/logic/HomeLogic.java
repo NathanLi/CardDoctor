@@ -34,6 +34,7 @@ public class HomeLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
+    //******** 获取余额、分润 ********
     public void loadUserFinance(Context context, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context).create();
         HttpManager.getInstance().create(ApiService.class).loadUserFinance(params)

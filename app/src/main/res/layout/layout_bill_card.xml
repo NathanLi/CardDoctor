@@ -76,7 +76,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16pt"
                 android:layout_marginEnd="16pt"
-                android:background="@drawable/bg_recharge_button"
+                android:background="@drawable/bg_recharge_button_clickable"
                 android:text="@string/bill_sync"
                 android:textColor="@color/white" />
 

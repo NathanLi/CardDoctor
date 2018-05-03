@@ -13,6 +13,7 @@ import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
+import com.yunkahui.datacubeper.home.ui.HomeProfitActivity;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
 import com.yunkahui.datacubeper.home.ui.HomeWalletActivity;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
@@ -78,7 +79,8 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, ShareProfitActivity.class));
+                //startActivity(new Intent(mActivity, ShareProfitActivity.class));
+                startActivity(new Intent(mActivity, HomeProfitActivity.class));
             }
         });
         mDoubleBlockView2.setOnLeftBlockClickListener(new View.OnClickListener() {

@@ -24,18 +24,18 @@ import java.util.List;
 
 public class ProfitIncomeFragment extends BaseFragment {
 
+    private ConstraintLayout mSuspensionBar;
     private RecyclerView mRecyclerView;
+    private TextView mTvTime;
+    private TextView mTvMessage;
 
     private ProfitIncomeLogic mLogic;
     private ExpandableProfitIncomeAdapter mAdapter;
     private List<MultiItemEntity> mList;
     private int mAllPage;
     private int mCurrentPage;
-    private ConstraintLayout mSuspensionBar;
     private int mSuspensionHeight;
     private int mCurrentPosition;
-    private TextView mTvTime;
-    private TextView mTvMessage;
 
     @Override
     public void initData() {

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class RechargeForZFBActivity extends AppCompatActivity implements IActivi
     private TextView mTvUserBalance;
     private EditText mEtInputMoney;
     private TextView mTvCardSelected;
+    private Button mBtnCommit;
 
     private RechargeLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
@@ -59,6 +61,7 @@ public class RechargeForZFBActivity extends AppCompatActivity implements IActivi
         mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                mBtnCommit.setEnabled(true);
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
                 JSONObject object = baseBean.getJsonObject();
@@ -105,6 +108,7 @@ public class RechargeForZFBActivity extends AppCompatActivity implements IActivi
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
         mIvWithdrawMode = findViewById(R.id.iv_withdraw_mode);
+        mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.btn_commit).setOnClickListener(this);
     }

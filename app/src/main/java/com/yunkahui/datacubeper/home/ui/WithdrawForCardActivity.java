@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +19,15 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.DispostResultActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.home.logic.WithdrawLogic;
+import com.yunkahui.datacubeper.home.logic.WithdrawForCardLogic;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -36,42 +39,43 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
     private TextView mTvUserBalance;
     private TextView mTvCardSelected;
     private EditText mEtInputMoney;
+    private Button mBtnCommit;
 
-    private WithdrawLogic mLogic;
+    private WithdrawForCardLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
     private String mBindId;
     private String mWithdrawType;
 
     @Override
     public void initData() {
-        mLogic = new WithdrawLogic();
+        mLogic = new WithdrawForCardLogic();
         mWithdrawType = getIntent().getStringExtra("withdrawType");
         mList = new ArrayList<>();
-        if (getIntent().getStringExtra("money") != null) {
-            mTvUserBalance.setText(getIntent().getStringExtra("money"));
-        }
-        LoadingViewDialog.getInstance().show(this);
+
+        initUserFinance();
         queryCreditCardList();
     }
 
-    //******** 查询已添加卡列表 ********
+    //******** 获取储蓄卡 ********
     private void queryCreditCardList() {
-        mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
             @Override
-            public void onSuccess(BaseBean<BillCreditCard> baseBean) {
-                LogUtils.e("卡列表->" + baseBean.getJsonObject().toString());
+            public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mList.clear();
-                    CardSelectorBean bean;
-                    for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
-                        bean = new CardSelectorBean();
-                        bean.setBankCardName(item.getBankCardName());
-                        bean.setBankCardNum(item.getBankCardNum());
-                        bean.setChecked(false);
-                        bean.setCardId(item.getUserCreditCardId());
-                        mList.add(bean);
-                    }
+                LogUtils.e("储蓄卡->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                CardSelectorBean bean;
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    JSONObject json = object.optJSONObject("respData");
+                    bean = new CardSelectorBean();
+                    bean.setCardId(json.optInt("Id"));
+                    bean.setBankCardName(json.optString("bankcard_name"));
+                    bean.setBankCardNum(json.optString("bankcard_num"));
+                    bean.setBankCardTel(json.optString("bankcard_tel"));
+                    bean.setCardHolder(json.optString("cardholder"));
+                    bean.setChecked(false);
+                    mList.add(bean);
                     mList.get(0).setChecked(true);
                 } else {
                     Toast.makeText(WithdrawForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
@@ -81,7 +85,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Toast.makeText(WithdrawForCardActivity.this, "获取卡列表失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(getApplicationContext(), "获取储蓄卡失败 " + throwable.toString());
             }
         });
     }
@@ -91,9 +95,10 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         mTvUserBalance = findViewById(R.id.tv_user_balance);
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
+        mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.ll_show_dialog).setOnClickListener(this);
-        findViewById(R.id.btn_commit).setOnClickListener(this);
+        mBtnCommit.setOnClickListener(this);
     }
 
     @Override
@@ -120,6 +125,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         }
     }
 
+    //******** 查询提现手续费 ********
     private void getWithdrawFee() {
         mLogic.queryWithdrawFee(this, Float.parseFloat(mEtInputMoney.getText().toString()), mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
@@ -140,7 +146,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         });
     }
 
-    //******** 提现至银行卡 ********
+    //******** 提现 ********
     private void withdraw(String money) {
         mLogic.withdrawMoney(this, mBindId, money, mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
@@ -163,6 +169,28 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         });
     }
 
+    //******** 获取余额、分润 ********
+    private void initUserFinance() {
+        mLogic.loadUserFinance(WithdrawForCardActivity.this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("余额分润->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    JSONObject object = baseBean.getJsonObject();
+                    JSONObject respData = object.optJSONObject("respData");
+                    mTvUserBalance.setText(respData.optString("user_fenruns"));
+                } else {
+                    Toast.makeText(WithdrawForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Toast.makeText(WithdrawForCardActivity.this, "获取余额分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void showWithdrawDialog(String fee) {
         if (mBindId == null) {
             Toast.makeText(this, "请选择卡号", Toast.LENGTH_SHORT).show();
@@ -176,18 +204,20 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         dialog.setContentView(codeView);
         dialog.show();
         final String money = String.format("%.2f", Float.parseFloat(mEtInputMoney.getText().toString()));
-        ((TextView)codeView.findViewById(R.id.show_title)).setText(mWithdrawType.equals("00") ? "分佣提现" : mWithdrawType.equals("01") ? "分润提现" : "余额提现");
-        ((TextView)codeView.findViewById(R.id.show_money)).setText(money);
-        ((TextView)codeView.findViewById(R.id.show_mess)).setText("单笔提现手续费：" + fee + "元");
+        ((TextView) codeView.findViewById(R.id.show_title)).setText(mWithdrawType.equals("00") ? "分佣提现" : mWithdrawType.equals("01") ? "分润提现" : "余额提现");
+        ((TextView) codeView.findViewById(R.id.show_money)).setText(money);
+        ((TextView) codeView.findViewById(R.id.show_mess)).setText("单笔提现手续费：" + fee + "元");
         SizeUtils.setDialogAttribute(WithdrawForCardActivity.this, dialog, 0.90, 0);
         codeView.findViewById(R.id.show_sure).setOnClickListener(new NoDoubleClickListener() {
-            @Override protected void onNoDoubleClick(View v) {
+            @Override
+            protected void onNoDoubleClick(View v) {
                 dialog.dismiss();
                 withdraw(money);
             }
         });
         codeView.findViewById(R.id.show_cancel).setOnClickListener(new NoDoubleClickListener() {
-            @Override protected void onNoDoubleClick(View v) {
+            @Override
+            protected void onNoDoubleClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -203,6 +233,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
             public void onCheckedChange(CardSelectorBean bean) {
                 mBindId = String.valueOf(bean.getCardId());
                 String cardNum = bean.getBankCardNum();
+                mBtnCommit.setEnabled(true);
                 mTvCardSelected.setText(bean.getBankCardName() + String.format(getResources().getString(R.string.bank_card_tail_num), cardNum.substring(cardNum.length() - 4, cardNum.length())));
             }
         });

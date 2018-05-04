@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.TintUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     private SparseArray<RadioButton> mRadioButtons;
     private ColorStateList mSelectColor;
     private ColorStateList mUnSelectedColor;
-    private int lastPosition = 0;
+    private int lastPosition;
     private long mTime;
 
     @Override
@@ -79,6 +80,14 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(5);
+
+        for (int i = 0; i < tabTitles.length; i++) {
+            if (i == 0) {
+                changeTabColor(i, true);
+            } else {
+                changeTabColor(i, false);
+            }
+        }
     }
 
     @Override

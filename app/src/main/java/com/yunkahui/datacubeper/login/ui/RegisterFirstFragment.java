@@ -72,7 +72,7 @@ public class RegisterFirstFragment extends BaseFragment implements View.OnClickL
                 mTextViewSendCode.setText(mSeconds + "秒后可重新发送");
                 mTextViewSendCode.setTextColor(Color.parseColor("#CCCCCC"));
             } else {
-                mTextViewSendCode.setText("发送验证码");
+                mTextViewSendCode.setText("获取验证码");
                 mSeconds = 60;
                 mTextViewSendCode.setEnabled(true);
                 mTextViewSendCode.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));

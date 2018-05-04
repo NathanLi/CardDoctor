@@ -97,7 +97,7 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
                     break;
                 case 1:
                     mTextViewSendCode.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-                    mTextViewSendCode.setText("发送验证码");
+                    mTextViewSendCode.setText("获取验证码");
                     mTextViewSendCode.setEnabled(true);
                     break;
             }

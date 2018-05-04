@@ -124,7 +124,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
 
                             if(TextUtils.isEmpty(mRealName)||TextUtils.isEmpty(mIdCardNumber)){
                                 LoadingViewDialog.getInstance().dismiss();
-                                ToastUtils.show(getApplicationContext(),"身份证信息无法识别");
+                                ToastUtils.show(getApplicationContext(),"身份证照片检验失败，请重新上传");
                             }else{
                                 submitRealNameAuthImage();
                             }
@@ -143,6 +143,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     @Override
                     public void run() {
                         LoadingViewDialog.getInstance().dismiss();
+                        ToastUtils.show(getApplicationContext(),"身份证照片检验失败，请重新上传");
                         LogUtils.e("身份错误-->" + error);
                     }
                 });

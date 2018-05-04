@@ -9,7 +9,7 @@
     <string name="service_agreement">《卡医生服务协议》</string>
     <string name="share_policy_1"><![CDATA[ 邀请您的好友升级VIP可获得<font color="#000000">100元直接奖励+交易分润万分之10</font> ]]></string>
     <string name="share_policy_2"><![CDATA[ 您好友邀请好友升级VIP，您可获得<font color="#000000">50元间接奖励+交易分润万分之5</font> ]]></string>
-    <string name="org_number">Y1000000001</string>
+    <string name="org_number">Y1000000006</string>
 
     <!--升级加盟-->
     <string name="upgrade_mess">升级VIP会员，享受卡医生所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
@@ -28,7 +28,7 @@
     <string name="auth_code">验证码</string>
     <string name="phone_tips">请输入绑定的手机号</string>
     <string name="auth_code_tips">请输入验证码</string>
-    <string name="send_auth_code">发送验证码</string>
+    <string name="send_auth_code">获取验证码</string>
     <string name="button_next">下一步</string>
     <string name="phone_tips2">请输入手机号</string>
     <string name="phone_tips3">请输入正确的手机号</string>

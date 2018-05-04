@@ -1,11 +1,9 @@
 package com.yunkahui.datacubeper.share.ui;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,9 +22,6 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
-import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.home.logic.WithdrawForCardLogic;
-import com.yunkahui.datacubeper.mine.ui.BindZFBActivity;
 import com.yunkahui.datacubeper.share.logic.WithdrawForZFBLogic;
 
 import org.json.JSONException;
@@ -126,7 +121,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
         final String money = String.format("%.2f", Float.parseFloat(mEtInputMoney.getText().toString()));
         ((TextView) codeView.findViewById(R.id.show_title)).setText(mWithdrawType.equals("00") ? "分佣提现" : mWithdrawType.equals("01") ? "分润提现" : "余额提现");
         ((TextView) codeView.findViewById(R.id.show_money)).setText(money);
-        ((TextView) codeView.findViewById(R.id.show_mess)).setText("单笔提现手续费：" + fee + "元");
+        ((TextView) codeView.findViewById(R.id.tv_card_count)).setText("单笔提现手续费：" + fee + "元");
         SizeUtils.setDialogAttribute(WithdrawForZFBActivity.this, dialog, 0.90, 0);
         codeView.findViewById(R.id.show_sure).setOnClickListener(new NoDoubleClickListener() {
             @Override

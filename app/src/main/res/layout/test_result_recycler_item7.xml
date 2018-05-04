@@ -149,7 +149,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/show_num"
+                android:id="@+id/tv_show_num"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -174,7 +174,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/space2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/show_num"
+                app:layout_constraintStart_toEndOf="@+id/tv_show_num"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/textView3"

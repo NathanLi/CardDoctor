@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="@+id/show_title" />
 
     <TextView
-        android:id="@+id/show_num"
+        android:id="@+id/tv_show_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"

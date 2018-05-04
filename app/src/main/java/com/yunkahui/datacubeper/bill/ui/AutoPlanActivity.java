@@ -52,7 +52,6 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
     private ArrayList<TimeItem> mResultList;
     private GenerateDataAdapter mAdapter;
     private BaseBean<GeneratePlan> mBaseBean;
-    private int mPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,19 +67,8 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         mList = new ArrayList<>();
         mEtInputAmount.addTextChangedListener(new InnerTextChangeListener());
         mEtInputTimes.addTextChangedListener(new InnerTextChangeListener());
-        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"));
+        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"), false);
         mAdapter.bindToRecyclerView(mRecyclerView);
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivityForResult(new Intent(AutoPlanActivity.this, AdjustPlanActivity.class)
-                        .putExtra("type", mList.get(position).getType() == 0 ? "消费" : "还款")
-                        .putExtra("amount", String.valueOf(mList.get(position).getMoney()))
-                        .putExtra("business_type", mList.get(position).getMccType())
-                        .putExtra("is_commit_to_server", false), 1);
-                mPosition = position;
-            }
-        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -240,27 +228,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_FIRST_USER) {
             handleSelectedTime(data);
-        } else if (resultCode == Activity.RESULT_OK) {
-            handleInfo(data);
         }
-    }
-
-    //******** 处理返回修改的信息 ********
-    private void handleInfo(Intent data) {
-        int amount = Integer.parseInt(data.getStringExtra("amount"));
-        GeneratePlanItem item = mList.get(mPosition);
-        item.setMoney(amount);
-        GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(0).getDetails().get(item.getSection());
-        if ("repay".equals(data.getStringExtra("type"))) {
-            detailsBean.getRepayment().setMoney(amount);
-        } else if ("expense".equals(data.getStringExtra("type"))) {
-            GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(mList.get(mPosition).getSection());
-            consumptionBean.setMoney(amount);
-            consumptionBean.setMccType(data.getStringExtra("business_type"));
-            item.setMccType(data.getStringExtra("business_type"));
-        }
-        mAdapter.notifyItemChanged(mPosition);
-        Toast.makeText(AutoPlanActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
     }
 
     //******** 处理返回选择的时间 ********

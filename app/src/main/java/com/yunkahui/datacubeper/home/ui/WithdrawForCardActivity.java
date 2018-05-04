@@ -23,13 +23,9 @@ import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
-import com.yunkahui.datacubeper.common.utils.ToastUtils;
-import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.WithdrawForCardLogic;
 
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by YD1 on 2018/4/10
@@ -169,7 +165,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         final String money = String.format("%.2f", Float.parseFloat(mEtInputMoney.getText().toString()));
         ((TextView) codeView.findViewById(R.id.show_title)).setText(mWithdrawType.equals("00") ? "分佣提现" : mWithdrawType.equals("01") ? "分润提现" : "余额提现");
         ((TextView) codeView.findViewById(R.id.show_money)).setText(money);
-        ((TextView) codeView.findViewById(R.id.show_mess)).setText("单笔提现手续费：" + fee + "元");
+        ((TextView) codeView.findViewById(R.id.tv_card_count)).setText("单笔提现手续费：" + fee + "元");
         SizeUtils.setDialogAttribute(WithdrawForCardActivity.this, dialog, 0.90, 0);
         codeView.findViewById(R.id.show_sure).setOnClickListener(new NoDoubleClickListener() {
             @Override

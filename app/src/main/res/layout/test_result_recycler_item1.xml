@@ -156,7 +156,7 @@
                 app:layout_constraintTop_toBottomOf="@id/show_img" />
 
             <TextView
-                android:id="@+id/show_num"
+                android:id="@+id/tv_show_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -173,9 +173,9 @@
                 android:text="-"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/show_num"
+                app:layout_constraintBottom_toBottomOf="@id/tv_show_num"
                 app:layout_constraintRight_toLeftOf="@id/guideline7"
-                app:layout_constraintTop_toTopOf="@id/show_num" />
+                app:layout_constraintTop_toTopOf="@id/tv_show_num" />
 
             <TextView
                 android:id="@+id/show_genre1"
@@ -194,7 +194,7 @@
                 android:textColor="#FF2D55"
                 android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="@id/guideline8"
-                app:layout_constraintTop_toBottomOf="@id/show_num" />
+                app:layout_constraintTop_toBottomOf="@id/tv_show_num" />
 
             <TextView
                 android:id="@+id/show_genre2"
@@ -212,7 +212,7 @@
                 android:textSize="13sp"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/show_genre1"
-                app:layout_constraintTop_toBottomOf="@id/show_num"  />
+                app:layout_constraintTop_toBottomOf="@id/tv_show_num"  />
 
             <TextView
                 android:id="@+id/show_genre3"
@@ -231,7 +231,7 @@
                 android:textColor="#007AFF"
                 android:textSize="13sp"
                 app:layout_constraintStart_toEndOf="@+id/show_genre2"
-                app:layout_constraintTop_toBottomOf="@id/show_num" />
+                app:layout_constraintTop_toBottomOf="@id/tv_show_num" />
 
             <TextView
                 android:id="@+id/show_code"

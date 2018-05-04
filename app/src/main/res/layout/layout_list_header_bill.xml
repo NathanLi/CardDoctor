@@ -1,105 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="@color/colorPrimary">
+    android:background="@mipmap/ic_bill_head_bg">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/show_today"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:background="@mipmap/ic_bill_today"
+        android:orientation="vertical"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_show_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="19dp"
+            android:text="36"
+            android:textColor="#ffffff"
+            android:textSize="36sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="2dp"
+            android:padding="2dp"
+            android:text="今日操作"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_show_num" />
+    </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/text_view_plan"
+        android:id="@+id/tv_card_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="0"
-        android:textColor="@color/white"
-        android:textSize="48pt" />
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:paddingBottom="13dp"
+        android:text="-\n卡片数"
+        android:textColor="#ffffff"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_today" />
 
-    <Button
-        android:id="@+id/btn_today_operation"
-        android:layout_marginTop="15pt"
-        android:text="今日操作"
-        android:textColor="@color/white"
-        android:textSize="20pt"
-        android:background="@drawable/bg_bill_today_operation_button"
+    <TextView
+        android:id="@+id/tv_repay_count"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15pt"
-        android:layout_marginTop="15pt">
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:text="-\n已还清"
+        android:textColor="#ffffff"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_today" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_card_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="18"
-                android:textColor="@color/white"
-                android:textSize="24pt" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="卡片数"
-                android:textColor="@color/white"
-                android:textSize="14pt" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_repay_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:textColor="@color/white"
-                android:textSize="24pt" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已还清"
-                android:textColor="@color/white"
-                android:textSize="14pt" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_unrepay_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15"
-                android:textColor="@color/white"
-                android:textSize="24pt" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="未还款"
-                android:textColor="@color/white"
-                android:textSize="14pt" />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_unrepay_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:text="-\n未还款"
+        android:textColor="#ffffff"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_today" />
+</android.support.constraint.ConstraintLayout>

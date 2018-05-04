@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.lzy.imagepicker.ImagePicker;
@@ -143,7 +144,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(BaseBean<PersonalInfo> personalInfoBaseBean) {
                 mLoadingIndicatorView.setVisibility(View.GONE);
-                LogUtils.e("个人信息->"+personalInfoBaseBean.getJsonObject().toString());
+                LogUtils.e("个人信息->" + personalInfoBaseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(personalInfoBaseBean.getRespCode())) {
                     PersonalInfo info = personalInfoBaseBean.getRespData();
                     if (info != null) {
@@ -190,7 +191,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mTvPhone.setText(info.getUser_mobile());
         mTvRecommandCode.setText(info.getUser_unique_code());
         mTvReferee.setText(info.getParent_name());
-        GlideApp.with(getActivity()).load(info.getAvatar()).error(R.mipmap.ic_header_normal)
+        LogUtils.e("头像->" + info.getAvatar());
+        GlideApp.with(getActivity()).load(info.getAvatar()).centerCrop().error(R.mipmap.ic_header_normal)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transform(new CropCircleTransformation())
                 .into(mIvIcon);
 
@@ -240,7 +243,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 try {
                     JSONObject object = baseBean.getJsonObject();
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
-                        GlideApp.with(getActivity()).load(path).error(R.mipmap.ic_header_normal)
+                        GlideApp.with(getActivity()).load(path).centerCrop().error(R.mipmap.ic_header_normal)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CropCircleTransformation())
                                 .into(mIvIcon);
                     }
@@ -280,7 +284,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                                 break;
                             case "3":
                                 ToastUtils.show(getActivity(), "审核认证不成功，请重新认证");
-                                startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                                startActivityForResult(new Intent(getActivity(), RealNameAuthActivity.class), RESULT_CODE_UPDATE);
                                 break;
                         }
                     }
@@ -311,7 +315,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivityForResult(new Intent(getActivity(), BindNewPhoneActivity.class), RESULT_CODE_UPDATE);
                 break;
             case 13:
-                startActivity(new Intent(getActivity(), PersonalInfoActivity.class));
+                startActivityForResult(new Intent(getActivity(), PersonalInfoActivity.class), RESULT_CODE_UPDATE);
                 break;
             case 14:
                 startActivity(new Intent(getActivity(), EditPasswordActivity.class));

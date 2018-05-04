@@ -55,10 +55,8 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:textSize="15pt"
-                 android:drawableRight="@mipmap/ic_next_gray"
                  android:drawablePadding="15pt"
                  android:text="@string/bank_card_name"
-                 android:gravity="right"
                  android:lines="1"
                  android:ellipsize="end"
                  android:textColor="@color/text_color_gray_949494" />

@@ -64,7 +64,9 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
         mListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                loadTestRecordDetail(mCardTestItems.get(position).getApr_id());
+                if (!TextUtils.isEmpty(mCardTestItems.get(position).getApr_return_datas())) {
+                    loadTestRecordDetail(mCardTestItems.get(position).getApr_id());
+                }
             }
         });
         addHeader();

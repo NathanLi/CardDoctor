@@ -73,6 +73,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
         setOnClickListener();
         mInfoFillName.setName(DataUtils.getRealName());
         mInfoFillCardNum.setCursorVisible(false);
+        mInfoFillBankName.setEnabled(false);
         mBankCardId = getIntent().getIntExtra("card_id",0);
         String cardNum = getIntent().getStringExtra("card_number");
         if (!TextUtils.isEmpty(cardNum)) {

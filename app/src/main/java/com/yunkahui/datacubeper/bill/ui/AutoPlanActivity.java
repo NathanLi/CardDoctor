@@ -32,6 +32,7 @@ import com.yunkahui.datacubeper.common.bean.TimeItem;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
 
@@ -148,7 +149,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
                         LogUtils.e("提交自动规划->" + baseBean.getJsonObject().toString());
-                        Toast.makeText(AutoPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                             finish();
                         }
@@ -157,7 +158,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                     @Override
                     public void onFailure(Throwable throwable) {
                         LoadingViewDialog.getInstance().dismiss();
-                        Toast.makeText(AutoPlanActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
                     }
                 });
 

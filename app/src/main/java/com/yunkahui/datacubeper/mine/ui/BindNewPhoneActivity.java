@@ -70,7 +70,7 @@ public class BindNewPhoneActivity extends AppCompatActivity implements IActivity
             switch (msg.what){
                 case 0:
                     mTextViewSendAuthCode.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    mTextViewSendAuthCode.setText("发送验证码");
+                    mTextViewSendAuthCode.setText("获取验证码");
                     mTextViewSendAuthCode.setEnabled(true);
                     break;
                 case 1:

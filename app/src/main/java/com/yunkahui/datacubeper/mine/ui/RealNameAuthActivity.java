@@ -47,6 +47,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
     private String mIdCardNumber;
 
     private RealNameAuthLogic mLogic;
+    private boolean mIsRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,14 +120,17 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                             JSONObject dataValueObject = new JSONObject(dataValue);
                             mRealName = dataValueObject.optString("name");
                             mIdCardNumber = dataValueObject.optString("num");
-                            LogUtils.e("mRealName="+mRealName);
-                            LogUtils.e("mIdCardNumber="+mIdCardNumber);
+                            LogUtils.e("mRealName=" + mRealName);
+                            LogUtils.e("mIdCardNumber=" + mIdCardNumber);
 
-                            if(TextUtils.isEmpty(mRealName)||TextUtils.isEmpty(mIdCardNumber)){
+                            if (TextUtils.isEmpty(mRealName) || TextUtils.isEmpty(mIdCardNumber)) {
                                 LoadingViewDialog.getInstance().dismiss();
-                                ToastUtils.show(getApplicationContext(),"身份证照片检验失败，请重新上传");
-                            }else{
-                                submitRealNameAuthImage();
+                                ToastUtils.show(getApplicationContext(), "身份证照片检验失败，请重新上传");
+                            } else {
+                                if (!mIsRunning) {
+                                    mIsRunning = true;
+                                    submitRealNameAuthImage();
+                                }
                             }
 
                         } catch (Exception e) {
@@ -143,7 +147,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     @Override
                     public void run() {
                         LoadingViewDialog.getInstance().dismiss();
-                        ToastUtils.show(getApplicationContext(),"身份证照片检验失败，请重新上传");
+                        ToastUtils.show(getApplicationContext(), "身份证照片检验失败，请重新上传");
                         LogUtils.e("身份错误-->" + error);
                     }
                 });
@@ -159,12 +163,13 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
             public void onSuccess(BaseBean baseBean) {
                 try {
                     LogUtils.e("实名认证1-->" + baseBean.getJsonObject().toString());
-                    JSONObject object =baseBean.getJsonObject();
+                    JSONObject object = baseBean.getJsonObject();
 //                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         submitRealNameAuthInfo();
-                    }else{
+                    } else {
                         LoadingViewDialog.getInstance().dismiss();
+                        mIsRunning = false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -175,6 +180,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getApplicationContext(), "实名认证请求失败->" + throwable.toString());
+                mIsRunning = false;
             }
         });
     }
@@ -189,7 +195,10 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     JSONObject object = baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        setResult(RESULT_OK);
                         finish();
+                    } else {
+                        mIsRunning = false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -200,6 +209,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getApplicationContext(), "实名认证请求失败->" + throwable.toString());
+                mIsRunning = false;
             }
         });
     }

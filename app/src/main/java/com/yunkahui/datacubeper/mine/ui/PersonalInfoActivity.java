@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.lzy.imagepicker.ImagePicker;
@@ -34,7 +35,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class PersonalInfoActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
-    private final int RESULT_CODE_IMAGE=1001;
+    private final int RESULT_CODE_IMAGE = 1001;
 
     private ImageView mImageViewAvatar;
     private MenuSimpleItemView mSimpleItemViewNickName;
@@ -64,9 +65,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
 
     @Override
     public void initData() {
-        mLogic=new MineLogic();
+        mLogic = new MineLogic();
         PersonalInfo info = DataUtils.getInfo();
-        GlideApp.with(this).load(info.getAvatar()).error(R.mipmap.ic_header_normal).into(mImageViewAvatar);
+        GlideApp.with(this).load(info.getAvatar()).centerCrop()
+                .transform(new CropCircleTransformation())
+                .error(R.mipmap.ic_header_normal).into(mImageViewAvatar);
         mSimpleItemViewNickName.setSubTitle(info.getNickname());
         mSimpleItemViewAccount.setSubTitle(info.getUser_mobile());
     }
@@ -77,7 +80,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == RESULT_CODE_IMAGE) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                if(images.size()>0){
+                if (images.size() > 0) {
                     upLoadAvatar(images.get(0).path);
                 }
 
@@ -89,19 +92,20 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
     /**
      * 上传头像
      */
-    private void upLoadAvatar(final String path){
+    private void upLoadAvatar(final String path) {
         LoadingViewDialog.getInstance().show(PersonalInfoActivity.this);
-        mLogic.upLoadAvatar(PersonalInfoActivity.this,path, new SimpleCallBack<BaseBean>() {
+        mLogic.upLoadAvatar(PersonalInfoActivity.this, path, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("上传头像->"+baseBean.getJsonObject().toString());
+                LogUtils.e("上传头像->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=baseBean.getJsonObject();
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        //TODO  保存上传头像返回的路径
-
-                        GlideApp.with(PersonalInfoActivity.this).load(path).error(R.mipmap.ic_header_normal)
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        setResult(RESULT_OK);
+                        GlideApp.with(PersonalInfoActivity.this).load(path)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .centerCrop().error(R.mipmap.ic_header_normal)
                                 .transform(new CropCircleTransformation())
                                 .into(mImageViewAvatar);
                     }
@@ -113,7 +117,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"上传头像失败");
+                ToastUtils.show(getApplicationContext(), "上传头像失败");
             }
         });
     }
@@ -126,16 +130,16 @@ public class PersonalInfoActivity extends AppCompatActivity implements IActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_view_avatar:
                 ImagePicker.getInstance().setSelectLimit(1);
                 Intent intent = new Intent(this, ImageGridActivity.class);
                 startActivityForResult(intent, RESULT_CODE_IMAGE);
                 break;
             case R.id.menu_simple_item_qr_code:
-                if(TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())){
-                    ToastUtils.show(this,"暂无数据");
-                }else{
+                if (TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())) {
+                    ToastUtils.show(this, "暂无数据");
+                } else {
                     startActivity(new Intent(this, QrShareActivity.class).putExtra("code", DataUtils.getInvitateCode()));
                 }
                 break;

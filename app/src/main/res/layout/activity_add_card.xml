@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:destColor="@color/text_color_gray_9d9d9d"
-            app:infoIcon="@mipmap/ic_next_gray"
             app:infoName="发卡银行"
+            app:isTextView="true"
             app:inputVisible="invisible" />
 
         <com.yunkahui.datacubeper.common.view.InfoFillView

@@ -73,7 +73,7 @@
                android:id="@+id/text_view_send_auth_code"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="发送验证码"
+               android:text="@string/send_auth_code"
                android:textColor="@color/colorPrimary"/>
 
        </LinearLayout>

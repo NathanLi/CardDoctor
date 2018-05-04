@@ -75,7 +75,6 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
                 try {
                     LoadingViewDialog.getInstance().dismiss();
                     JSONObject object=baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
                         JSONObject json=object.optJSONObject("respData");
                         mBankCard=new BankCard();
@@ -90,6 +89,7 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
                         mImageViewNoData.setVisibility(View.GONE);
                         mMenuItemAdd.setVisible(false);
                     }else{
+                        ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
                         mCashCardItemView.setVisibility(View.GONE);
                         mImageViewNoData.setVisibility(View.VISIBLE);
                         mMenuItemAdd.setVisible(true);

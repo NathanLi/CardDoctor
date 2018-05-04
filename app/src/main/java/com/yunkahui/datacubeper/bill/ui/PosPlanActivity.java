@@ -238,6 +238,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onSuccess(BaseBean<GeneratePlan> baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
+                            LogUtils.e("POS生成规划 ->"+baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
                                 mList.clear();

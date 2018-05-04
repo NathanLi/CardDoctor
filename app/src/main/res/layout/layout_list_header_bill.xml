@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@mipmap/ic_bill_head_bg">
+    android:background="@color/colorPrimary">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/show_today"

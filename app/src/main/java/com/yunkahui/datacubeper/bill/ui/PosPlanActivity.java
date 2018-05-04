@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -151,11 +152,12 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 public void onClick(View view) {
                     bottomSheetDialog.dismiss();
                     LoadingViewDialog.getInstance().show(PosPlanActivity.this);
+                    Log.e("JsonTest", "onClick: "+new Gson().toJson(mBaseBean.getRespData()));
                     mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            LogUtils.e("提交规划--》" + baseBean.getJsonObject().toString());
+                            LogUtils.e("提交规划->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 finish();
                             } else if ("0265".equals(baseBean.getRespCode())) {
@@ -168,7 +170,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onFailure(Throwable throwable) {
                             LoadingViewDialog.getInstance().dismiss();
-                            Toast.makeText(PosPlanActivity.this, "POS规划失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PosPlanActivity.this, "POS规划失败" + throwable.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
 

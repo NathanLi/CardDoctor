@@ -5,6 +5,7 @@ import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
+import com.yunkahui.datacubeper.common.bean.Member;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
@@ -342,5 +343,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/user_bankcard/edit_card")   //修改信用卡
     Observable<BaseBean> editCard(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/share/get_member_list")   //获取普通/VIP会员列表
+    Observable<BaseBean<List<Member>>> requestMemberList(@FieldMap Map<String,String> params);
 
 }

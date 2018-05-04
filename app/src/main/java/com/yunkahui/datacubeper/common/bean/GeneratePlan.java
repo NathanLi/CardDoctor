@@ -50,8 +50,8 @@ public class GeneratePlan {
         private int maxInRepaymentList;
         private String executePeriodBegin;
         private String executePeriodEnd;
-        private String serviceCharge;
-        private String hlbShouldBalance;
+        private int serviceCharge;
+        private int hlbShouldBalance;
         private String version;
 
         public long getRepayDate() {
@@ -110,19 +110,19 @@ public class GeneratePlan {
             this.executePeriodEnd = executePeriodEnd;
         }
 
-        public String getServiceCharge() {
+        public int getServiceCharge() {
             return serviceCharge;
         }
 
-        public void setServiceCharge(String serviceCharge) {
+        public void setServiceCharge(int serviceCharge) {
             this.serviceCharge = serviceCharge;
         }
 
-        public String getHlbShouldBalance() {
+        public int getHlbShouldBalance() {
             return hlbShouldBalance;
         }
 
-        public void setHlbShouldBalance(String hlbShouldBalance) {
+        public void setHlbShouldBalance(int hlbShouldBalance) {
             this.hlbShouldBalance = hlbShouldBalance;
         }
 

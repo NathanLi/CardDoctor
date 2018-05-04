@@ -19,6 +19,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.DispostResultActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
@@ -35,7 +36,6 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
     private TextView mTvUserBalance;
     private TextView mTvCardSelected;
     private EditText mEtInputMoney;
-    private Button mBtnCommit;
 
     private WithdrawForZFBLogic mLogic;
     private String mWithdrawType;
@@ -45,9 +45,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
     public void initData() {
         mLogic = new WithdrawForZFBLogic();
         mWithdrawType = getIntent().getStringExtra("withdrawType");
-        if (getIntent().getStringExtra("money") != null) {
-            mTvUserBalance.setText(getIntent().getStringExtra("money"));
-        }
+        requestSharePageInfo();
         try {
             JSONObject json = new JSONObject(getIntent().getStringExtra("json"));
             JSONObject respData = json.optJSONObject("respData");
@@ -60,12 +58,33 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
         }
     }
 
+    //******** 获取分享页面数据 ********
+    private void requestSharePageInfo() {
+        mLogic.requestSharePageInfo(this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("分润->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    JSONObject object = baseBean.getJsonObject();
+                    JSONObject respData = object.optJSONObject("respData");
+                    mTvUserBalance.setText(respData.optString("00".equals(mWithdrawType) ? "userCommissions" : "userFenruns"));
+                } else {
+                    Toast.makeText(WithdrawForZFBActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Toast.makeText(WithdrawForZFBActivity.this, "获取分润金额失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void initView() {
         mTvUserBalance = findViewById(R.id.tv_user_balance);
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
-        mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.btn_commit).setOnClickListener(this);
     }
@@ -140,7 +159,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
 
     //******** 支付宝提现 ********
     private void withdraw(String money) {
-        LogUtils.e("test->" + mAlipayId+", " + money+", "+mWithdrawType);
+        LogUtils.e("test->" + mAlipayId + ", " + money + ", " + mWithdrawType);
         mLogic.withdrawMoney(this, mAlipayId, money, mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {

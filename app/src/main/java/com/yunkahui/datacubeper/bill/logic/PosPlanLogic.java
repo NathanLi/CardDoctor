@@ -22,7 +22,7 @@ public class PosPlanLogic {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bankcard_id", String.valueOf(cardId))
                 .addParams("planning_datas", planDatas)
-                .addParams("request_no", "1")
+                .addParams("request_no", "2")
                 .create();
 //        HttpManager.getInstance().addConverterFactory(CustomConverterFactory.create()).newBuilder().baseUrl("http://192.168.5.132:8014").build()
 //                .create(ApiService.class).confirmPosPlan(params).compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);

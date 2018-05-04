@@ -32,4 +32,11 @@ public class WithdrawForZFBLogic {
         HttpManager.getInstance().create(ApiService.class).queryWithdrawFee(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    public void requestSharePageInfo(Context context, SimpleCallBack<BaseBean> callBack){
+        HttpManager.getInstance().create(ApiService.class)
+                .loadSharePageInfo(RequestUtils.newParams(context).create())
+                .compose(HttpManager.<BaseBean>applySchedulers())
+                .subscribe(callBack);
+    }
 }

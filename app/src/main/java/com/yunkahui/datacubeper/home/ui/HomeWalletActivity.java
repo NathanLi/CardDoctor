@@ -14,11 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.home.logic.HomeWalletLogic;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +40,13 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
 
     private RecyclerView mRecyclerView;
 
+    private HomeWalletLogic mLogic;
+    private ArrayList<CardSelectorBean> mList;
+
     @Override
     public void initData() {
+        mLogic = new HomeWalletLogic();
+        mList = new ArrayList<>();
         final boolean isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
         int[] icons = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
         String[] titles = {"充值", "提现"};
@@ -56,9 +71,7 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
                         startActivity(new Intent(HomeWalletActivity.this, RechargeForCardActivity.class)
                                 .putExtra("money", money));
                     } else if (position == 1) {
-                        startActivity(new Intent(HomeWalletActivity.this, WithdrawForCardActivity.class)
-                                .putExtra("money", money)
-                                .putExtra("withdrawType", "02"));
+                        queryCreditCardList();
                     }
                 } else {
                     Toast.makeText(HomeWalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
@@ -66,8 +79,46 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
             }
         });
         walletAdapter.bindToRecyclerView(mRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(walletAdapter);
+    }
+
+    //******** 获取储蓄卡 ********
+    private void queryCreditCardList() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("储蓄卡->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                CardSelectorBean bean;
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    JSONObject json = object.optJSONObject("respData");
+                    bean = new CardSelectorBean();
+                    bean.setCardId(json.optInt("Id"));
+                    bean.setBankCardName(json.optString("bankcard_name"));
+                    bean.setBankCardNum(json.optString("bankcard_num"));
+                    bean.setBankCardTel(json.optString("bankcard_tel"));
+                    bean.setCardHolder(json.optString("cardholder"));
+                    bean.setChecked(false);
+                    mList.add(bean);
+                    mList.get(0).setChecked(true);
+                    startActivity(new Intent(HomeWalletActivity.this, WithdrawForCardActivity.class)
+                            .putExtra("withdrawType", "02")
+                            .putExtra("list", mList));
+                } else {
+                    Toast.makeText(HomeWalletActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "获取储蓄卡失败 " + throwable.toString());
+            }
+        });
     }
 
     @Override

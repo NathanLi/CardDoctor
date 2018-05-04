@@ -1,6 +1,5 @@
 package com.yunkahui.datacubeper.mine.adapter;
 
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

@@ -70,6 +70,14 @@ public class DoubleBlockView extends LinearLayout {
         return this;
     }
 
+    public String getLeftValue() {
+        return mTvLeftValue.getText().toString();
+    }
+
+    public String getRightValue() {
+        return mTvRightValue.getText().toString();
+    }
+
     public DoubleBlockView setLeftValue(String value) {
         mTvLeftValue.setText(value);
         return this;

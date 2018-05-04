@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
@@ -34,7 +34,6 @@ import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +131,8 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
                 LoadingViewDialog.getInstance().show(AutoPlanActivity.this);
-                mLogic.confirmAutoPlan(AutoPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean), new SimpleCallBack<BaseBean>() {
+                Log.e("JsonTest", "onClick: "+new Gson().toJson(mBaseBean.getRespData()));
+                mLogic.confirmAutoPlan(AutoPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();

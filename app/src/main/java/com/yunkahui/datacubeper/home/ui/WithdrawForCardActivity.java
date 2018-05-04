@@ -137,7 +137,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
-                    mTvUserBalance.setText(respData.optString("user_fenruns"));
+                    mTvUserBalance.setText(respData.optString("02".equals(mWithdrawType) ? "user_balance" : "user_fenruns"));
                 } else {
                     Toast.makeText(WithdrawForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }

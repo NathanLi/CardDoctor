@@ -53,6 +53,10 @@ public class RegisterSecondFragment extends BaseFragment implements View.OnClick
                     ToastUtils.show(getActivity(), "两次密码输入不一致");
                     return;
                 }
+                if (mEditTextPassword.getText().toString().length() < 6 || mEditTextPassword.getText().toString().length() > 16) {
+                    ToastUtils.show(getActivity(), "密码长度必须为6-16位字符，请重新输入");
+                    return;
+                }
                 RegisterActivity activity = (RegisterActivity) getActivity();
                 activity.setNickName(mEditTextNickName.getText().toString());
                 activity.setPassword(mEditTextPassword.getText().toString());

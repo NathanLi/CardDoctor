@@ -97,7 +97,7 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
                     break;
                 case 1:
                     mTextViewSendCode.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-                    mTextViewSendCode.setText("发送验证码");
+                    mTextViewSendCode.setText("获取验证码");
                     mTextViewSendCode.setEnabled(true);
                     break;
             }
@@ -159,6 +159,10 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
     private void editPassword(){
         if(!mEditTextViewNewPassword.getText().equals(mEditTextViewConfirmNewPassword.getText())){
             ToastUtils.show(getActivity().getApplicationContext(),"两次密码输入不一致");
+            return;
+        }
+        if(mEditTextViewNewPassword.getText().length()<6||mEditTextViewNewPassword.getText().length()>16){
+            ToastUtils.show(getActivity().getApplicationContext(),"密码长度必须为6-16位字符，请重新输入");
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());

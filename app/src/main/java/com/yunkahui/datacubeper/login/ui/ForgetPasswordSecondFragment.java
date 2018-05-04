@@ -78,6 +78,10 @@ public class ForgetPasswordSecondFragment extends Fragment implements View.OnCli
                     ToastUtils.show(getActivity(), "两次输入密码不一致");
                     return;
                 }
+                if (mEditTextViewPassword.getText().length() < 6 || mEditTextViewPassword.getText().length() > 16) {
+                    ToastUtils.show(getActivity(), "密码长度必须为6-16位字符，请重新输入");
+                    return;
+                }
                 submit();
                 break;
         }

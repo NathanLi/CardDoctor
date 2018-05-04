@@ -23,13 +23,6 @@ public class WithdrawForZFBLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    //******** 查询支付宝账户 ********
-    public void checkUserZFB(Context context, SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params= RequestUtils.newParams(context).create();
-        HttpManager.getInstance().create(ApiService.class).checkUserBindZFB(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
     //******** 查询提现手续费 ********
     public void queryWithdrawFee(Context context, float withdrawAmount, String withdrawType, SimpleCallBack<BaseBean> callBack) {
         Map<String,String> params= RequestUtils.newParams(context)

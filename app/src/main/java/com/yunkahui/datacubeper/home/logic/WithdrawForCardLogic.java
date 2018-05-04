@@ -35,13 +35,6 @@ public class WithdrawForCardLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    //******** 获取储蓄卡 ********
-    public void checkCashCard(Context context, SimpleCallBack<BaseBean> callBack) {
-        Map<String, String> params = RequestUtils.newParams(context).create();
-        HttpManager.getInstance().create(ApiService.class).checkCashCard(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
     //******** 获取余额、分润 ********
     public void loadUserFinance(Context context, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context).create();

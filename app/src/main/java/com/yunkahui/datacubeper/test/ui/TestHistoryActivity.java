@@ -1,6 +1,5 @@
 package com.yunkahui.datacubeper.test.ui;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,7 +52,7 @@ public class TestHistoryActivity extends AppCompatActivity implements IActivityS
         mCard = (CardTestItem.Card) getIntent().getSerializableExtra("card");
         mLogic = new TestHistoryLogic();
         mCardTestItems = new ArrayList<>();
-        mListAdapter = new TestHistoryListAdapter(R.layout.layout_lsit_item_test_history, mCardTestItems);
+        mListAdapter = new TestHistoryListAdapter(R.layout.layout_list_item_test_history, mCardTestItems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override

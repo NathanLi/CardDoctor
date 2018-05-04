@@ -87,7 +87,9 @@ public class ShareWalletActivity extends AppCompatActivity implements IActivityS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, TradeDetailActivity.class));
+                startActivity(new Intent(ShareWalletActivity.this, WithdrawForZFBActivity.class)
+                        .putExtra("money", getIntent().getStringExtra("money"))
+                        .putExtra("withdrawType", "00"));
                 break;
         }
         return super.onOptionsItemSelected(item);

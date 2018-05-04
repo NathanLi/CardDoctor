@@ -14,6 +14,7 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
  */
 public class ShareLogic {
 
+    //******** 获取分享页面数据 ********
     public void requestSharePageInfo(Context context, SimpleCallBack<BaseBean> callBack){
         HttpManager.getInstance().create(ApiService.class)
                 .loadSharePageInfo(RequestUtils.newParams(context).create())
@@ -21,6 +22,7 @@ public class ShareLogic {
                 .subscribe(callBack);
     }
 
+    //******** 生产激活码 ********
     public void createActivationCode(Context context, SimpleCallBack<BaseBean> callBack){
         HttpManager.getInstance().create(ApiService.class)
                 .loadActivationCode(RequestUtils.newParams(context).create())

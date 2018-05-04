@@ -56,15 +56,13 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
                     JSONObject respData = object.optJSONObject("respData");
-                    if (respData != null) {
-                        mDoubleBlockView1.setLeftValue(respData.optString("userCommissions"))
-                                .setRightValue(respData.optString("userFenruns"));
-                        mDoubleBlockView2.setLeftValue(String.valueOf(respData.optInt("commonMemberCount")))
-                                .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
-                        mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
-                        mTvMyCode.setText(respData.optString("userUniqueCode"));
-                        DataUtils.setInvitateCode(respData.optString("userUniqueCode"));
-                    }
+                    mDoubleBlockView1.setLeftValue(respData.optString("userCommissions"))
+                            .setRightValue(respData.optString("userFenruns"));
+                    mDoubleBlockView2.setLeftValue(String.valueOf(respData.optInt("commonMemberCount")))
+                            .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
+                    mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
+                    mTvMyCode.setText(respData.optString("userUniqueCode"));
+                    DataUtils.setInvitateCode(respData.optString("userUniqueCode"));
                 } else {
                     Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
@@ -82,7 +80,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, ShareWalletActivity.class)
-                        .putExtra("from", "share"));
+                    .putExtra("money", mDoubleBlockView1.getLeftValue()));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
@@ -93,12 +91,12 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView2.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, MemberActivity.class));
+                startActivity(new Intent(mActivity, MemberActivity.class).putExtra("isVip", false));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, MemberActivity.class));
+                startActivity(new Intent(mActivity, MemberActivity.class).putExtra("isVip", true));
             }
         });
     }
@@ -141,7 +139,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.tv_link_share:
                 startActivity(new Intent(mActivity, WebViewActivity.class)
-                        .putExtra("title","链接分享")
+                        .putExtra("title", "链接分享")
                         .putExtra("url", "http://www.yunkahui.cn/zbl_web/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim()));
                 break;
             case R.id.tv_qr_share:
@@ -150,7 +148,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.tv_vip_course:
                 startActivity(new Intent(mActivity, WebViewActivity.class)
-                        .putExtra("title","VIP教程")
+                        .putExtra("title", "VIP教程")
                         .putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));
                 break;
         }

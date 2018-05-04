@@ -94,16 +94,12 @@ public class ShareProfitActivity extends AppCompatActivity implements IActivityS
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
-                try {
-                    if (RequestUtils.SUCCESS.equals(baseBean.getJsonObject().optString("respCode"))) {
-                        startActivity(new Intent(ShareProfitActivity.this, WithdrawForZFBActivity.class)
-                                .putExtra("withdrawType", "01")
-                                .putExtra("json", baseBean.getJsonObject().toString()));
-                    } else {
-                        showBindZFBDialog();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (RequestUtils.SUCCESS.equals(baseBean.getJsonObject().optString("respCode"))) {
+                    startActivity(new Intent(ShareProfitActivity.this, WithdrawForZFBActivity.class)
+                            .putExtra("withdrawType", "01")
+                            .putExtra("json", baseBean.getJsonObject().toString()));
+                } else {
+                    showBindZFBDialog();
                 }
             }
 

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.bill.ui.OpenAutoPlanActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15pt">
+
+        <TextView
+            android:id="@+id/text_view_bank_card_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="卡号:"
+            android:textColor="@color/text_color_gray_949494"
+            android:textSize="14pt" />
+
+        <TextView
+            android:id="@+id/text_view_bank_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_gray_949494"
+            android:textSize="14pt" />
+
+    </LinearLayout>
+
+    <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+        android:id="@+id/simple_input_item_cvv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_edit_hint="请输入CVV2"
+        app:item_edit_input_type="number"
+        app:item_edit_title="CVV2：" />
+
+    <View style="@style/common_line" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleTextView
+        android:id="@+id/simple_text_view_validity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:simple_hint="请选择有效期"
+        app:simple_right_icon="@mipmap/ic_next_gray"
+        app:simple_title="有效期：" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:layout_marginTop="20pt"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="15pt"
+        android:paddingRight="15pt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号:"
+            android:textColor="@color/black"
+            android:textSize="15pt" />
+
+        <EditText
+            android:id="@+id/edit_text_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10pt"
+            android:layout_marginRight="10pt"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:textColorHint="@color/text_color_gray_949494"
+            android:hint="@string/phone_tips"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="#000000"
+            android:textSize="15pt" />
+
+        <View
+            android:layout_width="0.7dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12pt"
+            android:layout_marginTop="12pt"
+            android:background="@color/line_blue_23a2fd" />
+
+        <TextView
+            android:id="@+id/text_view_send_auth_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10pt"
+            android:layout_marginStart="10pt"
+            android:text="@string/send_auth_code"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16pt" />
+
+    </LinearLayout>
+
+    <View style="@style/common_line" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+        android:id="@+id/simple_input_item_auth_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_edit_input_type="number"
+        app:item_edit_hint="@string/auth_code_tips"
+        app:item_edit_title="验证码：" />
+
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:layout_margin="35pt"
+        android:background="@drawable/bg_button_blue_selector"
+        android:text="确定提交"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

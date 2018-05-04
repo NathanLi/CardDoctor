@@ -108,12 +108,14 @@
         <activity android:name=".bill.ui.BillSynchronousActivity" />
 
         <service android:name=".bill.ui.BillSynchronousService" />
+
         <activity
             android:name=".home.ui.ScanActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".home.ui.ScanResultActivity" />
+        <activity android:name=".bill.ui.OpenAutoPlanActivity"></activity>
     </application>
 
 </manifest>

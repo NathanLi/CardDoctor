@@ -152,7 +152,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 public void onClick(View view) {
                     bottomSheetDialog.dismiss();
                     LoadingViewDialog.getInstance().show(PosPlanActivity.this);
-                    Log.e("JsonTest", "onClick: "+new Gson().toJson(mBaseBean.getRespData()));
+                    Log.e("JsonTest", "onClick: " + new Gson().toJson(mBaseBean.getRespData()));
                     mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
@@ -190,7 +190,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         intent.putExtra("type", AddCardActivity.TYPE_EDIT);
                         intent.putExtra("card_id", getIntent().getIntExtra("user_credit_card_id", 0));
                         intent.putExtra("card_number", getIntent().getStringExtra("bank_card_num"));
-                        intent.putExtra("bank_card_name",getIntent().getStringExtra("bank_card_name"));
+                        intent.putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"));
                         startActivity(intent);
                         dialogInterface.dismiss();
                     }
@@ -238,7 +238,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onSuccess(BaseBean<GeneratePlan> baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            LogUtils.e("POS生成规划 ->"+baseBean.getJsonObject().toString());
+                            LogUtils.e("POS生成规划 ->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
                                 mList.clear();
@@ -284,6 +284,14 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             handleSelectedTime(data);
         } else if (resultCode == Activity.RESULT_OK) {
             handleInfo(data);
+        }
+        if (mResultList != null && mResultList.size() > 0 && mEtInputAmount.getText().toString().length() > 0
+                && mEtInputTimes.getText().toString().length() > 0) {
+            mTvGoPlan.setEnabled(true);
+            mTvGoPlan.setEnabled(true);
+        } else {
+            mTvGoPlan.setEnabled(false);
+            mTvGoPlan.setEnabled(false);
         }
     }
 
@@ -338,8 +346,10 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             if (mResultList != null && mResultList.size() > 0 && s.length() > 0 && mEtInputAmount.getText().toString().length() > 0
                     && mEtInputTimes.getText().toString().length() > 0) {
                 mTvGoPlan.setSelected(true);
+                mTvGoPlan.setEnabled(true);
             } else {
                 mTvGoPlan.setSelected(false);
+                mTvGoPlan.setEnabled(false);
             }
         }
     }

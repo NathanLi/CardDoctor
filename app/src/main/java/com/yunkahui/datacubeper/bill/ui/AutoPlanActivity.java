@@ -1,11 +1,13 @@
 package com.yunkahui.datacubeper.bill.ui;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +69,9 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         mList = new ArrayList<>();
         mEtInputAmount.addTextChangedListener(new InnerTextChangeListener());
         mEtInputTimes.addTextChangedListener(new InnerTextChangeListener());
-        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), getIntent().getStringExtra("bank_card_num"), false);
+        String card = getIntent().getStringExtra("bank_card_num");
+        String cardFormat = String.format(getResources().getString(R.string.bank_card_tail_num), card.substring(card.length() - 4, card.length()));
+        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), cardFormat, false);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -131,22 +135,26 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
                 LoadingViewDialog.getInstance().show(AutoPlanActivity.this);
-                Log.e("JsonTest", "onClick: "+new Gson().toJson(mBaseBean.getRespData()));
+                Log.e("JsonTest", "onClick: " + new Gson().toJson(mBaseBean.getRespData()));
                 mLogic.confirmAutoPlan(AutoPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
                         LogUtils.e("提交自动规划->" + baseBean.getJsonObject().toString());
-                        ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                            ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                             finish();
+                        } else if ("0209".equals(baseBean.getRespCode())) {
+                            showDialog(baseBean.getRespDesc());
+                        } else {
+                            ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         LoadingViewDialog.getInstance().dismiss();
-                        ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                        ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
                     }
                 });
 
@@ -173,6 +181,24 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         }
     }
 
+    //弹窗是否跳往健全
+    private void showDialog(String message) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(AutoPlanActivity.this, OpenAutoPlanActivity.class)
+                                .putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"))
+                                .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
+                                .putExtra("user_credit_card_id", getIntent().getIntExtra("user_credit_card_id", 0)));
+                    }
+                })
+                .setNeutralButton("取消", null)
+                .create();
+        dialog.show();
+    }
+
     private void generateData() {
         if (check()) {
             StringBuilder date = new StringBuilder();
@@ -189,6 +215,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                             LogUtils.e("提交自动规划数据->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
+                                mList.clear();
                                 mList.addAll(mLogic.parsingJSONForAutoPlan(baseBean));
                                 mAdapter.notifyDataSetChanged();
                             } else {
@@ -229,6 +256,14 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_FIRST_USER) {
             handleSelectedTime(data);
+            if (mResultList != null && mResultList.size() > 0 && mEtInputAmount.getText().toString().length() > 0
+                    && mEtInputTimes.getText().toString().length() > 0) {
+                mTvGoPlan.setEnabled(true);
+                mTvGoPlan.setEnabled(true);
+            } else {
+                mTvGoPlan.setEnabled(false);
+                mTvGoPlan.setEnabled(false);
+            }
         }
     }
 
@@ -255,6 +290,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
             mTvRepayDate.setText(getString(R.string.repay_date));
             mTvRepayDate.setTextColor(getResources().getColor(R.color.text_color_gray_9d9d9d));
         }
+
     }
 
     private class InnerTextChangeListener extends CustomTextChangeListener {
@@ -263,8 +299,10 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (mResultList != null && mResultList.size() > 0 && s.length() > 0 && mEtInputAmount.getText().toString().length() > 0
                     && mEtInputTimes.getText().toString().length() > 0) {
+                mTvGoPlan.setEnabled(true);
                 mTvGoPlan.setSelected(true);
             } else {
+                mTvGoPlan.setEnabled(false);
                 mTvGoPlan.setSelected(false);
             }
         }

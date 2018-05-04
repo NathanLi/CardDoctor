@@ -37,12 +37,23 @@ public class CardTestLogic {
     public void submitCardTest(Context context,String name,String idCard,String bankCardNumber,String phone,String payInfo,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("cardholder",name)
-                .addParams("identify_id",idCard)
+                .addParams("identify_ID",idCard)
                 .addParams("bankcard_num",bankCardNumber)
                 .addParams("bankcard_tel",phone)
-                .addParams("out_trade_no",payInfo)
+                .addParams("paymentCode","ALIPAY")
                 .create();
         HttpManager.getInstance().create(ApiService.class).submitCardTest(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
+    /**
+     * 【卡测评（新）】查询订单状态
+     */
+    public void checkTestResultStatus(Context context,String tradeNo,SimpleCallBack<BaseBean> callBack){
+        Map<String,String> params=RequestUtils.newParams(context)
+                .addParams("out_trade_no",tradeNo)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).checkTestResultStatus(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 

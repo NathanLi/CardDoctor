@@ -75,7 +75,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
         mEtInputTimes.addTextChangedListener(new InnerTextChangeListener());
         String card = getIntent().getStringExtra("bank_card_num");
         String cardFormat = String.format(getResources().getString(R.string.bank_card_tail_num), card.substring(card.length() - 4, card.length()));
-        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), cardFormat);
+        mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), cardFormat, true);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

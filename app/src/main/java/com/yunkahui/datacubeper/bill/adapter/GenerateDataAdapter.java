@@ -1,6 +1,5 @@
 package com.yunkahui.datacubeper.bill.adapter;
 
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,13 +12,15 @@ import java.util.List;
 
 public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, BaseViewHolder> {
 
+    private boolean mIsPos;
     private String mBankName;
     private String mCardId;
 
-    public GenerateDataAdapter(int layoutResId, List data, String bankName, String cardId) {
+    public GenerateDataAdapter(int layoutResId, List data, String bankName, String cardId, boolean isPos) {
         super(layoutResId, data);
         this.mBankName = bankName;
         this.mCardId = cardId;
+        this.mIsPos = isPos;
     }
 
     @Override
@@ -33,11 +34,12 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
             helper.getView(R.id.tv_msg).setVisibility(View.GONE);
         }
         helper.setText(R.id.tv_card_id, mCardId);
-        Log.e(TAG, "convert: " + item.getTimeStamp() + ", " + TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getTimeStamp()));
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getTimeStamp()));
         helper.setText(R.id.tv_spend_amount, String.valueOf(item.getMoney()));
-        helper.setText(R.id.tv_status, "调整 >");
-        helper.addOnClickListener(R.id.tv_status);
+        if (mIsPos) {
+            helper.setText(R.id.tv_status, "调整 >");
+            helper.addOnClickListener(R.id.tv_status);
+        }
     }
 
 }

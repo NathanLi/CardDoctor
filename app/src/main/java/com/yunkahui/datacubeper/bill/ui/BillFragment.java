@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +26,6 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.TodayOperationActivity;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
-import com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity;
 
 import org.json.JSONObject;
 
@@ -47,7 +45,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
     private TextView mTvCardCount;
     private TextView mTvRepayCount;
     private TextView mTvUnRepayCount;
-    private TextView mTextViewPlan;
+    private TextView mTvShowNum;
 
     private BillLogic mLogic;
     private BillCardListAdapter mAdapter;
@@ -83,8 +81,8 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mTvCardCount = headerView.findViewById(R.id.tv_card_count);
         mTvRepayCount = headerView.findViewById(R.id.tv_repay_count);
         mTvUnRepayCount = headerView.findViewById(R.id.tv_unrepay_count);
-        mTextViewPlan = headerView.findViewById(R.id.text_view_plan);
-        headerView.findViewById(R.id.btn_today_operation).setOnClickListener(this);
+        mTvShowNum = headerView.findViewById(R.id.tv_show_num);
+        headerView.findViewById(R.id.show_today).setOnClickListener(this);
         mAdapter.addHeaderView(headerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mAdapter);
@@ -148,10 +146,10 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     DataUtils.setRealName(baseBean.getRespData().getTrueName());
                     List<BillCreditCard.CreditCard> details = baseBean.getRespData().getCardDetail();
-                    mTextViewPlan.setText(baseBean.getRespData().getPlanCount() + "");
-                    mTvCardCount.setText(baseBean.getRespData().getCardCount() + "");
-                    mTvRepayCount.setText(baseBean.getRespData().getPayOffCount() + "");
-                    mTvUnRepayCount.setText(baseBean.getRespData().getCardCount() - baseBean.getRespData().getPayOffCount() + "");
+                    mTvShowNum.setText(baseBean.getRespData().getPlanCount() + "");
+                    mTvCardCount.setText(baseBean.getRespData().getCardCount() + "\n卡片数");
+                    mTvRepayCount.setText(baseBean.getRespData().getPayOffCount() + "\n已还清");
+                    mTvUnRepayCount.setText(baseBean.getRespData().getCardCount() - baseBean.getRespData().getPayOffCount() + "\n未还款");
                     if (details != null) {
                         mList.clear();
                         if (details.size() > 0) {
@@ -220,7 +218,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_bind_card:
                 checkRealNameAuthStatus();
                 break;
-            case R.id.btn_today_operation:
+            case R.id.show_today:
                 startActivity(new Intent(mActivity, TodayOperationActivity.class));
                 break;
         }

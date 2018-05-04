@@ -403,7 +403,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                 {"近第3个月", "TT082", "TT069"}
         };
         holder.setText(R.id.show_time, mess[indexPath.getRow()][0]);
-        holder.setText(R.id.show_num, dataJson.optString(mess[indexPath.getRow()][1]) + "笔");
+        holder.setText(R.id.tv_show_num, dataJson.optString(mess[indexPath.getRow()][1]) + "笔");
         holder.setText(R.id.show_ratio, dataJson.optString(mess[indexPath.getRow()][2]));
     }
 
@@ -461,7 +461,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                 {"近12个月", "TT095", "TT101"}
         };
         holder.setText(R.id.show_time, mess[indexPath.getRow()][0]);
-        holder.setText(R.id.show_num, dataJson.optString(mess[indexPath.getRow()][1]));
+        holder.setText(R.id.tv_show_num, dataJson.optString(mess[indexPath.getRow()][1]));
         holder.setText(R.id.show_ratio, String.format("%.2f%%", dataJson.optDouble(mess[indexPath.getRow()][2])));
     }
 
@@ -469,7 +469,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
         holder.setText(R.id.show_type, dataJson.optString("MC287"))
                 .setText(R.id.show_code, dataJson.optString("MC292"))
                 .setText(R.id.show_mcc, dataJson.optString("MC292"))
-                .setText(R.id.show_num, dataJson.optString("MC293"))
+                .setText(R.id.tv_show_num, dataJson.optString("MC293"))
                 .setText(R.id.show_money, dataJson.optString("MC294"));
     }
 
@@ -541,7 +541,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                 .setText(R.id.show_bank, dataJson.optString("CA005"))
                 .setText(R.id.tv_mess, dataJson.optString("CA004"))
                 .setText(R.id.show_name, dataJson.optString("cardholder"))
-                .setText(R.id.show_num, DataUtils.transBankCardNum(dataJson.optString("bankcard"), 4));
+                .setText(R.id.tv_show_num, DataUtils.transBankCardNum(dataJson.optString("bankcard"), 4));
         if (getIntent().getStringExtra("data") == null) {
             holder.getView(R.id.show_sample).setVisibility(View.VISIBLE);
         } else {
@@ -565,7 +565,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
         float money = (float) dataJson.optDouble(moneys[indexPath.getSection() - 6][indexPath.getRow()]);
 
         if (number >= 0) {
-            holder.setText(R.id.show_num, number + "笔");
+            holder.setText(R.id.tv_show_num, number + "笔");
         }
         if (money >= 0) {
             holder.setText(R.id.show_money, money + "");
@@ -625,7 +625,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                     holder.setText(R.id.show_money, TB001 + "");
                 }
                 if (TB016 >= 0) {
-                    holder.setText(R.id.show_num, TB016 + "笔");
+                    holder.setText(R.id.tv_show_num, TB016 + "笔");
                 }
 
             }
@@ -641,7 +641,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                     holder.setText(R.id.show_money, TB002 + "");
                 }
                 if (TB017 >= 0) {
-                    holder.setText(R.id.show_num, TB017 + "笔");
+                    holder.setText(R.id.tv_show_num, TB017 + "笔");
                 }
             }
             break;
@@ -656,7 +656,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                     holder.setText(R.id.show_money, TB003 + "");
                 }
                 if (TB018 >= 0) {
-                    holder.setText(R.id.show_num, TB018 + "笔");
+                    holder.setText(R.id.tv_show_num, TB018 + "笔");
                 }
             }
             break;
@@ -671,7 +671,7 @@ public class TestResultActivity extends AppCompatActivity implements IActivitySt
                     holder.setText(R.id.show_money, TB004 + "");
                 }
                 if (TB019 >= 0) {
-                    holder.setText(R.id.show_num, TB019 + "笔");
+                    holder.setText(R.id.tv_show_num, TB019 + "笔");
                 }
             }
             break;

@@ -50,13 +50,13 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
         mButtonNext = view.findViewById(R.id.button_next);
         mTextViewSendCode = view.findViewById(R.id.text_view_send_auth_code);
 
-        mEditTextPhone.addTextChangedListener(new InnerTextChangerListener());
-        mEditTextAuthCode.addTextChangedListener(new InnerTextChangerListener());
+        mEditTextPhone.addTextChangedListener(new InnerTextChangeListener());
+        mEditTextAuthCode.addTextChangedListener(new InnerTextChangeListener());
         view.findViewById(R.id.text_view_send_auth_code).setOnClickListener(this);
         mButtonNext.setOnClickListener(this);
 
-        mEditTextPhone.addTextChangedListener(new InnerTextChangerListener());
-        mEditTextAuthCode.addTextChangedListener(new InnerTextChangerListener());
+        mEditTextPhone.addTextChangedListener(new InnerTextChangeListener());
+        mEditTextAuthCode.addTextChangedListener(new InnerTextChangeListener());
     }
 
     @Override
@@ -152,20 +152,6 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
         });
     }
 
-    private class InnerTextChangeListener extends CustomTextChangeListener {
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (TextUtils.isEmpty(mEditTextPhone.getText().toString()) || TextUtils.isEmpty(mEditTextAuthCode.getText().toString())) {
-                mButtonNext.setBackgroundResource(R.color.bg_button_gray_a9a9a9);
-                mButtonNext.setEnabled(false);
-            } else {
-                mButtonNext.setEnabled(true);
-                mButtonNext.setBackgroundResource(R.drawable.bg_button_blue_selector);
-            }
-        }
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -182,7 +168,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private class InnerTextChangerListener extends CustomTextChangeListener {
+    private class InnerTextChangeListener extends CustomTextChangeListener {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {

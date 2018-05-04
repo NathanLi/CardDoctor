@@ -161,6 +161,10 @@ public class ResetLoginPasswordFragment extends Fragment implements View.OnClick
             ToastUtils.show(getActivity().getApplicationContext(),"两次密码输入不一致");
             return;
         }
+        if(mEditTextViewNewPassword.getText().length()<6||mEditTextViewNewPassword.getText().length()>16){
+            ToastUtils.show(getActivity().getApplicationContext(),"密码长度必须为6-16位字符，请重新输入");
+            return;
+        }
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.editPassword(getActivity(), mEditTextViewPhone.getText(), mEditTextViewOldPassword.getText(), mEditTextViewNewPassword.getText(),
                 mEditTextAuthCode.getText().toString(), new SimpleCallBack<BaseBean>() {

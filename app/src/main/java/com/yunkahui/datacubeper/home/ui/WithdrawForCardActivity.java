@@ -42,7 +42,6 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
     private Button mBtnCommit;
 
     private WithdrawForCardLogic mLogic;
-    private ArrayList<CardSelectorBean> mList;
     private String mBindId;
     private String mWithdrawType;
 
@@ -50,44 +49,8 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
     public void initData() {
         mLogic = new WithdrawForCardLogic();
         mWithdrawType = getIntent().getStringExtra("withdrawType");
-        mList = new ArrayList<>();
 
         initUserFinance();
-        queryCreditCardList();
-    }
-
-    //******** 获取储蓄卡 ********
-    private void queryCreditCardList() {
-        LoadingViewDialog.getInstance().show(this);
-        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("储蓄卡->" + baseBean.getJsonObject().toString());
-                JSONObject object = baseBean.getJsonObject();
-                CardSelectorBean bean;
-                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
-                    JSONObject json = object.optJSONObject("respData");
-                    bean = new CardSelectorBean();
-                    bean.setCardId(json.optInt("Id"));
-                    bean.setBankCardName(json.optString("bankcard_name"));
-                    bean.setBankCardNum(json.optString("bankcard_num"));
-                    bean.setBankCardTel(json.optString("bankcard_tel"));
-                    bean.setCardHolder(json.optString("cardholder"));
-                    bean.setChecked(false);
-                    mList.add(bean);
-                    mList.get(0).setChecked(true);
-                } else {
-                    Toast.makeText(WithdrawForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(), "获取储蓄卡失败 " + throwable.toString());
-            }
-        });
     }
 
     @Override
@@ -226,7 +189,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
     private void showSelectCardDialog() {
         CardSelectorDialogFragment dialog = new CardSelectorDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("list", mList);
+        bundle.putParcelableArrayList("list", getIntent().getParcelableArrayListExtra("list"));
         dialog.setArguments(bundle);
         dialog.setOnCheckedChangeListener(new CardSelectorDialogFragment.OnCheckedChangeListener() {
             @Override

@@ -46,7 +46,7 @@ public class DoubleBlockView extends LinearLayout {
         if (a.hasValue(R.styleable.DoubleBlockView_leftTitle))
             mTvLeftTitle.setText(a.getString(R.styleable.DoubleBlockView_leftTitle));
         if (a.hasValue(R.styleable.DoubleBlockView_rightTitle))
-            mTvLeftTitle.setText(a.getString(R.styleable.DoubleBlockView_rightTitle));
+            mTvRightTitle.setText(a.getString(R.styleable.DoubleBlockView_rightTitle));
         a.recycle();
     }
 

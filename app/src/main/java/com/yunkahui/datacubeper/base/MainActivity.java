@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
     private SparseArray<RadioButton> mRadioButtons;
     private ColorStateList mSelectColor;
     private ColorStateList mUnSelectedColor;
-    private int lastPosition;
+    private int lastPosition = 0;
     private long mTime;
 
     @Override
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};
         MainTabAdapter mAdapter = new MainTabAdapter(getSupportFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(0);
         mViewPager.setOffscreenPageLimit(5);
     }
 

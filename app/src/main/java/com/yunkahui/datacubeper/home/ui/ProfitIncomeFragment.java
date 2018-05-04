@@ -97,19 +97,26 @@ public class ProfitIncomeFragment extends BaseFragment {
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("分润收入->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
-                    mList.addAll(mLogic.parsingJSONForProfitIncome(baseBean));
-                    initSuspensionBar();
-                    if (mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
+                    List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
+                    if (entityList.size() > 0) {
+                        mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                        mList.addAll(entityList);
+                        initSuspensionBar();
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        mSuspensionBar.setVisibility(View.GONE);
                     }
+                } else {
+                    mSuspensionBar.setVisibility(View.GONE);
+                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
-
-
             }
 
             @Override
             public void onFailure(Throwable throwable) {
+                mSuspensionBar.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取分润收入失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });

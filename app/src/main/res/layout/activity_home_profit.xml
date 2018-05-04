@@ -6,6 +6,8 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <include layout="@layout/layout_today_operation" />
+    <include
+        android:id="@+id/layout_include"
+        layout="@layout/layout_today_operation" />
 
 </LinearLayout>

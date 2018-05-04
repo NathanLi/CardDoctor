@@ -8,11 +8,22 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.CustomViewPager;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.home.logic.HomeProfitLogic;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +36,14 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
     private TabLayout mTabLayout;
     private CustomViewPager mViewPager;
 
+    private HomeProfitLogic mLogic;
+    private ArrayList<CardSelectorBean> mList;
+
     @Override
     public void initData() {
+        mLogic = new HomeProfitLogic();
+        mList = new ArrayList<>();
+
         String[] tabTitles = {"分润收入", "分润提现"};
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new ProfitIncomeFragment());
@@ -56,10 +73,47 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, WithdrawForCardActivity.class).putExtra("withdrawType", "01"));
+                queryCreditCardList();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //******** 获取储蓄卡 ********
+    private void queryCreditCardList() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("储蓄卡->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                CardSelectorBean bean;
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    JSONObject json = object.optJSONObject("respData");
+                    bean = new CardSelectorBean();
+                    bean.setCardId(json.optInt("Id"));
+                    bean.setBankCardName(json.optString("bankcard_name"));
+                    bean.setBankCardNum(json.optString("bankcard_num"));
+                    bean.setBankCardTel(json.optString("bankcard_tel"));
+                    bean.setCardHolder(json.optString("cardholder"));
+                    bean.setChecked(false);
+                    mList.add(bean);
+                    mList.get(0).setChecked(true);
+                    startActivity(new Intent(HomeProfitActivity.this, WithdrawForCardActivity.class)
+                            .putExtra("withdrawType", "01")
+                            .putExtra("list", mList));
+                } else {
+                    Toast.makeText(HomeProfitActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "获取储蓄卡失败 " + throwable.toString());
+            }
+        });
     }
 
     @Override

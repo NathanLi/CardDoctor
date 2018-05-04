@@ -58,7 +58,6 @@
         <activity android:name=".share.ui.WithdrawForZFBActivity" />
         <activity android:name=".home.ui.RechargeForCardActivity" />
         <activity android:name=".share.ui.RechargeForZFBActivity" />
-        <activity android:name=".share.ui.TradeDetailActivity" />
         <activity android:name=".share.ui.ShareWalletActivity" />
         <activity android:name=".share.ui.ShareProfitActivity" />
         <activity android:name=".share.ui.MemberActivity" />

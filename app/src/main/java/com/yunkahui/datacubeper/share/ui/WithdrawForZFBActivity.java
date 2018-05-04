@@ -29,6 +29,7 @@ import com.yunkahui.datacubeper.home.logic.WithdrawForCardLogic;
 import com.yunkahui.datacubeper.mine.ui.BindZFBActivity;
 import com.yunkahui.datacubeper.share.logic.WithdrawForZFBLogic;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -52,58 +53,16 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
         if (getIntent().getStringExtra("money") != null) {
             mTvUserBalance.setText(getIntent().getStringExtra("money"));
         }
-        LoadingViewDialog.getInstance().show(this);
-        checkUserZFB();
-    }
-
-    //******** 查询支付宝信息 ********
-    private void checkUserZFB() {
-        mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                mBtnCommit.setEnabled(true);
-                LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
-                try {
-                    JSONObject object = baseBean.getJsonObject();
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
-                        JSONObject respData = object.optJSONObject("respData");
-                        mAlipayId = String.valueOf(respData.optInt("alipay_id"));
-                        String alipayAccount = respData.optString("alipay_account");
-                        String name = respData.optString("ail_true_name");
-                        mTvCardSelected.setText(alipayAccount + "(" + name + ")");
-                    } else {
-                        showBindZFBDialog();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                Toast.makeText(WithdrawForZFBActivity.this, "获取支付宝信息失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void showBindZFBDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("尚未绑定支付宝，请前往绑定")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(WithdrawForZFBActivity.this, BindZFBActivity.class));
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+        try {
+            JSONObject json = new JSONObject(getIntent().getStringExtra("json"));
+            JSONObject respData = json.optJSONObject("respData");
+            mAlipayId = String.valueOf(respData.optInt("alipay_id"));
+            String alipayAccount = respData.optString("alipay_account");
+            String name = respData.optString("ail_true_name");
+            mTvCardSelected.setText(alipayAccount + "(" + name + ")");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ public class TestHistoryListItemView extends RelativeLayout {
 
     public TestHistoryListItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.layout_lsit_item_test_history, this);
+        inflate(context, R.layout.layout_list_item_test_history, this);
         mTextViewTitle = findViewById(R.id.text_view_title);
         mTextViewTime = findViewById(R.id.text_view_time);
         mTextViewResult = findViewById(R.id.text_view_result);

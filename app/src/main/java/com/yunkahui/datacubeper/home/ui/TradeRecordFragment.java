@@ -28,6 +28,7 @@ import java.util.List;
 public class TradeRecordFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
+    private View mLayoutLoading;
 
     private TradeRecordLogic mLogic;
     private BaseQuickAdapter mAdapter;
@@ -63,25 +64,28 @@ public class TradeRecordFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String action, time, money, status;
+                String action, time, money, status, remarks;
                 if (0 == getArguments().getInt("kind")) {
                     RechargeRecord.RechargeDetail detail = mRechargeDetails.get(position);
                     action = "账户充值";
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getAmount());
                     status = getTradeStatus(detail.getOrder_state(), "充值");
+                    remarks = detail.getCallback_msg();
                 } else {
                     WithdrawRecord.WithdrawDetail detail = mWithdrawDetails.get(position);
                     action = "账户提现";
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getWithdraw_amount());
                     status = getTradeStatus(detail.getOrder_state(), "提现");
+                    remarks = detail.getThird_party_msg();
                 }
                 startActivity(new Intent(mActivity, SingleRecordActivity.class)
                         .putExtra("time", time)
                         .putExtra("money", money)
                         .putExtra("status", status)
-                        .putExtra("action", action));
+                        .putExtra("action", action)
+                        .putExtra("remarks", remarks));
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -110,7 +114,8 @@ public class TradeRecordFragment extends BaseFragment {
         mLogic.getWithdrawRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
             @Override
             public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
-                LogUtils.e("提现页面->" + baseBean.getJsonObject().toString());
+                LogUtils.e("提现->" + baseBean.getJsonObject().toString());
+                mLayoutLoading.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
                     mAllPages = baseBean.getRespData().getPages();
@@ -125,6 +130,7 @@ public class TradeRecordFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取提现数据失败", Toast.LENGTH_SHORT).show();
             }
         });
@@ -135,6 +141,7 @@ public class TradeRecordFragment extends BaseFragment {
         mLogic.getRechargeRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
             @Override
             public void onSuccess(BaseBean<RechargeRecord> baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("充值->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -150,6 +157,7 @@ public class TradeRecordFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取充值数据失败", Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,6 +184,7 @@ public class TradeRecordFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 

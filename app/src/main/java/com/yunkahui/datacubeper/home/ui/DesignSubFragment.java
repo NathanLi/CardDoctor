@@ -29,7 +29,6 @@ import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
-import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
 
@@ -42,6 +41,7 @@ import java.util.List;
 public class DesignSubFragment extends BaseFragment {
 
     private SwipeMenuRecyclerView mRecyclerView;
+    private View mLayoutLoading;
     private ImageView mIvNoData;
 
     private DesignSubLogic mLogic;
@@ -253,6 +253,7 @@ public class DesignSubFragment extends BaseFragment {
         mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
             @Override
             public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mSmartPlanSubList.addAll(baseBean.getRespData());
@@ -261,6 +262,7 @@ public class DesignSubFragment extends BaseFragment {
             }
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取智能规划失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -272,6 +274,7 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -283,6 +286,7 @@ public class DesignSubFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取今日操作失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -296,12 +300,13 @@ public class DesignSubFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mIvNoData = view.findViewById(R.id.iv_no_data);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_auto_plan;
+        return R.layout.fragment_design_sub;
     }
 }

@@ -93,18 +93,19 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("账单详情->" + baseBean.getJsonObject().toString());
-                Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mList.addAll(mLogic.handleData(baseBean, billDay));
                     LoadingViewDialog.getInstance().dismiss();
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Toast.makeText(BillDetailActivity.this, "获取账单详情失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillDetailActivity.this, "获取账单详情失败" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

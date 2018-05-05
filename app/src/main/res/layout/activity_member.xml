@@ -50,8 +50,6 @@
             android:layout_height="match_parent" />
 
         <include
-            android:id="@+id/include_loading_view"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

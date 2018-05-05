@@ -10,4 +10,10 @@
 
     <include layout="@layout/layout_list_header_trade_record_summary" />
 
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/layout_loading_view" />
+
 </RelativeLayout>

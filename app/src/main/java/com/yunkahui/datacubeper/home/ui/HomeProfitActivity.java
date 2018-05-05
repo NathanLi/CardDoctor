@@ -102,6 +102,7 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
                     mList.add(bean);
                     mList.get(0).setChecked(true);
                     startActivity(new Intent(HomeProfitActivity.this, WithdrawForCardActivity.class)
+                            .putExtra("title", "分润提现")
                             .putExtra("withdrawType", "01")
                             .putExtra("list", mList));
                 } else {

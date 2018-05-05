@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class ShareProfitLogic {
 
-    //******** 查询支付宝账户 ********
-    public void checkUserZFB(Context context, SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params= RequestUtils.newParams(context).create();
-        HttpManager.getInstance().create(ApiService.class).checkUserBindZFB(params)
+    //******** 获取储蓄卡 ********
+    public void checkCashCard(Context context, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context).create();
+        HttpManager.getInstance().create(ApiService.class).checkCashCard(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 }

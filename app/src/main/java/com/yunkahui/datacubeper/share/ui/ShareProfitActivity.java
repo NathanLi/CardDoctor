@@ -81,52 +81,48 @@ public class ShareProfitActivity extends AppCompatActivity implements IActivityS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                checkUserZFB();
+                queryCreditCardList();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //******** 查询支付宝信息 ********
-    private void checkUserZFB() {
-        mLogic.checkUserZFB(this, new SimpleCallBack<BaseBean>() {
+    //******** 获取储蓄卡 ********
+    private void queryCreditCardList() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
-                if (RequestUtils.SUCCESS.equals(baseBean.getJsonObject().optString("respCode"))) {
-                    startActivity(new Intent(ShareProfitActivity.this, WithdrawForZFBActivity.class)
+                LogUtils.e("储蓄卡->" + baseBean.getJsonObject().toString());
+                JSONObject object = baseBean.getJsonObject();
+                CardSelectorBean bean;
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    JSONObject json = object.optJSONObject("respData");
+                    bean = new CardSelectorBean();
+                    bean.setCardId(json.optInt("Id"));
+                    bean.setBankCardName(json.optString("bankcard_name"));
+                    bean.setBankCardNum(json.optString("bankcard_num"));
+                    bean.setBankCardTel(json.optString("bankcard_tel"));
+                    bean.setCardHolder(json.optString("cardholder"));
+                    bean.setChecked(false);
+                    mList.add(bean);
+                    mList.get(0).setChecked(true);
+                    startActivity(new Intent(ShareProfitActivity.this, WithdrawForCardActivity.class)
+                            .putExtra("title", "分润提现")
                             .putExtra("withdrawType", "01")
-                            .putExtra("json", baseBean.getJsonObject().toString()));
+                            .putExtra("list", mList));
                 } else {
-                    showBindZFBDialog();
+                    Toast.makeText(ShareProfitActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                Toast.makeText(ShareProfitActivity.this, "获取支付宝信息失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(getApplicationContext(), "获取储蓄卡失败 " + throwable.toString());
             }
         });
-    }
-
-    private void showBindZFBDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("尚未绑定支付宝，请前往绑定")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(ShareProfitActivity.this, BindZFBActivity.class));
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
     }
 
     @Override

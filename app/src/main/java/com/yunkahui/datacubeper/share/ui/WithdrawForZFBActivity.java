@@ -93,7 +93,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_withdraw_for_zfb);
         super.onCreate(savedInstanceState);
-        setTitle("余额提现");
+        setTitle("分佣提现");
     }
 
     @Override

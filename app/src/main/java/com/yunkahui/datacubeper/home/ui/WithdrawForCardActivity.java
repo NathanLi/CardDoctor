@@ -64,7 +64,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_withdraw_for_card);
         super.onCreate(savedInstanceState);
-        setTitle("余额提现");
+        setTitle(getIntent().getStringExtra("title"));
     }
 
     @Override

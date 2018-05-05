@@ -63,7 +63,7 @@ public class ShareWalletActivity extends AppCompatActivity implements IActivityS
         walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (isQualified) {
+                /*if (isQualified) {
                     if (position == 0) {
                         startActivity(new Intent(ShareWalletActivity.this, RechargeForZFBActivity.class)
                                 .putExtra("money", money));
@@ -74,7 +74,7 @@ public class ShareWalletActivity extends AppCompatActivity implements IActivityS
                     }
                 } else {
                     Toast.makeText(ShareWalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
         walletAdapter.bindToRecyclerView(mRecyclerView);

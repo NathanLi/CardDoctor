@@ -106,6 +106,7 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
                     mList.add(bean);
                     mList.get(0).setChecked(true);
                     startActivity(new Intent(HomeWalletActivity.this, WithdrawForCardActivity.class)
+                            .putExtra("title", "余额提现")
                             .putExtra("withdrawType", "02")
                             .putExtra("list", mList));
                 } else {

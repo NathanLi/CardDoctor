@@ -350,7 +350,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/share/get_member_list")   //获取普通/VIP会员列表
-    Observable<BaseBean<List<Member>>> requestMemberList(@FieldMap Map<String,String> params);
+    Observable<BaseBean<Member>> requestMemberList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/payment/bind_card_msg")     //添加卡片短信下发接口  ,卡片鉴权短信

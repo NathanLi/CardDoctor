@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -27,41 +30,55 @@ import java.util.List;
 public class MemberActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private RecyclerView mRecyclerView;
-    private View rlLoadingView;
+    private AVLoadingIndicatorView mAVLoadingIndicatorView;
 
     private MemberLogic mLogic;
-    private List<Member> mList;
+    private List<Member.MemberData> mList;
     private MemberAdapter mAdapter;
+
+    private int mPage = 1;
 
     @Override
     public void initData() {
         mLogic = new MemberLogic();
         mList = new ArrayList<>();
-        getMemberList();
+        getMemberList(mPage);
         mAdapter = new MemberAdapter(R.layout.layout_list_item_member, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setEmptyView(R.layout.layout_no_data);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getMemberList(mPage);
+            }
+        }, mRecyclerView);
+        mAdapter.disableLoadMoreIfNotFullPage();
     }
 
-    public void getMemberList() {
-        mLogic.getMemberList(this, getIntent().getBooleanExtra("isVip", false) ? "VIP" : "COMMON", 10, 1, new SimpleCallBack<BaseBean<List<Member>>>() {
+    public void getMemberList(int page) {
+        mLogic.getMemberList(this, getIntent().getBooleanExtra("isVip", false) ? "VIP" : "COMMON", 10, page, new SimpleCallBack<BaseBean<Member>>() {
             @Override
-            public void onSuccess(BaseBean<List<Member>> baseBean) {
-                rlLoadingView.setVisibility(View.GONE);
-                LogUtils.e("成员列表->" + baseBean.getJsonObject().toString());
+            public void onSuccess(BaseBean<Member> baseBean) {
+                LogUtils.e("成员列表->" + baseBean.toString());
+                mAVLoadingIndicatorView.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mList.addAll(baseBean.getRespData());
+                    if (baseBean.getRespData().getSize() > mPage) {
+                        mAdapter.loadMoreComplete();
+                        mPage++;
+                    } else {
+                        mAdapter.loadMoreEnd();
+                    }
+                    mList.addAll(baseBean.getRespData().getList());
                     mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(MemberActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                rlLoadingView.setVisibility(View.GONE);
+                mAVLoadingIndicatorView.setVisibility(View.GONE);
+                mAdapter.loadMoreFail();
                 Toast.makeText(MemberActivity.this, "获取成员失败" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -70,7 +87,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
     @Override
     public void initView() {
         mRecyclerView = findViewById(R.id.recycler_view);
-        rlLoadingView = findViewById(R.id.rl_loading_view);
+        mAVLoadingIndicatorView = findViewById(R.id.av_loading_view);
     }
 
     @Override

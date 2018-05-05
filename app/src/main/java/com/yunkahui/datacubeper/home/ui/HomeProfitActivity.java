@@ -98,6 +98,7 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
                     bean.setBankCardTel(json.optString("bankcard_tel"));
                     bean.setCardHolder(json.optString("cardholder"));
                     bean.setChecked(false);
+                    mList.clear();
                     mList.add(bean);
                     mList.get(0).setChecked(true);
                     startActivity(new Intent(HomeProfitActivity.this, WithdrawForCardActivity.class)

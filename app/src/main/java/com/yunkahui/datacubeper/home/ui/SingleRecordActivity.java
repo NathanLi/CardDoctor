@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +15,22 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
     private TextView mTvMoney;
     private TextView mTvTime;
     private TextView mTvStatus;
-    private TextView mTvRemark;
+    private TextView mTvRemarks;
 
     @Override
     public void initData() {
         mTvType.setText(getIntent().getStringExtra("action"));
         mTvMoney.setText(getIntent().getStringExtra("money"));
         mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), getIntent().getStringExtra("time")));
-        mTvStatus.setText(String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status")));
+        String status = String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status"));
+        String remarks = getIntent().getStringExtra("remarks");
+        String remarksSub = remarks.substring(remarks.lastIndexOf("：") + 1);
+        mTvRemarks.setText("备        注：" + remarksSub);
+        if (remarks.contains("失败"))
+            mTvRemarks.setTextColor(Color.RED);
+        mTvStatus.setText(status);
+        if (status.contains("失败"))
+            mTvStatus.setTextColor(Color.RED);
     }
 
     @Override
@@ -37,7 +46,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         mTvMoney = findViewById(R.id.tv_money);
         mTvTime = findViewById(R.id.tv_time);
         mTvStatus = findViewById(R.id.tv_status);
-        mTvRemark = findViewById(R.id.tv_remark);
+        mTvRemarks = findViewById(R.id.tv_remarks);
     }
 
     @Override

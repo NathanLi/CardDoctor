@@ -173,8 +173,7 @@ public class DesignSubFragment extends BaseFragment {
                 } else {
                     if (mIsTodayOperation) {
                         getTodayOperation(10, ++mCurrentPage);
-                    }
-                    else {
+                    } else {
                         getPlanList(10, ++mCurrentPage);
                     }
                 }

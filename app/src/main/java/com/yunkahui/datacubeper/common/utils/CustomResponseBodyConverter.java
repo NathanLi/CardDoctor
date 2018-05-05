@@ -28,17 +28,17 @@ public class CustomResponseBodyConverter<T> implements Converter<ResponseBody, T
 
     @Override
     public T convert(ResponseBody value) throws IOException {
-        String json=value.string();
+        String json = value.string();
         try {
-            JSONObject object=new JSONObject(json);
-            if("0000".equals(object.optString("respCode"))){
-                T result=adapter.fromJson(json);
-                if(result instanceof BaseBean){
-                    ((BaseBean)result).setJsonObject(object);
+            JSONObject object = new JSONObject(json);
+            if ("0000".equals(object.optString("respCode"))) {
+                T result = adapter.fromJson(json);
+                if (result instanceof BaseBean) {
+                    ((BaseBean) result).setJsonObject(object);
                 }
                 return result;
-            }else {
-                BaseBean baseBean=new BaseBean();
+            } else {
+                BaseBean baseBean = new BaseBean();
                 baseBean.setRespCode(object.optString("respCode"));
                 baseBean.setRespDesc(object.optString("respDesc"));
                 baseBean.setJsonObject(object);

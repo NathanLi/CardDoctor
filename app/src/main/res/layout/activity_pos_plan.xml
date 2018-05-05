@@ -122,6 +122,7 @@
         android:layout_marginLeft="15pt"
         android:layout_marginRight="15pt"
         android:background="@drawable/bg_do_plan_button_selector"
+        android:enabled="false"
         android:gravity="center"
         android:paddingBottom="8pt"
         android:paddingTop="8pt"

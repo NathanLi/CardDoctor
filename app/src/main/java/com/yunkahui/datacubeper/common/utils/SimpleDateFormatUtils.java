@@ -21,4 +21,9 @@ public class SimpleDateFormatUtils {
         return format.format(new Date(time));
     }
 
+    public static String formatYM(long time){
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM");
+        return format.format(new Date(time));
+    }
+
 }

@@ -277,8 +277,12 @@ public interface ApiService {
     Observable<BaseBean> loadTestMoney(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("/app/api/creditcard_consumption_report")     //卡评测-发起测评
+    @POST("/app/api/card_evaluation_create_order")     //卡评测-发起测评
     Observable<BaseBean> submitCardTest(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/api/card_evaluation_check_status")      //【卡测评（新）】查询订单状态
+    Observable<BaseBean> checkTestResultStatus(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/api/query_record_card")     //查询用户测评过的卡片列表
@@ -347,5 +351,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/share/get_member_list")   //获取普通/VIP会员列表
     Observable<BaseBean<List<Member>>> requestMemberList(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/payment/bind_card_msg")     //添加卡片短信下发接口  ,卡片鉴权短信
+    Observable<BaseBean> bindCardSendSMS(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userbankcard/hlb_quickpay_bindcard")    //信用卡鉴权
+    Observable<BaseBean> authCreditCard(@FieldMap Map<String,String> params);
+
 
 }

@@ -247,6 +247,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CropCircleTransformation())
                                 .into(mIvIcon);
+                        loadData();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

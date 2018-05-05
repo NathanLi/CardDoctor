@@ -41,6 +41,7 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
     private String mPayResult;
     private CardTestItem.Card mCard;
     private CardTestLogic mLogic;
+    private String mTradeNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,17 +108,17 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
     //创建支付订单，获取支付orderInfo
     private void createCardTestPayOrder() {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.createCardTestPayOrder(this, mMoney+"", "ALIPAY", new SimpleCallBack<BaseBean>() {
+        mLogic.createCardTestPayOrder(this, mMoney + "", "ALIPAY", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("卡测评-支付订单->" + baseBean.toString());
-                JSONObject object=baseBean.getJsonObject();
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    mPayResult=object.optJSONObject("respData").optString("out_trade_no");
-                    String orderInfo=object.optJSONObject("respData").optString("order_info");
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mPayResult = object.optJSONObject("respData").optString("out_trade_no");
+                    String orderInfo = object.optJSONObject("respData").optString("order_info");
                     pay(orderInfo);
-                }else{
+                } else {
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                 }
             }
@@ -138,10 +139,12 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
             @Override
             public void onSuccess(String data) {
                 LogUtils.e("支付宝成功->" + data);
-                startTest();
+                checkTestResultStatus();
             }
+
             @Override
             public void onFill(String error) {
+                ToastUtils.show(getApplicationContext(), error);
                 LogUtils.e("支付宝失败->" + error);
             }
         });
@@ -156,10 +159,36 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("发起测评-->" + baseBean.toString());
-                JSONObject object=baseBean.getJsonObject();
-                ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
-                if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
-                    String data=object.optJSONObject("respData").optJSONObject("result").toString();
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    String orderInfo = object.optJSONObject("respData").optString("order_info");
+                    mTradeNo = object.optJSONObject("respData").optString("out_trade_no");
+                    pay(orderInfo);
+                } else {
+                    ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
+            }
+        });
+    }
+
+    //【卡测评（新）】查询订单状态
+    private void checkTestResultStatus() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.checkTestResultStatus(this, mTradeNo, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                LogUtils.e("评测结果-->"+baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    JSONObject object = baseBean.getJsonObject();
+                    String data = object.optJSONObject("respData").optString("apr_return_datas");
                     TestResultActivity.actionStart(CardTestActivity.this, data, System.currentTimeMillis());
                 }
             }
@@ -168,7 +197,6 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
-                LogUtils.e("发起测评-->" + throwable.toString());
             }
         });
     }
@@ -192,7 +220,8 @@ public class CardTestActivity extends AppCompatActivity implements IActivityStat
         switch (v.getId()) {
             case R.id.button_submit:
                 if (check()) {
-                    createCardTestPayOrder();
+//                    createCardTestPayOrder();
+                    startTest();
                 }
                 break;
             case R.id.text_view_agreement:

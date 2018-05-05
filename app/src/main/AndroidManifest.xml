@@ -115,6 +115,7 @@
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".home.ui.ScanResultActivity" />
+        <activity android:name=".bill.ui.OpenAutoPlanActivity"></activity>
     </application>
 
 </manifest>

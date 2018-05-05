@@ -99,7 +99,11 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                showBottomSheetDialog();
+                if (mList.size() > 0) {
+                    showBottomSheetDialog();
+                } else {
+                    ToastUtils.show(getApplicationContext(),"请先进行规划");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

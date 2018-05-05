@@ -106,6 +106,7 @@ public class ShareProfitActivity extends AppCompatActivity implements IActivityS
                     bean.setBankCardTel(json.optString("bankcard_tel"));
                     bean.setCardHolder(json.optString("cardholder"));
                     bean.setChecked(false);
+                    mList.clear();
                     mList.add(bean);
                     mList.get(0).setChecked(true);
                     startActivity(new Intent(ShareProfitActivity.this, WithdrawForCardActivity.class)

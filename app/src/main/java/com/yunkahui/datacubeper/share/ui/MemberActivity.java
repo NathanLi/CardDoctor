@@ -45,8 +45,8 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
         getMemberList(mPage);
         mAdapter = new MemberAdapter(R.layout.layout_list_item_member, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
-        mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

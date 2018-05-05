@@ -1,7 +1,9 @@
 package com.yunkahui.datacubeper.applypos.ui;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.HomeLogic;
+import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeVipActivity;
 
 import org.json.JSONObject;
 
@@ -55,7 +58,7 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                     } else {
                         switch (json.optString("tua_status")) {
                             case "-1":  //落地POS没开通
-                                ToastUtils.show(activity, "请先开通落地POS");
+                                showDialog(activity);
                                 break;
                             case "0":   //已付款
                             case "1":   //审核中
@@ -84,6 +87,21 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                 ToastUtils.show(activity.getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
+    }
+    //前往开通会员弹窗
+    public static void showDialog(final Activity activity) {
+        AlertDialog dialog = new AlertDialog.Builder(activity)
+                .setMessage("请先开通落地POS")
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(activity, UpgradeVipActivity.class);
+                        activity.startActivity(intent);
+                    }
+                })
+                .setNeutralButton("取消", null)
+                .create();
+        dialog.show();
     }
 
     @Override

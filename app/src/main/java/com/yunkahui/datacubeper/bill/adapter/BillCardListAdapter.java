@@ -37,6 +37,7 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
         if (item != null) {
             helper.setVisible(R.id.iv_sample, false);
             BillCardView billCardView = helper.getView(R.id.bill_card);
+            billCardView.setIsExtend(true);
             billCardView.setIcon(DataUtils.getBankIconMap().containsKey(item.getBankCardName()) ? DataUtils.getBankIconMap().get(item.getBankCardName()) : R.mipmap.bank_other);
             billCardView.setBankName(item.getBankCardName());
             final String cardIdFormat = String.format(mContext.getResources().getString(R.string.bank_card_tail_num), item.getBankCardNum().substring(item.getBankCardNum().length() - 4, item.getBankCardNum().length()));
@@ -89,6 +90,8 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
                 billCardView.setSmartPlanVisibility(View.INVISIBLE);
             }
         } else {
+            BillCardView billCardView = helper.getView(R.id.bill_card);
+            billCardView.setIsExtend(false);
             helper.setVisible(R.id.iv_sample, true);
         }
     }

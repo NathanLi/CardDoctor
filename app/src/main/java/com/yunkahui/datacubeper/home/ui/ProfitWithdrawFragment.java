@@ -64,8 +64,6 @@ public class ProfitWithdrawFragment extends BaseFragment {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                     mList.addAll(mLogic.parsingJSONForProfitWithdraw(baseBean));
                     mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 

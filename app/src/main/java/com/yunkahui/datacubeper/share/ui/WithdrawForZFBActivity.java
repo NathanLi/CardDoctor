@@ -23,6 +23,7 @@ import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.share.logic.WithdrawForZFBLogic;
 
 import org.json.JSONException;
@@ -115,9 +116,11 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("提现手续费->" + baseBean.getJsonObject().toString());
-                Toast.makeText(WithdrawForZFBActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     showWithdrawDialog(baseBean.getJsonObject().optJSONObject("respData").optString("fee"));
+                } else {
+                    ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                 }
             }
 

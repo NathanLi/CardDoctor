@@ -112,7 +112,6 @@ public class ProfitIncomeFragment extends BaseFragment {
                     }
                 } else {
                     mSuspensionBar.setVisibility(View.GONE);
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 

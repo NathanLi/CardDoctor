@@ -39,6 +39,8 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
         if (mIsPos) {
             helper.setText(R.id.tv_status, "调整 >");
             helper.addOnClickListener(R.id.tv_status);
+        }else{
+            helper.getView(R.id.tv_type).setVisibility(View.GONE);
         }
     }
 

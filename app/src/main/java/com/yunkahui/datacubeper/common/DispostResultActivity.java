@@ -8,8 +8,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
-public class DispostResultActivity extends AppCompatActivity {
+public class DispostResultActivity extends AppCompatActivity implements IActivityStatusBar{
 
     public static final int TYPE_TOP_UP=1;
     public static final int TYPE_WITHDRAW=2;
@@ -22,9 +23,8 @@ public class DispostResultActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispost_result);
-
+        super.onCreate(savedInstanceState);
         mTextViewResult=findViewById(R.id.text_view_result);
         mTextViewMoney=findViewById(R.id.text_view_money);
         mType=getIntent().getIntExtra("type",0);
@@ -44,13 +44,6 @@ public class DispostResultActivity extends AppCompatActivity {
                 mTextViewResult.setText("提现处理中···");
                 break;
         }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
     }
 
     @Override
@@ -70,4 +63,18 @@ public class DispostResultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return 0;
+    }
 }

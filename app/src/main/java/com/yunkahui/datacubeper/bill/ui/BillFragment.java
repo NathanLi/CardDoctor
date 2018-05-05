@@ -43,6 +43,7 @@ import java.util.List;
 public class BillFragment extends BaseFragment implements View.OnClickListener {
 
     private final int RESULT_CODE_ADD = 1001;
+    private final int RESULT_CODE_FAIL_CARD = 1002;
 
     private RecyclerView mRecyclerView;
     private View mLlPromptAddCard;
@@ -55,6 +56,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
     private BillLogic mLogic;
     private BillCardListAdapter mAdapter;
     private List<BillCreditCard.CreditCard> mList;
+    private int mFailCardNum;
 
     public static Fragment getInstance(String data) {
         BillFragment f = new BillFragment();
@@ -100,6 +102,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 LogUtils.e("点击" + position);
+                if (mList.get(position) == null) {
+                    return;
+                }
                 final String itemTime = TimeUtils.format("yyyy-MM-dd", mList.get(position).getRepayDayDate());
                 startActivity(new Intent(getActivity(), BillDetailActivity.class)
                         .putExtra("user_credit_card_id", mList.get(position).getUserCreditCardId())
@@ -157,10 +162,10 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("失败的卡片数量-->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    int num = baseBean.getJsonObject().optJSONObject("respData").optInt("failCardNum");
-                    if (num > 0) {
+                    mFailCardNum = baseBean.getJsonObject().optJSONObject("respData").optInt("failCardNum");
+                    if (mFailCardNum > 0) {
                         mTextViewWarning.setVisibility(View.VISIBLE);
-                        mTextViewWarning.setText("紧急：有" + num + "张卡片交易关闭，请前往处理");
+                        mTextViewWarning.setText("紧急：有" + mFailCardNum + "张卡片交易关闭，请前往处理");
                     } else {
                         mTextViewWarning.setVisibility(View.GONE);
                     }
@@ -176,7 +181,15 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == getActivity().RESULT_OK && requestCode == RESULT_CODE_ADD) {
-            getCreditCardList();
+
+            switch (requestCode) {
+                case RESULT_CODE_ADD:
+                    getCreditCardList();
+                    break;
+                case RESULT_CODE_FAIL_CARD:
+                    loadFailCardNum();
+                    break;
+            }
         }
     }
 
@@ -231,10 +244,11 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                     mTvCardCount.setText(baseBean.getRespData().getCardCount() + "\n卡片数");
                     mTvRepayCount.setText(baseBean.getRespData().getPayOffCount() + "\n已还清");
                     mTvUnRepayCount.setText(baseBean.getRespData().getCardCount() - baseBean.getRespData().getPayOffCount() + "\n未还款");
+                    mList.clear();
                     if (details != null) {
-                        mList.clear();
                         if (details.size() > 0) {
                             mList.addAll(details);
+                            mLlPromptAddCard.setVisibility(View.GONE);
                         } else {
                             mList.add(null);
                             mLlPromptAddCard.setVisibility(View.VISIBLE);
@@ -307,6 +321,9 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(mActivity, TodayOperationActivity.class));
                 break;
             case R.id.text_view_warning:
+                Intent intent = new Intent(getActivity(), FailCardListActivity.class);
+                intent.putExtra("num", mFailCardNum);
+                startActivityForResult(intent, RESULT_CODE_FAIL_CARD);
                 break;
         }
     }

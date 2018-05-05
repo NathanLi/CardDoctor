@@ -360,5 +360,8 @@ public interface ApiService {
     @POST("/app/userbankcard/hlb_quickpay_bindcard")    //信用卡鉴权
     Observable<BaseBean> authCreditCard(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/planning/check_fail_card")  //查询存在规划失败的卡片列表
+    Observable<BaseBean> loadFailCardList(@FieldMap Map<String,String> params);
 
 }

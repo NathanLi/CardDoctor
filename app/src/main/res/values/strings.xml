@@ -14,7 +14,6 @@
     <!--升级加盟-->
     <string name="upgrade_mess">升级VIP会员，享受卡医生所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
 
-
     <!-- 通用 -->
     <string name="loading">加载中...</string>
     <string name="default_content_description" />
@@ -97,6 +96,7 @@
     <string name="date_format">%1$s 至 %2$s</string>
     <string name="year_month_day">%1$04d-%2$02d-%3$02d</string>
     <string name="hour_minute">%1$02d:%2$02d</string>
+    <string name="fail_card_list_tips"><![CDATA[ <font color="#ff0000">重要：</font> 有%1$d张卡片交易关闭，激活规划或者重新规划时，请注意卡片还款期限，以免发生逾期。 ]]></string>
 
     <!--首页-->
     <string name="pos">pos</string>

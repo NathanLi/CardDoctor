@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
@@ -30,29 +31,45 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
     private View rlLoadingView;
 
     private MemberLogic mLogic;
-    private List<Member> mList;
+    private List<Member.MemberBean> mList;
     private MemberAdapter mAdapter;
+    private int mCurrentPage;
+    private int mAllPages;
 
     @Override
     public void initData() {
         mLogic = new MemberLogic();
         mList = new ArrayList<>();
-        getMemberList();
+        getMemberList(10, 1);
         mAdapter = new MemberAdapter(R.layout.layout_list_item_member, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setEnableLoadMore(true);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (mCurrentPage >= mAllPages) {
+                    mAdapter.loadMoreEnd();
+                } else {
+                    getMemberList(10, ++mCurrentPage);
+                }
+            }
+        }, mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void getMemberList() {
-        mLogic.getMemberList(this, getIntent().getBooleanExtra("isVip", false) ? "VIP" : "COMMON", 10, 1, new SimpleCallBack<BaseBean<List<Member>>>() {
+    public void getMemberList(int pageSize, int pageNum) {
+        mLogic.getMemberList(this, getIntent().getBooleanExtra("isVip", false) ? "VIP" : "COMMON", pageSize, pageNum, new SimpleCallBack<BaseBean<Member>>() {
             @Override
-            public void onSuccess(BaseBean<List<Member>> baseBean) {
+            public void onSuccess(BaseBean<Member> baseBean) {
                 rlLoadingView.setVisibility(View.GONE);
                 LogUtils.e("成员列表->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mList.addAll(baseBean.getRespData());
+                    mCurrentPage = baseBean.getRespData().getPageNum();
+                    mAllPages = baseBean.getRespData().getPages();
+                    mList.addAll(baseBean.getRespData().getList());
                     mAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MemberActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();

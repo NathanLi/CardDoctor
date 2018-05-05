@@ -5,6 +5,6 @@ public interface DesignSub {
     String getPlan_type();
     String getBankCardName();
     long getDate();
-    double getAmount();
+    int getAmount();
     String getOperation();
 }

@@ -1,119 +1,327 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import java.util.List;
+
 public class Member {
 
 
     /**
-     * uc_id : 28
-     * user_code : 9mg6thwi7d
-     * org_number : Y1000000001
-     * child_user_code : wbm2cf7nx9
-     * type : 01
-     * user_name : 18054240040
-     * nick_name : 海风
-     * true_name :
-     * tel : 18054240040
-     * create_time : 1524448266000
-     * update_time : 1524449420000
+     * pageNum : 1
+     * pageSize : 10
+     * size : 1
+     * startRow : 1
+     * endRow : 1
+     * total : 1
+     * pages : 1
+     * list : [{"uc_id":28,"user_code":"9mg6thwi7d","org_number":"Y1000000001","child_user_code":"wbm2cf7nx9","type":"01","user_name":"18054240040","nick_name":"海风","true_name":"","tel":"18054240040","create_time":1524448266000,"update_time":1524449420000}]
+     * prePage : 0
+     * nextPage : 0
+     * isFirstPage : true
+     * isLastPage : true
+     * hasPreviousPage : false
+     * hasNextPage : false
+     * navigatePages : 8
+     * navigatepageNums : [1]
+     * navigateFirstPage : 1
+     * navigateLastPage : 1
+     * firstPage : 1
+     * lastPage : 1
      */
 
-    private int uc_id;
-    private String user_code;
-    private String org_number;
-    private String child_user_code;
-    private String type;
-    private String user_name;
-    private String nick_name;
-    private String true_name;
-    private String tel;
-    private long create_time;
-    private long update_time;
+    private int pageNum;
+    private int pageSize;
+    private int size;
+    private int startRow;
+    private int endRow;
+    private int total;
+    private int pages;
+    private int prePage;
+    private int nextPage;
+    private boolean isFirstPage;
+    private boolean isLastPage;
+    private boolean hasPreviousPage;
+    private boolean hasNextPage;
+    private int navigatePages;
+    private int navigateFirstPage;
+    private int navigateLastPage;
+    private int firstPage;
+    private int lastPage;
+    private List<MemberBean> list;
+    private List<Integer> navigatepageNums;
 
-    public int getUc_id() {
-        return uc_id;
+    public int getPageNum() {
+        return pageNum;
     }
 
-    public void setUc_id(int uc_id) {
-        this.uc_id = uc_id;
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
     }
 
-    public String getUser_code() {
-        return user_code;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setUser_code(String user_code) {
-        this.user_code = user_code;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public String getOrg_number() {
-        return org_number;
+    public int getSize() {
+        return size;
     }
 
-    public void setOrg_number(String org_number) {
-        this.org_number = org_number;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public String getChild_user_code() {
-        return child_user_code;
+    public int getStartRow() {
+        return startRow;
     }
 
-    public void setChild_user_code(String child_user_code) {
-        this.child_user_code = child_user_code;
+    public void setStartRow(int startRow) {
+        this.startRow = startRow;
     }
 
-    public String getType() {
-        return type;
+    public int getEndRow() {
+        return endRow;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEndRow(int endRow) {
+        this.endRow = endRow;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public int getTotal() {
+        return total;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public String getNick_name() {
-        return nick_name;
+    public int getPages() {
+        return pages;
     }
 
-    public void setNick_name(String nick_name) {
-        this.nick_name = nick_name;
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 
-    public String getTrue_name() {
-        return true_name;
+    public int getPrePage() {
+        return prePage;
     }
 
-    public void setTrue_name(String true_name) {
-        this.true_name = true_name;
+    public void setPrePage(int prePage) {
+        this.prePage = prePage;
     }
 
-    public String getTel() {
-        return tel;
+    public int getNextPage() {
+        return nextPage;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
     }
 
-    public long getCreate_time() {
-        return create_time;
+    public boolean isIsFirstPage() {
+        return isFirstPage;
     }
 
-    public void setCreate_time(long create_time) {
-        this.create_time = create_time;
+    public void setIsFirstPage(boolean isFirstPage) {
+        this.isFirstPage = isFirstPage;
     }
 
-    public long getUpdate_time() {
-        return update_time;
+    public boolean isIsLastPage() {
+        return isLastPage;
     }
 
-    public void setUpdate_time(long update_time) {
-        this.update_time = update_time;
+    public void setIsLastPage(boolean isLastPage) {
+        this.isLastPage = isLastPage;
+    }
+
+    public boolean isHasPreviousPage() {
+        return hasPreviousPage;
+    }
+
+    public void setHasPreviousPage(boolean hasPreviousPage) {
+        this.hasPreviousPage = hasPreviousPage;
+    }
+
+    public boolean isHasNextPage() {
+        return hasNextPage;
+    }
+
+    public void setHasNextPage(boolean hasNextPage) {
+        this.hasNextPage = hasNextPage;
+    }
+
+    public int getNavigatePages() {
+        return navigatePages;
+    }
+
+    public void setNavigatePages(int navigatePages) {
+        this.navigatePages = navigatePages;
+    }
+
+    public int getNavigateFirstPage() {
+        return navigateFirstPage;
+    }
+
+    public void setNavigateFirstPage(int navigateFirstPage) {
+        this.navigateFirstPage = navigateFirstPage;
+    }
+
+    public int getNavigateLastPage() {
+        return navigateLastPage;
+    }
+
+    public void setNavigateLastPage(int navigateLastPage) {
+        this.navigateLastPage = navigateLastPage;
+    }
+
+    public int getFirstPage() {
+        return firstPage;
+    }
+
+    public void setFirstPage(int firstPage) {
+        this.firstPage = firstPage;
+    }
+
+    public int getLastPage() {
+        return lastPage;
+    }
+
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
+    }
+
+    public List<MemberBean> getList() {
+        return list;
+    }
+
+    public void setList(List<MemberBean> list) {
+        this.list = list;
+    }
+
+    public List<Integer> getNavigatepageNums() {
+        return navigatepageNums;
+    }
+
+    public void setNavigatepageNums(List<Integer> navigatepageNums) {
+        this.navigatepageNums = navigatepageNums;
+    }
+
+    public static class MemberBean {
+        /**
+         * uc_id : 28
+         * user_code : 9mg6thwi7d
+         * org_number : Y1000000001
+         * child_user_code : wbm2cf7nx9
+         * type : 01
+         * user_name : 18054240040
+         * nick_name : 海风
+         * true_name :
+         * tel : 18054240040
+         * create_time : 1524448266000
+         * update_time : 1524449420000
+         */
+
+        private int uc_id;
+        private String user_code;
+        private String org_number;
+        private String child_user_code;
+        private String type;
+        private String user_name;
+        private String nick_name;
+        private String true_name;
+        private String tel;
+        private long create_time;
+        private long update_time;
+
+        public int getUc_id() {
+            return uc_id;
+        }
+
+        public void setUc_id(int uc_id) {
+            this.uc_id = uc_id;
+        }
+
+        public String getUser_code() {
+            return user_code;
+        }
+
+        public void setUser_code(String user_code) {
+            this.user_code = user_code;
+        }
+
+        public String getOrg_number() {
+            return org_number;
+        }
+
+        public void setOrg_number(String org_number) {
+            this.org_number = org_number;
+        }
+
+        public String getChild_user_code() {
+            return child_user_code;
+        }
+
+        public void setChild_user_code(String child_user_code) {
+            this.child_user_code = child_user_code;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        public String getTrue_name() {
+            return true_name;
+        }
+
+        public void setTrue_name(String true_name) {
+            this.true_name = true_name;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
+        }
+
+        public long getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(long create_time) {
+            this.create_time = create_time;
+        }
+
+        public long getUpdate_time() {
+            return update_time;
+        }
+
+        public void setUpdate_time(long update_time) {
+            this.update_time = update_time;
+        }
     }
 }

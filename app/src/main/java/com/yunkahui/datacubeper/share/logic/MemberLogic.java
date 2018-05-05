@@ -15,13 +15,13 @@ import java.util.Map;
 public class MemberLogic {
 
     //******** 获取普通/VIP会员列表 ********
-    public void getMemberList(Context context, String memberType, int pageSize, int pageNum, SimpleCallBack<BaseBean<List<Member>>> callBack) {
+    public void getMemberList(Context context, String memberType, int pageSize, int pageNum, SimpleCallBack<BaseBean<Member>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("member_type", memberType)
                 .addParams("pageSize", pageSize)
                 .addParams("pageNum", pageNum)
                 .create();
         HttpManager.getInstance().create(ApiService.class).requestMemberList(params)
-                .compose(HttpManager.<BaseBean<List<Member>>>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean<Member>>applySchedulers()).subscribe(callBack);
     }
 }

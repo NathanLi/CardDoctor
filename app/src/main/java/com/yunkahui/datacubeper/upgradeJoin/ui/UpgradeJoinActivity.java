@@ -84,18 +84,13 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("查询是否申请代理->" + baseBean.getJsonObject().toString());
-                try {
-                    JSONObject object = baseBean.getJsonObject();
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
-                        Intent intent = new Intent(UpgradeJoinActivity.this, AgentApplyActivity.class);
-                        intent.putExtra("type", isOem ? AgentApplyActivity.TYPE_OEM : AgentApplyActivity.TYPE_AGENT);
-                        startActivity(intent);
-                    } else {
-                        ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                JSONObject object = baseBean.getJsonObject();
+                if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                    Intent intent = new Intent(UpgradeJoinActivity.this, AgentApplyActivity.class);
+                    intent.putExtra("type", isOem ? AgentApplyActivity.TYPE_OEM : AgentApplyActivity.TYPE_AGENT);
+                    startActivity(intent);
+                } else {
+                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                 }
             }
 

@@ -38,8 +38,6 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
-import com.yunkahui.datacubeper.mine.ui.AddCashCardActivity;
-import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeVipActivity;
 
 import java.util.ArrayList;
 import java.util.List;

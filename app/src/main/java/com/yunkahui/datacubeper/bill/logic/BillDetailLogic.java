@@ -25,6 +25,7 @@ public class BillDetailLogic {
 
     private static final String TAG = "BillDetailLogic";
 
+    //******** 获取账单头部信息 ********
     public void getBillDetailTop(Context context, int cardId, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("user_credit_card_id", String.valueOf(cardId))
@@ -33,6 +34,7 @@ public class BillDetailLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
+    //******** 获取账单详情 ********
     public void getBillDetail(Context context, int cardId, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("user_credit_card_id", String.valueOf(cardId))

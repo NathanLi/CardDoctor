@@ -10,10 +10,8 @@ import android.widget.Toast;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.base.BaseActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.bean.Member;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -29,7 +27,7 @@ import java.util.List;
 public class MemberActivity extends AppCompatActivity implements IActivityStatusBar {
 
     private RecyclerView mRecyclerView;
-    private View mIncludeLoadingView;
+    private View rlLoadingView;
 
     private MemberLogic mLogic;
     private List<Member> mList;
@@ -51,6 +49,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
         mLogic.getMemberList(this, getIntent().getBooleanExtra("isVip", false) ? "VIP" : "COMMON", 10, 1, new SimpleCallBack<BaseBean<List<Member>>>() {
             @Override
             public void onSuccess(BaseBean<List<Member>> baseBean) {
+                rlLoadingView.setVisibility(View.GONE);
                 LogUtils.e("成员列表->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mList.addAll(baseBean.getRespData());
@@ -62,6 +61,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
 
             @Override
             public void onFailure(Throwable throwable) {
+                rlLoadingView.setVisibility(View.GONE);
                 Toast.makeText(MemberActivity.this, "获取成员失败" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -70,7 +70,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
     @Override
     public void initView() {
         mRecyclerView = findViewById(R.id.recycler_view);
-        mIncludeLoadingView = findViewById(R.id.include_loading_view);
+        rlLoadingView = findViewById(R.id.rl_loading_view);
     }
 
     @Override

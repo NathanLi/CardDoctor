@@ -3,7 +3,6 @@ package com.yunkahui.datacubeper.home.ui;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;

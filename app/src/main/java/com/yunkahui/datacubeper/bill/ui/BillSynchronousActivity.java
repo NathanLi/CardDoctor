@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
-import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 

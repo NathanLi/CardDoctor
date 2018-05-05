@@ -108,6 +108,7 @@
         <activity android:name=".bill.ui.BillSynchronousActivity" />
 
         <service android:name=".bill.ui.BillSynchronousService" />
+
         <activity
             android:name=".home.ui.ScanActivity"
             android:screenOrientation="portrait"

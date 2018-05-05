@@ -26,6 +26,7 @@ public class ProfitIncomeFragment extends BaseFragment {
 
     private ConstraintLayout mSuspensionBar;
     private RecyclerView mRecyclerView;
+    private View mLayoutLoading;
     private TextView mTvTime;
     private TextView mTvMessage;
 
@@ -95,6 +96,7 @@ public class ProfitIncomeFragment extends BaseFragment {
         mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("分润收入->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
@@ -116,6 +118,7 @@ public class ProfitIncomeFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 mSuspensionBar.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取分润收入失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
@@ -144,6 +147,7 @@ public class ProfitIncomeFragment extends BaseFragment {
         mSuspensionBar = view.findViewById(R.id.suspension_bar);
         mTvTime = view.findViewById(R.id.tv_time);
         mTvMessage = view.findViewById(R.id.tv_mess);
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
     }
 
     @Override

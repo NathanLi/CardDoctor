@@ -18,7 +18,7 @@ public class AutoPlanLogic {
 
     public void confirmAutoPlan(Context context, int cardId, String planDatas, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
-                .addParams("bankcard_id", String.valueOf(cardId))
+                .addParams("bank_card_id", String.valueOf(cardId))
                 .addParams("planning_datas", planDatas)
                 .addParams("batch_sn", System.currentTimeMillis()+"")
                 .addParams("version", "v1.1")

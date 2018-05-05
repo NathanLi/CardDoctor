@@ -131,7 +131,6 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
                 LoadingViewDialog.getInstance().show(AutoPlanActivity.this);
-                Log.e("JsonTest", "onClick: "+new Gson().toJson(mBaseBean.getRespData()));
                 mLogic.confirmAutoPlan(AutoPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
@@ -186,7 +185,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                         @Override
                         public void onSuccess(BaseBean<GeneratePlan> baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            LogUtils.e("提交自动规划数据->" + baseBean.getJsonObject().toString());
+                            LogUtils.e("生成自动规划->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
                                 mList.addAll(mLogic.parsingJSONForAutoPlan(baseBean));

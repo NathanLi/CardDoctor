@@ -22,6 +22,7 @@ import java.util.List;
 public class ProfitWithdrawFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
+    private View mLayoutLoading;
 
     private ProfitWithdrawLogic mLogic;
     private ProfitWithdrawAdapter mAdapter;
@@ -57,6 +58,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
         mLogic.getProfitWithdraw(mActivity, "withdraw_fenruns", 20, ++mCurrentPage, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("分润提现->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.toString())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
@@ -69,6 +71,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取分润提现失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -76,6 +79,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 

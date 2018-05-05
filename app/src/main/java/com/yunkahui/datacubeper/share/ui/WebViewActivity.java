@@ -31,7 +31,6 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
 
         String title = getIntent().getStringExtra("title");
         setTitle(title);
-
     }
 
     @Override

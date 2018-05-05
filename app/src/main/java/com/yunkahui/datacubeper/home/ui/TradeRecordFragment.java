@@ -28,6 +28,7 @@ import java.util.List;
 public class TradeRecordFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
+    private View mLayoutLoading;
 
     private TradeRecordLogic mLogic;
     private BaseQuickAdapter mAdapter;
@@ -111,6 +112,7 @@ public class TradeRecordFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
                 LogUtils.e("提现页面->" + baseBean.getJsonObject().toString());
+                mLayoutLoading.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
                     mAllPages = baseBean.getRespData().getPages();
@@ -125,6 +127,7 @@ public class TradeRecordFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取提现数据失败", Toast.LENGTH_SHORT).show();
             }
         });
@@ -135,6 +138,7 @@ public class TradeRecordFragment extends BaseFragment {
         mLogic.getRechargeRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
             @Override
             public void onSuccess(BaseBean<RechargeRecord> baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("充值->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -150,6 +154,7 @@ public class TradeRecordFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取充值数据失败", Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,6 +181,7 @@ public class TradeRecordFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 

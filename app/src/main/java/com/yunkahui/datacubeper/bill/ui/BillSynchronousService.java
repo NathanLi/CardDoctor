@@ -1,6 +1,5 @@
 package com.yunkahui.datacubeper.bill.ui;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
@@ -9,17 +8,12 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.Arrays;
@@ -60,7 +54,6 @@ public class BillSynchronousService extends Service {
 
     //初始化socket
     public void initSocket() {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -68,7 +61,7 @@ public class BillSynchronousService extends Service {
                     Socket socket = new Socket(mHost, mPort);
                     if (socket.isConnected()) {
                         LogUtils.e("socket连接成功");
-                        mSocketWeakReference = new WeakReference<Socket>(socket);
+                        mSocketWeakReference = new WeakReference<>(socket);
                         mReaderThread = new InnerReaderThread(socket);
                         mReaderThread.start();
                     }

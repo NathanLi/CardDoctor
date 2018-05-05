@@ -8,13 +8,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.BaseBeanList;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.PayHelper;
@@ -22,9 +20,6 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.upgradeJoin.logic.UpgradeVipLogic;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,17 +79,12 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
             public void onSuccess(BaseBean<List<VipPackage>> vipPackageBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("Vip会员套餐->" + vipPackageBaseBeanList.toString());
-                try {
-
-                    if (RequestUtils.SUCCESS.equals(vipPackageBaseBeanList.getRespCode())) {
-                        mVipPackages.clear();
-                        mVipPackages.addAll(vipPackageBaseBeanList.getRespData());
-                        mUpgradeJoinItemView1.setData(mVipPackages.get(0));
-                        mUpgradeJoinItemView2.setData(mVipPackages.get(1));
-                        mUpgradeJoinItemView3.setData(mVipPackages.get(2));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (RequestUtils.SUCCESS.equals(vipPackageBaseBeanList.getRespCode())) {
+                    mVipPackages.clear();
+                    mVipPackages.addAll(vipPackageBaseBeanList.getRespData());
+                    mUpgradeJoinItemView1.setData(mVipPackages.get(0));
+                    mUpgradeJoinItemView2.setData(mVipPackages.get(1));
+                    mUpgradeJoinItemView3.setData(mVipPackages.get(2));
                 }
             }
 

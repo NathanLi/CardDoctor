@@ -26,6 +26,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private ConstraintLayout mSuspensionBar;
+    private View mLayoutLoading;
     private TextView mTvTime;
     private TextView mTvMessage;
 
@@ -96,6 +97,7 @@ public class TradeDetailsFragment extends BaseFragment {
         mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("全部交易记录->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
@@ -111,6 +113,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Throwable throwable) {
+                mLayoutLoading.setVisibility(View.GONE);
                 Toast.makeText(mActivity, "获取全部交易记录失败", Toast.LENGTH_SHORT).show();
             }
         });
@@ -134,6 +137,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mSuspensionBar = view.findViewById(R.id.suspension_bar);
         mTvTime = view.findViewById(R.id.tv_time);

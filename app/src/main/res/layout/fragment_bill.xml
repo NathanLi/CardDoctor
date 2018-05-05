@@ -52,4 +52,25 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/text_view_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000"
+        android:textSize="14pt"
+        android:layout_margin="10pt"
+        android:background="@drawable/bg_border_red_soild_white"
+        android:paddingLeft="10pt"
+        android:paddingRight="10pt"
+        android:paddingTop="20pt"
+        android:paddingBottom="20pt"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/ic_next_red"
+        android:drawableLeft="@mipmap/ic_icon_warnning_red"
+        android:drawablePadding="10pt"
+        android:layout_alignParentBottom="true"/>
+
+
 </RelativeLayout>

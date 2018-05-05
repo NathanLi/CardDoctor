@@ -326,10 +326,18 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case 21:
                 break;
             case 30:
-                startActivity(new Intent(mActivity, MyCashCardListActivity.class));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, MyCashCardListActivity.class));
+                }
                 break;
             case 31:
-                startActivity(new Intent(mActivity, MyZFBActivity.class));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, MyZFBActivity.class));
+                }
                 break;
             case 32:
                 PosManageActivity.startAction(getActivity());

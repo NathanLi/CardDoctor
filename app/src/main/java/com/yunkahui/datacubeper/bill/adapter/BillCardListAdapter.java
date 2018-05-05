@@ -24,17 +24,15 @@ import java.util.List;
 
 public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditCard, BaseViewHolder> {
 
-    private Context mContext;
 
-    public BillCardListAdapter(Context context, int layoutResId, List data) {
+    public BillCardListAdapter(int layoutResId, List data) {
         super(layoutResId, data);
-        this.mContext = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, final BillCreditCard.CreditCard item) {
         helper.addOnClickListener(R.id.btn_bill_sync);
-        helper.addOnClickListener(R.id.layout_card_item);
+//        helper.addOnClickListener(R.id.layout_card_item);
         //******** item 为空，证明没数据，显示默认样例 ********
         if (item != null) {
             helper.setVisible(R.id.iv_sample, false);
@@ -62,18 +60,6 @@ public class BillCardListAdapter extends BaseQuickAdapter<BillCreditCard.CreditC
             //******** 设置还款日期 ********
             final String itemTime = TimeUtils.format("yyyy-MM-dd", item.getRepayDayDate());
             billCardView.setRepayDate(itemTime.substring(5));
-            //******** 设置银行卡和账单同步的点击事件 ********
-            billCardView.setOnClickBillCardListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, BillDetailActivity.class)
-                            .putExtra("user_credit_card_id", item.getUserCreditCardId())
-                            .putExtra("card_holder", item.getCardHolder())
-                            .putExtra("card_num", item.getBankCardNum())
-                            .putExtra("reday_date", itemTime.substring(5))
-                            .putExtra("bill_date", item.getBillDayDate()));
-                }
-            });
             //******** 设置是否显示智能规划 ********
             //********
             // 若当前时间大于还款日

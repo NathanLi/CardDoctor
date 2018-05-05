@@ -13,6 +13,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.HomeProfitActivity;
@@ -79,13 +80,21 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView1.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, ShareWalletActivity.class)
-                    .putExtra("money", mDoubleBlockView1.getLeftValue()));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
+                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
+                }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mActivity, ShareProfitActivity.class));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
+                }
             }
         });
         mDoubleBlockView2.setOnLeftBlockClickListener(new View.OnClickListener() {

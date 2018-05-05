@@ -10,6 +10,11 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 public class SingleRecordActivity extends AppCompatActivity implements IActivityStatusBar {
 
+    public static final String TYPE_RECHARGE="recharge";
+    public static final String TYPE_WITHDRAW="withdraw";
+    public static final String TYPE_WITHDRAW_FENRUNS="withdraw_fenruns";
+
+
     private TextView mTvType;
     private TextView mTvMoney;
     private TextView mTvTime;

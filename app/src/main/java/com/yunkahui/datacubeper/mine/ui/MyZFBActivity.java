@@ -80,7 +80,6 @@ public class MyZFBActivity extends AppCompatActivity implements IActivityStatusB
                 LogUtils.e("支付宝信息->" + baseBean.getJsonObject().toString());
                 try {
                     JSONObject object = baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         mMenuItemUnBind.setVisible(true);
                         mMenuItemAdd.setVisible(false);

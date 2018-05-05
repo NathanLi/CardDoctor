@@ -28,6 +28,7 @@ import org.json.JSONObject;
 //我的储蓄卡
 public class MyCashCardListActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
+    public final int RESULT_CODE_UPDATE = 1001;
 
     private ImageView mImageViewNoData;
     private CashCardItemView mCashCardItemView;
@@ -45,13 +46,14 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
 
     @Override
     public void initData() {
-        mLogic=new MyCashCardListLogic();
+        mLogic = new MyCashCardListLogic();
+        loadData();
     }
 
     @Override
     public void initView() {
-        mImageViewNoData=findViewById(R.id.iv_no_data);
-        mCashCardItemView=findViewById(R.id.cash_card_item_view);
+        mImageViewNoData = findViewById(R.id.iv_no_data);
+        mCashCardItemView = findViewById(R.id.cash_card_item_view);
         mCashCardItemView.setOnClickListener(this);
     }
 
@@ -64,20 +66,20 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
     }
 
-    private void loadData(){
+    private void loadData() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 try {
                     LoadingViewDialog.getInstance().dismiss();
-                    JSONObject object=baseBean.getJsonObject();
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        JSONObject json=object.optJSONObject("respData");
-                        mBankCard=new BankCard();
+                    JSONObject object = baseBean.getJsonObject();
+                    LogUtils.e("我的儲蓄卡->" + baseBean.getJsonObject().toString());
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        JSONObject json = object.optJSONObject("respData");
+                        mBankCard = new BankCard();
                         mBankCard.setId(json.optInt("Id"));
                         mBankCard.setBankcard_name(json.optString("bankcard_name"));
                         mBankCard.setBankcard_num(json.optString("bankcard_num"));
@@ -88,8 +90,8 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
                         mCashCardItemView.setVisibility(View.VISIBLE);
                         mImageViewNoData.setVisibility(View.GONE);
                         mMenuItemAdd.setVisible(false);
-                    }else{
-                        ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
+                    } else {
+                        ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                         mCashCardItemView.setVisibility(View.GONE);
                         mImageViewNoData.setVisibility(View.VISIBLE);
                         mMenuItemAdd.setVisible(true);
@@ -103,23 +105,23 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
 
     }
 
-    private void deleteCashCard(){
+    private void deleteCashCard() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.deleteCashCard(this, mBankCard.getId(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("删除储蓄卡->"+baseBean.getJsonObject().toString());
+                LogUtils.e("删除储蓄卡->" + baseBean.getJsonObject().toString());
                 try {
-                    JSONObject object=baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                    JSONObject object = baseBean.getJsonObject();
+                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         loadData();
                     }
                 } catch (Exception e) {
@@ -134,8 +136,15 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
         });
     }
 
-    private void showDeleteCashCardDialog(){
-        AlertDialog dialog=new AlertDialog.Builder(this)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
+            loadData();
+        }
+    }
+
+    private void showDeleteCashCardDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage("是否解除绑定该卡片？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -143,24 +152,24 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
                         deleteCashCard();
                     }
                 })
-                .setNeutralButton("取消",null)
+                .setNeutralButton("取消", null)
                 .create();
         dialog.show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mMenuItemAdd= menu.add(1,1,1,"添加").setIcon(R.mipmap.ic_icon_add).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        mMenuItemAdd = menu.add(1, 1, 1, "添加").setIcon(R.mipmap.ic_icon_add).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
         mMenuItemAdd.setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case 1:
-                Intent intent=new Intent(this,AddCashCardActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(this, AddCashCardActivity.class);
+                startActivityForResult(intent, RESULT_CODE_UPDATE);
                 break;
         }
         return true;
@@ -168,7 +177,7 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cash_card_item_view:
                 showDeleteCashCardDialog();
                 break;

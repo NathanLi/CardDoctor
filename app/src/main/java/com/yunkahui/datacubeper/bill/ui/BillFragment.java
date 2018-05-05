@@ -1,9 +1,11 @@
 package com.yunkahui.datacubeper.bill.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
@@ -47,6 +50,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
     private TextView mTvRepayCount;
     private TextView mTvUnRepayCount;
     private TextView mTvShowNum;
+    private TextView mTextViewWarning;
 
     private BillLogic mLogic;
     private BillCardListAdapter mAdapter;
@@ -62,31 +66,17 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData() {
-        // TODO: 2018/4/16 0016 查询规划失败列表
-        /*mLogic.queryCardCountOflanFailed(mActivity, new SimpleCallBack<JsonObject>() {
-            @Override
-            public void onSuccess(JsonObject jsonObject) {
-                Log.e(TAG, "queryCardCountOfPlanFailed onSuccess: " + jsonObject.toString());
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Log.e(TAG, "queryCardCountOfPlanFailed onFailure: " + throwable.getMessage());
-            }
-        });*/
         mLogic = new BillLogic();
         mList = new ArrayList<>();
-        mAdapter = new BillCardListAdapter(mActivity, R.layout.layout_list_item_bill_card, mList);
+        mAdapter = new BillCardListAdapter(R.layout.layout_list_item_bill_card, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
-        View headerView = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_bill, null);
+        View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_list_header_bill, null);
         mTvCardCount = headerView.findViewById(R.id.tv_card_count);
         mTvRepayCount = headerView.findViewById(R.id.tv_repay_count);
         mTvUnRepayCount = headerView.findViewById(R.id.tv_unrepay_count);
         mTvShowNum = headerView.findViewById(R.id.tv_show_num);
         headerView.findViewById(R.id.show_today).setOnClickListener(this);
         mAdapter.addHeaderView(headerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -106,6 +96,33 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                LogUtils.e("点击" + position);
+                final String itemTime = TimeUtils.format("yyyy-MM-dd", mList.get(position).getRepayDayDate());
+                startActivity(new Intent(getActivity(), BillDetailActivity.class)
+                        .putExtra("user_credit_card_id", mList.get(position).getUserCreditCardId())
+                        .putExtra("card_holder", mList.get(position).getCardHolder())
+                        .putExtra("card_num", mList.get(position).getBankCardNum())
+                        .putExtra("reday_date", itemTime.substring(5))
+                        .putExtra("bill_date", mList.get(position).getBillDayDate()));
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                LogUtils.e("长安" + position);
+                if (mList.get(position) == null) {
+                    return true;
+                }
+                showDeleteDialog(mList.get(position).getUserCreditCardId());
+                return true;
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setAdapter(mAdapter);
+        loadFailCardNum();
         getCreditCardList();
     }
 
@@ -121,14 +138,39 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
         toolbar.setTitleName(getString(R.string.bill));
+        mTextViewWarning = view.findViewById(R.id.text_view_warning);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mLlPromptAddCard = view.findViewById(R.id.ll_prompt_add_card);
         view.findViewById(R.id.tv_bind_card).setOnClickListener(this);
+        mTextViewWarning.setOnClickListener(this);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_bill;
+    }
+
+    //查询失败卡片数量
+    public void loadFailCardNum() {
+        mLogic.queryCardCountOflanFailed(mActivity, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("失败的卡片数量-->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    int num = baseBean.getJsonObject().optJSONObject("respData").optInt("failCardNum");
+                    if (num > 0) {
+                        mTextViewWarning.setVisibility(View.VISIBLE);
+                        mTextViewWarning.setText("紧急：有" + num + "张卡片交易关闭，请前往处理");
+                    } else {
+                        mTextViewWarning.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+            }
+        });
     }
 
     @Override
@@ -137,6 +179,44 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             getCreditCardList();
         }
     }
+
+    //提示删除信用卡弹窗
+    private void showDeleteDialog(final int cardId) {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setMessage("确定删除改卡片?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCreditCard(cardId);
+                    }
+                })
+                .setNeutralButton("取消", null)
+                .create();
+        dialog.show();
+    }
+
+    //删除信用卡
+    private void deleteCreditCard(int cardId) {
+        LoadingViewDialog.getInstance().show(getActivity());
+        mLogic.deleteCreditCard(getActivity(), cardId, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("删除信用卡->" + baseBean.getJsonObject().toString());
+                ToastUtils.show(getActivity(), baseBean.getRespDesc());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    getCreditCardList();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
+            }
+        });
+    }
+
 
     //******** 查询信用卡列表 ********
     private void getCreditCardList() {
@@ -159,7 +239,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                             mList.add(null);
                             mLlPromptAddCard.setVisibility(View.VISIBLE);
                         }
-                    }else{
+                    } else {
                         mList.add(null);
                         mLlPromptAddCard.setVisibility(View.VISIBLE);
                     }
@@ -217,10 +297,16 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_bind_card:
-                checkRealNameAuthStatus();
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
+                    checkRealNameAuthStatus();
+                }
                 break;
             case R.id.show_today:
                 startActivity(new Intent(mActivity, TodayOperationActivity.class));
+                break;
+            case R.id.text_view_warning:
                 break;
         }
     }

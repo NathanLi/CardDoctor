@@ -52,12 +52,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mDoubleBlockView.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mActivity, HomeWalletActivity.class).putExtra("money", mUserBalance));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, HomeWalletActivity.class).putExtra("money", mUserBalance));
+                }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mActivity, HomeProfitActivity.class));
+                if("0".equals(DataUtils.getInfo().getVIP_status())){
+                    ToastUtils.show(getActivity(),"请先升级VIP");
+                }else{
+                    startActivity(new Intent(mActivity, HomeProfitActivity.class));
+                }
             }
         });
 

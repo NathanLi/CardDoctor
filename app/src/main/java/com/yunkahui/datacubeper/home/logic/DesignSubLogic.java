@@ -6,11 +6,10 @@ import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
+import com.yunkahui.datacubeper.common.bean.PlanList;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,14 +30,24 @@ public class DesignSubLogic {
     }
 
     //******** 获取规划列表 ********
-    public void requestPlanList(Context context, String isPos, int pageSize, int pageNum, SimpleCallBack<BaseBean<List<SmartPlanSub>>> callBack) {
+//    public void requestPlanList(Context context, String isPos, int pageSize, int pageNum, SimpleCallBack<BaseBean<List<PlanList>>> callBack) {
+//        Map<String, String> params = RequestUtils.newParams(context)
+//                .addParams("is_pos", isPos)
+//                .addParams("pageSize", String.valueOf(pageSize))
+//                .addParams("pageNum", String.valueOf(pageNum))
+//                .create();
+//        HttpManager.getInstance().create(ApiService.class).loadPlanList(params)
+//                .compose(HttpManager.<BaseBean<List<PlanList>>>applySchedulers()).subscribe(callBack);
+//    }
+
+    public void requestPlanList(Context context, String isPos, int pageSize, int pageNum, SimpleCallBack<BaseBean<PlanList>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadPlanList(params)
-                .compose(HttpManager.<BaseBean<List<SmartPlanSub>>>applySchedulers()).subscribe(callBack);
+                .compose(HttpManager.<BaseBean<PlanList>>applySchedulers()).subscribe(callBack);
     }
 
     //******** 标记还款交易 ********

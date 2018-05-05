@@ -6,11 +6,11 @@ import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.Member;
+import com.yunkahui.datacubeper.common.bean.PlanList;
 import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
-import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
@@ -104,21 +104,17 @@ public interface ApiService {
     @POST("/app/planing/getToday")     //查询今日操作
     Observable<BaseBean<TodayOperationSub>> loadTodayOperation(@FieldMap Map<String,String> params);
 
+//    @FormUrlEncoded
+//    @POST("/app/planing/getPlanning")     //查询规划列表
+//    Observable<BaseBean<List<PlanList>>> loadPlanList(@FieldMap Map<String,String> params);
+
     @FormUrlEncoded
     @POST("/app/planing/getPlanning")     //查询规划列表
-    Observable<BaseBean<List<SmartPlanSub>>> loadPlanList(@FieldMap Map<String,String> params);
+    Observable<BaseBean<PlanList>> loadPlanList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/pos/planning/do_huankuan_pos")     //标记还款交易
     Observable<BaseBean> signRepay(@FieldMap Map<String,String> params);
-
-    @FormUrlEncoded
-    @POST("/app/planing/getToday")     //查询今日操作
-    Observable<BaseBean> loadTO(@FieldMap Map<String,String> params);
-
-    @FormUrlEncoded
-    @POST("/app/planing/getPlanning")     //查询智能规划
-    Observable<BaseBean> loadSP(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/userbankcard/checkCard")    //查询信用卡所属银行

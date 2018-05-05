@@ -25,7 +25,7 @@ import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.SmartPlanSub;
+import com.yunkahui.datacubeper.common.bean.PlanList;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -47,7 +47,7 @@ public class DesignSubFragment extends BaseFragment {
     private DesignSubLogic mLogic;
     private DesignSubAdapter mDesignSubAdapter;
     private List<TodayOperationSub.DesignSub> mTodayOperationSubList = new ArrayList<>();
-    private List<SmartPlanSub> mSmartPlanSubList = new ArrayList<>();
+    private List<PlanList.PlanListBean> mPlanListList = new ArrayList<>();
     private String mIsPos;
     private int mCurrentPage;
     private int mAllPages;
@@ -126,15 +126,15 @@ public class DesignSubFragment extends BaseFragment {
                     int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
                     if (mIsTodayOperation && mTodayOperationSubList.size() > 0) {
                         mTodayOperationSubList.remove(adapterPosition);
-                    } else if (!mIsTodayOperation && mSmartPlanSubList.size() > 0) {
-                        mSmartPlanSubList.remove(adapterPosition);
+                    } else if (!mIsTodayOperation && mPlanListList.size() > 0) {
+                        mPlanListList.remove(adapterPosition);
                     }
                     notifyDataSetChanged();
                 }
             };
             mRecyclerView.setSwipeMenuItemClickListener(swipeMenuItemClickListener);
         }
-        mDesignSubAdapter = new DesignSubAdapter(mActivity, R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mSmartPlanSubList, mIsPos);
+        mDesignSubAdapter = new DesignSubAdapter(mActivity, R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mPlanListList, mIsPos);
         mDesignSubAdapter.bindToRecyclerView(mRecyclerView);
         mDesignSubAdapter.disableLoadMoreIfNotFullPage();
         mDesignSubAdapter.setEnableLoadMore(true);
@@ -143,18 +143,18 @@ public class DesignSubFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_sign:
-                        showSignDialog(position, mIsTodayOperation ? mTodayOperationSubList.get(position).getAp_id() : mSmartPlanSubList.get(position).getAp_id());
+                        showSignDialog(position, mIsTodayOperation ? mTodayOperationSubList.get(position).getAp_id() : mPlanListList.get(position).getAp_id());
                         break;
                     case R.id.tv_status:
                         if ("11".equals(mIsPos) && "0".equals(mIsTodayOperation ?
-                                mTodayOperationSubList.get(position).getOperation() : mSmartPlanSubList.get(position).getOperation())) {
+                                mTodayOperationSubList.get(position).getOperation() : mPlanListList.get(position).getOperation())) {
                             String type = mIsTodayOperation ?
                                     mTodayOperationSubList.get(position).getPlan_type().equals("00") ? "消费" : "还款" :
-                                    mSmartPlanSubList.get(position).getPlan_type().equals("00") ? "消费" : "还款";
+                                    mPlanListList.get(position).getPlan_type().equals("00") ? "消费" : "还款";
                             double amount = mIsTodayOperation ?
-                                    mTodayOperationSubList.get(position).getAmount() : mSmartPlanSubList.get(position).getAmount();
+                                    mTodayOperationSubList.get(position).getAmount() : mPlanListList.get(position).getAmount();
                             int id = mIsTodayOperation ?
-                                    mTodayOperationSubList.get(position).getAp_id() : mSmartPlanSubList.get(position).getAp_id();
+                                    mTodayOperationSubList.get(position).getAp_id() : mPlanListList.get(position).getAp_id();
                             mPosition = position;
                             startActivityForResult(new Intent(mActivity, AdjustPlanActivity.class)
                                     .putExtra("type", type)
@@ -173,10 +173,9 @@ public class DesignSubFragment extends BaseFragment {
                 } else {
                     if (mIsTodayOperation) {
                         getTodayOperation(10, ++mCurrentPage);
+                    } else {
+                        getPlanList(10, ++mCurrentPage);
                     }
-//                    else {
-//                        getPlanList(10, 1);
-//                    }
                 }
             }
         }, mRecyclerView);
@@ -191,20 +190,20 @@ public class DesignSubFragment extends BaseFragment {
             String amount = data.getStringExtra("amount");
             if ("repay".equals(data.getStringExtra("type"))) {
                 if (mIsTodayOperation) {
-                    mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                    mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
                 } else {
-                    mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                    mPlanListList.get(mPosition).setAmount(Integer.parseInt(amount));
                 }
                 mDesignSubAdapter.notifyItemChanged(mPosition);
                 Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
             } else if ("expense".equals(data.getStringExtra("type"))) {
                 String businessType = data.getStringExtra("business_type");
                 if (mIsTodayOperation) {
-                    mTodayOperationSubList.get(mPosition).setAmount(Double.parseDouble(amount));
+                    mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
                     mTodayOperationSubList.get(mPosition).setBusiness_name(businessType);
                 } else {
-                    mSmartPlanSubList.get(mPosition).setAmount(Double.parseDouble(amount));
-                    mSmartPlanSubList.get(mPosition).setBusiness_name(businessType);
+                    mPlanListList.get(mPosition).setAmount(Integer.parseInt(amount));
+                    mPlanListList.get(mPosition).setBusiness_name(businessType);
                 }
                 // TODO: 2018/4/18 0018 set business type
                 mDesignSubAdapter.notifyItemChanged(mPosition);
@@ -229,7 +228,7 @@ public class DesignSubFragment extends BaseFragment {
                                     if (mIsTodayOperation) {
                                         mTodayOperationSubList.get(position).setOperation("1");
                                     } else {
-                                        mSmartPlanSubList.get(position).setOperation("1");
+                                        mPlanListList.get(position).setOperation("1");
                                     }
                                     mDesignSubAdapter.notifyItemChanged(position);
                                 } else {
@@ -250,13 +249,15 @@ public class DesignSubFragment extends BaseFragment {
 
     //******** 查询规划列表 ********
     private void getPlanList(int pageSize, int pageNum) {
-        mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<List<SmartPlanSub>>>() {
+        mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<PlanList>>() {
             @Override
-            public void onSuccess(BaseBean<List<SmartPlanSub>> baseBean) {
+            public void onSuccess(BaseBean<PlanList> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mSmartPlanSubList.addAll(baseBean.getRespData());
+                    mCurrentPage = baseBean.getRespData().getPageNum();
+                    mAllPages = baseBean.getRespData().getPages();
+                    mPlanListList.addAll(baseBean.getRespData().getList());
                     notifyDataSetChanged();
                 }
             }
@@ -294,7 +295,7 @@ public class DesignSubFragment extends BaseFragment {
 
     private void notifyDataSetChanged() {
         mDesignSubAdapter.notifyDataSetChanged();
-        boolean noData = mIsTodayOperation ? mTodayOperationSubList.size() == 0 : mSmartPlanSubList.size() == 0;
+        boolean noData = mIsTodayOperation ? mTodayOperationSubList.size() == 0 : mPlanListList.size() == 0;
         mIvNoData.setVisibility(noData ? View.VISIBLE : View.GONE);
     }
 

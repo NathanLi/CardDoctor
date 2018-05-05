@@ -93,7 +93,7 @@ public class TodayOperationSub {
         private int ap_id;
         private int user_credit_card_id;
         private String plan_type;
-        private double amount;
+        private int amount;
         private long date;
         private String operation;
         private String pos_type;
@@ -135,11 +135,11 @@ public class TodayOperationSub {
             this.plan_type = plan_type;
         }
 
-        public double getAmount() {
+        public int getAmount() {
             return amount;
         }
 
-        public void setAmount(double amount) {
+        public void setAmount(int amount) {
             this.amount = amount;
         }
 

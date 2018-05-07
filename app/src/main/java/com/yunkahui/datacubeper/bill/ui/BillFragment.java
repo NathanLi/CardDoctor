@@ -128,9 +128,13 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mAdapter);
         loadFailCardNum();
-        getCreditCardList();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCreditCardList();
+    }
 
     @Override
     public void initView(View view) {
@@ -184,7 +188,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
 
             switch (requestCode) {
                 case RESULT_CODE_ADD:
-                    getCreditCardList();
+//                    getCreditCardList();
                     break;
                 case RESULT_CODE_FAIL_CARD:
                     loadFailCardNum();

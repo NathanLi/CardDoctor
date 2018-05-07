@@ -4,6 +4,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
+import com.yunkahui.datacubeper.common.bean.FailBankCard;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.Member;
 import com.yunkahui.datacubeper.common.bean.PlanList;
@@ -358,6 +359,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/app/planning/check_fail_card")  //查询存在规划失败的卡片列表
-    Observable<BaseBean> loadFailCardList(@FieldMap Map<String,String> params);
+    Observable<BaseBean<List<FailBankCard>>> loadFailCardList(@FieldMap Map<String,String> params);
 
 }

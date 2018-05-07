@@ -62,7 +62,7 @@
             <Button
                 android:id="@+id/button_submit_1"
                 android:layout_width="100pt"
-                android:layout_height="wrap_content"
+                android:layout_height="40pt"
                 android:background="@drawable/bg_button_login_selector"
                 android:text="激活规划"
                 android:textColor="@color/white" />
@@ -70,7 +70,7 @@
             <Button
                 android:id="@+id/button_submit_2"
                 android:layout_width="100pt"
-                android:layout_height="wrap_content"
+                android:layout_height="40pt"
                 android:layout_marginLeft="50pt"
                 android:background="@drawable/bg_border_blue_soild_white"
                 android:text="重新规划"

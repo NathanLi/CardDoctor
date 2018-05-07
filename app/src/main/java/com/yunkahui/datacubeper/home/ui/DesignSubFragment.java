@@ -135,9 +135,7 @@ public class DesignSubFragment extends BaseFragment {
             };
             mRecyclerView.setSwipeMenuItemClickListener(swipeMenuItemClickListener);
         }
-        mDesignSubAdapter = new DesignSubAdapter(mActivity, R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mPlanListList, mIsPos);
-        mDesignSubAdapter.bindToRecyclerView(mRecyclerView);
-        mDesignSubAdapter.disableLoadMoreIfNotFullPage();
+        mDesignSubAdapter = new DesignSubAdapter(getActivity(), R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mPlanListList, mIsPos);
         mDesignSubAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -166,11 +164,6 @@ public class DesignSubFragment extends BaseFragment {
             }
         });
 
-//        mDesignSubAdapter.setEmptyView(R.mipmap.ic_no_data);
-        mRecyclerView.addItemDecoration(new DefaultItemDecoration(mActivity.getResources().getColor(R.color.bg_color_gray_f5f5f5)));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mDesignSubAdapter.setEmptyView(R.layout.layout_no_data);
-        mRecyclerView.setAdapter(mDesignSubAdapter);
         mDesignSubAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -182,6 +175,10 @@ public class DesignSubFragment extends BaseFragment {
                 }
             }
         }, mRecyclerView);
+//        mDesignSubAdapter.disableLoadMoreIfNotFullPage();
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(getActivity().getResources().getColor(R.color.bg_color_gray_f5f5f5)));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mDesignSubAdapter);
     }
 
     @Override

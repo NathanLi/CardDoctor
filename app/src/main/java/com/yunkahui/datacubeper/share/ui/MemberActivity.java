@@ -47,13 +47,14 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
         mAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setEmptyView(R.layout.layout_no_data);
-        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 getMemberList(mPage);
             }
         }, mRecyclerView);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void getMemberList(int page) {
@@ -65,10 +66,10 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     if (baseBean.getRespData().getPages() > mPage) {
                         mAdapter.loadMoreComplete();
-                        mPage++;
                     } else {
                         mAdapter.loadMoreEnd();
                     }
+                    mPage++;
                     mList.addAll(baseBean.getRespData().getList());
                     mAdapter.notifyDataSetChanged();
                 }

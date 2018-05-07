@@ -11,7 +11,7 @@ public class BillCreditCard {
     private int payOffCount;
     private List<CreditCard> cardDetail;
 
-    public static class CreditCard {
+    public class CreditCard {
         private int userCreditCardId;
         private String userCode;
         private String cardHolder;

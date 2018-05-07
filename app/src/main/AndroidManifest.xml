@@ -118,6 +118,7 @@
         <activity android:name=".bill.ui.OpenAutoPlanActivity" />
         <activity android:name=".bill.ui.FailCardListActivity" />
         <activity android:name=".home.ui.BanksActivity" />
+        <activity android:name=".bill.ui.FailCardWhyActivity"></activity>
     </application>
 
 </manifest>

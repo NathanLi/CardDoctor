@@ -85,10 +85,13 @@ public class LoadingViewDialog extends DialogFragment {
 
     public void show(Activity activity) {
         if (mAVLoadingIndicatorView != null) {
+            if (mAVLoadingIndicatorView.getVisibility() == View.VISIBLE) {
+                return;
+            }
             if (mAVLoadingIndicatorView.getVisibility() == View.GONE) {
                 mAVLoadingIndicatorView.setVisibility(View.VISIBLE);
+                mAVLoadingIndicatorView.show();
             }
-            mAVLoadingIndicatorView.show();
         }
         super.show(activity.getFragmentManager(), "LoadingViewDialog");
     }

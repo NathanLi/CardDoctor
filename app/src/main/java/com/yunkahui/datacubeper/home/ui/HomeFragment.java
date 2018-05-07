@@ -118,6 +118,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                 .putExtra("url", "http://kadai.yunkahui.cn/touch/index.php?p=products_list&lanmu=18&from=timeline&isappinstalled=0"));
                         break;
                     case 111:
+                        startActivity(new Intent(mActivity, BanksActivity.class));
                         break;
                     case 112:
                         startActivity(new Intent(mActivity, WebViewActivity.class)

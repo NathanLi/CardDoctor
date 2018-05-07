@@ -116,7 +116,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".home.ui.ScanResultActivity" />
         <activity android:name=".bill.ui.OpenAutoPlanActivity" />
-        <activity android:name=".bill.ui.FailCardListActivity"></activity>
+        <activity android:name=".bill.ui.FailCardListActivity" />
+        <activity android:name=".home.ui.BanksActivity" />
     </application>
 
 </manifest>

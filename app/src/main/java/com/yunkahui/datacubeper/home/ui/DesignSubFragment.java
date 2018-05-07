@@ -42,17 +42,18 @@ public class DesignSubFragment extends BaseFragment {
 
     private SwipeMenuRecyclerView mRecyclerView;
     private View mLayoutLoading;
-    private ImageView mIvNoData;
+    private ImageView mImageViewNoData;
 
     private DesignSubLogic mLogic;
     private DesignSubAdapter mDesignSubAdapter;
     private List<TodayOperationSub.DesignSub> mTodayOperationSubList = new ArrayList<>();
     private List<PlanList.PlanListBean> mPlanListList = new ArrayList<>();
     private String mIsPos;
-    private int mCurrentPage;
+    private int mCurrentPage = 1;
     private int mAllPages;
     private boolean mIsTodayOperation;
     private int mPosition;
+    private int mSize = 10;
 
     public static Fragment newInstance(int kind) {
         DesignSubFragment fragment = new DesignSubFragment();
@@ -75,27 +76,27 @@ public class DesignSubFragment extends BaseFragment {
         switch (kind) {
             case 0:
                 mIsPos = "10";
-                getTodayOperation(10, 1);
+                getTodayOperation(mSize, mCurrentPage);
                 break;
             case 1:
                 mIsPos = "11";
-                getTodayOperation(10, 1);
+                getTodayOperation(mSize, mCurrentPage);
                 break;
             case 2:
                 mIsPos = "other";
-                getTodayOperation(10, 1);
+                getTodayOperation(mSize, mCurrentPage);
                 break;
             case 3:
                 mIsPos = "10";
-                getPlanList(10, 1);
+                getPlanList(mSize, mCurrentPage);
                 break;
             case 4:
                 mIsPos = "11";
-                getPlanList(10, 1);
+                getPlanList(mSize, mCurrentPage);
                 break;
             case 5:
                 mIsPos = "other";
-                getPlanList(10, 1);
+                getPlanList(mSize, mCurrentPage);
                 break;
         }
     }
@@ -129,7 +130,7 @@ public class DesignSubFragment extends BaseFragment {
                     } else if (!mIsTodayOperation && mPlanListList.size() > 0) {
                         mPlanListList.remove(adapterPosition);
                     }
-                    notifyDataSetChanged();
+                    mDesignSubAdapter.notifyDataSetChanged();
                 }
             };
             mRecyclerView.setSwipeMenuItemClickListener(swipeMenuItemClickListener);
@@ -137,7 +138,6 @@ public class DesignSubFragment extends BaseFragment {
         mDesignSubAdapter = new DesignSubAdapter(mActivity, R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mPlanListList, mIsPos);
         mDesignSubAdapter.bindToRecyclerView(mRecyclerView);
         mDesignSubAdapter.disableLoadMoreIfNotFullPage();
-        mDesignSubAdapter.setEnableLoadMore(true);
         mDesignSubAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -165,23 +165,23 @@ public class DesignSubFragment extends BaseFragment {
                 }
             }
         });
+
+//        mDesignSubAdapter.setEmptyView(R.mipmap.ic_no_data);
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(mActivity.getResources().getColor(R.color.bg_color_gray_f5f5f5)));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mDesignSubAdapter.setEmptyView(R.layout.layout_no_data);
+        mRecyclerView.setAdapter(mDesignSubAdapter);
         mDesignSubAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (mCurrentPage >= mAllPages) {
-                    mDesignSubAdapter.loadMoreEnd();
+                LogUtils.e("上啦加载--------");
+                if (mIsTodayOperation) {
+                    getTodayOperation(mSize, mCurrentPage);
                 } else {
-                    if (mIsTodayOperation) {
-                        getTodayOperation(10, ++mCurrentPage);
-                    } else {
-                        getPlanList(10, ++mCurrentPage);
-                    }
+                    getPlanList(mSize, mCurrentPage);
                 }
             }
         }, mRecyclerView);
-        mRecyclerView.addItemDecoration(new DefaultItemDecoration(mActivity.getResources().getColor(R.color.bg_color_gray_f5f5f5)));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(mDesignSubAdapter);
     }
 
     @Override
@@ -255,15 +255,28 @@ public class DesignSubFragment extends BaseFragment {
                 mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mCurrentPage = baseBean.getRespData().getPageNum();
-                    mAllPages = baseBean.getRespData().getPages();
+                    if (baseBean.getRespData().getPages() > mCurrentPage) {
+                        mDesignSubAdapter.loadMoreComplete();
+                    } else {
+                        mDesignSubAdapter.loadMoreEnd();
+                    }
+                    mCurrentPage++;
                     mPlanListList.addAll(baseBean.getRespData().getList());
-                    notifyDataSetChanged();
+                    mDesignSubAdapter.notifyDataSetChanged();
+                    if (mPlanListList.size() > 0) {
+                        mImageViewNoData.setVisibility(View.GONE);
+                    } else {
+                        mImageViewNoData.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    mDesignSubAdapter.loadMoreFail();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 mLayoutLoading.setVisibility(View.GONE);
+                mDesignSubAdapter.loadMoreFail();
                 Toast.makeText(mActivity, "获取智能规划失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -278,10 +291,21 @@ public class DesignSubFragment extends BaseFragment {
                 mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mCurrentPage = baseBean.getRespData().getPageNum();
-                    mAllPages = baseBean.getRespData().getPages();
+                    if (baseBean.getRespData().getPages() > mCurrentPage) {
+                        mDesignSubAdapter.loadMoreComplete();
+                    } else {
+                        mDesignSubAdapter.loadMoreEnd();
+                    }
+                    mCurrentPage++;
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
-                    notifyDataSetChanged();
+                    mDesignSubAdapter.notifyDataSetChanged();
+                    if (mPlanListList.size() > 0) {
+                        mImageViewNoData.setVisibility(View.GONE);
+                    } else {
+                        mImageViewNoData.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    mDesignSubAdapter.loadMoreFail();
                 }
             }
 
@@ -293,17 +317,11 @@ public class DesignSubFragment extends BaseFragment {
         });
     }
 
-    private void notifyDataSetChanged() {
-        mDesignSubAdapter.notifyDataSetChanged();
-        boolean noData = mIsTodayOperation ? mTodayOperationSubList.size() == 0 : mPlanListList.size() == 0;
-        mIvNoData.setVisibility(noData ? View.VISIBLE : View.GONE);
-    }
-
     @Override
     public void initView(View view) {
         mLayoutLoading = view.findViewById(R.id.rl_loading_view);
-        mIvNoData = view.findViewById(R.id.iv_no_data);
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mImageViewNoData = view.findViewById(R.id.iv_no_data);
     }
 
     @Override

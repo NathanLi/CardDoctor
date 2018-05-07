@@ -21,8 +21,8 @@ public class DesignSubLogic {
     public void requestTodayOperation(Context context, String isPos, int pageSize, int pageNum, SimpleCallBack<BaseBean<TodayOperationSub>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("is_pos", isPos)
-                .addParams("page", String.valueOf(pageSize))
-                .addParams("num", String.valueOf(pageNum))
+                .addParams("num", String.valueOf(pageSize))
+                .addParams("page", String.valueOf(pageNum))
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadTodayOperation(params)
                 .compose(HttpManager.<BaseBean<TodayOperationSub>>applySchedulers()).subscribe(callBack);

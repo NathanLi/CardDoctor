@@ -54,7 +54,6 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                 getMemberList(mPage);
             }
         }, mRecyclerView);
-        mAdapter.disableLoadMoreIfNotFullPage();
     }
 
     public void getMemberList(int page) {
@@ -64,7 +63,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                 LogUtils.e("成员列表->" + baseBean.toString());
                 mAVLoadingIndicatorView.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    if (baseBean.getRespData().getSize() > mPage) {
+                    if (baseBean.getRespData().getPages() > mPage) {
                         mAdapter.loadMoreComplete();
                         mPage++;
                     } else {

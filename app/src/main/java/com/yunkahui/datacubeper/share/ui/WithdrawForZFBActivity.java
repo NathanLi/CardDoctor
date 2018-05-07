@@ -21,9 +21,11 @@ import com.yunkahui.datacubeper.common.DispostResultActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.share.logic.WithdrawForZFBLogic;
 
 import org.json.JSONException;
@@ -87,7 +89,12 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
         mTvCardSelected = findViewById(R.id.tv_card_selected);
         mEtInputMoney = findViewById(R.id.et_input_money);
 
-        findViewById(R.id.btn_commit).setOnClickListener(this);
+        findViewById(R.id.btn_commit).setOnClickListener(new OnDoManyClickListener() {
+            @Override
+            public void onDoManyClick(View view) {
+                getWithdrawFee();
+            }
+        });
     }
 
     @Override
@@ -104,19 +111,15 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_commit:
-                getWithdrawFee();
-                break;
-        }
     }
 
     private void getWithdrawFee() {
+        LoadingViewDialog.getInstance().show(this);
         mLogic.queryWithdrawFee(this, Float.parseFloat(mEtInputMoney.getText().toString()), mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("提现手续费->" + baseBean.getJsonObject().toString());
-
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     showWithdrawDialog(baseBean.getJsonObject().optJSONObject("respData").optString("fee"));
                 } else {
@@ -126,6 +129,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
 
             @Override
             public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(WithdrawForZFBActivity.this, "查询提现手续费失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -163,9 +167,11 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
     //******** 支付宝提现 ********
     private void withdraw(String money) {
         LogUtils.e("test->" + mAlipayId + ", " + money + ", " + mWithdrawType);
+        LoadingViewDialog.getInstance().show(this);
         mLogic.withdrawMoney(this, mAlipayId, money, mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("提现->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     Intent intent = new Intent(WithdrawForZFBActivity.this, DispostResultActivity.class);
@@ -179,6 +185,7 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
 
             @Override
             public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(WithdrawForZFBActivity.this, "提现失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -21,6 +21,7 @@ import com.yunkahui.datacubeper.common.DispostResultActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.SizeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -68,7 +69,16 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
         mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.ll_show_dialog).setOnClickListener(this);
-        mBtnCommit.setOnClickListener(this);
+        mBtnCommit.setOnClickListener(new OnDoManyClickListener() {
+            @Override
+            public void onDoManyClick(View view) {
+                if (TextUtils.isEmpty(mEtInputMoney.getText().toString())) {
+                    ToastUtils.show(getApplicationContext(), "请输入取款金额");
+                    return;
+                }
+                getWithdrawFee();
+            }
+        });
     }
 
     @Override
@@ -89,21 +99,16 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
             case R.id.ll_show_dialog:
                 showSelectCardDialog();
                 break;
-            case R.id.btn_commit:
-                if (TextUtils.isEmpty(mEtInputMoney.getText().toString())) {
-                    ToastUtils.show(getApplicationContext(), "请输入取款金额");
-                    return;
-                }
-                getWithdrawFee();
-                break;
         }
     }
 
     //******** 查询提现手续费 ********
     private void getWithdrawFee() {
+        LoadingViewDialog.getInstance().show(this);
         mLogic.queryWithdrawFee(this, Float.parseFloat(mEtInputMoney.getText().toString()), mWithdrawType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("提现手续费->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     showWithdrawDialog(baseBean.getJsonObject().optJSONObject("respData").optString("fee"));
@@ -114,6 +119,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
 
             @Override
             public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(WithdrawForCardActivity.this, "查询提现手续费失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -147,9 +153,11 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
 
     //******** 获取余额、分润 ********
     private void initUserFinance() {
+        LoadingViewDialog.getInstance().show(this);
         mLogic.loadUserFinance(WithdrawForCardActivity.this, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("余额分润->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject object = baseBean.getJsonObject();
@@ -162,6 +170,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
 
             @Override
             public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(WithdrawForCardActivity.this, "获取余额分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
         });

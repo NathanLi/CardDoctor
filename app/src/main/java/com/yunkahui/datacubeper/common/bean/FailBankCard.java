@@ -1,10 +1,13 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 规划失败卡片
  */
 
-public class FailBankCard {
+public class FailBankCard implements Parcelable {
 
     private int bankcard_id;
     private String bankcard_name;
@@ -60,4 +63,43 @@ public class FailBankCard {
     public void setFail_money_count(long fail_money_count) {
         this.fail_money_count = fail_money_count;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.bankcard_id);
+        dest.writeString(this.bankcard_name);
+        dest.writeInt(this.is_restart);
+        dest.writeInt(this.is_replanning);
+        dest.writeString(this.bankcard_num);
+        dest.writeLong(this.fail_money_count);
+    }
+
+    public FailBankCard() {
+    }
+
+    protected FailBankCard(Parcel in) {
+        this.bankcard_id = in.readInt();
+        this.bankcard_name = in.readString();
+        this.is_restart = in.readInt();
+        this.is_replanning = in.readInt();
+        this.bankcard_num = in.readString();
+        this.fail_money_count = in.readLong();
+    }
+
+    public static final Parcelable.Creator<FailBankCard> CREATOR = new Parcelable.Creator<FailBankCard>() {
+        @Override
+        public FailBankCard createFromParcel(Parcel source) {
+            return new FailBankCard(source);
+        }
+
+        @Override
+        public FailBankCard[] newArray(int size) {
+            return new FailBankCard[size];
+        }
+    };
 }

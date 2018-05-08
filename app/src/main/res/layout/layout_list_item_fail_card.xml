@@ -65,7 +65,8 @@
                 android:layout_height="40pt"
                 android:background="@drawable/bg_button_login_selector"
                 android:text="激活规划"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="16pt" />
 
             <Button
                 android:id="@+id/button_submit_2"
@@ -74,7 +75,8 @@
                 android:layout_marginLeft="50pt"
                 android:background="@drawable/bg_border_blue_soild_white"
                 android:text="重新规划"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="16pt" />
 
         </LinearLayout>
 

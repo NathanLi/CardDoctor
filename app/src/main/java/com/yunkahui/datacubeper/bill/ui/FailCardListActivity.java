@@ -30,6 +30,8 @@ import java.util.List;
 //交易关闭卡片列表页面
 public class FailCardListActivity extends AppCompatActivity implements IActivityStatusBar {
 
+    private final int RESULT_CODE_UPDATE = 1001;
+
     private TextView mTextViewTips;
     private RecyclerView mRecyclerViewFailCard;
 
@@ -60,6 +62,7 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
             }
         });
         mRecyclerViewFailCard.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.mipmap.ic_no_data);
         onItemChildClick();
         loadData();
     }
@@ -83,13 +86,13 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
             public void onSuccess(BaseBean<List<FailBankCard>> baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("失败卡片列表-->" + baseBean.toString());
+                mBankCardList.clear();
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mBankCardList.clear();
                     mBankCardList.addAll(baseBean.getRespData());
-                    mAdapter.notifyDataSetChanged();
                 } else {
                     ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -98,6 +101,13 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
                 ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
+            loadData();
+        }
     }
 
     //根据ID查询卡片信息
@@ -136,8 +146,13 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.text_view_right_desc:
+                        Intent intent = new Intent(FailCardListActivity.this, FailCardWhyActivity.class);
+                        intent.putExtra("bean", mBankCardList.get(position));
+                        startActivityForResult(intent, RESULT_CODE_UPDATE);
                         break;
                     case R.id.button_submit_1:
+                        startActivityForResult(new Intent(FailCardListActivity.this,
+                                ActivatePlanActivity.class).putExtra("id", mBankCardList.get(position).getBankcard_id()), RESULT_CODE_UPDATE);
                         break;
                     case R.id.button_submit_2:
                         loadBankCardDataForId(mBankCardList.get(position).getBankcard_id(), mBankCardList.get(position).getBankcard_num(), mBankCardList.get(position).getBankcard_name());

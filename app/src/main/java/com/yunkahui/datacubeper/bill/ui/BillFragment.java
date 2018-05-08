@@ -110,6 +110,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                         .putExtra("user_credit_card_id", mList.get(position).getUserCreditCardId())
                         .putExtra("card_holder", mList.get(position).getCardHolder())
                         .putExtra("card_num", mList.get(position).getBankCardNum())
+                        .putExtra("bank_card_name",mList.get(position).getBankCardName())
                         .putExtra("reday_date", itemTime.substring(5))
                         .putExtra("bill_date", mList.get(position).getBillDayDate()));
             }
@@ -127,13 +128,13 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mAdapter);
-        loadFailCardNum();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getCreditCardList();
+        loadFailCardNum();
     }
 
     @Override

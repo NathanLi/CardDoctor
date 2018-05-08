@@ -146,6 +146,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                         LogUtils.e("提交自动规划->" + baseBean.getJsonObject().toString());
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                             ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                            setResult(RESULT_OK);
                             finish();
                         } else if ("0209".equals(baseBean.getRespCode())) {
                             showDialog(baseBean.getRespDesc());
@@ -246,7 +247,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
             Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
             return false;
         } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {
-            Toast.makeText(this, "为了完善您的信用体制，每天还款不能超过1笔！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "每天还款不能超过2笔！", Toast.LENGTH_SHORT).show();
             return false;
         } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) < mResultList.size()) {
             Toast.makeText(this, "还款笔数必须大于或等于天数", Toast.LENGTH_SHORT).show();

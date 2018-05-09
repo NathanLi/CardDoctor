@@ -35,6 +35,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
 
     public static final int TYPE_ADD = 101;
     public static final int TYPE_EDIT = 102;
+    public static final int TYPE_EDIT2 = 103;
 
     private InfoFillView mInfoFillName;
     private InfoFillView mInfoFillCardNum;
@@ -74,13 +75,13 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
         mInfoFillName.setName(DataUtils.getRealName());
         mInfoFillCardNum.setCursorVisible(false);
         mInfoFillBankName.setEnabled(false);
-        mBankCardId = getIntent().getIntExtra("card_id",0);
+        mBankCardId = getIntent().getIntExtra("card_id", 0);
         String cardNum = getIntent().getStringExtra("card_number");
         if (!TextUtils.isEmpty(cardNum)) {
             mInfoFillCardNum.setText(cardNum);
         }
-        mBankCardName=getIntent().getStringExtra("bank_card_name");
-        if(!TextUtils.isEmpty(mBankCardName)){
+        mBankCardName = getIntent().getStringExtra("bank_card_name");
+        if (!TextUtils.isEmpty(mBankCardName)) {
             mInfoFillBankName.setDest(mBankCardName);
         }
         mInfoFillCardNum.setOnEditTextTouchListener(new View.OnTouchListener() {

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +43,7 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
     private InfoFillView mIfvMoney;
     private FillSpinnerView mFsvType;
     private FillSpinnerView mFsvStore;
-    private String mType="CONSUMPTION";
+    private String mType = "CONSUMPTION";
     private String mMccType;
     private List<String> mStoreList;
 
@@ -84,12 +85,12 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
         mFsvType.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
+                if (i == 0) {
                     mFsvStore.setVisibility(View.VISIBLE);
-                    mType="CONSUMPTION";
-                }else{
+                    mType = "CONSUMPTION";
+                } else {
                     mFsvStore.setVisibility(View.GONE);
-                    mType="REPAY";
+                    mType = "REPAY";
                 }
             }
 
@@ -101,8 +102,8 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
         mFsvStore.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(mStoreList.size()>0){
-                    mMccType=mStoreList.get(i);
+                if (mStoreList.size() > 0) {
+                    mMccType = mStoreList.get(i);
                 }
             }
 
@@ -117,8 +118,9 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 new DatePickerDialog(AddTradeActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mIfvDate.setDest(String.format(getString(R.string.year_month_day), year, month+1, dayOfMonth));
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        mIfvDate.setDest(String.format(getString(R.string.year_month_day), year, month + 1, dayOfMonth));
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -130,7 +132,8 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
                 c.setTimeInMillis(System.currentTimeMillis());
                 c.add(Calendar.MINUTE, 5);
                 new TimePickerDialog(AddTradeActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         mIfvTime.setDest(String.format(getString(R.string.hour_minute), hourOfDay, minute));
                     }
                 }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
@@ -139,14 +142,18 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
         findViewById(R.id.btn_sure).setOnClickListener(new NoDoubleClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
+                long date = TimeUtils.getTimeStampByDate(TimeUtils.DEFAULT_PATTERN_WITH_HM, mIfvDate.getDest() + " " + mIfvTime.getDest());
+                if (date == 0 || TextUtils.isEmpty(mIfvMoney.getEditText())) {
+                    ToastUtils.show(getApplicationContext(),"请完善信息");
+                    return;
+                }
                 LoadingViewDialog.getInstance().show(AddTradeActivity.this);
-                long date = TimeUtils.getTimeStampByDate(TimeUtils.DEFAULT_PATTERN_WITH_HM, mIfvDate.getDest() +" "+mIfvTime.getDest());
                 mLogic.createBill(AddTradeActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), mType, date, mIfvMoney.getEditText(), mMccType, "", new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
                         LoadingViewDialog.getInstance().dismiss();
-                        LogUtils.e("添加交易->"+baseBean.getJsonObject().toString());
-                        ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
+                        LogUtils.e("添加交易->" + baseBean.getJsonObject().toString());
+                        ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                         if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                             finish();
                         }
@@ -155,7 +162,7 @@ public class AddTradeActivity extends AppCompatActivity implements IActivityStat
                     @Override
                     public void onFailure(Throwable throwable) {
                         LoadingViewDialog.getInstance().dismiss();
-                        Log.e(TAG, "create bill onFailure: "+throwable.getMessage());
+                        Log.e(TAG, "create bill onFailure: " + throwable.getMessage());
                     }
                 });
             }

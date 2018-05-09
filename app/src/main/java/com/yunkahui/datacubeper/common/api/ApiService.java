@@ -1,10 +1,12 @@
 package com.yunkahui.datacubeper.common.api;
 
+import com.yunkahui.datacubeper.common.bean.ActivatePlan;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.Branch;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.FailBankCard;
+import com.yunkahui.datacubeper.common.bean.FailBankCardDetail;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.Member;
 import com.yunkahui.datacubeper.common.bean.PlanList;
@@ -361,4 +363,15 @@ public interface ApiService {
     @POST("/app/planning/check_fail_card")  //查询存在规划失败的卡片列表
     Observable<BaseBean<List<FailBankCard>>> loadFailCardList(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/planning/check_fail_detail")    //查询规划失败的卡片详情
+    Observable<BaseBean<FailBankCardDetail>> loadFailCardDetail(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planning/check_fail_restart")   //重新激活规划
+    Observable<BaseBean> activatePlanning(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/planning/check_fail_restart")   //生成重激活规划的规划详情
+    Observable<BaseBean<ActivatePlan>> loadActivatePlanning(@FieldMap Map<String,String> params);
 }

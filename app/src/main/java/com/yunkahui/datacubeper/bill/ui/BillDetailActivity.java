@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class BillDetailActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
+    private final int RESULT_CODE_UPDATE = 1001;
+
     private RecyclerView mRecyclerView;
     private TextView mTvLeft;
     private TextView mTvBack;
@@ -74,6 +76,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mTvLess = headerView.findViewById(R.id.tv_less);
         mTvTmp = headerView.findViewById(R.id.tv_tmp);
         mTvFix = headerView.findViewById(R.id.tv_fix);
+        headerView.findViewById(R.id.show_edit).setOnClickListener(this);
         String cardNum = getIntent().getStringExtra("card_num");
         String cardHolder = getIntent().getStringExtra("card_holder");
         ((TextView) headerView.findViewById(R.id.tv_mess))
@@ -140,8 +143,22 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
+            getBillDetailTop();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.show_edit:
+                Intent intent = new Intent(this, AddCardActivity.class);
+                intent.putExtra("card_id", mCardId);
+                intent.putExtra("card_number", getIntent().getStringExtra("card_num"));
+                intent.putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"));
+                startActivityForResult(intent, RESULT_CODE_UPDATE);
+                break;
             case R.id.ll_update:
                 ArrayList<String> tabs = new ArrayList<>();
                 tabs.add("卡号");

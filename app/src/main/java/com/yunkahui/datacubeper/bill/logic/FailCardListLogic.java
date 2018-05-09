@@ -5,9 +5,11 @@ import android.content.Context;
 import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
+import com.yunkahui.datacubeper.common.bean.ActivatePlan;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.FailBankCard;
+import com.yunkahui.datacubeper.common.bean.FailBankCardDetail;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
 import java.util.List;
@@ -37,6 +39,40 @@ public class FailCardListLogic {
                 .create();
         HttpManager.getInstance().create(ApiService.class).queryCreditCardList(params)
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
+    }
+
+    /**
+     * 查询规划失败卡片详情
+     */
+    public void loadFailCardDetail(Context context, int id, SimpleCallBack<BaseBean<FailBankCardDetail>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bankcard_id", id)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadFailCardDetail(params)
+                .compose(HttpManager.<BaseBean<FailBankCardDetail>>applySchedulers()).subscribe(callBack);
+
+    }
+
+    /**
+     * 获取激活规划数据
+     */
+    public void loadActivatePlanning(Context context, int id, SimpleCallBack<BaseBean<ActivatePlan>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bankcard_id", id).create();
+        HttpManager.getInstance().create(ApiService.class).loadActivatePlanning(params)
+                .compose(HttpManager.<BaseBean<ActivatePlan>>applySchedulers()).subscribe(callBack);
+    }
+
+    /**
+     * 激活规划
+     */
+    public void activatePlanning(Context context, int id, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bankcard_id", id)
+                .addParams("restart",1)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).activatePlanning(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
 

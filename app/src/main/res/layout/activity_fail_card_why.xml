@@ -44,6 +44,7 @@
                 android:layout_marginRight="15pt"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textColor="#ff4300"
                 android:textSize="16pt" />
 
         </LinearLayout>
@@ -76,6 +77,7 @@
                 android:layout_marginRight="15pt"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textColor="#ff8316"
                 android:textSize="16pt" />
 
         </LinearLayout>

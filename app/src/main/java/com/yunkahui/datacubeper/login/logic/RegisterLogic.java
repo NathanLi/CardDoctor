@@ -42,10 +42,11 @@ public class RegisterLogic {
     /**
      * 验证 验证码
      */
-    public void checkSMSCode(Context context,String phone,String code,SimpleCallBack<BaseBean> callBack){
+    public void checkSMSCode(Context context,String phone,String code,String activeCode,SimpleCallBack<BaseBean> callBack){
             Map<String,String> params=RequestUtils.newParams(context)
                     .addParams("user_mobile",phone)
                     .addParams("user_mobile_code",code)
+                    .addParams("user_unique_code",activeCode)
                     .addParams("type","0")
                     .create();
             HttpManager.getInstance().create(ApiService.class).checkSMSCode(params)

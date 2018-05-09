@@ -40,7 +40,7 @@ public class TimeUtils {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(date.getTime());
             return calendar.getTimeInMillis();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;

@@ -61,11 +61,11 @@ public class RegisterActivity extends AppCompatActivity implements IActivityStat
 
     public void verifyPhone(final String phone, String code, final String inviteCode) {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.checkSMSCode(this, phone, code, new SimpleCallBack<BaseBean>() {
+        mLogic.checkSMSCode(this, phone, code, inviteCode,new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
-                LogUtils.e("验证短信->" + baseBean.toString());
+                LogUtils.e("注册验证短信->" + baseBean.toString());
                 JSONObject object = baseBean.getJsonObject();
                 ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                 if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {

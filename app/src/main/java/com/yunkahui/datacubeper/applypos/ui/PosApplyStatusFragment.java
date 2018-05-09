@@ -101,7 +101,7 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
                     LogUtils.e("pos邮寄信息->"+baseBean.getJsonObject().toString());
                     JSONObject object=baseBean.getJsonObject();
                     if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        mTextViewResult.setText("POS机邮寄中\n"+object.optJSONObject("respData").optString("kd_company")+"\n快递单号："+object.optJSONObject("respData").optString("kd_company"));
+                        mTextViewResult.setText("POS机邮寄中\n"+object.optJSONObject("respData").optString("kd_company")+"\n快递单号："+object.optJSONObject("respData").optString("kd_number"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

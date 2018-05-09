@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.webkit.WebView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunkahui.datacubeper.R;
@@ -40,17 +39,13 @@ public class BanksActivity extends AppCompatActivity implements IActivityStatusB
         final String[] titles = new String[] {
                 "中国工商银行", "中国农业银行", "中国银行", "中国建设银行", "招商银行", "广东发展银行", "中国交通银行", "中国光大银行",
                 "中信银行", "兴业银行", "中国民生银行", "华夏银行", "平安银行", "浦发银行", "广州银行", "北京银行",
-                "上海银行"
-                //, "平安惠普", "长沙银行"
-        };
+                "上海银行"};
         Integer[] pics = new Integer[] {
                 R.mipmap.bank_zhongguogongshang, R.mipmap.bank_zhongguonongye, R.mipmap.bank_zhongguo, R.mipmap.bank_zhongguojianshe,
                 R.mipmap.bank_zhaoshang, R.mipmap.bank_guangdongfazhan, R.mipmap.bank_zhongguojiaoton, R.mipmap.bank_zhongguoguangda,
                 R.mipmap.bank_zhongxin, R.mipmap.bank_xingye, R.mipmap.bank_zhongguomingsheng, R.mipmap.bank_huaxia,
                 R.mipmap.bank_pingan, R.mipmap.bank_shanghaipufa, R.mipmap.bank_guangzhou, R.mipmap.bank_beijing,
-                R.mipmap.bank_shanghai
-                //, R.mipmap.bank_pinganhuipu, R.mipmap.bank_changsha
-        };
+                R.mipmap.bank_shanghai};
         List<HomeItem> list = new ArrayList<>();
         for (int i = 0; i < pics.length; i++) {
             list.add(new HomeItem(pics[i], titles[i]));
@@ -61,9 +56,7 @@ public class BanksActivity extends AppCompatActivity implements IActivityStatusB
                 "http://creditcard.bankcomm.com/content/pccc/dismerchant/merchant.html", "http://xyk.cebbank.com/home/activities/index.htm?catename=NC_ACTI", "http://cards.ecitic.com/youhui/index.shtml",
                 "http://creditcard.cib.com.cn/index.html", "http://creditcard.cmbc.com.cn/promotioninfo/index.aspx", "http://www.hxb.com.cn/home/cn/clientServ/kuaixu/list.shtml",
                 "http://creditcard.pingan.com/cms-tmplt/creditecard/searchPreferentialInformation.do", "http://www.spdbccc.com.cn/zh/youhui.html", "http://creditcard.gzcb.com.cn/gzcb_web/activityList.action",
-                "http://www.bankofbeijing.com.cn/creditcard/pages/activity/index.html", "http://www.bankofshanghai.com/zh/xyk/xyk_ywdt/index.shtml"
-                //, "http://runcredit.wqdian.cn/55ae8c4e1494436d9298f34f919e7f6b.html", "http://runcredit.wqdian.cn/b9f2f0cf6c6f4590a98be6e5ab99f3df.html"
-        };
+                "http://www.bankofbeijing.com.cn/creditcard/pages/activity/index.html", "http://www.bankofshanghai.com/zh/xyk/xyk_ywdt/index.shtml"};
         HomeItemAdapter adapter = new HomeItemAdapter(R.layout.layout_list_item_home, list);
         adapter.bindToRecyclerView(mRecyclerView);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

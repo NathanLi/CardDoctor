@@ -52,9 +52,10 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
         mBankCardList = new ArrayList<>();
         int num = getIntent().getIntExtra("num", 0);
         mTextViewTips.setText(Html.fromHtml(String.format(getResources().getString(R.string.fail_card_list_tips), num)));
-
         mAdapter = new FailCardListAdapter(R.layout.layout_list_item_fail_card, mBankCardList);
+        mAdapter.bindToRecyclerView(mRecyclerViewFailCard);
         mRecyclerViewFailCard.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerViewFailCard.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
@@ -62,7 +63,7 @@ public class FailCardListActivity extends AppCompatActivity implements IActivity
             }
         });
         mRecyclerViewFailCard.setAdapter(mAdapter);
-        mAdapter.setEmptyView(R.mipmap.ic_no_data);
+
         onItemChildClick();
         loadData();
     }

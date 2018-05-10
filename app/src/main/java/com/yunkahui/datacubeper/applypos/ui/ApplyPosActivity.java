@@ -69,10 +69,14 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                             case "9":   //手持POS照片提交成功
                             case "10":  //手持POS照片审核通过
                             case "11":  //手持POS照片审核不通过
+                            case "12":
+                            case "13":
                             case "7":   //完成
                                 Intent intent = new Intent(activity, ApplyPosActivity.class);
                                 intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
                                 activity.startActivity(intent);
+                                break;
+                            default:
                                 break;
                         }
                     }

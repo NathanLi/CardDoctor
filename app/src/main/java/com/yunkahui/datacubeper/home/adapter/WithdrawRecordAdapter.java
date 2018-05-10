@@ -26,7 +26,7 @@ public class WithdrawRecordAdapter extends BaseQuickAdapter<WithdrawRecord.Withd
         int color;
         switch (item.getOrder_state()) {
             case "0":
-                status = "提现初始化";
+                status = "提现处理中";
                 color = Color.parseColor("#0085FF");
                 break;
             case "1":

@@ -24,6 +24,10 @@ import java.util.List;
 
 public class ProfitIncomeFragment extends BaseFragment {
 
+    public static final String TYPE_FUN_RUN = "fenruns";      //分润收入
+    public static final String TYPE_COMMISSION = "commission";    //分佣收入
+
+
     private ConstraintLayout mSuspensionBar;
     private RecyclerView mRecyclerView;
     private View mLayoutLoading;
@@ -38,8 +42,11 @@ public class ProfitIncomeFragment extends BaseFragment {
     private int mSuspensionHeight;
     private int mCurrentPosition;
 
+    private String mType;
+
     @Override
     public void initData() {
+        mType = getArguments().getString("type","");
         mLogic = new ProfitIncomeLogic();
         mList = new ArrayList<>();
         getProfitIncomeData();
@@ -91,13 +98,13 @@ public class ProfitIncomeFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    //******** 查询分润收入 ********
+    //******** 查询分润收入 分佣收入********
     private void getProfitIncomeData() {
-        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, "fenruns", new SimpleCallBack<BaseBean>() {
+        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, mType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("分润收入->" + baseBean.getJsonObject().toString());
+                LogUtils.e(mType + "收入->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
                     if (entityList.size() > 0) {

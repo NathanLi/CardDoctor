@@ -216,8 +216,8 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
                 });
                 break;
             case R.id.text_view_branch:
-
-                if(TextUtils.isEmpty(mEditTextViewBankCardNumber.getText())||TextUtils.isEmpty(mEditTextViewBankCardName.getText())||TextUtils.isEmpty(mTextViewArea.getText().toString())){
+                if(TextUtils.isEmpty(mEditTextViewBankCardNumber.getText())||TextUtils.isEmpty(mEditTextViewBankCardName.getText())||TextUtils.isEmpty(mTextViewArea.getText().toString())
+                        ||"-".equals(mTextViewArea.getText().toString())){
                     ToastUtils.show(getApplicationContext(),"请先完善信息");
                 }else{
                     Intent intent=new Intent(this,BranchInformationActivity.class);

@@ -34,7 +34,7 @@ public class TodayOperationFragment extends BaseFragment {
         MainTabAdapter mAdapter = new MainTabAdapter(getChildFragmentManager(), fragments, tabTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     @Override

@@ -131,6 +131,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         checkNewMessage();
+        loadData();
         if (!TextUtils.isEmpty(DataUtils.getInfo().getUser_mobile())) {
             fillData(DataUtils.getInfo());
         }
@@ -224,10 +225,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
             }
         }
-        if (resultCode == getActivity().RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
-            loadData();
-        }
-
     }
 
     /**

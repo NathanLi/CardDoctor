@@ -1,7 +1,9 @@
 package com.yunkahui.datacubeper.mine.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -114,6 +116,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     @Override
                     public void run() {
                         try {
+                            LoadingViewDialog.getInstance().dismiss();
                             LogUtils.e("身份-->" + object);
                             JSONObject messObject = new JSONObject(object);
                             String dataValue = messObject.optJSONArray("outputs").optJSONObject(0).optJSONObject("outputValue").optString("dataValue");
@@ -122,14 +125,12 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                             mIdCardNumber = dataValueObject.optString("num");
                             LogUtils.e("mRealName=" + mRealName);
                             LogUtils.e("mIdCardNumber=" + mIdCardNumber);
-
                             if (TextUtils.isEmpty(mRealName) || TextUtils.isEmpty(mIdCardNumber)) {
-                                LoadingViewDialog.getInstance().dismiss();
                                 ToastUtils.show(getApplicationContext(), "身份证照片检验失败，请重新上传");
                             } else {
                                 if (!mIsRunning) {
                                     mIsRunning = true;
-                                    submitRealNameAuthImage();
+                                    showAuthDialog();
                                 }
                             }
 
@@ -156,8 +157,31 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
 
     }
 
+    //显示识别出身份证信息数据的弹窗
+    public void showAuthDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("信息校验")
+                .setMessage("姓名：" + mRealName + "\n身份证号码：" + mIdCardNumber)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        submitRealNameAuthImage();
+                        mIsRunning = false;
+                    }
+                })
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mIsRunning = false;
+                    }
+                })
+                .create();
+        dialog.show();
+    }
 
+    //提交身份照片
     private void submitRealNameAuthImage() {
+        LoadingViewDialog.getInstance().show(this);
         mLogic.submitRealNameAuthImage(this, mFront, mBack, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
@@ -169,7 +193,6 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                         submitRealNameAuthInfo();
                     } else {
                         LoadingViewDialog.getInstance().dismiss();
-                        mIsRunning = false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -185,6 +208,7 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
         });
     }
 
+    //提交身份证数据
     public void submitRealNameAuthInfo() {
         mLogic.submitRealNameAuthInfo(this, mRealName, mIdCardNumber, new SimpleCallBack<BaseBean>() {
             @Override

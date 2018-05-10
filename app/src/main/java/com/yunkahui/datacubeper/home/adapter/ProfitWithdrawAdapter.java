@@ -40,7 +40,7 @@ public class ProfitWithdrawAdapter extends BaseQuickAdapter<TradeRecordDetail, B
         String status = "";
         int color = Color.parseColor("#0085FF");
         if ("0".equals(item.getTradeType())) {
-            status = "提现初始化";
+            status = "提现处理中";
             color = Color.parseColor("#0085FF");
         } else if ("1".equals(item.getTradeType())) {
             status = "提现成功";

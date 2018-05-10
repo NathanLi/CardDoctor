@@ -92,8 +92,7 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
                     break;
                 case "01":
                     mTextViewSubmit.setText("申请中");
-                    mTextViewSubmit.setBackgroundResource(R.drawable.ic_circle_shape_3);
-                    mTextViewSubmit.setEnabled(false);
+                    mTextViewSubmit.setEnabled(true);
                     break;
                 case "02":
                     mTextViewSubmit.setText("已开通");

@@ -1,5 +1,7 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.home.adapter.ProfitWithdrawAdapter;
 import com.yunkahui.datacubeper.home.logic.ProfitWithdrawLogic;
 
@@ -51,6 +54,34 @@ public class ProfitWithdrawFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                LogUtils.e("data="+mList.get(position).toString());
+                TradeRecordDetail detail=mList.get(position);
+                String action = "分润提现";
+                String time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getTimeStamp());
+                String status = "";
+                if ("0".equals(detail.getTradeType())) {
+                    status = "提现处理中";
+                } else if ("1".equals(detail.getTradeType())) {
+                    status = "提现成功";
+                } else if ("2".equals(detail.getTradeType())) {
+                    status = "提现失败";
+                } else if ("3".equals(detail.getTradeType())) {
+                    status = "提现处理中";
+                }
+                startActivity(new Intent(mActivity, SingleRecordActivity.class)
+                        .putExtra("time", time)
+                        .putExtra("money", detail.getMoney())
+                        .putExtra("status", status)
+                        .putExtra("action", action)
+                        .putExtra("remarks", detail.getRemark()));
+
+            }
+        });
+
     }
 
     //******** 查询分润提现 ********
@@ -60,7 +91,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
             public void onSuccess(BaseBean baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("分润提现->" + baseBean.getJsonObject().toString());
-                if (RequestUtils.SUCCESS.equals(baseBean.toString())) {
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                     mList.addAll(mLogic.parsingJSONForProfitWithdraw(baseBean));
                     mAdapter.notifyDataSetChanged();

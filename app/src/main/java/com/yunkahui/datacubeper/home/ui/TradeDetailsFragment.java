@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -26,7 +27,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private ConstraintLayout mSuspensionBar;
-    private View mLayoutLoading;
+    private AVLoadingIndicatorView mLayoutLoading;
     private TextView mTvTime;
     private TextView mTvMessage;
 
@@ -137,7 +138,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
-        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
+        mLayoutLoading = view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mSuspensionBar = view.findViewById(R.id.suspension_bar);
         mTvTime = view.findViewById(R.id.tv_time);

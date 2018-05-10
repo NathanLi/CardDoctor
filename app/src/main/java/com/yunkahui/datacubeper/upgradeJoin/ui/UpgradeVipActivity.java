@@ -151,6 +151,19 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
         dialog.create().show();
     }
 
+    public void showPosApplyDialog(){
+        AlertDialog dialog=new AlertDialog.Builder(this)
+                .setMessage("是否前往POS申请?")
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ApplyPosActivity.startAction(UpgradeVipActivity.this);
+                    }
+                })
+                .setNeutralButton("取消",null)
+                .create();
+        dialog.show();
+    }
 
     private void payVip(String vipId, final int type) {
         LoadingViewDialog.getInstance().show(this);
@@ -254,7 +267,14 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                     startActivityForResult(intentVip1, RESULT_CODE_VIP1);
                     break;
                 case R.id.upgrade_join_item_view2:
-                    loadVipData(RESULT_CODE_VIP2);
+                    switch (mVipPackages.get(1).getOpenState()){
+                        case "00":
+                            loadVipData(RESULT_CODE_VIP2);
+                            break;
+                        case "01":
+                            showPosApplyDialog();
+                            break;
+                    }
                     break;
                 case R.id.upgrade_join_item_view3:
                     if (!"01".equals(mVipPackages.get(0).getOpenState())) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -286,7 +287,7 @@ public class DesignSubFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("今日操作->" + baseBean.getJsonObject().toString());
+                LogUtils.e("今日操作-"+mIsPos+"->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
@@ -296,7 +297,7 @@ public class DesignSubFragment extends BaseFragment {
                     mCurrentPage++;
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
                     mDesignSubAdapter.notifyDataSetChanged();
-                    if (mPlanListList.size() > 0) {
+                    if (mTodayOperationSubList.size() > 0) {
                         mImageViewNoData.setVisibility(View.GONE);
                     } else {
                         mImageViewNoData.setVisibility(View.VISIBLE);

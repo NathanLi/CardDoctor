@@ -74,6 +74,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                     DataUtils.getInfo().setTruename(json.optString("truename"));
                     switch (json.optString("tua_status")) {
                         case "7":   //完成
+                        case "10":
                         case "12":
                         case "13":
                         case "14":

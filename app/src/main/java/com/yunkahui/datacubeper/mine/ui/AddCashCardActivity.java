@@ -40,23 +40,23 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
 
     @Override
     public void initData() {
-        mLogic=new AddCashCardLogic();
+        mLogic = new AddCashCardLogic();
     }
 
     @Override
     public void initView() {
-        mEditTextViewCardNumber=findViewById(R.id.simple_input_item_card_number);
-        mTextViewBankName=findViewById(R.id.text_view_bank_name);
-        mEditTextViewPhone=findViewById(R.id.simple_input_item_phone);
+        mEditTextViewCardNumber = findViewById(R.id.simple_input_item_card_number);
+        mTextViewBankName = findViewById(R.id.text_view_bank_name);
+        mEditTextViewPhone = findViewById(R.id.simple_input_item_phone);
         findViewById(R.id.button_submit).setOnClickListener(this);
 
-        mEditTextViewCardNumber.getEditTextInput().addTextChangedListener(new CustomTextChangeListener(){
+        mEditTextViewCardNumber.getEditTextInput().addTextChangedListener(new CustomTextChangeListener() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()==10){
+                if (s.length() == 10) {
                     checkBankCardName();
-                }else if(s.length()<10){
-                    mBankName="";
+                } else if (s.length() < 10) {
+                    mBankName = "";
                     mTextViewBankName.setText(R.string.bank_card_name);
                 }
             }
@@ -69,60 +69,61 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
         return getResources().getColor(R.color.colorPrimary);
     }
 
-    private void checkBankCardName(){
+    private void checkBankCardName() {
 
         mLogic.checkBankCardName(this, mEditTextViewCardNumber.getText(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 try {
-                    LogUtils.e("查询所属银行->"+baseBean.getJsonObject().toString());
-                    JSONObject object=baseBean.getJsonObject();
-                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        mBankName=object.optJSONObject("respData").optString("bankName");
-                        mBankNameBin=object.optJSONObject("respData").optString("bankNameEn");
+                    LogUtils.e("查询所属银行->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        mBankName = object.optJSONObject("respData").optString("bankName");
+                        mBankNameBin = object.optJSONObject("respData").optString("bankNameEn");
                         mTextViewBankName.setText(mBankName);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
-                LogUtils.e("查询所属银行失败->"+throwable.toString());
+                LogUtils.e("查询所属银行失败->" + throwable.toString());
             }
         });
 
     }
 
 
-    private boolean check(){
-        if(TextUtils.isEmpty(mEditTextViewCardNumber.getText())){
-            ToastUtils.show(getApplicationContext(),R.string.card_number_tips);
+    private boolean check() {
+        if (TextUtils.isEmpty(mEditTextViewCardNumber.getText())) {
+            ToastUtils.show(getApplicationContext(), R.string.card_number_tips);
             return false;
         }
-        if(TextUtils.isEmpty(mEditTextViewPhone.getText())){
-            ToastUtils.show(getApplicationContext(),R.string.bank_phone_tips);
+        if (TextUtils.isEmpty(mEditTextViewPhone.getText())) {
+            ToastUtils.show(getApplicationContext(), R.string.bank_phone_tips);
             return false;
         }
-        if(TextUtils.isEmpty(mBankName)){
-            ToastUtils.show(getApplicationContext(),"尚未获取该卡号的发卡行");
+        if (TextUtils.isEmpty(mBankName)) {
+            ToastUtils.show(getApplicationContext(), "尚未获取该卡号的发卡行");
             return false;
         }
         return true;
     }
 
 
-    private void addCashCard(){
+    private void addCashCard() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.addCashCard(this, mEditTextViewCardNumber.getText(), mBankName, mBankNameBin, mEditTextViewPhone.getText(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("添加储蓄卡->"+baseBean.getJsonObject().toString());
-                    JSONObject object=baseBean.getJsonObject();
-                    ToastUtils.show(getApplicationContext(),object.optString("respDesc"));
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                    LogUtils.e("添加储蓄卡->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
+                    ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -135,6 +136,7 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
             }
         });
 
@@ -143,9 +145,9 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_submit:
-                if(check()){
+                if (check()) {
                     addCashCard();
                 }
                 break;

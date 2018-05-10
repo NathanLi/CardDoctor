@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -28,7 +29,7 @@ import java.util.List;
 public class TradeRecordFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
-    private View mLayoutLoading;
+    private AVLoadingIndicatorView mLayoutLoading;
 
     private TradeRecordLogic mLogic;
     private BaseQuickAdapter mAdapter;
@@ -167,7 +168,7 @@ public class TradeRecordFragment extends BaseFragment {
         String status;
         switch (state) {
             case "0":
-                status = action + "初始化";
+                status = action + "处理中";
                 break;
             case "1":
                 status = action + "成功";
@@ -184,7 +185,7 @@ public class TradeRecordFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
-        mLayoutLoading = view.findViewById(R.id.rl_loading_view);
+        mLayoutLoading = view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 

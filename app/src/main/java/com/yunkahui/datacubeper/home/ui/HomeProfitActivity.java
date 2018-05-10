@@ -46,7 +46,13 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
 
         String[] tabTitles = {"分润收入", "分润提现"};
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new ProfitIncomeFragment());
+
+        ProfitIncomeFragment profitIncomeFragment = new ProfitIncomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", ProfitIncomeFragment.TYPE_FUN_RUN);
+        profitIncomeFragment.setArguments(bundle);
+
+        fragments.add(profitIncomeFragment);
         fragments.add(new ProfitWithdrawFragment());
         for (String title : tabTitles) {
             mTabLayout.addTab(mTabLayout.newTab().setText(title));

@@ -52,7 +52,7 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 TradeRecordDetail lv1 = (TradeRecordDetail) item;
                 helper.setText(R.id.tv_mess, lv1.getTitle());
                 helper.setText(R.id.show_time, lv1.getTime());
-                helper.setText(R.id.show_money, lv1.getMoney());
+                helper.setText(R.id.show_money, lv1.getMoney()+"");
                 int colorID;
                 if ("03".equals(lv1.getTradeType())) {
                     colorID = mContext.getResources().getColor(R.color.colorPrimary);

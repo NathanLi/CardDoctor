@@ -4,6 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.adapter.MainTabAdapter;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -25,6 +29,8 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.home.ui.ProfitIncomeFragment;
+import com.yunkahui.datacubeper.home.ui.ProfitWithdrawFragment;
 import com.yunkahui.datacubeper.mine.ui.BindZFBActivity;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 import com.yunkahui.datacubeper.share.logic.ShareWalletLogic;
@@ -37,54 +43,34 @@ import java.util.List;
  */
 public class ShareWalletActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    private RecyclerView mRecyclerView;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     private ShareWalletLogic mLogic;
 
     @Override
     public void initData() {
         mLogic = new ShareWalletLogic();
-        final boolean isQualified = "1".equals(DataUtils.getInfo().getIdentify_status()) && "1".equals(DataUtils.getInfo().getVIP_status());
-        int[] icons = {R.mipmap.ic_recharge, R.mipmap.ic_withdrawals};
-        String[] titles = {"充值", "提现"};
-        List<HomeItem> walletItems = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            HomeItem homeItem = new HomeItem(icons[i], titles[i]);
-            walletItems.add(homeItem);
-        }
-        WalletAdapter walletAdapter = new WalletAdapter(R.layout.layout_list_item_wallet, walletItems);
-        View header = LayoutInflater.from(this).inflate(R.layout.layout_list_header_wallet, null);
-        TextView tvUserBalance = header.findViewById(R.id.tv_user_balance);
-        final String money = getIntent().getStringExtra("money");
-        if (money != null) {
-            tvUserBalance.setText(money);
-        }
-        walletAdapter.addHeaderView(header);
-        walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                /*if (isQualified) {
-                    if (position == 0) {
-                        startActivity(new Intent(ShareWalletActivity.this, RechargeForZFBActivity.class)
-                                .putExtra("money", money));
-                    } else if (position == 1) {
-                        startActivity(new Intent(ShareWalletActivity.this, WithdrawForZFBActivity.class)
-                                .putExtra("money", money)
-                                .putExtra("withdrawType", "00"));
-                    }
-                } else {
-                    Toast.makeText(ShareWalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
-                }*/
-            }
-        });
-        walletAdapter.bindToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(walletAdapter);
+        String[] tabTitles = {"收入", "提现"};
+        List<Fragment> fragments = new ArrayList<>();
+
+        ProfitIncomeFragment profitIncomeFragment = new ProfitIncomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", ProfitIncomeFragment.TYPE_COMMISSION);
+        profitIncomeFragment.setArguments(bundle);
+
+        fragments.add(profitIncomeFragment);
+        fragments.add(new CommissionWithdrawFragment());
+        MainTabAdapter adapter = new MainTabAdapter(getSupportFragmentManager(), fragments, tabTitles);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setAdapter(adapter);
     }
 
     @Override
     public void initView() {
-        mRecyclerView = findViewById(R.id.recycler_view);
+        mTabLayout = findViewById(R.id.tab_layout);
+        mViewPager = findViewById(R.id.view_pager);
+
     }
 
     @Override
@@ -151,7 +137,7 @@ public class ShareWalletActivity extends AppCompatActivity implements IActivityS
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_home_wallet);
+        setContentView(R.layout.activity_share_wallet);
         super.onCreate(savedInstanceState);
         setTitle("我的钱包");
     }

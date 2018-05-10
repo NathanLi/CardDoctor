@@ -9,7 +9,10 @@ public class TradeRecordDetail implements MultiItemEntity {
     private String time;
     private String money;
     private long timeStamp;
+    private String orderStatus;
     private String tradeType;
+    private String result;
+    private String remark;
 
     public String getTradeType() {
         return tradeType;
@@ -51,8 +54,46 @@ public class TradeRecordDetail implements MultiItemEntity {
         this.money = money;
     }
 
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     @Override
     public int getItemType() {
         return ExpandableTradeRecordAdapter.TYPE_LEVEL_1;
+    }
+
+    public String getRemark() {
+        return remark == null ? "" : remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getResult() {
+        return result == null ? "" : result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "TradeRecordDetail{" +
+                "title='" + title + '\'' +
+                ", time='" + time + '\'' +
+                ", money='" + money + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", tradeType='" + tradeType + '\'' +
+                ", result='" + result + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }

@@ -92,9 +92,9 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
                         mMenuItemAdd.setVisible(false);
                     } else {
                         ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
+                        mMenuItemAdd.setVisible(true);
                         mCashCardItemView.setVisibility(View.GONE);
                         mImageViewNoData.setVisibility(View.VISIBLE);
-                        mMenuItemAdd.setVisible(true);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -160,7 +160,11 @@ public class MyCashCardListActivity extends AppCompatActivity implements IActivi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenuItemAdd = menu.add(1, 1, 1, "添加").setIcon(R.mipmap.ic_icon_add).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        mMenuItemAdd.setVisible(false);
+        if (mCashCardItemView.getVisibility() == View.VISIBLE) {
+            mMenuItemAdd.setVisible(false);
+        } else {
+            mMenuItemAdd.setVisible(true);
+        }
         return true;
     }
 

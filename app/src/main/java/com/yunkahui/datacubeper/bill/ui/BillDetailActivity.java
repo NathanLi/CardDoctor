@@ -21,7 +21,6 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.ExpandableBillDeatailAdapter;
 import com.yunkahui.datacubeper.bill.logic.BillDetailLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.TimeSection;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
@@ -49,7 +48,6 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
 
     private BillDetailLogic mLogic;
     private ExpandableBillDeatailAdapter mAdapter;
-    private List<TimeSection> mSectionList;
     private List<MultiItemEntity> mList;
     private int mCardId;
     private boolean mIsRepaid;
@@ -60,7 +58,6 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mCardId = getIntent().getIntExtra("user_credit_card_id", 0);
         mLogic = new BillDetailLogic();
         mList = new ArrayList<>();
-        mSectionList = new ArrayList<>();
         mAdapter = new ExpandableBillDeatailAdapter(this, mList);
         mAdapter.bindToRecyclerView(mRecyclerView);
         View headerView = LayoutInflater.from(this).inflate(R.layout.layout_list_header_bill_detail, null);
@@ -163,7 +160,10 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 startActivityForResult(intent, RESULT_CODE_UPDATE);
                 break;
             case R.id.ll_update:
-                startActivity(new Intent(this, BillSyncActivity.class));
+                ArrayList<String> tabs = new ArrayList<>();
+                tabs.add("卡号");
+                startActivity(new Intent(this, BillSynchronousActivity.class)
+                    .putExtra("tabs", tabs));
                 break;
             case R.id.ll_sign_repay:
                 signRepay();

@@ -1,26 +1,35 @@
 package com.yunkahui.datacubeper.bill.ui;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.Image;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.login.ui.LoginActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -161,7 +170,6 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         switch (v.getId()) {
             case R.id.button_submit:
                 Intent intent = new Intent(this, BillSynchronousService.class);
-//                startService(intent);
                 bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
                 mIsBind = true;
                 break;
@@ -170,12 +178,6 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                 intent2.putExtra("title", "协议");
                 intent2.putExtra("url", "file:///android_asset/test_agreement.html");
                 startActivity(intent2);
-
-//                LogUtils.e("点击发送RADIO_SEND_MESSAGE");
-//                Intent intent1 = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
-//                intent1.putExtra("message", "{\"type\":\"analyzer_do_spider\",\"login_pwd\":\"909193\",\"login_uid\":\"450802199311042058\",\n" +
-//                        "\"card_id\":\"6225768607613864\",\"uid\":\"jjjjj7777744444\",\"user_code\":\"" + BaseUrl.getUSER_ID() + "\",\"org_number\":\"" + getResources().getString(R.string.org_number) + "\"}");
-//                mBroadcastManager.sendBroadcast(intent1);
                 break;
         }
     }
@@ -189,17 +191,44 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                 String message = intent.getStringExtra("message");
                 LogUtils.e("接收的消息为 = " + message);
                 try {
-                    JSONObject object = new JSONObject(message);
-
+                    final JSONObject object = new JSONObject(message);
                     switch (object.optString("type")) {
                         case "returnImgUrl":    //接收图片验证码
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
+                            final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
+                            builder.setView(view);
+                            final AlertDialog dialog = builder.create();
+                            dialog.show();
+                            Glide.with(BillSynchronousActivity.this).load(object.optString("imageUrl")).into(((ImageView) view.findViewById(R.id.iv_verification_code)));
+                            view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    EditText etCode = view.findViewById(R.id.et_verification_code);
+                                    JSONObject jsonObject = new JSONObject();
+                                    try {
+                                        jsonObject.put("type", "Img_code");
+                                        jsonObject.put("contents", etCode.getText().toString());
+                                        jsonObject.put("uid", object.optString("uid"));
+                                        LogUtils.e("发送验证码->" + jsonObject.toString());
+                                        Intent intent = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
+                                        intent.putExtra("message", jsonObject.toString());
+                                        mBroadcastManager.sendBroadcast(intent);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
                             break;
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LogUtils.e("接收的消息不为为JSON = " + message);
+                    LogUtils.e("接收的消息不为JSON = " + message);
                 }
 
 

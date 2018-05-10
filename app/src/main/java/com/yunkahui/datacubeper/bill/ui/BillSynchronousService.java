@@ -6,10 +6,16 @@ import android.content.Intent;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,7 +33,7 @@ public class BillSynchronousService extends Service {
     public static final String RADIO_SEND_MESSAGE = "RADIO_SEND_MESSAGE";       //发送数据
 
     private LocalBroadcastManager mBroadcastManager;
-    private final String mHost = "192.168.1.167";
+    private final String mHost = "120.77.233.89";
     private final int mPort = 7002;
 
     private WeakReference<Socket> mSocketWeakReference;
@@ -45,11 +51,7 @@ public class BillSynchronousService extends Service {
         filter.addAction(RADIO_SEND_MESSAGE);
         mBroadcastManager.registerReceiver(mServiceReceiver, filter);
 
-        Intent intent1 = new Intent(RADIO_RECEIVE_MESSAGE);
-        intent1.putExtra("message", "测试广播");
-        mBroadcastManager.sendBroadcast(intent1);
         initSocket();
-
     }
 
     //初始化socket
@@ -60,12 +62,28 @@ public class BillSynchronousService extends Service {
                 try {
                     Socket socket = new Socket(mHost, mPort);
                     if (socket.isConnected()) {
-                        LogUtils.e("socket连接成功");
                         mSocketWeakReference = new WeakReference<>(socket);
                         mReaderThread = new InnerReaderThread(socket);
                         mReaderThread.start();
+                        LogUtils.e("socket连接成功");
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("type", "analyzer_do_spider");
+                            jsonObject.put("login_uid", "6225768607613864");
+                            jsonObject.put("card_id", "6225768607613864");
+                            jsonObject.put("uid", "10");
+                            jsonObject.put("user_code", BaseUrl.getUSER_ID());
+                            jsonObject.put("org_number", getResources().getString(R.string.org_number));
+                            LogUtils.e("发送参数->" + jsonObject.toString());
+                            Intent intent1 = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
+                            intent1.putExtra("message", jsonObject.toString());
+                            mBroadcastManager.sendBroadcast(intent1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 } catch (IOException e) {
+                    LogUtils.e("initSocket: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -82,7 +100,7 @@ public class BillSynchronousService extends Service {
                     Socket socket = mSocketWeakReference.get();
                     if (socket.isConnected() && !socket.isClosed()) {
                         LogUtils.e("开始发送消息");
-                        LogUtils.e("发送->"+message);
+                        LogUtils.e("正在发送->"+message);
                         DataOutputStream outputStream = outputStream = new DataOutputStream(socket.getOutputStream());
                         outputStream.write(message.getBytes());
                         outputStream.flush();
@@ -106,7 +124,7 @@ public class BillSynchronousService extends Service {
         private boolean isRunning = true;
 
         public InnerReaderThread(Socket socket) {
-            mWeakSocket = new WeakReference<Socket>(socket);
+            mWeakSocket = new WeakReference<>(socket);
             LogUtils.e("消息接收线程开启");
         }
 

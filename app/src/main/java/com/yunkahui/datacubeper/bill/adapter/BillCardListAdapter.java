@@ -1,14 +1,11 @@
 package com.yunkahui.datacubeper.bill.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
-import com.yunkahui.datacubeper.bill.ui.BillDetailActivity;
-import com.yunkahui.datacubeper.bill.ui.BillSyncActivity;
 import com.yunkahui.datacubeper.bill.ui.PlanPickerActivity;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.DataUtils;

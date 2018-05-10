@@ -101,7 +101,6 @@
         <activity android:name=".test.ui.TestHistoryActivity" />
         <activity android:name=".mine.ui.AboutUsActivity" />
         <activity android:name=".mine.ui.BindNewPhoneActivity" />
-        <activity android:name=".bill.ui.BillSyncActivity" />
         <activity android:name=".bill.ui.WebShowActivity" />
         <activity android:name=".bill.ui.BillDetailActivity" />
         <activity android:name=".bill.ui.AddTradeActivity" />

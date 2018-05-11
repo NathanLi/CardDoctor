@@ -58,6 +58,7 @@ public class UpdateApplyPhoneActivity extends AppCompatActivity implements IActi
                 LoadingViewDialog.getInstance().dismiss();
                 ToastUtils.show(getApplicationContext(),baseBean.getRespDesc());
                 if(RequestUtils.SUCCESS.equals(baseBean.getRespCode())){
+                    setResult(RESULT_OK);
                     finish();
                 }
             }

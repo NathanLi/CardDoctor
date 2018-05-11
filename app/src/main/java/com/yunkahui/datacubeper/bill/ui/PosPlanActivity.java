@@ -161,6 +161,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                             LoadingViewDialog.getInstance().dismiss();
                             LogUtils.e("提交规划->" + baseBean.getJsonObject().toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                                ToastUtils.show(PosPlanActivity.this, baseBean.getRespDesc());
                                 finish();
                             } else if ("0265".equals(baseBean.getRespCode())) {
                                 showUpgradeJoinDialog(baseBean.getRespDesc());
@@ -240,7 +241,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         @Override
                         public void onSuccess(BaseBean<GeneratePlan> baseBean) {
                             LoadingViewDialog.getInstance().dismiss();
-                            LogUtils.e("POS生成规划 ->" + baseBean.getJsonObject().toString());
+                            LogUtils.e("POS生成规划 ->" + baseBean.toString());
                             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                 mBaseBean = baseBean;
                                 mList.clear();

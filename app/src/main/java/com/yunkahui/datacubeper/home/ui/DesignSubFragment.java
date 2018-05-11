@@ -251,8 +251,12 @@ public class DesignSubFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean<PlanList> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.getJsonObject().toString());
+                LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    if(baseBean.getRespData()==null){
+                        mDesignSubAdapter.loadMoreEnd();
+                        return;
+                    }
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
                     } else {
@@ -287,8 +291,12 @@ public class DesignSubFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("今日操作-"+mIsPos+"->" + baseBean.getJsonObject().toString());
+                LogUtils.e("今日操作-"+mIsPos+"->" + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    if(baseBean.getRespData()==null){
+                        mDesignSubAdapter.loadMoreEnd();
+                        return;
+                    }
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
                     } else {

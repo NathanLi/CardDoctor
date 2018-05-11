@@ -32,21 +32,24 @@ public class CustomResponseBodyConverter<T> implements Converter<ResponseBody, T
         try {
             JSONObject object = new JSONObject(json);
             if ("0000".equals(object.optString("respCode"))) {
-                T result = adapter.fromJson(json);
-                if (result instanceof BaseBean) {
-                    ((BaseBean) result).setJsonObject(object);
+                if (object.optJSONObject("respData") != null || object.optJSONArray("respData") != null) {
+                    T result = adapter.fromJson(json);
+                    if (result instanceof BaseBean) {
+                        ((BaseBean) result).setJsonObject(object);
+                    }
+                    return result;
                 }
-                return result;
-            } else {
-                BaseBean baseBean = new BaseBean();
-                baseBean.setRespCode(object.optString("respCode"));
-                baseBean.setRespDesc(object.optString("respDesc"));
-                baseBean.setJsonObject(object);
-                return (T) baseBean;
             }
+            BaseBean baseBean = new BaseBean();
+            baseBean.setRespCode(object.optString("respCode"));
+            baseBean.setRespDesc(object.optString("respDesc"));
+            baseBean.setJsonObject(object);
+            return (T) baseBean;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (T) new BaseBean();
+        BaseBean bean = new BaseBean();
+        bean.setErrorJson(json);
+        return (T) bean;
     }
 }

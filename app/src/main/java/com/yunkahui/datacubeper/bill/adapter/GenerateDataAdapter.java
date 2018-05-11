@@ -27,7 +27,7 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
     protected void convert(BaseViewHolder helper, GeneratePlanItem item) {
         helper.setImageResource(R.id.iv_icon, item.getType() == 0 ? R.mipmap.ic_spending : R.mipmap.ic_repay);
         helper.setText(R.id.tv_title, String.format("%s - %s", item.getType() == 0 ? "消费" : "还款", mBankName));
-        if (item.getType() == 0) {
+        if (item.getType() == 0 && mIsPos) {
             helper.getView(R.id.tv_msg).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_msg, item.getMccType());
         } else {
@@ -39,7 +39,7 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
         if (mIsPos) {
             helper.setText(R.id.tv_status, "调整 >");
             helper.addOnClickListener(R.id.tv_status);
-        }else{
+        } else {
             helper.getView(R.id.tv_type).setVisibility(View.GONE);
         }
     }

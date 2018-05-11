@@ -247,7 +247,7 @@ public class RechargeRecord {
         private String payment_channel;
         private String callback_status;
         private String callback_msg;
-        private int amount;
+        private float amount;
         private double fee;
         private int ope_cost;
         private double channel_cost;
@@ -336,7 +336,7 @@ public class RechargeRecord {
             this.callback_msg = callback_msg;
         }
 
-        public int getAmount() {
+        public float getAmount() {
             return amount;
         }
 

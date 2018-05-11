@@ -1,5 +1,6 @@
 package com.yunkahui.datacubeper.bill.ui;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.bill.logic.OpenAutoPlanLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -179,10 +181,10 @@ public class OpenAutoPlanActivity extends AppCompatActivity implements IActivity
                 LogUtils.e("鉴权->" + baseBean.getJsonObject().toString());
                 ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    startActivity(new Intent(OpenAutoPlanActivity.this, MainActivity.class));
                     finish();
                 }
             }
-
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();

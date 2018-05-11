@@ -115,7 +115,7 @@ public class TradeRecordFragment extends BaseFragment {
         mLogic.getWithdrawRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
             @Override
             public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
-                LogUtils.e("提现->" + baseBean.getJsonObject().toString());
+                LogUtils.e("提现->" + baseBean.toString());
                 mLayoutLoading.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
@@ -124,8 +124,6 @@ public class TradeRecordFragment extends BaseFragment {
                     if (mAdapter != null) {
                         mAdapter.notifyDataSetChanged();
                     }
-                } else {
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 

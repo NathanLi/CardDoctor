@@ -198,8 +198,12 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                             startActivity(intent);
                             break;
                         case "12":  //pos结算信息修改审核中
+                            ToastUtils.show(getApplicationContext(), "结算信息审核中");
                             break;
                         case "14":  //pos结算信息修改审核不通过
+                            Intent intentFail = new Intent(PosManageActivity.this, UpdateSettleActivity.class);
+                            intentFail.putExtra("name", mApplyInfo.getUser_name());
+                            startActivity(intentFail);
                             break;
                         default:
                             ToastUtils.show(getApplicationContext(), "暂未开放");

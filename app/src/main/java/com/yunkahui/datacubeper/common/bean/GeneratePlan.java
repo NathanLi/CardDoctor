@@ -44,14 +44,14 @@ public class GeneratePlan {
          */
 
         private long repayDate;
-        private int repayTotalMoney;
+        private double repayTotalMoney;
         private int repayTotalCount;
         private int consumeTotalCount;
-        private int maxInRepaymentList;
+        private double maxInRepaymentList;
         private String executePeriodBegin;
         private String executePeriodEnd;
-        private int serviceCharge;
-        private int hlbShouldBalance;
+        private double serviceCharge;
+        private double hlbShouldBalance;
         private String version;
 
         public long getRepayDate() {
@@ -62,7 +62,7 @@ public class GeneratePlan {
             this.repayDate = repayDate;
         }
 
-        public int getRepayTotalMoney() {
+        public double getRepayTotalMoney() {
             return repayTotalMoney;
         }
 
@@ -86,7 +86,7 @@ public class GeneratePlan {
             this.consumeTotalCount = consumeTotalCount;
         }
 
-        public int getMaxInRepaymentList() {
+        public double getMaxInRepaymentList() {
             return maxInRepaymentList;
         }
 
@@ -110,7 +110,7 @@ public class GeneratePlan {
             this.executePeriodEnd = executePeriodEnd;
         }
 
-        public int getServiceCharge() {
+        public double getServiceCharge() {
             return serviceCharge;
         }
 
@@ -118,7 +118,7 @@ public class GeneratePlan {
             this.serviceCharge = serviceCharge;
         }
 
-        public int getHlbShouldBalance() {
+        public double getHlbShouldBalance() {
             return hlbShouldBalance;
         }
 
@@ -169,7 +169,7 @@ public class GeneratePlan {
              */
 
             private int sort;
-            private int repayMoney;
+            private double repayMoney;
             private RepaymentBean repayment;
             private List<ConsumptionBean> consumption;
 
@@ -181,7 +181,7 @@ public class GeneratePlan {
                 this.sort = sort;
             }
 
-            public int getRepayMoney() {
+            public double getRepayMoney() {
                 return repayMoney;
             }
 
@@ -239,7 +239,7 @@ public class GeneratePlan {
                  */
 
                 private long time;
-                private int money;
+                private double money;
                 private String mccType;
 
                 public long getTime() {
@@ -250,7 +250,7 @@ public class GeneratePlan {
                     this.time = time;
                 }
 
-                public int getMoney() {
+                public double getMoney() {
                     return money;
                 }
 

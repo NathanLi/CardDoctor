@@ -18,6 +18,8 @@ public class BaseBean<T> {
 
     private JSONObject jsonObject;
 
+    private String errorJson;
+
     public String getRespCode() {
         return respCode == null ? "" : respCode;
     }
@@ -51,8 +53,24 @@ public class BaseBean<T> {
         this.jsonObject = jsonObject;
     }
 
+    public String getErrorJson() {
+        return errorJson == null ? "" : errorJson;
+    }
+
+    public void setErrorJson(String errorJson) {
+        this.errorJson = errorJson;
+    }
+
     @Override
     public String toString() {
+        if (jsonObject == null) {
+            return "BaseBean{" +
+                    "respCode='" + respCode + '\'' +
+                    ", respDesc='" + respDesc + '\'' +
+                    ", respData=" + respData +
+                    ", errorJson=" + errorJson +
+                    '}';
+        }
         return "BaseBean{" +
                 "respCode='" + respCode + '\'' +
                 ", respDesc='" + respDesc + '\'' +

@@ -108,7 +108,6 @@ public class TradeDetailsFragment extends BaseFragment {
                     mSuspensionBar.setVisibility(mList.size() > 0 ? View.VISIBLE : View.GONE);
                 } else {
                     mSuspensionBar.setVisibility(View.GONE);
-                    Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -20,7 +20,7 @@ public class AutoPlanLogic {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bank_card_id", String.valueOf(cardId))
                 .addParams("planning_datas", planDatas)
-                .addParams("batch_sn", System.currentTimeMillis()+"")
+                .addParams("batch_sn", System.currentTimeMillis() + "")
                 .addParams("version", "v1.1")
                 .create();
         HttpManager.getInstance().create(ApiService.class).confirmAutoPlan(params)
@@ -41,29 +41,28 @@ public class AutoPlanLogic {
 
     public List<GeneratePlanItem> parsingJSONForAutoPlan(BaseBean<GeneratePlan> baseBean) {
         List<GeneratePlanItem> list = new ArrayList<>();
-        GeneratePlanItem item;
         for (int x = 0; x < baseBean.getRespData().getPlanningList().size(); x++) {
             List<GeneratePlan.PlanningListBean.DetailsBean> details = baseBean.getRespData().getPlanningList().get(x).getDetails();
             for (int y = 0; y < details.size(); y++) {
                 GeneratePlan.PlanningListBean.DetailsBean detailsBean = details.get(y);
-                item = new GeneratePlanItem();
+                GeneratePlanItem  item = new GeneratePlanItem();
                 item.setType(1);
                 item.setGroup(y);
                 item.setSection(-1);
                 item.setMoney(detailsBean.getRepayment().getMoney());
                 item.setTimeStamp(detailsBean.getRepayment().getTime());
-                list.add(item);
                 for (int z = 0; z < detailsBean.getConsumption().size(); z++) {
-                    item = new GeneratePlanItem();
-                    item.setType(0);
-                    item.setGroup(y);
-                    item.setSection(z);
+                    GeneratePlanItem  item2 = new GeneratePlanItem();
+                    item2.setType(0);
+                    item2.setGroup(y);
+                    item2.setSection(z);
                     GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(0);
-                    item.setMoney(consumptionBean.getMoney());
-                    item.setTimeStamp(consumptionBean.getTime());
-                    item.setMccType(consumptionBean.getMccType());
-                    list.add(item);
+                    item2.setMoney(consumptionBean.getMoney());
+                    item2.setTimeStamp(consumptionBean.getTime());
+                    item2.setMccType(consumptionBean.getMccType());
+                    list.add(item2);
                 }
+                list.add(item);
             }
         }
         return list;

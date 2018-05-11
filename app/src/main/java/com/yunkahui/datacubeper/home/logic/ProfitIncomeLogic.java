@@ -55,7 +55,7 @@ public class ProfitIncomeLogic {
                 item.setTimeStamp(j.optLong("create_time"));
                 item.setTradeType(j.optString("trade_type"));
                 item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("MM-dd hh:mm", j.optLong("create_time")));
-                item.setMoney(j.optLong("change_amount")+"");
+                item.setMoney(j.optDouble("change_amount")+"");
                 switch (item.getTradeType()){
                     case "消费分润":
                         item.setTitle("分润收入");

@@ -93,7 +93,7 @@ public class TodayOperationSub {
         private int ap_id;
         private int user_credit_card_id;
         private String plan_type;
-        private int amount;
+        private float amount;
         private long date;
         private String operation;
         private String pos_type;
@@ -135,7 +135,7 @@ public class TodayOperationSub {
             this.plan_type = plan_type;
         }
 
-        public int getAmount() {
+        public float getAmount() {
             return amount;
         }
 

@@ -84,7 +84,6 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         mEtInputTimes = findViewById(R.id.et_input_times);
         mRecyclerView = findViewById(R.id.recycler_view);
         mTvGoPlan = findViewById(R.id.tv_go_plan);
-
         mTvGoPlan.setOnClickListener(this);
         findViewById(R.id.rl_select_date).setOnClickListener(this);
     }
@@ -102,7 +101,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                 if (mList.size() > 0) {
                     showBottomSheetDialog();
                 } else {
-                    ToastUtils.show(getApplicationContext(),"请先进行规划");
+                    ToastUtils.show(getApplicationContext(), "请先进行规划");
                 }
                 break;
         }
@@ -112,7 +111,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
     private void showBottomSheetDialog() {
         TimeItem startTime = mCurrentTimeList.get(0);
         TimeItem endTime = mCurrentTimeList.get(mCurrentTimeList.size() - 1);
-        View contentView = LayoutInflater.from(this).inflate(R.layout.layout_sure_dialog, null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.layout_auto_plan_submit_dialog, null);
         GeneratePlan.PlanningAdditionalBean additional = mBaseBean.getRespData().getPlanningAdditional();
         ((TextView) contentView.findViewById(R.id.tv_repay_amount)).setText(
                 String.format(getString(R.string.money_format), additional.getRepayTotalMoney()));
@@ -122,6 +121,10 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                 String.format(getString(R.string.num_format), additional.getConsumeTotalCount()));
         ((TextView) contentView.findViewById(R.id.tv_repay_max)).setText(
                 String.format(getString(R.string.money_format), additional.getMaxInRepaymentList()));
+        ((TextView) contentView.findViewById(R.id.tv_service_money)).setText(
+                String.format(getString(R.string.money_format), additional.getServiceCharge()));
+        ((TextView) contentView.findViewById(R.id.tv_margin)).setText(
+                String.format(getString(R.string.money_format), additional.getHlbShouldBalance()));
         ((TextView) contentView.findViewById(R.id.tv_time)).setText(
                 String.format(getString(R.string.time_format), startTime.getYear(), startTime.getMonth(), startTime.getDay(),
                         endTime.getYear(), endTime.getMonth(), endTime.getDay()));
@@ -240,10 +243,10 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         if (mResultList != null && mResultList.size() == 0 || TextUtils.isEmpty(mEtInputAmount.getText().toString()) || TextUtils.isEmpty(mEtInputTimes.getText().toString())) {
             Toast.makeText(this, "有信息没有填写", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) < 1000) {
+        } else if (Float.parseFloat(mEtInputAmount.getText().toString()) < 1000) {
             Toast.makeText(this, "还款金额不能少于1000.00元！", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Integer.parseInt(mEtInputAmount.getText().toString()) % 100 != 0) {
+        } else if (Float.parseFloat(mEtInputAmount.getText().toString()) % 100 != 0) {
             Toast.makeText(this, "还款金额必须是100倍数！", Toast.LENGTH_SHORT).show();
             return false;
         } else if (mResultList != null && Integer.parseInt(mEtInputTimes.getText().toString()) > mResultList.size()) {

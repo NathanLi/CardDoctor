@@ -4,44 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:paddingBottom="20dp">
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.0426"/>
+        app:layout_constraintGuide_percent="0.0426" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8757"/>
+        app:layout_constraintGuide_percent="0.8757" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9586"/>
+        app:layout_constraintGuide_percent="0.9586" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3117"/>
+        app:layout_constraintGuide_percent="0.3117" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.0266"/>
+        app:layout_constraintGuide_percent="0.0266" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9733"/>
+        app:layout_constraintGuide_percent="0.9733" />
 
     <TextView
         android:id="@+id/space1"
@@ -74,8 +80,8 @@
         android:layout_width="0dp"
         android:layout_height="1px"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:background="#cfcfcf"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_close" />
@@ -95,9 +101,9 @@
         android:id="@+id/tv_repay_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="-"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/space3"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/space3" />
@@ -108,50 +114,55 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="还款笔数："
-        android:textSize="14sp"
         android:textColor="#666666"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/space3" />
+
     <TextView
         android:id="@+id/tv_repay_times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="-"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/space4"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/space4" />
+
     <TextView
         android:id="@+id/space5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="消费笔数："
-        android:textSize="14sp"
         android:textColor="#666666"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/space4" />
+
     <TextView
         android:id="@+id/tv_expense_times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="-"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/space5"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/space5" />
+
     <TextView
         android:id="@+id/space6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="最大还款金额："
-        android:textSize="14sp"
         android:textColor="#666666"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/space5" />
+
     <TextView
         android:id="@+id/tv_repay_max"
         android:layout_width="wrap_content"
@@ -168,40 +179,44 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="信用卡保留金："
-        android:textSize="14sp"
         android:textColor="#666666"
+        android:textSize="14sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/space6" />
+
     <TextView
         android:id="@+id/tv_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="-"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:text="-"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/space8"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/space8" />
+
     <TextView
         android:id="@+id/space9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="执行周期："
-        android:textSize="14sp"
         android:textColor="#666666"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/space8" />
+
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="-"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:text="-"
-        android:maxLines="2"
-        android:ellipsize="end"
         app:layout_constraintLeft_toLeftOf="@+id/guideline4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/space9" />
@@ -211,13 +226,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
+        android:background="@drawable/bg_corner_button_shape"
+        android:gravity="center"
         android:paddingBottom="13dp"
         android:paddingTop="13dp"
         android:text="下一步"
-        android:textSize="17sp"
-        android:gravity="center"
         android:textColor="#ffffff"
-        android:background="@drawable/bg_corner_button_shape"
+        android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/tv_time" />

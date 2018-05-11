@@ -246,7 +246,7 @@ public class WithdrawRecord {
         private String yd_order_sn;
         private String withdraw_type;
         private String order_state;
-        private int withdraw_amount;
+        private float withdraw_amount;
         private int fee;
         private int channel_cost;
         private int ope_cost;
@@ -310,7 +310,7 @@ public class WithdrawRecord {
             this.order_state = order_state;
         }
 
-        public int getWithdraw_amount() {
+        public float getWithdraw_amount() {
             return withdraw_amount;
         }
 

@@ -33,13 +33,13 @@ public class BillSynchronousService extends Service {
     public static final String RADIO_SEND_MESSAGE = "RADIO_SEND_MESSAGE";       //发送数据
 
     private LocalBroadcastManager mBroadcastManager;
-    private final String mHost = "120.77.233.89";
+    private final String mHost = "192.168.1.167";
     private final int mPort = 7002;
 
     private WeakReference<Socket> mSocketWeakReference;
     private InnerReaderThread mReaderThread;
     private InnerServiceReceiver mServiceReceiver;
-
+    private String mBankCardNum;
 
     @Override
     public void onCreate() {
@@ -52,6 +52,12 @@ public class BillSynchronousService extends Service {
         mBroadcastManager.registerReceiver(mServiceReceiver, filter);
 
         initSocket();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mBankCardNum = intent.getStringExtra("bank_card_num");
+        return super.onStartCommand(intent, flags, startId);
     }
 
     //初始化socket
@@ -69,9 +75,10 @@ public class BillSynchronousService extends Service {
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("type", "analyzer_do_spider");
-                            jsonObject.put("login_uid", "6225768607613864");
-                            jsonObject.put("card_id", "6225768607613864");
-                            jsonObject.put("uid", "10");
+                            jsonObject.put("login_uid", mBankCardNum);
+                            jsonObject.put("card_id", mBankCardNum);
+                            jsonObject.put("login_pwd", "909193");
+                            jsonObject.put("uid", mBankCardNum + System.currentTimeMillis());
                             jsonObject.put("user_code", BaseUrl.getUSER_ID());
                             jsonObject.put("org_number", getResources().getString(R.string.org_number));
                             LogUtils.e("发送参数->" + jsonObject.toString());
@@ -88,7 +95,6 @@ public class BillSynchronousService extends Service {
                 }
             }
         }).start();
-
     }
 
     //发送消息

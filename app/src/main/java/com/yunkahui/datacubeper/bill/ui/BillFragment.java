@@ -92,6 +92,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                         tabs.add("卡号");
                         Intent intent = new Intent(getActivity(), BillSynchronousActivity.class);
                         intent.putExtra("title", mList.get(position).getBankCardName());
+                        intent.putExtra("bank_card_num", mList.get(position).getBankCardNum());
                         intent.putStringArrayListExtra("tabs", (ArrayList<String>) tabs);
                         startActivity(intent);
                         break;
@@ -107,9 +108,10 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 }
                 final String itemTime = TimeUtils.format("yyyy-MM-dd", mList.get(position).getRepayDayDate());
                 startActivity(new Intent(getActivity(), BillDetailActivity.class)
+                        .putExtra("title", mList.get(position).getBankCardName())
                         .putExtra("user_credit_card_id", mList.get(position).getUserCreditCardId())
                         .putExtra("card_holder", mList.get(position).getCardHolder())
-                        .putExtra("card_num", mList.get(position).getBankCardNum())
+                        .putExtra("bank_card_num", mList.get(position).getBankCardNum())
                         .putExtra("bank_card_name",mList.get(position).getBankCardName())
                         .putExtra("reday_date", itemTime.substring(5))
                         .putExtra("bill_date", mList.get(position).getBillDayDate()));

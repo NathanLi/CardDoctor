@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
@@ -169,7 +170,8 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
-                Intent intent = new Intent(this, BillSynchronousService.class);
+                Intent intent = new Intent(this, BillSynchronousService.class)
+                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"));
                 bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
                 mIsBind = true;
                 break;
@@ -191,42 +193,20 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                 String message = intent.getStringExtra("message");
                 LogUtils.e("接收的消息为 = " + message);
                 try {
-                    final JSONObject object = new JSONObject(message);
+                    final JSONObject object = new JSONObject(message.substring(message.indexOf("{")));
+                    LogUtils.e("处理的消息为 = " + object.toString());
+                    if (object.optJSONObject("month") != null) {
+                        Toast.makeText(context, "获取数据成功", Toast.LENGTH_SHORT).show();
+                    }
                     switch (object.optString("type")) {
                         case "returnImgUrl":    //接收图片验证码
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
-                            final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
-                            builder.setView(view);
-                            final AlertDialog dialog = builder.create();
-                            dialog.show();
-                            Glide.with(BillSynchronousActivity.this).load(object.optString("imageUrl")).into(((ImageView) view.findViewById(R.id.iv_verification_code)));
-                            view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    EditText etCode = view.findViewById(R.id.et_verification_code);
-                                    JSONObject jsonObject = new JSONObject();
-                                    try {
-                                        jsonObject.put("type", "Img_code");
-                                        jsonObject.put("contents", etCode.getText().toString());
-                                        jsonObject.put("uid", object.optString("uid"));
-                                        LogUtils.e("发送验证码->" + jsonObject.toString());
-                                        Intent intent = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
-                                        intent.putExtra("message", jsonObject.toString());
-                                        mBroadcastManager.sendBroadcast(intent);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                            showImageCodeDialog(object);
                             break;
+                        case "Phonecheck":      //接收短信验证码
+                            showMessageCodeDialog(object);
+                        break;
                     }
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                     LogUtils.e("接收的消息不为JSON = " + message);
                 }
@@ -235,6 +215,77 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
             }
 
         }
+    }
+
+    private void showMessageCodeDialog(final JSONObject object) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
+        final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        ((TextView) view.findViewById(R.id.tv_dialog_title)).setText("请输入短信验证码");
+        view.findViewById(R.id.iv_verification_code).setVisibility(View.GONE);
+        view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etCode = view.findViewById(R.id.et_verification_code);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("type", "Phone_code");
+                    jsonObject.put("contents", etCode.getText().toString());
+                    jsonObject.put("uid", object.optString("uid"));
+                    LogUtils.e("发送短信验证码->" + jsonObject.toString());
+                    Intent intent = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
+                    intent.putExtra("message", jsonObject.toString());
+                    mBroadcastManager.sendBroadcast(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showImageCodeDialog(final JSONObject object) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
+        final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        LogUtils.e("imageUrl->" + object.optString("imageUrl"));
+        ((TextView) view.findViewById(R.id.tv_dialog_title)).setText("请输入图片验证码");
+        Glide.with(BillSynchronousActivity.this).load(object.optString("imageUrl")).into(((ImageView) view.findViewById(R.id.iv_verification_code)));
+        view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etCode = view.findViewById(R.id.et_verification_code);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("type", "Img_code");
+                    jsonObject.put("contents", etCode.getText().toString());
+                    jsonObject.put("uid", object.optString("uid"));
+                    LogUtils.e("发送手机验证码->" + jsonObject.toString());
+                    Intent intent = new Intent(BillSynchronousService.RADIO_SEND_MESSAGE);
+                    intent.putExtra("message", jsonObject.toString());
+                    mBroadcastManager.sendBroadcast(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override

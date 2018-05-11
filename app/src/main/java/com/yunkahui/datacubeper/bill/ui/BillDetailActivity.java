@@ -66,7 +66,9 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.expandAll();
-        getBillDetailTop();
+        //getBillDetailTop();
+        mList.addAll(mLogic.handleData(19, data));
+        mAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("SetTextI18n")
@@ -77,7 +79,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mTvTmp = headerView.findViewById(R.id.tv_tmp);
         mTvFix = headerView.findViewById(R.id.tv_fix);
         headerView.findViewById(R.id.show_edit).setOnClickListener(this);
-        String cardNum = getIntent().getStringExtra("card_num");
+        String cardNum = getIntent().getStringExtra("bank_card_num");
         String cardHolder = getIntent().getStringExtra("card_holder");
         ((TextView) headerView.findViewById(R.id.tv_mess))
                 .setText("- - - - - - - - " + cardNum.substring(cardNum.length() - 4, cardNum.length()) + cardHolder);
@@ -89,25 +91,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
 
     //******** 获取账单详情 ********
     private void getBillDetailData(final int billDay) {
-        mLogic.getBillDetail(this, mCardId, new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("账单详情->" + baseBean.getJsonObject().toString());
-                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mList.addAll(mLogic.handleData(baseBean, billDay));
-                    LoadingViewDialog.getInstance().dismiss();
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                Toast.makeText(BillDetailActivity.this, "获取账单详情失败" + throwable.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        mLogic.handleData(billDay, data);
     }
 
     //******** 获取账单头部信息 ********
@@ -161,9 +145,13 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 break;
             case R.id.ll_update:
                 ArrayList<String> tabs = new ArrayList<>();
+                tabs.add("用户名");
                 tabs.add("卡号");
-                startActivity(new Intent(this, BillSynchronousActivity.class)
-                    .putExtra("tabs", tabs));
+                Intent intent1 = new Intent(this, BillSynchronousActivity.class);
+                intent1.putExtra("title", getIntent().getStringExtra("title"));
+                intent1.putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"));
+                intent1.putStringArrayListExtra("tabs", tabs);
+                startActivity(intent1);
                 break;
             case R.id.ll_sign_repay:
                 signRepay();
@@ -217,4 +205,236 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     public int getStatusBarColor() {
         return getResources().getColor(R.color.colorPrimary);
     }
+
+    private String data = "{\n" +
+            "\t\"result\": \"ok\",\n" +
+            "\t\"settled\": [{\n" +
+            "\t\t\"bm_month\": \"2018-03\",\n" +
+            "\t\t\"bm_usable_limit\": 34000.0,\n" +
+            "\t\t\"bm_repay_sum\": 13239.73,\n" +
+            "\t\t\"bm_repay_min\": 8190.1,\n" +
+            "\t\t\"bm_prior_sum\": 22721.07,\n" +
+            "\t\t\"bm_prior_repay\": 435.0,\n" +
+            "\t\t\"bm_current_sum\": 13240.09,\n" +
+            "\t\t\"bm_integral_sum\": 5.0,\n" +
+            "\t\t\"bm_integral_increment\": 210.0,\n" +
+            "\t\t\"o_details\": [{\n" +
+            "\t\t\t\"bd_date\": \"2018-02-07\",\n" +
+            "\t\t\t\"bd_description\": \"支付宝网络还款\",\n" +
+            "\t\t\t\"bd_money\": 435.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-07\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 DIY - 22286.43\",\n" +
+            "\t\t\t\"bd_money\": 22286.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-08\",\n" +
+            "\t\t\t\"bd_description\": \"广州市花都区新华益龙汽车维修厂\",\n" +
+            "\t\t\t\"bd_money\": 4000.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 001-003\",\n" +
+            "\t\t\t\"bd_money\": 7429.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 分期手续费 001-003\",\n" +
+            "\t\t\t\"bd_money\": 201.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-12\",\n" +
+            "\t\t\t\"bd_description\": \"贵港市覃塘区东龙镇浩业百货店\",\n" +
+            "\t\t\t\"bd_money\": 168.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-15\",\n" +
+            "\t\t\t\"bd_description\": \"贵港市覃塘区东龙达强日杂批发店\",\n" +
+            "\t\t\t\"bd_money\": 102.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-26\",\n" +
+            "\t\t\t\"bd_description\": \"广州市荔湾区张龙烟酒行\",\n" +
+            "\t\t\t\"bd_money\": 100.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-28\",\n" +
+            "\t\t\t\"bd_description\": \"广州市天沔湘鄂风味餐厅\",\n" +
+            "\t\t\t\"bd_money\": 200.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-28\",\n" +
+            "\t\t\t\"bd_description\": \"广州石牌佳兴胜电子经营部\",\n" +
+            "\t\t\t\"bd_money\": 200.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-01\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-02\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-02\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-02\",\n" +
+            "\t\t\t\"bd_description\": \"广州市神山恒顺电器店\",\n" +
+            "\t\t\t\"bd_money\": 300.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-03\",\n" +
+            "\t\t\t\"bd_description\": \"广州市成骐鞋业有限公司\",\n" +
+            "\t\t\t\"bd_money\": 100.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-03\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-04\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-05\",\n" +
+            "\t\t\t\"bd_description\": \"广州市越秀区东方加油站\",\n" +
+            "\t\t\t\"bd_money\": 100.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-05\",\n" +
+            "\t\t\t\"bd_description\": \"广州市番禺区石楼启航电器店\",\n" +
+            "\t\t\t\"bd_money\": 106.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-05\",\n" +
+            "\t\t\t\"bd_description\": \"广州市萝岗区花之美花店\",\n" +
+            "\t\t\t\"bd_money\": 200.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-06\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-06\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}]\n" +
+            "\t}, {\n" +
+            "\t\t\"bm_month\": \"2018-04\",\n" +
+            "\t\t\"bm_usable_limit\": 34000.0,\n" +
+            "\t\t\"bm_repay_sum\": 29075.12,\n" +
+            "\t\t\"bm_repay_min\": 9773.72,\n" +
+            "\t\t\"bm_prior_sum\": 13239.73,\n" +
+            "\t\t\"bm_prior_repay\": 13240.0,\n" +
+            "\t\t\"bm_current_sum\": 29075.39,\n" +
+            "\t\t\"bm_integral_sum\": 6.0,\n" +
+            "\t\t\"bm_integral_increment\": 1.0,\n" +
+            "\t\t\"o_details\": [{\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"支付宝还款\",\n" +
+            "\t\t\t\"bd_money\": 13240.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 002-003\",\n" +
+            "\t\t\t\"bd_money\": 7429.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 分期手续费 002-003\",\n" +
+            "\t\t\t\"bd_money\": 201.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-07\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-07\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-08\",\n" +
+            "\t\t\t\"bd_description\": \"广州市一纯服饰有限公司\",\n" +
+            "\t\t\t\"bd_money\": 327.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-08\",\n" +
+            "\t\t\t\"bd_description\": \"Transit-ticket 广州地铁 ( 电话 96891)\",\n" +
+            "\t\t\t\"bd_money\": 5.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-09\",\n" +
+            "\t\t\t\"bd_description\": \"广州市永新酒店\",\n" +
+            "\t\t\t\"bd_money\": 499.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-21\",\n" +
+            "\t\t\t\"bd_description\": \"广州市曾生名表店\",\n" +
+            "\t\t\t\"bd_money\": 2999.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-22\",\n" +
+            "\t\t\t\"bd_description\": \"广州市伟欣电脑\",\n" +
+            "\t\t\t\"bd_money\": 7600.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-27\",\n" +
+            "\t\t\t\"bd_description\": \"广州市桥东城进利服装\",\n" +
+            "\t\t\t\"bd_money\": 2347.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-28\",\n" +
+            "\t\t\t\"bd_description\": \"广州市雪龙商务酒店\",\n" +
+            "\t\t\t\"bd_money\": 6380.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-31\",\n" +
+            "\t\t\t\"bd_description\": \"年费 300.00 元\",\n" +
+            "\t\t\t\"bd_money\": 0.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-03-31\",\n" +
+            "\t\t\t\"bd_description\": \"刷卡 6 次免年费 300.00 元\",\n" +
+            "\t\t\t\"bd_money\": 0.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-04\",\n" +
+            "\t\t\t\"bd_description\": \"广州艾博特电子有限公司\",\n" +
+            "\t\t\t\"bd_money\": 1200.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-05\",\n" +
+            "\t\t\t\"bd_description\": \"广州市白云区太和彰兰服装店\",\n" +
+            "\t\t\t\"bd_money\": 79.0\n" +
+            "\t\t}]\n" +
+            "\t}, {\n" +
+            "\t\t\"bm_month\": \"2018-05\",\n" +
+            "\t\t\"bm_usable_limit\": 34000.0,\n" +
+            "\t\t\"bm_repay_sum\": 19238.26,\n" +
+            "\t\t\"bm_repay_min\": 14364.76,\n" +
+            "\t\t\"bm_prior_sum\": 29075.12,\n" +
+            "\t\t\"bm_prior_repay\": 9059.0,\n" +
+            "\t\t\"bm_current_sum\": 20239.22,\n" +
+            "\t\t\"bm_integral_sum\": 7.0,\n" +
+            "\t\t\"bm_integral_increment\": 333.0,\n" +
+            "\t\t\"o_details\": [{\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"支付宝还款\",\n" +
+            "\t\t\t\"bd_money\": 8059.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"支付宝还款\",\n" +
+            "\t\t\t\"bd_money\": 1000.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 003-003\",\n" +
+            "\t\t\t\"bd_money\": 7429.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-02-09\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 分期手续费 003-003\",\n" +
+            "\t\t\t\"bd_money\": 201.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-07\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 DIY - 21017.08\",\n" +
+            "\t\t\t\"bd_money\": 21017.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-15\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 001-003\",\n" +
+            "\t\t\t\"bd_money\": 7006.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-15\",\n" +
+            "\t\t\t\"bd_description\": \"账单分期 ( 账单 ) 分期手续费 001-003\",\n" +
+            "\t\t\t\"bd_money\": 189.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-17\",\n" +
+            "\t\t\t\"bd_description\": \"广州市同和花果山水果店\",\n" +
+            "\t\t\t\"bd_money\": 100.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-17\",\n" +
+            "\t\t\t\"bd_description\": \"广州市星旅酒店\",\n" +
+            "\t\t\t\"bd_money\": 3000.0\n" +
+            "\t\t}, {\n" +
+            "\t\t\t\"bd_date\": \"2018-04-23\",\n" +
+            "\t\t\t\"bd_description\": \"广州市石牌鑫泽电脑\",\n" +
+            "\t\t\t\"bd_money\": 2315.0\n" +
+            "\t\t}]\n" +
+            "\t}],\n" +
+            "\t\"unsettled\": [],\n" +
+            "\t\"_req_id\": \"18a5d76b53294a4f8f66e506f7841011\"\n" +
+            "}";
 }

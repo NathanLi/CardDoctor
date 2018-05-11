@@ -6,7 +6,7 @@ import com.yunkahui.datacubeper.bill.adapter.ExpandableBillDeatailAdapter;
 
 public class BillDetailSummary extends AbstractExpandableItem<BillDetailItem> implements MultiItemEntity {
 
-    private String mess;
+    private String msg;
     private String year;
     private String startDate;
     private String endDate;
@@ -27,12 +27,12 @@ public class BillDetailSummary extends AbstractExpandableItem<BillDetailItem> im
         this.endDate = endDate;
     }
 
-    public String getMess() {
-        return mess;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMess(String mess) {
-        this.mess = mess;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public String getYear() {

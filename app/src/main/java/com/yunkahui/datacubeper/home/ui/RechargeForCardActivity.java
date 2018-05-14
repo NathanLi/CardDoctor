@@ -1,8 +1,10 @@
 package com.yunkahui.datacubeper.home.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.bill.ui.AutoPlanActivity;
+import com.yunkahui.datacubeper.bill.ui.OpenAutoPlanActivity;
 import com.yunkahui.datacubeper.common.DispostResultActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
@@ -37,6 +41,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
 
     private RechargeLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
+    private CardSelectorBean mSelectorBean;
     private String mBindId;
 
     @Override
@@ -68,6 +73,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
                         mList.add(bean);
                     }
                     mList.get(0).setChecked(true);
+                    mSelectorBean = mList.get(0);
                 }
             }
 
@@ -133,6 +139,9 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
                     intent.putExtra("money", mEtInputMoney.getText().toString());
                     intent.putExtra("type", DispostResultActivity.TYPE_TOP_UP);
                     startActivity(intent);
+                }
+                if ("0209".equals(baseBean.getRespCode())) {
+                    showDialog(baseBean.getRespDesc());
                 } else {
                     Toast.makeText(RechargeForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
@@ -145,6 +154,26 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
         });
     }
 
+    //弹窗是否跳往健全
+    private void showDialog(String message) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mSelectorBean != null) {
+                            startActivity(new Intent(RechargeForCardActivity.this, OpenAutoPlanActivity.class)
+                                    .putExtra("bank_card_name", mSelectorBean.getBankCardName())
+                                    .putExtra("bank_card_num", mSelectorBean.getBankCardNum())
+                                    .putExtra("user_credit_card_id", mSelectorBean.getCardId()));
+                        }
+                    }
+                })
+                .setNeutralButton("取消", null)
+                .create();
+        dialog.show();
+    }
+
     private void showSelectCardDialog() {
         CardSelectorDialogFragment dialog = new CardSelectorDialogFragment();
         Bundle bundle = new Bundle();
@@ -153,6 +182,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
         dialog.setOnCheckedChangeListener(new CardSelectorDialogFragment.OnCheckedChangeListener() {
             @Override
             public void onCheckedChange(CardSelectorBean bean) {
+                mSelectorBean = bean;
                 mBindId = String.valueOf(bean.getCardId());
                 String cardNum = bean.getBankCardNum();
                 mBtnCommit.setEnabled(true);

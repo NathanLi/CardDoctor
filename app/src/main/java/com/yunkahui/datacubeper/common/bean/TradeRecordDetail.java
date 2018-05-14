@@ -13,6 +13,7 @@ public class TradeRecordDetail implements MultiItemEntity {
     private String tradeType;
     private String result;
     private String remark;
+    private int type;   //支付or收入
 
     public String getTradeType() {
         return tradeType;
@@ -83,6 +84,14 @@ public class TradeRecordDetail implements MultiItemEntity {
         this.result = result;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "TradeRecordDetail{" +
@@ -94,6 +103,7 @@ public class TradeRecordDetail implements MultiItemEntity {
                 ", tradeType='" + tradeType + '\'' +
                 ", result='" + result + '\'' +
                 ", remark='" + remark + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

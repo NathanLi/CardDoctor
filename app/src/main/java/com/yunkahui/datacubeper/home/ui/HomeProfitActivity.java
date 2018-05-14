@@ -53,7 +53,9 @@ public class HomeProfitActivity extends AppCompatActivity implements IActivitySt
         profitIncomeFragment.setArguments(bundle);
 
         fragments.add(profitIncomeFragment);
-        fragments.add(new ProfitWithdrawFragment());
+//        fragments.add(new ProfitWithdrawFragment());
+        fragments.add(TradeRecordFragment.newInstance(1,TradeRecordFragment.TYPE_FENRUNS_WITHDRAW));
+
         for (String title : tabTitles) {
             mTabLayout.addTab(mTabLayout.newTab().setText(title));
         }

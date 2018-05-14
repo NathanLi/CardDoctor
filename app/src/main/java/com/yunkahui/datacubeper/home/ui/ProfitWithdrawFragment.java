@@ -90,7 +90,7 @@ public class ProfitWithdrawFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("分润提现->" + baseBean.getJsonObject().toString());
+                LogUtils.e("分润提现->" + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                     mList.addAll(mLogic.parsingJSONForProfitWithdraw(baseBean));

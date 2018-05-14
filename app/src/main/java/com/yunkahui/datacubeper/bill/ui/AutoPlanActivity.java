@@ -39,7 +39,7 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//自动规划
 public class AutoPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private RecyclerView mRecyclerView;

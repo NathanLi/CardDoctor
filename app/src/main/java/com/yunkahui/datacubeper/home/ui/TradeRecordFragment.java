@@ -28,6 +28,11 @@ import java.util.List;
 
 public class TradeRecordFragment extends BaseFragment {
 
+    public static final String TYPE_COMMISSIONI_WITHDRAW = "00";    //分佣提现
+    public static final String TYPE_BALANCE_WITHDRAW = "02";    //余额提现
+    public static final String TYPE_FENRUNS_WITHDRAW = "01";    //分润提现
+
+
     private RecyclerView mRecyclerView;
     private AVLoadingIndicatorView mLayoutLoading;
 
@@ -37,17 +42,20 @@ public class TradeRecordFragment extends BaseFragment {
     private List<RechargeRecord.RechargeDetail> mRechargeDetails;
     private int mCurrentPage;
     private int mAllPages;
+    private String mType;
 
-    public static Fragment newInstance(int kind) {
+    public static Fragment newInstance(int kind, String type) {
         TradeRecordFragment fragment = new TradeRecordFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("kind", kind);
+        bundle.putString("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void initData() {
+        mType = getArguments().getString("type");
         mLogic = new TradeRecordLogic();
         mRechargeDetails = new ArrayList<>();
         mWithdrawDetails = new ArrayList<>();
@@ -58,7 +66,7 @@ public class TradeRecordFragment extends BaseFragment {
                 mAdapter = new RechargeRecordAdapter(R.layout.layout_list_item_trade_record, mRechargeDetails);
                 break;
             case 1:
-                getWithdrawRecord(20, 1);
+                getWithdrawRecord(mType, 20, 1);
                 mAdapter = new WithdrawRecordAdapter(R.layout.layout_list_item_trade_record, mWithdrawDetails);
                 break;
         }
@@ -81,6 +89,7 @@ public class TradeRecordFragment extends BaseFragment {
                     status = getTradeStatus(detail.getOrder_state(), "提现");
                     remarks = detail.getThird_party_msg();
                 }
+
                 startActivity(new Intent(mActivity, SingleRecordActivity.class)
                         .putExtra("time", time)
                         .putExtra("money", money)
@@ -98,7 +107,7 @@ public class TradeRecordFragment extends BaseFragment {
                     if (0 == getArguments().getInt("kind")) {
                         getRechargeData(20, ++mCurrentPage);
                     } else {
-                        getWithdrawRecord(20, ++mCurrentPage);
+                        getWithdrawRecord(mType, 20, ++mCurrentPage);
                     }
                 }
             }
@@ -111,8 +120,8 @@ public class TradeRecordFragment extends BaseFragment {
     }
 
     //******** 获取提现记录 ********
-    private void getWithdrawRecord(int pageSize, int pageNum) {
-        mLogic.getWithdrawRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
+    private void getWithdrawRecord(String type, int pageSize, int pageNum) {
+        mLogic.getWithdrawRecord(mActivity, type, pageSize, pageNum, new SimpleCallBack<BaseBean<WithdrawRecord>>() {
             @Override
             public void onSuccess(BaseBean<WithdrawRecord> baseBean) {
                 LogUtils.e("提现->" + baseBean.toString());

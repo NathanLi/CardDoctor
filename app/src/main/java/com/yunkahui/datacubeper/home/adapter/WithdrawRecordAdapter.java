@@ -19,8 +19,8 @@ public class WithdrawRecordAdapter extends BaseQuickAdapter<WithdrawRecord.Withd
 
     @Override
     protected void convert(BaseViewHolder helper, WithdrawRecord.WithdrawDetail item) {
-        helper.setText(R.id.tv_title, "账户提现");
-        helper.setText(R.id.tv_money, String.valueOf(item.getWithdraw_amount()));
+        helper.setText(R.id.tv_title, item.getDescr());
+        helper.setText(R.id.tv_money, item.getWithdraw_amount());
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getCreate_time()));
         String status;
         int color;

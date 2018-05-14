@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.yunkahui.datacubeper">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,6 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
+        tools:replace="label"
         android:theme="@style/AppTheme">
 
         <!-- 支付宝支付 start -->

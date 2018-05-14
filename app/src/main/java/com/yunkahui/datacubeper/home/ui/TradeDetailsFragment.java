@@ -22,7 +22,7 @@ import com.yunkahui.datacubeper.home.logic.TradeRecordLogic;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//余额明细-全部
 public class TradeDetailsFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
@@ -95,7 +95,7 @@ public class TradeDetailsFragment extends BaseFragment {
 
     //******** 获取交易详情 ********
     private void getTradeDetailsData() {
-        mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "wallet", new SimpleCallBack<BaseBean>() {
+        mLogic.getTradeDetail(mActivity, 20, ++mCurrentPage, "balance", new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);

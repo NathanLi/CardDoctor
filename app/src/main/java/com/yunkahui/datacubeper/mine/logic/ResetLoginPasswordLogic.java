@@ -36,7 +36,7 @@ public class ResetLoginPasswordLogic {
         Map<String,String> params= RequestUtils.newParams(context)
                 .addParams("type","2")
                 .addParams("user_mobile",phone)
-                .addParams("oldpassword",oldPassword)
+                .addParams("oldPassword",oldPassword)
                 .addParams("password",newPassword)
                 .addParams("user_mobile_code",code)
                 .create();

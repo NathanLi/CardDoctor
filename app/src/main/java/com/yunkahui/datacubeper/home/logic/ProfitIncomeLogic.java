@@ -29,8 +29,8 @@ import java.util.Map;
 public class ProfitIncomeLogic {
 
     //******** 查询分润收入 ********
-    public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
+    public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .addParams("check_type", checkType)
@@ -55,15 +55,17 @@ public class ProfitIncomeLogic {
                 item.setTimeStamp(j.optLong("create_time"));
                 item.setTradeType(j.optString("trade_type"));
                 item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("MM-dd hh:mm", j.optLong("create_time")));
-                item.setMoney(j.optDouble("change_amount")+"");
-                switch (item.getTradeType()){
-                    case "消费分润":
-                        item.setTitle("分润收入");
-                        break;
-                    case "02":
-                        item.setTitle("分佣收入");
-                        break;
-                }
+                item.setMoney(j.optDouble("change_amount") + "");
+                item.setTitle(j.optString("trade_type_desc"));
+
+//                switch (item.getTradeType()){
+//                    case "消费分润":
+//                        item.setTitle("分润收入");
+//                        break;
+//                    case "02":
+//                        item.setTitle("分佣收入");
+//                        break;
+//                }
 
                 if (lastItem != null) {
                     if (item.getTime().startsWith("0") && lastItem.getTime().startsWith("0") &&
@@ -101,13 +103,13 @@ public class ProfitIncomeLogic {
     private void summaryInfo(TradeRecordSummary summary) {
         double pay = 0, back = 0;
         for (TradeRecordDetail detail : summary.getSubItems()) {
-            if ("03".equals(detail.getTradeType())) {
+            if ("03".equals(detail.getTradeType()) || "00".equals(detail.getTradeType())) {
                 back += Double.parseDouble(detail.getMoney());
             } else {
                 pay += Double.parseDouble(detail.getMoney());
             }
         }
-        DecimalFormat df = new java.text.DecimalFormat("#.00");
+        DecimalFormat df = new java.text.DecimalFormat("0.00");
         summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
         summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(pay)), String.valueOf(df.format(back))));
     }

@@ -7,6 +7,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
+import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 
@@ -22,13 +23,22 @@ public class ProfitWithdrawLogic {
 
     //******** 查询分润提现 ********
     public void getProfitWithdraw(Context context, String pdType, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack){
+//        Map<String,String> params= RequestUtils.newParams(context)
+//                .addParams("pdType", pdType)
+//                .addParams("pageSize", String.valueOf(pageSize))
+//                .addParams("pageNum", String.valueOf(pageNum))
+//                .create();
+//        HttpManager.getInstance().create(ApiService.class).loadProfitWithdraw(params)
+//                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+
         Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", pdType)
+                .addParams("with_draw_type", "01")
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();
-        HttpManager.getInstance().create(ApiService.class).loadProfitWithdraw(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+        HttpManager.getInstance().create(ApiService.class).loadWithdrawOrderRecord(params)
+                .compose(HttpManager.<BaseBean<WithdrawRecord>>applySchedulers()).subscribe(callBack);
+
     }
 
     public List<TradeRecordDetail> parsingJSONForProfitWithdraw(BaseBean baseBean) {

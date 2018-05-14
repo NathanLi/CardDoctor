@@ -56,7 +56,7 @@ public class AutoPlanLogic {
                     item2.setType(0);
                     item2.setGroup(y);
                     item2.setSection(z);
-                    GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(0);
+                    GeneratePlan.PlanningListBean.DetailsBean.ConsumptionBean consumptionBean = detailsBean.getConsumption().get(z);
                     item2.setMoney(consumptionBean.getMoney());
                     item2.setTimeStamp(consumptionBean.getTime());
                     item2.setMccType(consumptionBean.getMccType());

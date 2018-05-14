@@ -374,4 +374,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/planning/check_fail_restart")   //生成重激活规划的规划详情
     Observable<BaseBean<ActivatePlan>> loadActivatePlanning(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/getWithDrawOrder") //查询用户分润/分佣/余额提现订单
+    Observable<BaseBean<WithdrawRecord>> loadWithdrawOrderRecord(@FieldMap Map<String,String> params);
+
 }

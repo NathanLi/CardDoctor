@@ -146,7 +146,11 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 .setRightIconClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        checkRealNameAuthStatus();
+                        if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                            ToastUtils.show(getActivity(), "请先升级VIP");
+                        } else {
+                            checkRealNameAuthStatus();
+                        }
                     }
                 });
         toolbar.setTitleName(getString(R.string.bill));

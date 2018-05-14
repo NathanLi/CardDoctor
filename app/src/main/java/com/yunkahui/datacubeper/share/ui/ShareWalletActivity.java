@@ -31,6 +31,7 @@ import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.home.ui.ProfitIncomeFragment;
 import com.yunkahui.datacubeper.home.ui.ProfitWithdrawFragment;
+import com.yunkahui.datacubeper.home.ui.TradeRecordFragment;
 import com.yunkahui.datacubeper.mine.ui.BindZFBActivity;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 import com.yunkahui.datacubeper.share.logic.ShareWalletLogic;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by YD1 on 2018/4/10
+ * 我的钱包
  */
 public class ShareWalletActivity extends AppCompatActivity implements IActivityStatusBar {
 
@@ -60,7 +61,9 @@ public class ShareWalletActivity extends AppCompatActivity implements IActivityS
         profitIncomeFragment.setArguments(bundle);
 
         fragments.add(profitIncomeFragment);
-        fragments.add(new CommissionWithdrawFragment());
+//        fragments.add(new CommissionWithdrawFragment());
+        fragments.add(TradeRecordFragment.newInstance(1,TradeRecordFragment.TYPE_COMMISSIONI_WITHDRAW));
+
         MainTabAdapter adapter = new MainTabAdapter(getSupportFragmentManager(), fragments, tabTitles);
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(adapter);

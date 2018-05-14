@@ -246,8 +246,8 @@ public class WithdrawRecord {
         private String yd_order_sn;
         private String withdraw_type;
         private String order_state;
-        private float withdraw_amount;
-        private int fee;
+        private String withdraw_amount;
+        private double fee;
         private int channel_cost;
         private int ope_cost;
         private String audit_id;
@@ -269,6 +269,7 @@ public class WithdrawRecord {
         private String check_status;
         private String amountString;
         private String type;
+        private String descr;
 
         public int getWo_id() {
             return wo_id;
@@ -310,19 +311,19 @@ public class WithdrawRecord {
             this.order_state = order_state;
         }
 
-        public float getWithdraw_amount() {
+        public String getWithdraw_amount() {
             return withdraw_amount;
         }
 
-        public void setWithdraw_amount(int withdraw_amount) {
+        public void setWithdraw_amount(String withdraw_amount) {
             this.withdraw_amount = withdraw_amount;
         }
 
-        public int getFee() {
+        public double getFee() {
             return fee;
         }
 
-        public void setFee(int fee) {
+        public void setFee(double fee) {
             this.fee = fee;
         }
 
@@ -492,6 +493,14 @@ public class WithdrawRecord {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getDescr() {
+            return descr == null ? "" : descr;
+        }
+
+        public void setDescr(String descr) {
+            this.descr = descr;
         }
     }
 }

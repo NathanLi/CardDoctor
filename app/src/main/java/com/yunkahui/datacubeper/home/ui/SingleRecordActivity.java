@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
@@ -11,9 +12,9 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 
 public class SingleRecordActivity extends AppCompatActivity implements IActivityStatusBar {
 
-    public static final String TYPE_RECHARGE="recharge";
-    public static final String TYPE_WITHDRAW="withdraw";
-    public static final String TYPE_WITHDRAW_FENRUNS="withdraw_fenruns";
+    public static final String TYPE_RECHARGE = "recharge";
+    public static final String TYPE_WITHDRAW = "withdraw";
+    public static final String TYPE_WITHDRAW_FENRUNS = "withdraw_fenruns";
 
 
     private TextView mTvType;
@@ -29,13 +30,15 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), getIntent().getStringExtra("time")));
         String status = String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status"));
         String remarks = getIntent().getStringExtra("remarks");
-        String remarksSub = remarks.substring(remarks.lastIndexOf("：") + 1);
+        String remarksSub = TextUtils.isEmpty(remarks) ? "" : remarks.substring(remarks.lastIndexOf("：") + 1);
         mTvRemarks.setText("备        注：" + remarksSub);
-        if (remarks.contains("失败"))
-            mTvRemarks.setTextColor(Color.RED);
-        mTvStatus.setText(status);
-        if (status.contains("失败"))
-            mTvStatus.setTextColor(Color.RED);
+        if (!TextUtils.isEmpty(remarks)) {
+            if (remarks.contains("失败"))
+                mTvRemarks.setTextColor(Color.RED);
+            mTvStatus.setText(status);
+            if (status.contains("失败"))
+                mTvStatus.setTextColor(Color.RED);
+        }
     }
 
     @Override

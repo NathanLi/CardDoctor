@@ -35,7 +35,7 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
 
     public static final int TYPE_ADD = 101;
     public static final int TYPE_EDIT = 102;
-    public static final int TYPE_EDIT2 = 103;
+    public static final int TYPE_EDIT2 = 103;   //只允许修改账单日还款日
 
     private InfoFillView mInfoFillName;
     private InfoFillView mInfoFillCardNum;
@@ -63,6 +63,10 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                 break;
             case TYPE_EDIT:
                 setTitle("修改卡片");
+                break;
+            case TYPE_EDIT2:
+                setTitle("修改卡片");
+                mInfoFillCardNum.getEtInput().setEnabled(false);
                 break;
         }
 
@@ -197,6 +201,26 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
         });
     }
 
+    //修改卡片(只修改账单日还款日)
+    private void editCard2() {
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.editCard2(this, mBillDay, mRepayDay, mBankCardId, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            }
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
+            }
+        });
+    }
 
     private void setOnClickListener() {
         mInfoFillBill.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +248,8 @@ public class AddCardActivity extends AppCompatActivity implements IActivityStatu
                     case TYPE_EDIT:
                         editCard();
                         break;
+                    case TYPE_EDIT2:
+                        editCard2();
                 }
             }
         });

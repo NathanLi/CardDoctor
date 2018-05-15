@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.utils.ShareUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,11 +56,7 @@ public class AboutUsActivity extends AppCompatActivity implements IActivityStatu
                     outputStream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                     outputStream.close();
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("image/*");
-                    intent.putExtra("Kdescription", getString(R.string.share_sub_run));
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-                    startActivity(Intent.createChooser(intent, "分享"));
+                    ShareUtils.share(this,file);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

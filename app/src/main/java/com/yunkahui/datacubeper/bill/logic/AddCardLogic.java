@@ -49,4 +49,15 @@ public class AddCardLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
+    //修改信用卡（只修改账单日还款日）
+    public void editCard2(Context context, int billDay, int repayDay, int cardId, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bill_day", billDay)
+                .addParams("repay_day_date", repayDay)
+                .addParams("userbankcard_id", cardId)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).editCard2(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
 }

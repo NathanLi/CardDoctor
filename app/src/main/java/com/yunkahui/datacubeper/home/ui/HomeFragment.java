@@ -68,7 +68,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
-        initUserFinance();
         final List<HomeItem> homeItems = mLogic.parsingJSONForHomeItem(getActivity());
         HomeItemAdapter homeItemAdapter = new HomeItemAdapter(R.layout.layout_list_item_home, homeItems);
         homeItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -139,6 +138,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         mRecyclerView.setAdapter(homeItemAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initUserFinance();
     }
 
     //******** 获取余额、分润 ********

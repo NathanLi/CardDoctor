@@ -7,6 +7,7 @@ import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.BillDetailItem;
 import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
 import com.yunkahui.datacubeper.common.bean.TimeSection;
@@ -34,6 +35,16 @@ public class BillDetailLogic {
         HttpManager.getInstance().create(ApiService.class).loadBillDetailTop(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
+
+    //获取单张卡片详情数据
+    public void loadCardDeatailData(Context context,int cardId, SimpleCallBack<BaseBean<BillCreditCard>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bank_card_id",cardId)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).queryCreditCardList(params)
+                .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
+    }
+
 
     public void signRepay(Context context, int cardId, int status, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)

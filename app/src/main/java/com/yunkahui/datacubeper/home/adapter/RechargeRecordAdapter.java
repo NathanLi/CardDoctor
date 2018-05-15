@@ -21,8 +21,8 @@ public class RechargeRecordAdapter extends BaseQuickAdapter<RechargeRecord.Recha
 
     @Override
     protected void convert(BaseViewHolder helper, RechargeRecord.RechargeDetail item) {
-        helper.setText(R.id.tv_title, "账户充值");
-        helper.setText(R.id.tv_money, String.valueOf(item.getAmount()));
+        helper.setText(R.id.tv_title, item.getDescr());
+        helper.setText(R.id.tv_money, item.getAmount());
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getCreate_time()));
         String status;
         int color;

@@ -36,6 +36,20 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- 支付宝支付 end -->
 
+
+        <!--原生分享配置  start -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="your packge name.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <!--原生分享配置  end -->
+
+
         <activity
             android:name=".base.MainActivity"
             android:launchMode="singleTask" />
@@ -120,7 +134,7 @@
         <activity android:name=".bill.ui.FailCardListActivity" />
         <activity android:name=".home.ui.BanksActivity" />
         <activity android:name=".bill.ui.FailCardWhyActivity" />
-        <activity android:name=".bill.ui.ActivatePlanActivity"></activity>
+        <activity android:name=".bill.ui.ActivatePlanActivity"/>
     </application>
 
 </manifest>

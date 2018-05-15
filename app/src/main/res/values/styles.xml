@@ -76,6 +76,13 @@
         <item name="android:layout_marginLeft">15pt</item>
     </style>
 
+    <!-- ToolBar菜单样式 -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/white</item> <!--  敲定颜色-->
+        <!--<item name="android:textSize">18sp</item> &lt;!&ndash;  搞掂字体大小&ndash;&gt;-->
+    </style>
+
+
     <declare-styleable name="ChartSingleView">
         <attr name="lightColor" />
         <attr name="darkColor" />

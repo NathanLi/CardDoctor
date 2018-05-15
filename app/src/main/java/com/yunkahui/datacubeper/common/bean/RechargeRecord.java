@@ -247,7 +247,7 @@ public class RechargeRecord {
         private String payment_channel;
         private String callback_status;
         private String callback_msg;
-        private float amount;
+        private String amount;
         private double fee;
         private int ope_cost;
         private double channel_cost;
@@ -263,6 +263,8 @@ public class RechargeRecord {
         private String rechargeType;
         private String amountString;
         private String type;
+        private String descr;
+
 
         public int getRecharge_order_id() {
             return recharge_order_id;
@@ -334,14 +336,6 @@ public class RechargeRecord {
 
         public void setCallback_msg(String callback_msg) {
             this.callback_msg = callback_msg;
-        }
-
-        public float getAmount() {
-            return amount;
-        }
-
-        public void setAmount(int amount) {
-            this.amount = amount;
         }
 
         public double getFee() {
@@ -462,6 +456,22 @@ public class RechargeRecord {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getAmount() {
+            return amount == null ? "" : amount;
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public String getDescr() {
+            return descr == null ? "" : descr;
+        }
+
+        public void setDescr(String descr) {
+            this.descr = descr;
         }
     }
 }

@@ -36,7 +36,7 @@ public class TradeRecordActivity extends AppCompatActivity implements IActivityS
         mViewPager.setScanScroll(true);
         String[] tabTitles = {"充值", "提现", "全部"};
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(TradeRecordFragment.newInstance(0, ""));
+        fragments.add(TradeRecordFragment.newInstance(0, TradeRecordFragment.TYPE_RECHARGE_ORDER));
         fragments.add(TradeRecordFragment.newInstance(1, TradeRecordFragment.TYPE_BALANCE_WITHDRAW));
         fragments.add(new TradeDetailsFragment());
         for (String title : tabTitles) {

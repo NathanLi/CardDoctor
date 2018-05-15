@@ -75,10 +75,10 @@ public class BillSynchronousService extends Service {
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("type", "analyzer_do_spider");
-                            jsonObject.put("login_uid", mBankCardNum);
-                            jsonObject.put("card_id", mBankCardNum);
-                            jsonObject.put("login_pwd", "909193");
-                            jsonObject.put("uid", mBankCardNum + System.currentTimeMillis());
+                            jsonObject.put("login_uid", "342423198803207172");  //身份证
+                            jsonObject.put("card_id", "6225258898569041");  //卡号
+                            jsonObject.put("login_pwd", "198923");      //密码
+                            jsonObject.put("uid", "6225258898569041" + System.currentTimeMillis());
                             jsonObject.put("user_code", BaseUrl.getUSER_ID());
                             jsonObject.put("org_number", getResources().getString(R.string.org_number));
                             LogUtils.e("发送参数->" + jsonObject.toString());

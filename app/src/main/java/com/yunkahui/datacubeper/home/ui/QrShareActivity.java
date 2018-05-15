@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.ShareUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,17 +76,13 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
                     Canvas canvas = new Canvas(bitmap);
                     contentView.draw(canvas);
                     findViewById(R.id.tv_share).setVisibility(View.VISIBLE);
-
                     File fileDir = getExternalFilesDir(null);
                     fileDir.mkdirs();
                     File file = new File(fileDir, "share.png");
                     FileOutputStream outputStream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                     outputStream.close();
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("image/*");
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-                    startActivity(Intent.createChooser(intent, "分享"));
+                    ShareUtils.share(this, file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -94,7 +91,7 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void changeImgBg() {
-        int randomNumber = (int)(Math.random() * images.length);
+        int randomNumber = (int) (Math.random() * images.length);
         if (Build.VERSION.SDK_INT > 21) {
             getWindow().setStatusBarColor(colors[randomNumber]);
         }

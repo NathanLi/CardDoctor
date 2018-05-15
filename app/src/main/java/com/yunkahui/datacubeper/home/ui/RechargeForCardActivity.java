@@ -23,9 +23,13 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.logic.RechargeLogic;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -93,7 +97,12 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
         mBtnCommit = findViewById(R.id.btn_commit);
 
         findViewById(R.id.ll_show_dialog).setOnClickListener(this);
-        findViewById(R.id.btn_commit).setOnClickListener(this);
+        findViewById(R.id.btn_commit).setOnClickListener(new OnDoManyClickListener() {
+            @Override
+            public void onDoManyClick(View view) {
+                recharge();
+            }
+        });
     }
 
     @Override
@@ -114,10 +123,39 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
             case R.id.ll_show_dialog:
                 showSelectCardDialog();
                 break;
-            case R.id.btn_commit:
-                recharge();
-                break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUserFinance();
+    }
+
+    //******** 获取余额、分润 ********
+    private void initUserFinance() {
+        LoadingViewDialog.getInstance().show(this);
+        new HomeLogic().loadUserFinance(this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("余额分润->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    JSONObject object = baseBean.getJsonObject();
+                    JSONObject respData = object.optJSONObject("respData");
+                    String userBalance = respData.optString("user_balance");
+                    mTvUserBalance.setText(userBalance);
+                } else {
+                    Toast.makeText(getApplicationContext(), baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                Toast.makeText(getApplicationContext(), "获取余额分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //******** 使用银行卡充值 ********
@@ -130,15 +168,18 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
             return;
         }
         String money = String.format("%.2f", Float.parseFloat(mEtInputMoney.getText().toString()));
+        LoadingViewDialog.getInstance().show(this);
         mLogic.rechargeMoney(this, mBindId, money, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("卡充值->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     Intent intent = new Intent(RechargeForCardActivity.this, DispostResultActivity.class);
                     intent.putExtra("money", mEtInputMoney.getText().toString());
                     intent.putExtra("type", DispostResultActivity.TYPE_TOP_UP);
                     startActivity(intent);
+                    setResult(RESULT_OK);
                 }
                 if ("0209".equals(baseBean.getRespCode())) {
                     showDialog(baseBean.getRespDesc());
@@ -149,6 +190,7 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
 
             @Override
             public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
                 Toast.makeText(RechargeForCardActivity.this, "充值失败", Toast.LENGTH_SHORT).show();
             }
         });

@@ -28,6 +28,8 @@ import java.util.List;
 
 public class TradeRecordFragment extends BaseFragment {
 
+    public static final String TYPE_RECHARGE_ORDER = "00";    //余额充值
+
     public static final String TYPE_COMMISSIONI_WITHDRAW = "00";    //分佣提现
     public static final String TYPE_BALANCE_WITHDRAW = "02";    //余额提现
     public static final String TYPE_FENRUNS_WITHDRAW = "01";    //分润提现
@@ -146,11 +148,11 @@ public class TradeRecordFragment extends BaseFragment {
 
     //******** 获取充值记录 ********
     private void getRechargeData(int pageSize, int pageNum) {
-        mLogic.getRechargeRecord(mActivity, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
+        mLogic.getRechargeRecord(mActivity, mType, pageSize, pageNum, new SimpleCallBack<BaseBean<RechargeRecord>>() {
             @Override
             public void onSuccess(BaseBean<RechargeRecord> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("充值->" + baseBean.getJsonObject().toString());
+                LogUtils.e(mType+"充值->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mCurrentPage = baseBean.getRespData().getPageNum();
                     mAllPages = baseBean.getRespData().getPages();

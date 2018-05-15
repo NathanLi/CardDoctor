@@ -46,7 +46,7 @@ public class BaseBean<T> {
 
 
     public JSONObject getJsonObject() {
-        return jsonObject;
+        return jsonObject == null ? new JSONObject() : jsonObject;
     }
 
     public void setJsonObject(JSONObject jsonObject) {

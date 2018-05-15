@@ -21,9 +21,11 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.ExpandableBillDeatailAdapter;
 import com.yunkahui.datacubeper.bill.logic.BillDetailLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import org.json.JSONObject;
@@ -45,6 +47,8 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     private TextView mTvTmp;
     private TextView mTvFix;
     private TextView mTvSign;
+    private TextView mTvRepay;
+    private TextView mTvAccount;
 
     private BillDetailLogic mLogic;
     private ExpandableBillDeatailAdapter mAdapter;
@@ -69,6 +73,8 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         //getBillDetailTop();
         mList.addAll(mLogic.handleData(19, data));
         mAdapter.notifyDataSetChanged();
+        getBillDetailTop();
+        getCardDetailData();
     }
 
     @SuppressLint("SetTextI18n")
@@ -83,15 +89,36 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         String cardHolder = getIntent().getStringExtra("card_holder");
         ((TextView) headerView.findViewById(R.id.tv_mess))
                 .setText("- - - - - - - - " + cardNum.substring(cardNum.length() - 4, cardNum.length()) + cardHolder);
-        ((TextView) headerView.findViewById(R.id.tv_repay))
-                .setText("还款日：" + getIntent().getStringExtra("reday_date"));
-        ((TextView) headerView.findViewById(R.id.tv_account))
-                .setText("账单日：" + TimeUtils.format("MM-dd", getIntent().getLongExtra("bill_date", 0)));
+        mTvRepay = headerView.findViewById(R.id.tv_repay);
+        mTvRepay.setText("还款日：" + getIntent().getStringExtra("reday_date"));
+        mTvAccount = headerView.findViewById(R.id.tv_account);
+        mTvAccount.setText("账单日：" + TimeUtils.format("MM-dd", getIntent().getLongExtra("bill_date", 0)));
     }
 
     //******** 获取账单详情 ********
     private void getBillDetailData(final int billDay) {
         mLogic.handleData(billDay, data);
+    }
+
+    //获取当前卡片详情数据
+    private void getCardDetailData() {
+        mLogic.loadCardDeatailData(this, mCardId, new SimpleCallBack<BaseBean<BillCreditCard>>() {
+            @Override
+            public void onSuccess(BaseBean<BillCreditCard> billCreditCardBaseBean) {
+                LogUtils.e("卡片详情数据->" + billCreditCardBaseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(billCreditCardBaseBean.getRespCode())) {
+                    BillCreditCard.CreditCard creditCard = billCreditCardBaseBean.getRespData().getCardDetail().get(0);
+                    mTvRepay.setText("还款日：" + creditCard.getRepayDayDate());
+                    mTvAccount.setText("账单日：" + TimeUtils.format("MM-dd", creditCard.getBillDayDate()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                ToastUtils.show(getApplicationContext(), throwable.toString());
+            }
+        });
     }
 
     //******** 获取账单头部信息 ********
@@ -101,6 +128,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
                 LogUtils.e("账单头部->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     JSONObject jsonObject = baseBean.getJsonObject();
@@ -130,6 +158,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
             getBillDetailTop();
+            getCardDetailData();
         }
     }
 
@@ -138,8 +167,9 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         switch (view.getId()) {
             case R.id.show_edit:
                 Intent intent = new Intent(this, AddCardActivity.class);
+                intent.putExtra("type", AddCardActivity.TYPE_EDIT2);
                 intent.putExtra("card_id", mCardId);
-                intent.putExtra("card_number", getIntent().getStringExtra("card_num"));
+                intent.putExtra("card_number", getIntent().getStringExtra("bank_card_num"));
                 intent.putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"));
                 startActivityForResult(intent, RESULT_CODE_UPDATE);
                 break;

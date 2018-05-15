@@ -25,6 +25,7 @@ import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.logic.HomeWalletLogic;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
@@ -38,7 +39,10 @@ import java.util.List;
  */
 public class HomeWalletActivity extends AppCompatActivity implements IActivityStatusBar {
 
+    private final int RESYLT_CODE_UPDATE = 1001;
+
     private RecyclerView mRecyclerView;
+    private TextView mTvUserBalance;
 
     private HomeWalletLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
@@ -57,10 +61,10 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
         }
         WalletAdapter walletAdapter = new WalletAdapter(R.layout.layout_list_item_wallet, walletItems);
         View header = LayoutInflater.from(this).inflate(R.layout.layout_list_header_wallet, null);
-        TextView tvUserBalance = header.findViewById(R.id.tv_user_balance);
+        mTvUserBalance = header.findViewById(R.id.tv_user_balance);
         final String money = getIntent().getStringExtra("money");
         if (money != null) {
-            tvUserBalance.setText(money);
+            mTvUserBalance.setText(money);
         }
         walletAdapter.addHeaderView(header);
         walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -68,8 +72,8 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (isQualified) {
                     if (position == 0) {
-                        startActivity(new Intent(HomeWalletActivity.this, RechargeForCardActivity.class)
-                                .putExtra("money", money));
+                        startActivityForResult(new Intent(HomeWalletActivity.this, RechargeForCardActivity.class)
+                                .putExtra("money", money), RESYLT_CODE_UPDATE);
                     } else if (position == 1) {
                         queryCreditCardList();
                     }
@@ -82,6 +86,40 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(walletAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RESYLT_CODE_UPDATE) {
+            initUserFinance();
+        }
+    }
+
+
+    //******** 获取余额、分润 ********
+    private void initUserFinance() {
+        LoadingViewDialog.getInstance().show(this);
+        new HomeLogic().loadUserFinance(this, new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("余额分润->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    JSONObject object = baseBean.getJsonObject();
+                    JSONObject respData = object.optJSONObject("respData");
+                    String userBalance = respData.optString("user_balance");
+                    mTvUserBalance.setText(userBalance);
+                } else {
+                    Toast.makeText(getApplicationContext(), baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LoadingViewDialog.getInstance().dismiss();
+                Toast.makeText(getApplicationContext(), "获取余额分润失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //******** 获取储蓄卡 ********

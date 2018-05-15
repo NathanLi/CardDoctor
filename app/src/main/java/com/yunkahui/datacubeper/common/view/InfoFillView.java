@@ -135,6 +135,10 @@ public class InfoFillView extends LinearLayout {
         mTvInput.setText(name);
     }
 
+    public EditText getEtInput(){
+        return mEtInput;
+    }
+
     public void setCursorVisible(boolean visible) {
         mEtInput.setCursorVisible(visible);
     }

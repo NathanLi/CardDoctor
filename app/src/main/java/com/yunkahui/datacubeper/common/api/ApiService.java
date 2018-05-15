@@ -223,6 +223,7 @@ public interface ApiService {
     @POST("/app/pos/planning/get_zhongfu_mcc_list")       //获取MCC列表
     Observable<BaseBean> loadMccList(@FieldMap Map<String,String> params);
 
+    @Deprecated
     @FormUrlEncoded
     @POST("/app/userUpgradec/getPdrwList")       //获取充值记录
     Observable<BaseBean<RechargeRecord>> loadRechargeRecord(@FieldMap Map<String,String> params);
@@ -348,6 +349,10 @@ public interface ApiService {
     Observable<BaseBean> editCard(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/userbankcard/updatecard")   //修改信用卡（只修改账单日还款日）
+    Observable<BaseBean> editCard2(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/share/get_member_list")   //获取普通/VIP会员列表
     Observable<BaseBean<Member>> requestMemberList(@FieldMap Map<String,String> params);
 
@@ -378,5 +383,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userUpgradec/getWithDrawOrder") //查询用户分润/分佣/余额提现订单
     Observable<BaseBean<WithdrawRecord>> loadWithdrawOrderRecord(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/userUpgradec/getRechargeOrder") //查询用户余额/卡测评充值订单
+    Observable<BaseBean<RechargeRecord>> loadRechargeOrder(@FieldMap Map<String,String> params);
 
 }

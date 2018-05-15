@@ -29,13 +29,13 @@ import java.util.Map;
 public class TradeRecordLogic {
 
     //******** 获取充值记录 ********
-    public void getRechargeRecord(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
+    public void getRechargeRecord(Context context, String type, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
-                .addParams("pdType", "recharge")
+                .addParams("recharge_type", type)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .create();
-        HttpManager.getInstance().create(ApiService.class).loadRechargeRecord(params)
+        HttpManager.getInstance().create(ApiService.class).loadRechargeOrder(params)
                 .compose(HttpManager.<BaseBean<RechargeRecord>>applySchedulers()).subscribe(callBack);
 
     }

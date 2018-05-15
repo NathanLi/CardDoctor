@@ -138,6 +138,7 @@ public class WithdrawForCardActivity extends AppCompatActivity implements IActiv
                     intent.putExtra("money", mEtInputMoney.getText().toString());
                     intent.putExtra("type", DispostResultActivity.TYPE_WITHDRAW);
                     startActivity(intent);
+                    setResult(RESULT_OK);
                 } else {
                     Toast.makeText(WithdrawForCardActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }

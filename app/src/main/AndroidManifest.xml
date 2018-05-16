@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:name=".base.CardDoctorApplication"
@@ -20,7 +22,11 @@
         android:supportsRtl="true"
         tools:replace="label"
         android:theme="@style/AppTheme">
-
+        <!-- 蒲公英 -->
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="165b77b065d6a33a43c8430b8a22ce9f" >
+        </meta-data>
         <!-- 支付宝支付 start -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

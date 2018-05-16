@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.pgyersdk.Pgy;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yunkahui.datacubeper.base.MainActivity;
@@ -36,10 +38,16 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
     private LoginLogic mLogic;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PgyUpdateManager.unregister();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
-
+        PgyUpdateManager.register(this);
         new RxPermissions(this)
                 .requestEach(Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,

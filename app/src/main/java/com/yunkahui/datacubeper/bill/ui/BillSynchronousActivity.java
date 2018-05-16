@@ -27,6 +27,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.login.ui.LoginActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
@@ -170,8 +171,11 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
+                LoadingViewDialog.getInstance().show(this);
                 Intent intent = new Intent(this, BillSynchronousService.class)
-                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"));
+                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
+                        .putExtra("account", mEditTextAccount.getText().toString())
+                        .putExtra("password", mEditTextPassword.getText().toString());
                 bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
                 mIsBind = true;
                 break;
@@ -192,19 +196,21 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
             if (intent.getAction().equals(BillSynchronousService.RADIO_RECEIVE_MESSAGE)) {
                 String message = intent.getStringExtra("message");
                 LogUtils.e("接收的消息为 = " + message);
+                if (message.contains("settled")) {
+                    LoadingViewDialog.getInstance().dismiss();
+                    Toast.makeText(context, "获取数据成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 try {
                     final JSONObject object = new JSONObject(message.substring(message.indexOf("{")));
                     LogUtils.e("处理的消息为 = " + object.toString());
-                    if (object.optJSONObject("month") != null) {
-                        Toast.makeText(context, "获取数据成功", Toast.LENGTH_SHORT).show();
-                    }
                     switch (object.optString("type")) {
                         case "returnImgUrl":    //接收图片验证码
                             showImageCodeDialog(object);
                             break;
                         case "Phonecheck":      //接收短信验证码
                             showMessageCodeDialog(object);
-                        break;
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -218,6 +224,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     }
 
     private void showMessageCodeDialog(final JSONObject object) {
+        LoadingViewDialog.getInstance().dismiss();
         final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
         final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
         builder.setView(view);
@@ -234,6 +241,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingViewDialog.getInstance().show(BillSynchronousActivity.this);
                 EditText etCode = view.findViewById(R.id.et_verification_code);
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -253,6 +261,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     }
 
     private void showImageCodeDialog(final JSONObject object) {
+        LoadingViewDialog.getInstance().dismiss();
         final AlertDialog.Builder builder = new AlertDialog.Builder(BillSynchronousActivity.this);
         final View view = LayoutInflater.from(BillSynchronousActivity.this).inflate(R.layout.layout_verification_code_dialog, null);
         builder.setView(view);
@@ -270,6 +279,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         view.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingViewDialog.getInstance().show(BillSynchronousActivity.this);
                 EditText etCode = view.findViewById(R.id.et_verification_code);
                 JSONObject jsonObject = new JSONObject();
                 try {

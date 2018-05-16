@@ -40,6 +40,8 @@ public class BillSynchronousService extends Service {
     private InnerReaderThread mReaderThread;
     private InnerServiceReceiver mServiceReceiver;
     private String mBankCardNum;
+    private String mAccount;
+    private String mPassword;
 
     @Override
     public void onCreate() {
@@ -50,14 +52,6 @@ public class BillSynchronousService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(RADIO_SEND_MESSAGE);
         mBroadcastManager.registerReceiver(mServiceReceiver, filter);
-
-        initSocket();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        mBankCardNum = intent.getStringExtra("bank_card_num");
-        return super.onStartCommand(intent, flags, startId);
     }
 
     //初始化socket
@@ -75,10 +69,10 @@ public class BillSynchronousService extends Service {
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("type", "analyzer_do_spider");
-                            jsonObject.put("login_uid", "342423198803207172");  //身份证
-                            jsonObject.put("card_id", "6225258898569041");  //卡号
-                            jsonObject.put("login_pwd", "198923");      //密码
-                            jsonObject.put("uid", "6225258898569041" + System.currentTimeMillis());
+                            jsonObject.put("login_uid", mAccount);  //身份证
+                            jsonObject.put("card_id", mBankCardNum);  //卡号
+                            jsonObject.put("login_pwd", mPassword == null ? "" : mPassword);      //密码
+                            jsonObject.put("uid", mBankCardNum + System.currentTimeMillis());
                             jsonObject.put("user_code", BaseUrl.getUSER_ID());
                             jsonObject.put("org_number", getResources().getString(R.string.org_number));
                             LogUtils.e("发送参数->" + jsonObject.toString());
@@ -195,6 +189,10 @@ public class BillSynchronousService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        mBankCardNum = intent.getStringExtra("bank_card_num");
+        mAccount = intent.getStringExtra("account");
+        mPassword = intent.getStringExtra("password");
+        initSocket();
         return null;
     }
 }

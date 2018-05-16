@@ -102,7 +102,6 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LogUtils.e("点击" + position);
                 if (mList.get(position) == null) {
                     return;
                 }

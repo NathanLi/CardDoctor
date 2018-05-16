@@ -14,6 +14,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -25,10 +27,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
-import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.bill.logic.BillSynchronousLogic;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.login.ui.LoginActivity;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import org.json.JSONException;
@@ -36,8 +38,17 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+
 //账单同步
 public class BillSynchronousActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
+
+    public static final int TYPE_CARD_NUMBER = 1001;  //卡号
+    public static final int TYPE_USER = 1002;   //用户名
+    public static final int TYPE_ID_CARD = 1003;  //身份证
+    public static final int TYPE_PHONE = 1004;    //手机号
+    public static final int TYPE_ID_CARD_NO_PASSWORD = 1005;  //身份证没密码
+    public static final int TYPE_CARD_NUMBER_NO_PASSWORD = 1006;  //卡号没密码
+
 
     private TabLayout mTabLayout;
     private EditText mEditTextAccount;
@@ -46,18 +57,21 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     private TextView mTextViewPasswordMessage;
     private LinearLayout mLinearLayoutPassword;
 
-    private List<String> mTabList;
+    private List<BillSynchronousLogic.Tabs> mTabList;
     private boolean mIsBind;
 
     private LocalBroadcastManager mBroadcastManager;
     private MyBroadcastReceiver mReceiver;
     private ServiceConnection mServiceConnection;
+    private String mBankName;
+    private int mType;
+    private BillSynchronousLogic mLogic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_bill_synchronous);
         super.onCreate(savedInstanceState);
-        setTitle(getIntent().getStringExtra("title"));
+        setTitle(getIntent().getStringExtra("bank_name"));
 
         mReceiver = new MyBroadcastReceiver();
         mBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -96,15 +110,18 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
 
     @Override
     public void initData() {
-        mTabList = getIntent().getStringArrayListExtra("tabs");
+        mBankName = getIntent().getStringExtra("bank_name");
+        mLogic = new BillSynchronousLogic();
+        mTabList = mLogic.getTabs(BillSynchronousLogic.judgeBank(mBankName));
         for (int i = 0; i < mTabList.size(); i++) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(mTabList.get(i)));
+            mTabLayout.addTab(mTabLayout.newTab().setText(mTabList.get(i).getTitle()));
+            LogUtils.e("支持->" + mTabList.get(i).getTitle());
         }
-        selectTabs(mTabList.size() > 0 ? mTabList.get(0) : "");
+        selectTabs(mTabList.size() > 0 ? mTabList.get(0).getId() : 1001);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                selectTabs(tab.getText().toString());
+                selectTabs(mTabList.get(tab.getPosition()).getId());
             }
 
             @Override
@@ -133,13 +150,29 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         findViewById(R.id.text_view_agreement).setOnClickListener(this);
     }
 
-    private void selectTabs(String tabs) {
-        switch (tabs) {
-            case "用户名":
+    //切换tab
+    private void selectTabs(int type) {
+        mEditTextAccount.getText().clear();
+        mEditTextPassword.getText().clear();
+        mType = type;
+        switch (type) {
+            case TYPE_CARD_NUMBER:
+                initCardNumberTabs();
+                break;
+            case TYPE_USER:
                 initAccountNameTabs();
                 break;
-            case "卡号":
-                initCardNumberTabs();
+            case TYPE_ID_CARD:
+                initIdCardTabs();
+                break;
+            case TYPE_PHONE:
+                initPhoneTabs();
+                break;
+            case TYPE_ID_CARD_NO_PASSWORD:
+                initIdCardNoPasswordTabs();
+                break;
+            case TYPE_CARD_NUMBER_NO_PASSWORD:
+                initCardNumberNoPasswordTabs();
                 break;
         }
     }
@@ -147,6 +180,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     //用户名设置
     private void initAccountNameTabs() {
         mEditTextAccount.setHint("请输入用户名");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_TEXT);
         mTextViewAccountMessage.setText("官方网上银行设置的用户名");
         mLinearLayoutPassword.setVisibility(View.VISIBLE);
         mEditTextPassword.setHint("登陆密码");
@@ -156,11 +190,67 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     //卡号设置
     private void initCardNumberTabs() {
         mEditTextAccount.setHint("请输入卡号");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_NUMBER);
         mTextViewAccountMessage.setText("信用卡卡号（12-20位数字）");
         mLinearLayoutPassword.setVisibility(View.VISIBLE);
         mEditTextPassword.setHint("登陆密码");
         mTextViewPasswordMessage.setText("开通网银时的登陆密码，未开通网银可登陆官网自助开通");
     }
+
+    //身份证设置
+    private void initIdCardTabs() {
+        mEditTextAccount.setHint("请输入身份证号");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_TEXT);
+        mTextViewAccountMessage.setText("证件号码如有字母，请注意区分大小写");
+        mLinearLayoutPassword.setVisibility(View.VISIBLE);
+        mEditTextPassword.setHint("登陆密码");
+        mTextViewPasswordMessage.setText("6位数字，忘记密码请登陆官网重置");
+    }
+
+    //手机号设置
+    private void initPhoneTabs() {
+        mEditTextAccount.setHint("请输入电话号码");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mTextViewAccountMessage.setText("输入绑定的电话号码");
+        mLinearLayoutPassword.setVisibility(View.VISIBLE);
+        mEditTextPassword.setHint("登陆密码");
+        mTextViewPasswordMessage.setText("开通网银时的登陆密码，未开通网银可登陆官网自助开通");
+    }
+
+    //身份证设置（不输入密码）
+    private void initIdCardNoPasswordTabs() {
+        mEditTextAccount.setHint("请输入身份证号");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_TEXT);
+        mTextViewAccountMessage.setText("证件号码如有字母，请注意区分大小写");
+        mLinearLayoutPassword.setVisibility(View.INVISIBLE);
+    }
+
+    //卡号设置（不输入密码）
+    private void initCardNumberNoPasswordTabs() {
+        mEditTextAccount.setHint("请输入卡号");
+        mEditTextAccount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mTextViewAccountMessage.setText("信用卡卡号（12-20位数字）");
+        mLinearLayoutPassword.setVisibility(View.INVISIBLE);
+    }
+
+    private boolean verify() {
+        switch (mType){
+            case TYPE_CARD_NUMBER:
+            case TYPE_USER:
+            case TYPE_ID_CARD:
+            case TYPE_PHONE:
+                if(TextUtils.isEmpty(mEditTextAccount.getText().toString())||TextUtils.isEmpty(mEditTextPassword.getText().toString())){
+                    return false;
+                }
+            case TYPE_ID_CARD_NO_PASSWORD:
+            case TYPE_CARD_NUMBER_NO_PASSWORD:
+                if(TextUtils.isEmpty(mEditTextAccount.getText().toString())){
+                    return false;
+                }
+        }
+        return true;
+    }
+
 
     @Override
     public int getStatusBarColor() {
@@ -171,13 +261,17 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
-                LoadingViewDialog.getInstance().show(this);
-                Intent intent = new Intent(this, BillSynchronousService.class)
-                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
-                        .putExtra("account", mEditTextAccount.getText().toString())
-                        .putExtra("password", mEditTextPassword.getText().toString());
-                bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-                mIsBind = true;
+                if(verify()){
+                    LoadingViewDialog.getInstance().show(this);
+                    Intent intent = new Intent(this, BillSynchronousService.class)
+                            .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
+                            .putExtra("account", mEditTextAccount.getText().toString())
+                            .putExtra("password", mEditTextPassword.getText().toString());
+                    bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+                    mIsBind = true;
+                }else{
+                    ToastUtils.show(getApplicationContext(),"请完善信息");
+                }
                 break;
             case R.id.text_view_agreement:
                 Intent intent2 = new Intent(this, WebViewActivity.class);

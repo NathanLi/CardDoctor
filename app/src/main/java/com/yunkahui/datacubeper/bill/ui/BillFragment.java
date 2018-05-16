@@ -19,6 +19,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.bill.adapter.BillCardListAdapter;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.bill.logic.BillLogic;
+import com.yunkahui.datacubeper.bill.logic.BillSynchronousLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
@@ -87,13 +88,13 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                 }
                 switch (view.getId()) {
                     case R.id.btn_bill_sync:
-                        List<String> tabs = new ArrayList<>();
-                        tabs.add("用户名");
-                        tabs.add("卡号");
+                        if(BillSynchronousLogic.judgeBank(mList.get(position).getBankCardName()).length==0){
+                            ToastUtils.show(getActivity(),"暂不支持该银行");
+                            return;
+                        }
                         Intent intent = new Intent(getActivity(), BillSynchronousActivity.class);
-                        intent.putExtra("title", mList.get(position).getBankCardName());
+                        intent.putExtra("bank_name", mList.get(position).getBankCardName());
                         intent.putExtra("bank_card_num", mList.get(position).getBankCardNum());
-                        intent.putStringArrayListExtra("tabs", (ArrayList<String>) tabs);
                         startActivity(intent);
                         break;
                 }

@@ -55,6 +55,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
     private List<MultiItemEntity> mList;
     private int mCardId;
     private boolean mIsRepaid;
+    private int mBillDay;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -75,6 +76,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mAdapter.notifyDataSetChanged();
         getBillDetailTop();
         getCardDetailData();
+        loadTradeHistory();
     }
 
     @SuppressLint("SetTextI18n")
@@ -95,9 +97,25 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         mTvAccount.setText("账单日：" + TimeUtils.format("MM-dd", getIntent().getLongExtra("bill_date", 0)));
     }
 
-    //******** 获取账单详情 ********
-    private void getBillDetailData(final int billDay) {
-        mLogic.handleData(billDay, data);
+    //******** 获取交易详情 ********
+    private void loadTradeHistory() {
+        mLogic.loadTradeHistory(this, getIntent().getStringExtra("bank_card_num"), new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("交易详情->" + baseBean.getRespData().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mList.addAll(mLogic.handleData(mBillDay, baseBean.getRespData().toString()));
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LogUtils.e("获取交易详情失败->" + throwable.getMessage());
+            }
+        });
     }
 
     //获取当前卡片详情数据
@@ -140,7 +158,8 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                     mTvLess.setText("最低应还：-");
                     mIsRepaid = "1".equals(respData.optString("repay_status"));
                     mTvSign.setText(mIsRepaid ? "本期已还清" : "本期未还清");
-                    getBillDetailData(Integer.parseInt(respData.optString("bill_day")));
+                    mBillDay = Integer.parseInt(respData.optString("bill_day"));
+                    loadTradeHistory();
                 } else {
                     Toast.makeText(BillDetailActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                 }
@@ -159,6 +178,9 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
         if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
             getBillDetailTop();
             getCardDetailData();
+        } else if (resultCode == BillSynchronousActivity.TYPE_SPIDER_COMPLETE) {
+            LogUtils.e("返回银行数据->");
+            loadTradeHistory();
         }
     }
 
@@ -177,11 +199,12 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 ArrayList<String> tabs = new ArrayList<>();
                 tabs.add("用户名");
                 tabs.add("卡号");
-                Intent intent1 = new Intent(this, BillSynchronousActivity.class);
-                intent1.putExtra("title", getIntent().getStringExtra("title"));
-                intent1.putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"));
-                intent1.putStringArrayListExtra("tabs", tabs);
-                startActivity(intent1);
+                Intent intent1 = new Intent(this, BillSynchronousActivity.class)
+                        .putExtra("title", getIntent().getStringExtra("title"))
+                        .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
+                        .putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"))
+                        .putStringArrayListExtra("tabs", tabs);
+                startActivityForResult(intent1, 1);
                 break;
             case R.id.ll_sign_repay:
                 signRepay();

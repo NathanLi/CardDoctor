@@ -93,7 +93,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
                             return;
                         }
                         Intent intent = new Intent(getActivity(), BillSynchronousActivity.class);
-                        intent.putExtra("bank_name", mList.get(position).getBankCardName());
+                        intent.putExtra("bank_card_name", mList.get(position).getBankCardName());
                         intent.putExtra("bank_card_num", mList.get(position).getBankCardNum());
                         startActivity(intent);
                         break;

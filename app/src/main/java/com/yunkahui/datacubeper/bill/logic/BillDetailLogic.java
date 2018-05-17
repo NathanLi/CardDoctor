@@ -37,14 +37,22 @@ public class BillDetailLogic {
     }
 
     //获取单张卡片详情数据
-    public void loadCardDeatailData(Context context,int cardId, SimpleCallBack<BaseBean<BillCreditCard>> callBack) {
+    public void loadCardDeatailData(Context context, int cardId, SimpleCallBack<BaseBean<BillCreditCard>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
-                .addParams("bank_card_id",cardId)
+                .addParams("bank_card_id", cardId)
                 .create();
         HttpManager.getInstance().create(ApiService.class).queryCreditCardList(params)
                 .compose(HttpManager.<BaseBean<BillCreditCard>>applySchedulers()).subscribe(callBack);
     }
 
+    //获取交易详情
+    public void loadTradeHistory(Context context, String cardNum, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("bank_card_num", cardNum)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).queryTradeHistory(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
 
     public void signRepay(Context context, int cardId, int status, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)

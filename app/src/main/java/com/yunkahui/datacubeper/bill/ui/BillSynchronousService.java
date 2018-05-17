@@ -42,6 +42,7 @@ public class BillSynchronousService extends Service {
     private String mBankCardNum;
     private String mAccount;
     private String mPassword;
+    private Thread mThread;
 
     @Override
     public void onCreate() {
@@ -56,7 +57,7 @@ public class BillSynchronousService extends Service {
 
     //初始化socket
     public void initSocket() {
-        new Thread(new Runnable() {
+        mThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -88,7 +89,8 @@ public class BillSynchronousService extends Service {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        mThread.start();
     }
 
     //发送消息
@@ -100,7 +102,7 @@ public class BillSynchronousService extends Service {
                     Socket socket = mSocketWeakReference.get();
                     if (socket.isConnected() && !socket.isClosed()) {
                         LogUtils.e("开始发送消息");
-                        LogUtils.e("正在发送->"+message);
+                        LogUtils.e("正在发送->" + message);
                         DataOutputStream outputStream = outputStream = new DataOutputStream(socket.getOutputStream());
                         outputStream.write(message.getBytes());
                         outputStream.flush();
@@ -114,7 +116,6 @@ public class BillSynchronousService extends Service {
                 }
             }
         }).start();
-
     }
 
     //接收数据线程
@@ -192,7 +193,12 @@ public class BillSynchronousService extends Service {
         mBankCardNum = intent.getStringExtra("bank_card_num");
         mAccount = intent.getStringExtra("account");
         mPassword = intent.getStringExtra("password");
-        initSocket();
+        if (mThread == null) {
+            LogUtils.e("连接");
+            initSocket();
+        } else {
+            LogUtils.e("不连接");
+        }
         return null;
     }
 }

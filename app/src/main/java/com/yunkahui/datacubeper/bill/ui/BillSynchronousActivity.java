@@ -48,6 +48,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     public static final int TYPE_PHONE = 1004;    //手机号
     public static final int TYPE_ID_CARD_NO_PASSWORD = 1005;  //身份证没密码
     public static final int TYPE_CARD_NUMBER_NO_PASSWORD = 1006;  //卡号没密码
+    public static final int TYPE_SPIDER_COMPLETE = 1007;
 
 
     private TabLayout mTabLayout;
@@ -66,6 +67,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     private String mBankName;
     private int mType;
     private BillSynchronousLogic mLogic;
+    private TextView mTvError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
 
     @Override
     public void initData() {
-        mBankName = getIntent().getStringExtra("bank_name");
+        mBankName = getIntent().getStringExtra("bank_card_name");
         mLogic = new BillSynchronousLogic();
         mTabList = mLogic.getTabs(BillSynchronousLogic.judgeBank(mBankName));
         for (int i = 0; i < mTabList.size(); i++) {
@@ -145,6 +147,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
         mEditTextPassword = findViewById(R.id.edit_text_password);
         mTextViewPasswordMessage = findViewById(R.id.text_view_password_message);
         mLinearLayoutPassword = findViewById(R.id.linear_layout_password);
+        mTvError = findViewById(R.id.tv_error);
 
         findViewById(R.id.button_submit).setOnClickListener(this);
         findViewById(R.id.text_view_agreement).setOnClickListener(this);
@@ -234,17 +237,17 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     }
 
     private boolean verify() {
-        switch (mType){
+        switch (mType) {
             case TYPE_CARD_NUMBER:
             case TYPE_USER:
             case TYPE_ID_CARD:
             case TYPE_PHONE:
-                if(TextUtils.isEmpty(mEditTextAccount.getText().toString())||TextUtils.isEmpty(mEditTextPassword.getText().toString())){
+                if (TextUtils.isEmpty(mEditTextAccount.getText().toString()) || TextUtils.isEmpty(mEditTextPassword.getText().toString())) {
                     return false;
                 }
             case TYPE_ID_CARD_NO_PASSWORD:
             case TYPE_CARD_NUMBER_NO_PASSWORD:
-                if(TextUtils.isEmpty(mEditTextAccount.getText().toString())){
+                if (TextUtils.isEmpty(mEditTextAccount.getText().toString())) {
                     return false;
                 }
         }
@@ -261,7 +264,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
-                if(verify()){
+                if (verify()) {
                     LoadingViewDialog.getInstance().show(this);
                     Intent intent = new Intent(this, BillSynchronousService.class)
                             .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
@@ -269,8 +272,9 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                             .putExtra("password", mEditTextPassword.getText().toString());
                     bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
                     mIsBind = true;
-                }else{
-                    ToastUtils.show(getApplicationContext(),"请完善信息");
+                    mTvError.setText("");
+                } else {
+                    ToastUtils.show(getApplicationContext(), "请完善信息");
                 }
                 break;
             case R.id.text_view_agreement:
@@ -290,21 +294,31 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
             if (intent.getAction().equals(BillSynchronousService.RADIO_RECEIVE_MESSAGE)) {
                 String message = intent.getStringExtra("message");
                 LogUtils.e("接收的消息为 = " + message);
-                if (message.contains("settled")) {
-                    LoadingViewDialog.getInstance().dismiss();
-                    Toast.makeText(context, "获取数据成功", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
                 try {
-                    final JSONObject object = new JSONObject(message.substring(message.indexOf("{")));
-                    LogUtils.e("处理的消息为 = " + object.toString());
-                    switch (object.optString("type")) {
-                        case "returnImgUrl":    //接收图片验证码
-                            showImageCodeDialog(object);
-                            break;
-                        case "Phonecheck":      //接收短信验证码
-                            showMessageCodeDialog(object);
-                            break;
+                    int index = message.indexOf("{");
+                    if (index != -1) {
+                        final JSONObject object = new JSONObject(message.substring(index));
+                        LogUtils.e("处理的消息为 = " + object.toString());
+                        switch (object.optString("type")) {
+                            case "returnImgUrl":    //接收图片验证码
+                                showImageCodeDialog(object);
+                                break;
+                            case "Phonecheck":      //接收短信验证码
+                                showMessageCodeDialog(object);
+                                break;
+                            case "complete":
+                                LogUtils.e("->接收成功，即将结束");
+                                LoadingViewDialog.getInstance().dismiss();
+                                Toast.makeText(context, "获取数据成功", Toast.LENGTH_SHORT).show();
+                                BillSynchronousActivity.this.setResult(TYPE_SPIDER_COMPLETE);
+                                finish();
+                                break;
+                        }
+                        //******** 无数据 ********
+                        if ("failed".equals(object.optString("result")) && object.toString().contains("reason")) {
+                            LoadingViewDialog.getInstance().dismiss();
+                            mTvError.setText(object.optString("reason"));
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

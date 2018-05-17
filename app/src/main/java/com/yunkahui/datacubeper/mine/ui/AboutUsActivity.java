@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.pgyersdk.update.PgyUpdateManager;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.ShareUtils;
@@ -64,7 +65,14 @@ public class AboutUsActivity extends AppCompatActivity implements IActivityStatu
                 }
                 break;
             case R.id.rl_check_update:
+                PgyUpdateManager.register(this);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PgyUpdateManager.unregister();
     }
 }

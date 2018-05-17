@@ -40,6 +40,9 @@ public class BillSynchronousService extends Service {
     private InnerReaderThread mReaderThread;
     private InnerServiceReceiver mServiceReceiver;
     private String mBankCardNum;
+    private String mAccount;
+    private String mPassword;
+    private Thread mThread;
 
     @Override
     public void onCreate() {
@@ -50,19 +53,11 @@ public class BillSynchronousService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(RADIO_SEND_MESSAGE);
         mBroadcastManager.registerReceiver(mServiceReceiver, filter);
-
-        initSocket();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        mBankCardNum = intent.getStringExtra("bank_card_num");
-        return super.onStartCommand(intent, flags, startId);
     }
 
     //初始化socket
     public void initSocket() {
-        new Thread(new Runnable() {
+        mThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -75,10 +70,10 @@ public class BillSynchronousService extends Service {
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("type", "analyzer_do_spider");
-                            jsonObject.put("login_uid", "342423198803207172");  //身份证
-                            jsonObject.put("card_id", "6225258898569041");  //卡号
-                            jsonObject.put("login_pwd", "198923");      //密码
-                            jsonObject.put("uid", "6225258898569041" + System.currentTimeMillis());
+                            jsonObject.put("login_uid", mAccount);  //身份证
+                            jsonObject.put("card_id", mBankCardNum);  //卡号
+                            jsonObject.put("login_pwd", mPassword == null ? "" : mPassword);      //密码
+                            jsonObject.put("uid", mBankCardNum + System.currentTimeMillis());
                             jsonObject.put("user_code", BaseUrl.getUSER_ID());
                             jsonObject.put("org_number", getResources().getString(R.string.org_number));
                             LogUtils.e("发送参数->" + jsonObject.toString());
@@ -94,7 +89,8 @@ public class BillSynchronousService extends Service {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        mThread.start();
     }
 
     //发送消息
@@ -106,7 +102,7 @@ public class BillSynchronousService extends Service {
                     Socket socket = mSocketWeakReference.get();
                     if (socket.isConnected() && !socket.isClosed()) {
                         LogUtils.e("开始发送消息");
-                        LogUtils.e("正在发送->"+message);
+                        LogUtils.e("正在发送->" + message);
                         DataOutputStream outputStream = outputStream = new DataOutputStream(socket.getOutputStream());
                         outputStream.write(message.getBytes());
                         outputStream.flush();
@@ -120,7 +116,6 @@ public class BillSynchronousService extends Service {
                 }
             }
         }).start();
-
     }
 
     //接收数据线程
@@ -195,6 +190,15 @@ public class BillSynchronousService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        mBankCardNum = intent.getStringExtra("bank_card_num");
+        mAccount = intent.getStringExtra("account");
+        mPassword = intent.getStringExtra("password");
+        if (mThread == null) {
+            LogUtils.e("连接");
+            initSocket();
+        } else {
+            LogUtils.e("不连接");
+        }
         return null;
     }
 }

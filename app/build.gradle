@@ -57,4 +57,5 @@ dependencies {
     compile 'com.yanzhenjie:recyclerview-swipe:1.1.4'
     implementation files('libs/alipaySdk-20180403.jar')
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
+    compile 'com.pgyersdk:sdk:2.8.1'
 }

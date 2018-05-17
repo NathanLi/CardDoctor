@@ -164,6 +164,10 @@ public interface ApiService {
     Observable<BaseBean<BillCreditCard>> queryCreditCardList(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/craw/getCrawData")     //查询已添加的信用卡
+    Observable<BaseBean> queryTradeHistory(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/planning/check_fail_count")     //查询存在规划失败的卡片总数
     Observable<BaseBean> queryCardCountOfPlanFailed(@FieldMap Map<String,String> params);
 

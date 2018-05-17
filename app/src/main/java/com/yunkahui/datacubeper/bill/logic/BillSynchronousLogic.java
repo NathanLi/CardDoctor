@@ -4,6 +4,7 @@ import android.app.Fragment;
 
 import com.yunkahui.datacubeper.bill.ui.BillFragment;
 import com.yunkahui.datacubeper.bill.ui.BillSynchronousActivity;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;

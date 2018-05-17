@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;

@@ -1,121 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yunkahui.datacubeper.bill.ui.BillSynchronousActivity">
-
-    <include layout="@layout/layout_toolbar"/>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50pt"
-        android:background="@color/white"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabGravity="center"/>
-
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_marginTop="15pt">
+        tools:context="com.yunkahui.datacubeper.bill.ui.BillSynchronousActivity">
 
-        <EditText
-            android:id="@+id/edit_text_account"
+        <include layout="@layout/layout_toolbar" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50pt"
+            android:background="@color/white"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/colorPrimary" />
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/text_color_gray_949494"
-            android:paddingLeft="15pt"
-            android:paddingRight="15pt"
-            android:layout_marginTop="8pt"
-            android:background="@null"
-            android:textSize="16pt"
-            android:lines="1"/>
+            android:layout_marginTop="15pt"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_account_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_gray_949494"
-            android:textSize="12pt"
-            android:paddingLeft="15pt"
-            android:paddingRight="15pt"
-            android:layout_marginTop="5pt"
-            android:layout_marginBottom="8pt"
-            android:lines="1"/>
+            <EditText
+                android:id="@+id/edit_text_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8pt"
+                android:background="@null"
+                android:lines="1"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt"
+                android:textColorHint="@color/text_color_gray_949494"
+                android:textSize="16pt" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/text_view_account_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8pt"
+                android:layout_marginTop="5pt"
+                android:lines="1"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt"
+                android:textColor="@color/text_color_gray_949494"
+                android:textSize="12pt" />
 
-    <View style="@style/common_line_margin_left_15"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        <View style="@style/common_line_margin_left_15" />
 
-        <EditText
-            android:id="@+id/edit_text_password"
+        <LinearLayout
+            android:id="@+id/linear_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:paddingLeft="15pt"
-            android:paddingRight="15pt"
-            android:inputType="textPassword"
-            android:textColorHint="@color/text_color_gray_949494"
-            android:layout_marginTop="8pt"
-            android:textSize="16pt"
-            android:lines="1"/>
+            android:background="@color/white"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_password_message"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edit_text_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8pt"
+                android:background="@null"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt"
+                android:textColorHint="@color/text_color_gray_949494"
+                android:textSize="16pt" />
+
+            <TextView
+                android:id="@+id/text_view_password_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8pt"
+                android:layout_marginTop="5pt"
+                android:lines="1"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt"
+                android:textColor="@color/text_color_gray_949494"
+                android:textSize="12pt" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50pt"
+            android:layout_margin="35pt"
+            android:background="@drawable/bg_button_blue_selector"
+            android:text="提交"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_gray_949494"
-            android:textSize="12pt"
-            android:paddingLeft="15pt"
-            android:paddingRight="15pt"
-            android:layout_marginTop="5pt"
-            android:layout_marginBottom="8pt"
-            android:lines="1"/>
+            android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交即视为同意"
+                android:textSize="12pt" />
+
+            <TextView
+                android:id="@+id/text_view_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《用户授权服务协议》"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12pt" />
+
+        </LinearLayout>
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/button_submit"
-        android:layout_width="match_parent"
-        android:layout_height="50pt"
-        android:layout_margin="35pt"
-        android:background="@drawable/bg_button_blue_selector"
-        android:text="提交"
-        android:textColor="@color/white"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12pt"
-            android:text="提交即视为同意"/>
-
-        <TextView
-            android:id="@+id/text_view_agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12pt"
-            android:textColor="@color/colorPrimary"
-            android:text="《用户授权服务协议》"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36pt"
+        android:textColor="@color/red"
+        android:textSize="18pt" />
+</RelativeLayout>

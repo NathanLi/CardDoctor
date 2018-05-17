@@ -25,6 +25,7 @@ import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.logic.RechargeLogic;
@@ -54,12 +55,11 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
         mList = new ArrayList<>();
         if (getIntent().getStringExtra("money") != null)
             mTvUserBalance.setText(getIntent().getStringExtra("money"));
-        LoadingViewDialog.getInstance().show(this);
-        queryCreditCardList();
     }
 
     //******** 查询已添加卡列表 ********
     private void queryCreditCardList() {
+        LoadingViewDialog.getInstance().show(this);
         mLogic.queryCreditCardList(this, new SimpleCallBack<BaseBean<BillCreditCard>>() {
             @Override
             public void onSuccess(BaseBean<BillCreditCard> baseBean) {
@@ -68,16 +68,21 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mList.clear();
                     CardSelectorBean bean;
-                    for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
-                        bean = new CardSelectorBean();
-                        bean.setBankCardName(item.getBankCardName());
-                        bean.setBankCardNum(item.getBankCardNum());
-                        bean.setCardId(item.getUserCreditCardId());
-                        bean.setChecked(false);
-                        mList.add(bean);
+                    if (baseBean.getRespData().getCardDetail() == null || baseBean.getRespData().getCardDetail().size() == 0) {
+                        ToastUtils.show(getApplicationContext(), "尚未添加卡片");
+                    } else {
+                        for (BillCreditCard.CreditCard item : baseBean.getRespData().getCardDetail()) {
+                            bean = new CardSelectorBean();
+                            bean.setBankCardName(item.getBankCardName());
+                            bean.setBankCardNum(item.getBankCardNum());
+                            bean.setCardId(item.getUserCreditCardId());
+                            bean.setChecked(false);
+                            mList.add(bean);
+                        }
+                        mList.get(0).setChecked(true);
+                        mSelectorBean = mList.get(0);
+                        showSelectCardDialog();
                     }
-                    mList.get(0).setChecked(true);
-                    mSelectorBean = mList.get(0);
                 }
             }
 
@@ -121,7 +126,11 @@ public class RechargeForCardActivity extends AppCompatActivity implements IActiv
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_show_dialog:
-                showSelectCardDialog();
+                if (mList.size() == 0) {
+                    queryCreditCardList();
+                } else {
+                    showSelectCardDialog();
+                }
                 break;
         }
     }

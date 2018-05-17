@@ -142,7 +142,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
         mSimpleTextViewApplyArea.setText(info.getLegal_province() + "-" + info.getLegal_city());
         mSimpleTextViewBusAddress.setText(info.getManage_address());
 
-        mSimpleTextViewAccountName.setText(info.getUser_name());
+        mSimpleTextViewAccountName.setText(info.getLegal_name());//TODO POS管理  账户名称待修改
         mSimpleTextViewBankCardNumber.setText(info.getBank_card_num());
         mSimpleTextViewBankCardName.setText(info.getBank_card_name());
         mSimpleTextViewBranchAddress.setText(info.getDeposit_province() + "-" + info.getDeposit_city());
@@ -193,17 +193,13 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                     switch (object.optJSONObject("respData").optString("tua_status")) {
                         case "7":  //pos申请完成
                         case "13":  //pos结算信息修改审核通过
+                        case "14":  //pos结算信息修改审核不通过 //TODO POS管理  账户名称待修改
                             Intent intent = new Intent(PosManageActivity.this, UpdateSettleActivity.class);
-                            intent.putExtra("name", mApplyInfo.getUser_name());
+                            intent.putExtra("name", mApplyInfo.getLegal_name());
                             startActivity(intent);
                             break;
                         case "12":  //pos结算信息修改审核中
-                            ToastUtils.show(getApplicationContext(), "结算信息审核中");
-                            break;
-                        case "14":  //pos结算信息修改审核不通过
-                            Intent intentFail = new Intent(PosManageActivity.this, UpdateSettleActivity.class);
-                            intentFail.putExtra("name", mApplyInfo.getUser_name());
-                            startActivity(intentFail);
+                            ToastUtils.show(getApplicationContext(), "结算信息变更审核中");
                             break;
                         default:
                             ToastUtils.show(getApplicationContext(), "暂未开放");

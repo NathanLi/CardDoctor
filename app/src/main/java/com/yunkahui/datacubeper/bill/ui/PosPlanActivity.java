@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
@@ -25,6 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.GenerateDataAdapter;
 import com.yunkahui.datacubeper.bill.logic.PosPlanLogic;
@@ -32,6 +34,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.GeneratePlanItem;
 import com.yunkahui.datacubeper.common.bean.TimeItem;
+import com.yunkahui.datacubeper.common.utils.CommonItemDecoration;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -88,6 +91,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new CommonItemDecoration(5));
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -104,7 +108,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1, 1, 1, "确认").setIcon(R.mipmap.ic_sure_white).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1, 1, 1, "提交").setIcon(R.mipmap.ic_text_submit).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -115,7 +119,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                 if (mList.size() > 0) {
                     showBottomSheetDialog();
                 } else {
-                    ToastUtils.show(getApplicationContext(),"请先进行规划");
+                    ToastUtils.show(getApplicationContext(), "请先进行规划");
                 }
                 break;
         }
@@ -164,7 +168,9 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                                 ToastUtils.show(PosPlanActivity.this, baseBean.getRespDesc());
                                 finish();
                             } else if ("0265".equals(baseBean.getRespCode())) {
-                                showUpgradeJoinDialog(baseBean.getRespDesc());
+                                showUpgradeJoinDialog(baseBean.getRespDesc(), 1);
+                            } else if ("0214".equals(baseBean.getRespCode())) {
+                                showUpgradeJoinDialog(baseBean.getRespDesc(), 2);
                             } else {
                                 ToastUtils.show(PosPlanActivity.this, baseBean.getRespDesc());
                             }
@@ -183,19 +189,25 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
     }
 
     //******** 跳往修改卡片 ********
-    private void showUpgradeJoinDialog(String desc) {
+    private void showUpgradeJoinDialog(String desc, final int type) {
         new AlertDialog.Builder(this)
                 .setMessage(desc)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(PosPlanActivity.this, AddCardActivity.class);
-                        intent.putExtra("type", AddCardActivity.TYPE_EDIT);
-                        intent.putExtra("card_id", getIntent().getIntExtra("user_credit_card_id", 0));
-                        intent.putExtra("card_number", getIntent().getStringExtra("bank_card_num"));
-                        intent.putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"));
-                        startActivity(intent);
-                        dialogInterface.dismiss();
+                        switch (type) {
+                            case 1:
+                                Intent intent = new Intent(PosPlanActivity.this, AddCardActivity.class);
+                                intent.putExtra("type", AddCardActivity.TYPE_EDIT);
+                                intent.putExtra("card_id", getIntent().getIntExtra("user_credit_card_id", 0));
+                                intent.putExtra("card_number", getIntent().getStringExtra("bank_card_num"));
+                                intent.putExtra("bank_card_name", getIntent().getStringExtra("bank_card_name"));
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                ApplyPosActivity.startAction(PosPlanActivity.this);
+                                break;
+                        }
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -247,6 +259,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                                 mList.clear();
                                 mList.addAll(mLogic.parsingJSONForPosPlan(baseBean));
                                 mAdapter.notifyDataSetChanged();
+                                mTvGoPlan.setText("重新规划");
                             } else {
                                 Toast.makeText(PosPlanActivity.this, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
                             }
@@ -300,7 +313,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
 
     //******** 处理修改信息 ********
     private void handleInfo(Intent data) {
-        int amount = Integer.parseInt(data.getStringExtra("amount"));
+        double amount = Double.parseDouble(data.getStringExtra("amount"));
         GeneratePlanItem item = mList.get(mLastClickPosition);
         item.setMoney(amount);
         GeneratePlan.PlanningListBean.DetailsBean detailsBean = mBaseBean.getRespData().getPlanningList().get(item.getGroup()).getDetails().get(0);

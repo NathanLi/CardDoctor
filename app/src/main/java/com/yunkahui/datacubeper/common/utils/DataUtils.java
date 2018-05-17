@@ -18,6 +18,7 @@ public class DataUtils {
     private static String mRealName;    //实名
     private static String invitateCode;    //邀请码
 
+
     public static PersonalInfo getInfo() {
         return mInfo==null? new PersonalInfo():mInfo;
     }

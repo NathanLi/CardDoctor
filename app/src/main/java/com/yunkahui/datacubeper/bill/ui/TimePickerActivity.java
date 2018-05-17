@@ -25,6 +25,7 @@ import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -122,6 +123,7 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
+                Collections.sort(mSelectedTimeList);
                 setResult(Activity.RESULT_FIRST_USER, new Intent().putParcelableArrayListExtra("selected_time", mSelectedTimeList));
                 finish();
                 break;
@@ -133,6 +135,7 @@ public class TimePickerActivity extends AppCompatActivity implements IActivitySt
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_time_picker);
         super.onCreate(savedInstanceState);
+        setTitle("请选择规划时间");
     }
 
     @Override

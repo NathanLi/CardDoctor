@@ -2,11 +2,12 @@ package com.yunkahui.datacubeper.common.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * @author WYF on 2018/4/20/020.
  */
-public class TimeItem implements Parcelable {
+public class TimeItem implements Parcelable, Comparable<TimeItem> {
 
     private int year;
     private int month;
@@ -105,5 +106,16 @@ public class TimeItem implements Parcelable {
             return year == t.getYear() && month == t.getMonth() && day == t.getDay();
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public int compareTo(@NonNull TimeItem o) {
+        if (this.getYear() != o.getYear()) {
+            return this.getYear() - o.getYear();
+        } else if (this.getMonth() != o.getMonth()) {
+            return this.getMonth() - o.getMonth();
+        } else {
+            return this.getDay() - o.getDay();
+        }
     }
 }

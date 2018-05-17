@@ -29,6 +29,7 @@ import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.PosManageActivity;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
+import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
 import com.yunkahui.datacubeper.login.ui.LoginActivity;
 import com.yunkahui.datacubeper.mine.logic.MessageLogic;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
@@ -272,7 +273,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         switch (object.optJSONObject("respData").optString("status")) {
                             case "0":
-                                startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                                if (SharedPreferencesUtils.getInt(getActivity(), DataUtils.getInfo().getUser_mobile()) >= 3) {
+                                    startActivity(new Intent(getActivity(), RealNameHandAuthActivity.class));
+                                } else {
+                                    startActivity(new Intent(getActivity(), RealNameAuthActivity.class));
+                                }
                                 break;
                             case "1":
                                 ToastUtils.show(getActivity(), "已实名认证");
@@ -282,7 +287,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                                 break;
                             case "3":
                                 ToastUtils.show(getActivity(), "审核认证不成功，请重新认证");
-                                startActivityForResult(new Intent(getActivity(), RealNameAuthActivity.class), RESULT_CODE_UPDATE);
+                                if (SharedPreferencesUtils.getInt(getActivity(), DataUtils.getInfo().getUser_mobile()) >= 3) {
+                                    startActivity(new Intent(getActivity(), RealNameHandAuthActivity.class));
+                                } else {
+                                    startActivityForResult(new Intent(getActivity(), RealNameAuthActivity.class), RESULT_CODE_UPDATE);
+                                }
                                 break;
                         }
                     }
@@ -323,16 +332,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case 21:
                 break;
             case 30:
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, MyCashCardListActivity.class));
                 }
                 break;
             case 31:
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, MyZFBActivity.class));
                 }
                 break;

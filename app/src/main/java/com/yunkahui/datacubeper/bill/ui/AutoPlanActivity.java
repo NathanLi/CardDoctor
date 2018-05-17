@@ -31,6 +31,7 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.GeneratePlan;
 import com.yunkahui.datacubeper.common.bean.GeneratePlanItem;
 import com.yunkahui.datacubeper.common.bean.TimeItem;
+import com.yunkahui.datacubeper.common.utils.CommonItemDecoration;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -74,6 +75,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
         mAdapter = new GenerateDataAdapter(R.layout.layout_list_item_generate_data, mList, getIntent().getStringExtra("bank_card_name"), cardFormat, false);
         mAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new CommonItemDecoration(5));
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -90,7 +92,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1, 1, 1, "确认").setIcon(R.mipmap.ic_sure_white).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(1, 1, 1, "提交").setIcon(R.mipmap.ic_text_submit).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -225,6 +227,7 @@ public class AutoPlanActivity extends AppCompatActivity implements IActivityStat
                                 mList.clear();
                                 mList.addAll(mLogic.parsingJSONForAutoPlan(baseBean));
                                 mAdapter.notifyDataSetChanged();
+                                mTvGoPlan.setText("重新规划");
                             } else {
                                 Toast.makeText(AutoPlanActivity.this, baseBean.getRespCode(), Toast.LENGTH_SHORT).show();
                             }

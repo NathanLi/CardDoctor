@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.PosManageLogic;
+import com.yunkahui.datacubeper.applypos.logic.UpdateSettleLogic;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.CustomTextChangeListener;
@@ -17,10 +18,13 @@ import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DialogSub;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleEditTextView;
 import com.yunkahui.datacubeper.common.view.SimpleMenuItemView;
 import com.yunkahui.datacubeper.common.view.SimpleTextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 //更变结算信息
@@ -42,12 +46,12 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
     private SimpleMenuItemView mMenuItemViewHandBankCard;
 
     private DialogSub mDialogArea;
-    private PosManageLogic mLogic;
     private String mProvince;
     private String mCity;
     private String mIdCardPath;
     private String mBankCardPath;
     private String mHandBankCardPath;
+    private UpdateSettleLogic mLogic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
 
     @Override
     public void initData() {
-        mLogic = new PosManageLogic();
+        mLogic = new UpdateSettleLogic();
         mDialogArea = new DialogSub(this);
         String name = getIntent().getStringExtra("name");
         mEditTextViewAccountName.setText(name);
@@ -102,7 +106,7 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
 
 
     private void checkBankCardName() {
-        mLogic.checkBankCardName(this, mEditTextViewNewBankCard.getText(), new SimpleCallBack<BaseBean>() {
+        new PosManageLogic().checkBankCardName(this, mEditTextViewNewBankCard.getText(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("查询所属银行->" + baseBean.getJsonObject().toString());
@@ -139,24 +143,65 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
         }
     }
 
-
-    private void updateUI(){
-        if(!TextUtils.isEmpty(mIdCardPath)){
+    private void updateUI() {
+        if (!TextUtils.isEmpty(mIdCardPath)) {
             mMenuItemViewIdCard.setRightIcon(R.mipmap.ic_icon_radio_select);
         }
-        if(!TextUtils.isEmpty(mBankCardPath)){
+        if (!TextUtils.isEmpty(mBankCardPath)) {
             mMenuItemViewBankCard.setRightIcon(R.mipmap.ic_icon_radio_select);
         }
-        if(!TextUtils.isEmpty(mHandBankCardPath)){
+        if (!TextUtils.isEmpty(mHandBankCardPath)) {
             mMenuItemViewHandBankCard.setRightIcon(R.mipmap.ic_icon_radio_select);
         }
     }
 
+    //提交变更信息
+    private void updateSettleData() throws JSONException {
+        JSONArray array = new JSONArray();
+        String[] types = new String[]{"0", "3", "6"};
+        String[] paths = new String[]{mIdCardPath, mBankCardPath, mHandBankCardPath};
+        for (int i = 0; i < types.length; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", types[i]);
+            jsonObject.put("url", paths[i]);
+            array.put(jsonObject);
+        }
+        LoadingViewDialog.getInstance().show(this);
+        mLogic.updataSettleData(this, mEditTextViewNewBankCard.getText(), mEditTextViewBankCardName.getText(), mSimpleTextViewBranch.getText(),
+                mProvince, mCity, mEditTextViewBranchNumber.getText(), array.toString(), new SimpleCallBack<BaseBean>() {
+                    @Override
+                    public void onSuccess(BaseBean baseBean) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        LogUtils.e("变更结算信息-->" + baseBean.toString());
+                        ToastUtils.show(getApplicationContext(), baseBean.getRespDesc());
+                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        LoadingViewDialog.getInstance().dismiss();
+                        ToastUtils.show(getApplicationContext(), "请求失败 " + throwable.toString());
+                    }
+                });
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
+                if (TextUtils.isEmpty(mEditTextViewNewBankCard.getText()) || TextUtils.isEmpty(mEditTextViewBankCardName.getText())
+                        || TextUtils.isEmpty(mSimpleTextViewBranch.getText()) || TextUtils.isEmpty(mSimpleTextViewBranchAddress.getText())
+                        || TextUtils.isEmpty(mEditTextViewBranchNumber.getText()) || TextUtils.isEmpty(mIdCardPath)
+                        || TextUtils.isEmpty(mBankCardPath) || TextUtils.isEmpty(mHandBankCardPath)) {
+                    ToastUtils.show(getApplicationContext(), "请完善信息");
+                    return;
+                }
+                try {
+                    updateSettleData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.simple_text_view_branch_area:
                 mDialogArea.showLocalCityPicker(new DialogSub.CityPickerListener() {
@@ -171,19 +216,19 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
             case R.id.simple_menu_id_card_photo:
                 Intent intentIdCard = new Intent(this, UpLoadImageActivity.class);
                 intentIdCard.putExtra("type", UpLoadImageActivity.TYPE_SETTLE_ID_CARD);
-                intentIdCard.putExtra("image",mIdCardPath);
+                intentIdCard.putExtra("image", mIdCardPath);
                 startActivityForResult(intentIdCard, RESULT_CODE_ID_CARD);
                 break;
             case R.id.simple_menu_bank_card_photo:
                 Intent intentBankCard = new Intent(this, UpLoadImageActivity.class);
                 intentBankCard.putExtra("type", UpLoadImageActivity.TYPE_SETTLE_BANK_CARD);
-                intentBankCard.putExtra("image",mBankCardPath);
+                intentBankCard.putExtra("image", mBankCardPath);
                 startActivityForResult(intentBankCard, RESULT_CODE_BANK_CARD);
                 break;
             case R.id.simple_menu_hand_bank_card_photo:
                 Intent intentHand = new Intent(this, UpLoadImageActivity.class);
                 intentHand.putExtra("type", UpLoadImageActivity.TYPE_SETTLE_HANK_BAND_CARD);
-                intentHand.putExtra("image",mHandBankCardPath);
+                intentHand.putExtra("image", mHandBankCardPath);
                 startActivityForResult(intentHand, RESULT_CODE_HAND_BANK_CARD);
                 break;
             case R.id.simple_text_view_branch_name:

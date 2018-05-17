@@ -20,6 +20,8 @@ import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
 import com.yunkahui.datacubeper.common.view.chart.DealInterface;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -36,7 +38,6 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
 
     private final int RESULT_CODE_IMAGE_FRONT = 1001;
     private final int RESULT_CODE_IMAGE_BACK = 1002;
-
 
     private RelativeLayout mRelativeLayoutIdCardFront;
     private RelativeLayout mRelativeLayoutIdCardBack;
@@ -148,6 +149,8 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                     @Override
                     public void run() {
                         LoadingViewDialog.getInstance().dismiss();
+                        int i = SharedPreferencesUtils.getInt(RealNameAuthActivity.this, DataUtils.getInfo().getUser_mobile());
+                        SharedPreferencesUtils.save(RealNameAuthActivity.this, DataUtils.getInfo().getUser_mobile(), i + 1);
                         ToastUtils.show(getApplicationContext(), "身份证照片检验失败，请重新上传");
                         LogUtils.e("身份错误-->" + error);
                     }
@@ -247,10 +250,16 @@ public class RealNameAuthActivity extends AppCompatActivity implements IActivity
                 startActivityForResult(new Intent(this, ImageGridActivity.class), RESULT_CODE_IMAGE_FRONT);
                 break;
             case R.id.relative_layout_id_card_back:
+                ImagePicker.getInstance().setSelectLimit(1);
                 startActivityForResult(new Intent(this, ImageGridActivity.class), RESULT_CODE_IMAGE_BACK);
                 break;
             case R.id.button_submit:
-                parsingIdCard();
+                if (SharedPreferencesUtils.getInt(this, DataUtils.getInfo().getUser_mobile()) > 3) {
+                    setResult(RESULT_OK);
+                    startActivity(new Intent(this, RealNameHandAuthActivity.class));
+                } else {
+                    parsingIdCard();
+                }
                 break;
         }
     }

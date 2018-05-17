@@ -140,8 +140,12 @@ public interface ApiService {
     Observable<BaseBean> submitRealNameAuthImage(@PartMap Map<String,RequestBody> params, @Part MultipartBody.Part front,@Part MultipartBody.Part back);
 
     @FormUrlEncoded
-    @POST("/app/user/certification_v2")
+    @POST("/app/user/certification_v2")     //实名认证（上传文字信息）
     Observable<BaseBean> submitRealNameAuthInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/certification")    //手动实名认证（上传文字信息）
+    Observable<BaseBean> submitRealNameHandAuthInfo(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
     @POST("/app/user/check_identify")       //查询用户实名认证状态
@@ -387,5 +391,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/userUpgradec/getRechargeOrder") //查询用户余额/卡测评充值订单
     Observable<BaseBean<RechargeRecord>> loadRechargeOrder(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/pos/change_deposit")        //【POS管理】修改结算信息
+    Observable<BaseBean> updateSettleData(@FieldMap Map<String,String> params);
 
 }

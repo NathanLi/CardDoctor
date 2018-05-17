@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.mine.ui.RealNameHandAuthActivity">
+
+
+    <include layout="@layout/layout_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_real_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_hint="请如实填写"
+                app:item_edit_title="真实姓名" />
+
+            <View style="@style/common_line_margin_left_15" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_hint="请如实填写"
+                app:item_edit_title="身份证号码" />
+
+            <View style="@style/common_line_margin_left_15" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/simple_input_item_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_hint="请如实填写"
+                app:item_edit_input_type="number"
+                app:item_edit_title="手机号码" />
+
+            <View style="@style/common_line_margin_left_15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="15pt"
+                android:paddingRight="15pt">
+
+                <TextView
+                    android:layout_width="110pt"
+                    android:layout_height="wrap_content"
+                    android:text="验证码"
+                    android:textColor="@color/black"
+                    android:textSize="15pt" />
+
+                <EditText
+                    android:id="@+id/edit_text_auth_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请如实填写"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_color_gray_949494"
+                    android:textSize="15pt" />
+
+                <View
+                    android:layout_width="0.7dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="12pt"
+                    android:background="@color/line_gray_DDDDDD" />
+
+                <TextView
+                    android:id="@+id/text_view_send_auth_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_auth_code"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14pt" />
+
+            </LinearLayout>
+
+            <View style="@style/common_line_margin_left_15" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15pt"
+                    android:text="证件照片"
+                    android:textColor="@color/black"
+                    android:textSize="15pt" />
+
+                <RelativeLayout
+                    android:id="@+id/relative_layout_id_card_front"
+                    android:layout_width="220pt"
+                    android:layout_height="140pt"
+                    android:layout_marginLeft="125pt"
+                    android:background="@drawable/bg_dotted_line">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableTop="@mipmap/ic_icon_add_2"
+                        android:text="身份证正面照片" />
+
+                    <ImageView
+                        android:id="@+id/image_view_id_card_front"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="220pt"
+                    android:layout_height="140pt"
+                    android:layout_below="@+id/relative_layout_id_card_front"
+                    android:layout_marginLeft="125pt"
+                    android:layout_marginTop="15pt"
+                    android:background="@drawable/bg_dotted_line">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableTop="@mipmap/ic_icon_add_2"
+                        android:text="身份证反面照片" />
+
+                    <ImageView
+                        android:id="@+id/image_view_id_card_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:background="@drawable/bg_button_blue_selector"
+        android:text="提交审核"
+        android:textColor="@color/white" />
+
+</LinearLayout>

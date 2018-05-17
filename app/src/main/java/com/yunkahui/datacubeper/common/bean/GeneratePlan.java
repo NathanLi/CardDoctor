@@ -212,7 +212,7 @@ public class GeneratePlan {
                  */
 
                 private long time;
-                private int money;
+                private double money;
 
                 public long getTime() {
                     return time;
@@ -222,11 +222,11 @@ public class GeneratePlan {
                     this.time = time;
                 }
 
-                public int getMoney() {
+                public double getMoney() {
                     return money;
                 }
 
-                public void setMoney(int money) {
+                public void setMoney(double money) {
                     this.money = money;
                 }
             }
@@ -254,7 +254,7 @@ public class GeneratePlan {
                     return money;
                 }
 
-                public void setMoney(int money) {
+                public void setMoney(double money) {
                     this.money = money;
                 }
 

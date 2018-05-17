@@ -51,18 +51,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mDoubleBlockView.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, HomeWalletActivity.class).putExtra("money", mUserBalance));
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, HomeProfitActivity.class));
                 }
             }
@@ -219,6 +219,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.rl_scan).setOnClickListener(this);
         view.findViewById(R.id.rl_qr).setOnClickListener(this);
         view.findViewById(R.id.rl_receive_money).setOnClickListener(this);
+        view.findViewById(R.id.iv_qr).setOnClickListener(this);
         view.findViewById(R.id.text_view_qr_code).setOnClickListener(this);
     }
 
@@ -237,12 +238,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_receive_money:
                 break;
+            case R.id.iv_qr:
             case R.id.text_view_qr_code:
                 if (TextUtils.isEmpty(DataUtils.getInfo().getUser_qrcode_img())) {
                     ToastUtils.show(mActivity, "数据加载中...");
                 } else {
                     startActivity(new Intent(mActivity, QrShareActivity.class)
-                            .putExtra("code", DataUtils.getInfo().getUser_qrcode_img()));
+                            .putExtra("code", DataUtils.getInvitateCode()));
                 }
                 break;
         }

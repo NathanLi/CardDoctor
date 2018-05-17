@@ -18,6 +18,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.CardSelectorBean;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
@@ -27,6 +28,7 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.logic.HomeWalletLogic;
+import com.yunkahui.datacubeper.home.logic.RechargeLogic;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
 
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
 
     private HomeWalletLogic mLogic;
     private ArrayList<CardSelectorBean> mList;
+    private String mMoney;
 
     @Override
     public void initData() {
@@ -62,9 +65,9 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
         WalletAdapter walletAdapter = new WalletAdapter(R.layout.layout_list_item_wallet, walletItems);
         View header = LayoutInflater.from(this).inflate(R.layout.layout_list_header_wallet, null);
         mTvUserBalance = header.findViewById(R.id.tv_user_balance);
-        final String money = getIntent().getStringExtra("money");
-        if (money != null) {
-            mTvUserBalance.setText(money);
+        mMoney = getIntent().getStringExtra("money");
+        if (mMoney != null) {
+            mTvUserBalance.setText(mMoney);
         }
         walletAdapter.addHeaderView(header);
         walletAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -73,9 +76,9 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
                 if (isQualified) {
                     if (position == 0) {
                         startActivityForResult(new Intent(HomeWalletActivity.this, RechargeForCardActivity.class)
-                                .putExtra("money", money), RESYLT_CODE_UPDATE);
+                                .putExtra("money", mMoney), RESYLT_CODE_UPDATE);
                     } else if (position == 1) {
-                        queryCreditCardList();
+                        queryCashCardList();
                     }
                 } else {
                     Toast.makeText(HomeWalletActivity.this, "还未实名认证或非VIP会员", Toast.LENGTH_SHORT).show();
@@ -123,7 +126,7 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
     }
 
     //******** 获取储蓄卡 ********
-    private void queryCreditCardList() {
+    private void queryCashCardList() {
         LoadingViewDialog.getInstance().show(this);
         mLogic.checkCashCard(this, new SimpleCallBack<BaseBean>() {
             @Override

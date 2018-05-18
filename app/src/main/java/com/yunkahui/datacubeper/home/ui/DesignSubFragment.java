@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.yunkahui.datacubeper.common.bean.PlanList;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.adapter.DesignSubAdapter;
 import com.yunkahui.datacubeper.home.logic.DesignSubLogic;
 
@@ -120,7 +122,6 @@ public class DesignSubFragment extends BaseFragment {
                 }
             };
             mRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
-
             SwipeMenuItemClickListener swipeMenuItemClickListener = new SwipeMenuItemClickListener() {
                 @Override
                 public void onItemClick(SwipeMenuBridge menuBridge) {
@@ -218,9 +219,11 @@ public class DesignSubFragment extends BaseFragment {
                 .setPositiveButton("标记", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LoadingViewDialog.getInstance().show(getActivity());
                         mLogic.signRepay(mActivity, id, new SimpleCallBack<BaseBean>() {
                             @Override
                             public void onSuccess(BaseBean baseBean) {
+                                LoadingViewDialog.getInstance().dismiss();
                                 LogUtils.e("标记->" + baseBean.getJsonObject().toString());
                                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                                     if (mIsTodayOperation) {
@@ -236,6 +239,7 @@ public class DesignSubFragment extends BaseFragment {
 
                             @Override
                             public void onFailure(Throwable throwable) {
+                                LoadingViewDialog.getInstance().dismiss();
                                 Toast.makeText(mActivity, "标记交易失败", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -253,7 +257,7 @@ public class DesignSubFragment extends BaseFragment {
                 mLayoutLoading.setVisibility(View.GONE);
                 LogUtils.e("智能规划->" + mIsPos + ", " + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    if(baseBean.getRespData()==null){
+                    if (baseBean.getRespData() == null) {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
                     }
@@ -291,9 +295,9 @@ public class DesignSubFragment extends BaseFragment {
             @Override
             public void onSuccess(BaseBean<TodayOperationSub> baseBean) {
                 mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e("今日操作-"+mIsPos+"->" + baseBean.toString());
+                LogUtils.e("今日操作-" + mIsPos + "->" + baseBean.toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    if(baseBean.getRespData()==null){
+                    if (baseBean.getRespData() == null) {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
                     }

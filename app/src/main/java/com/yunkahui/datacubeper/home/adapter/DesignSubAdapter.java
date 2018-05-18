@@ -1,7 +1,9 @@
 package com.yunkahui.datacubeper.home.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -26,14 +28,21 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
     protected void convert(BaseViewHolder helper, DesignSub item) {
         String type = item.getPlan_type().equals("00") ? "消费" : "还款";
         String bankCardName = item.getBankCardName();
+        String bankNum=item.getBankCardNum();
         long date = item.getDate();
         double amount = item.getAmount();
         String operation = item.getOperation();
 
         helper.setBackgroundRes(R.id.iv_icon, type.equals("消费") ? R.mipmap.ic_spending : R.mipmap.ic_repay);
-        helper.setText(R.id.tv_title, type + " - " + bankCardName);
-//        Log.e(TAG, "convert: "+type + " - " + bankCardName);
-        //helper.setText(R.id.tv_msg, );
+        helper.setText(R.id.tv_title, type + " - " + bankCardName + "[" + bankNum + "]");
+
+        if(TextUtils.isEmpty(item.getBusiness_name())){
+            helper.getView(R.id.relative_layout_business).setVisibility(View.GONE);
+        }else{
+            helper.getView(R.id.relative_layout_business).setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_msg,item.getBusiness_name());
+        }
+
         helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", date));
         if ("10".equals(mIsPos)) {
             helper.setText(R.id.tv_type, "自动");

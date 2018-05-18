@@ -36,11 +36,18 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
      * 跳转前置
      */
     public static void startAction(Activity activity) {
-        checkApplyPosStatus(activity);
+        checkApplyPosStatus(activity, false);
+    }
+
+    /**
+     * 跳转前置
+     */
+    public static void startAction(Activity activity, boolean isFinish) {
+        checkApplyPosStatus(activity, isFinish);
     }
 
     //查询POS开通状态
-    private static void checkApplyPosStatus(final Activity activity) {
+    private static void checkApplyPosStatus(final Activity activity, final boolean isFinish) {
         LoadingViewDialog.getInstance().show(activity);
         new HomeLogic().checkPosApplyStatus(activity, new SimpleCallBack<BaseBean>() {
             @Override
@@ -51,9 +58,10 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                 if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                     JSONObject json = object.optJSONObject("respData");
                     DataUtils.getInfo().setTruename(json.optString("truename"));
-                    if (!"1".equals(json.optString("identify_status"))) {
-                        ToastUtils.show(activity, "请先实名认证");
-                    } else if (!"1".equals(json.optString("VIP_status"))) {
+//                    if (!"1".equals(json.optString("identify_status"))) {
+//                        ToastUtils.show(activity, "请先实名认证");
+//                    } else
+                    if (!"1".equals(json.optString("VIP_status"))) {
                         ToastUtils.show(activity, "请先升级VIP");
                     } else {
                         switch (json.optString("tua_status")) {
@@ -75,6 +83,9 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                                 Intent intent = new Intent(activity, ApplyPosActivity.class);
                                 intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
                                 activity.startActivity(intent);
+                                if (isFinish) {
+                                    activity.finish();
+                                }
                                 break;
                             default:
                                 break;
@@ -92,6 +103,7 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
             }
         });
     }
+
     //前往开通会员弹窗
     public static void showDialog(final Activity activity) {
         AlertDialog dialog = new AlertDialog.Builder(activity)

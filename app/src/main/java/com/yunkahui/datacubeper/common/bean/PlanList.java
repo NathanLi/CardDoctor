@@ -140,8 +140,8 @@ public class PlanList {
         private long create_time;
         private long update_time;
         private String service_charge;
-        private String bankCardName;
-        private String bankCardNum;
+        private String bank_card_name;
+        private String bank_card_num;
         private String org_number;
         private String user_code;
         private String business_name;
@@ -273,19 +273,19 @@ public class PlanList {
         }
 
         public String getBankCardName() {
-            return bankCardName;
+            return bank_card_name;
         }
 
         public void setBankCardName(String bankCardName) {
-            this.bankCardName = bankCardName;
+            this.bank_card_name = bankCardName;
         }
 
         public String getBankCardNum() {
-            return bankCardNum;
+            return bank_card_num;
         }
 
         public void setBankCardNum(String bankCardNum) {
-            this.bankCardNum = bankCardNum;
+            this.bank_card_num = bankCardNum;
         }
 
         public String getOrg_number() {

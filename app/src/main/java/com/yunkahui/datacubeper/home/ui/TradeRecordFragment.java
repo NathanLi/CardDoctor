@@ -75,10 +75,11 @@ public class TradeRecordFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String action, time, money, status, remarks;
+                String action, time, money, status, remarks,fee;
                 if (0 == getArguments().getInt("kind")) {
                     RechargeRecord.RechargeDetail detail = mRechargeDetails.get(position);
                     action = "账户充值";
+                    fee=String.valueOf(detail.getFee());
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getAmount());
                     status = getTradeStatus(detail.getOrder_state(), "充值");
@@ -86,6 +87,7 @@ public class TradeRecordFragment extends BaseFragment {
                 } else {
                     WithdrawRecord.WithdrawDetail detail = mWithdrawDetails.get(position);
                     action = "账户提现";
+                    fee=String.valueOf(detail.getFee());
                     time = TimeUtils.format("yyyy-MM-dd hh:mm:ss", detail.getCreate_time());
                     money = String.valueOf(detail.getWithdraw_amount());
                     status = getTradeStatus(detail.getOrder_state(), "提现");
@@ -97,7 +99,8 @@ public class TradeRecordFragment extends BaseFragment {
                         .putExtra("money", money)
                         .putExtra("status", status)
                         .putExtra("action", action)
-                        .putExtra("remarks", remarks));
+                        .putExtra("remarks", remarks)
+                        .putExtra("fee",fee));
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

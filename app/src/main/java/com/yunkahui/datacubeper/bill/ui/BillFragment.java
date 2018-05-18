@@ -279,7 +279,7 @@ public class BillFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(Throwable throwable) {
                 Toast.makeText(mActivity, "获取卡列表失败", Toast.LENGTH_SHORT).show();
-                mLlPromptAddCard.setVisibility(View.VISIBLE);
+//                mLlPromptAddCard.setVisibility(View.VISIBLE);
             }
         });
     }

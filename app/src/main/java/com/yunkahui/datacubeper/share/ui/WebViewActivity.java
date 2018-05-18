@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
@@ -15,6 +17,7 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 /**
  * Created by YD1 on 2018/4/11
@@ -39,8 +42,8 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(mLinearLayoutWebView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(-1, 3)
-                .setWebViewClient(new WebViewClient())
-                .setWebChromeClient(new WebChromeClient())
+                .setWebViewClient(mWebViewClient)
+                .setWebChromeClient(mWebChromeClient)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
@@ -57,6 +60,19 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
             }
         });
     }
+
+    private WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            LogUtils.e("当前网页-->"+url);
+        }
+    };
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            //do you work
+        }
+    };
 
     @Override
     public void onBackPressed() {

@@ -73,7 +73,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_bill_synchronous);
         super.onCreate(savedInstanceState);
-        setTitle(getIntent().getStringExtra("bank_name"));
+        setTitle(getIntent().getStringExtra("bank_card_name"));
 
         mReceiver = new MyBroadcastReceiver();
         mBroadcastManager = LocalBroadcastManager.getInstance(this);

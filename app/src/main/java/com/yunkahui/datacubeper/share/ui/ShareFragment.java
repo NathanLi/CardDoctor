@@ -80,9 +80,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         mDoubleBlockView1.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, ShareWalletActivity.class)
                             .putExtra("money", mDoubleBlockView1.getLeftValue()));
                 }
@@ -90,9 +90,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("0".equals(DataUtils.getInfo().getVIP_status())){
-                    ToastUtils.show(getActivity(),"请先升级VIP");
-                }else{
+                if ("0".equals(DataUtils.getInfo().getVIP_status())) {
+                    ToastUtils.show(getActivity(), "请先升级VIP");
+                } else {
                     startActivity(new Intent(mActivity, ShareProfitActivity.class));
                 }
             }
@@ -149,7 +149,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
             case R.id.tv_link_share:
                 startActivity(new Intent(mActivity, WebViewActivity.class)
                         .putExtra("title", "链接分享")
-                        .putExtra("url", "http://www.yunkahui.cn/zbl_web/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim()));
+                        .putExtra("url", "http://pic.test.hangmuxitong.com/demo/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim() + "&org_number=" + getResources().getString(R.string.org_number)));
                 break;
             case R.id.tv_qr_share:
                 startActivity(new Intent(mActivity, QrShareActivity.class)

@@ -22,6 +22,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
     private TextView mTvTime;
     private TextView mTvStatus;
     private TextView mTvRemarks;
+    private TextView mTvFee;
 
     @Override
     public void initData() {
@@ -39,6 +40,8 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
             if (status.contains("失败"))
                 mTvStatus.setTextColor(Color.RED);
         }
+        String fee = getIntent().getStringExtra("fee");
+        mTvFee.setText("手  续  费：" + (TextUtils.isEmpty(fee) ? "" : fee));
     }
 
     @Override
@@ -55,6 +58,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         mTvTime = findViewById(R.id.tv_time);
         mTvStatus = findViewById(R.id.tv_status);
         mTvRemarks = findViewById(R.id.tv_remarks);
+        mTvFee = findViewById(R.id.tv_fee);
     }
 
     @Override

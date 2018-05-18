@@ -103,7 +103,7 @@ public class BillSynchronousService extends Service {
                     if (socket.isConnected() && !socket.isClosed()) {
                         LogUtils.e("开始发送消息");
                         LogUtils.e("正在发送->" + message);
-                        DataOutputStream outputStream = outputStream = new DataOutputStream(socket.getOutputStream());
+                        DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
                         outputStream.write(message.getBytes());
                         outputStream.flush();
                         LogUtils.e("发送消息完成");
@@ -190,15 +190,11 @@ public class BillSynchronousService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        LogUtils.e("status -> onBind");
         mBankCardNum = intent.getStringExtra("bank_card_num");
         mAccount = intent.getStringExtra("account");
         mPassword = intent.getStringExtra("password");
-        if (mThread == null) {
-            LogUtils.e("连接");
-            initSocket();
-        } else {
-            LogUtils.e("不连接");
-        }
+        initSocket();
         return null;
     }
 }

@@ -63,67 +63,77 @@ public class BillDetailLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    public List<BillDetailSummary> handleData(int billDay, String data) {
+    public List<BillDetailSummary> handleData(int billDay, BaseBean baseBean) {
         List<BillDetailSummary> mList = null;
         try {
             mList = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject(data);
-
-            //******** 设置已出账单 ********
-            JSONArray settledArr = jsonObject.optJSONArray("settled");
-            //LogUtils.e("已出->" + settledArr.toString());
-            for (int x = 0; x < settledArr.length(); x++) {
-                JSONObject settledObject = settledArr.optJSONObject(x);
-                String bmMonth = settledObject.optString("bm_month");
-                BillDetailSummary summary = new BillDetailSummary();
-                summary.setYear(bmMonth.substring(0, 4));
-                int month = Integer.parseInt(bmMonth.substring(5));
-                //LogUtils.e("已出日期->" + bmMonth.substring(0, 4) + ", " + bmMonth.substring(5) + ", " + (month - 1) + "-" + billDay + ", " + month + "-" + (billDay - 1));
-                summary.setMsg(month + "月");
-                summary.setStartDate((month - 1) + "-" + billDay);
-                summary.setEndDate(month + "-" + (billDay - 1));
-                JSONArray detailArr = settledObject.optJSONArray("o_details");
-                for (int y = 0; y < detailArr.length(); y++) {
-                    JSONObject object = detailArr.optJSONObject(y);
-                    //LogUtils.e("已出信息->" + object.optString("bd_description") + ", " + object.optString("bd_money")
-                    //        + ", " + object.optString("bd_date"));
-                    BillDetailItem item = new BillDetailItem();
-                    item.setMsg(object.optString("bd_description"));
-                    item.setMoney(object.optDouble("bd_money"));
-                    item.setTime(object.optString("bd_date"));
-                    summary.addSubItem(0, item);
+            Object opt = baseBean.getJsonObject().optJSONArray("respData").opt(0);
+            if (opt != null) {
+                JSONObject respData = new JSONObject(opt.toString());
+                String data = respData.optString("data");
+                JSONObject jsonObject = new JSONObject(data);
+                //******** 设置已出账单 ********
+                JSONArray settledArr = jsonObject.optJSONArray("settled");
+                //LogUtils.e("已出->" + settledArr.toString());
+                if (settledArr != null) {
+                    for (int x = 0; x < settledArr.length(); x++) {
+                        JSONObject settledObject = settledArr.optJSONObject(x);
+                        String bmMonth = settledObject.optString("bm_month");
+                        BillDetailSummary summary = new BillDetailSummary();
+                        summary.setYear(bmMonth.substring(0, 4));
+                        int month = Integer.parseInt(bmMonth.substring(5));
+                        //LogUtils.e("已出日期->" + bmMonth.substring(0, 4) + ", " + bmMonth.substring(5) + ", " + (month - 1) + "-" + billDay + ", " + month + "-" + (billDay - 1));
+                        summary.setMsg(month + "月");
+                        summary.setStartDate((month - 1) + "-" + billDay);
+                        summary.setEndDate(month + "-" + (billDay - 1));
+                        JSONArray detailArr = settledObject.optJSONArray("o_details");
+                        for (int y = 0; y < detailArr.length(); y++) {
+                            JSONObject object = detailArr.optJSONObject(y);
+                            //LogUtils.e("已出信息->" + object.optString("bd_description") + ", " + object.optString("bd_money")
+                            //        + ", " + object.optString("bd_date"));
+                            BillDetailItem item = new BillDetailItem();
+                            item.setMsg(object.optString("bd_description"));
+                            item.setMoney(object.optDouble("bd_money"));
+                            item.setTime(object.optString("bd_date"));
+                            summary.addSubItem(0, item);
+                        }
+                        mList.add(summary);
+                    }
+                    Collections.reverse(mList);
                 }
-                mList.add(summary);
-            }
-            Collections.reverse(mList);
-
-            //******** 设置未出账单 ********
-            Calendar currentCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
-            boolean isUpperHalfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH) < billDay;
-            BillDetailSummary unsettledSummary = new BillDetailSummary();
-            unsettledSummary.setMsg("未出账单");
-            //LogUtils.e("未出年份->" + currentCalendar.get(Calendar.YEAR));
-            //LogUtils.e("未出起始->" + currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 0 : 1) + "-" + billDay);
-            //LogUtils.e("未出结束->" + currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 1 : 2) + "-" + (billDay - 1));
-            unsettledSummary.setYear(String.valueOf(currentCalendar.get(Calendar.YEAR)));
-            unsettledSummary.setStartDate(currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 0 : 1) + "-" + billDay);
-            unsettledSummary.setEndDate(currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 1 : 2) + "-" + (billDay - 1));
-            JSONObject unsettledObject = jsonObject.optJSONArray("unsettled").optJSONObject(0);
-            if (unsettledObject != null) {
-                JSONArray unsettledArr = unsettledObject.optJSONArray("o_details");
-                //LogUtils.e("未出账数据->" + unsettledArr.toString());
-                for (int i = 0; i < unsettledArr.length(); i++) {
-                    JSONObject object = unsettledArr.optJSONObject(i);
-                    BillDetailItem item = new BillDetailItem();
-                    //LogUtils.e("未出账详细信息->" + object.optString("bd_description") + ", " + object.optString("bd_money")
-                    //        + ", " + object.optString("bd_date"));
-                    item.setMsg(object.optString("bd_description"));
-                    item.setMoney(object.optDouble("bd_money"));
-                    item.setTime(object.optString("bd_date"));
-                    unsettledSummary.addSubItem(0, item);
+                //******** 设置未出账单 ********
+                Calendar currentCalendar = TimeUtils.getCalendar(System.currentTimeMillis());
+                boolean isUpperHalfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH) < billDay;
+                BillDetailSummary unsettledSummary = new BillDetailSummary();
+                unsettledSummary.setMsg("未出账单");
+                //LogUtils.e("未出年份->" + currentCalendar.get(Calendar.YEAR));
+                //LogUtils.e("未出起始->" + currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 0 : 1) + "-" + billDay);
+                //LogUtils.e("未出结束->" + currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 1 : 2) + "-" + (billDay - 1));
+                unsettledSummary.setYear(String.valueOf(currentCalendar.get(Calendar.YEAR)));
+                unsettledSummary.setStartDate(currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 0 : 1) + "-" + billDay);
+                unsettledSummary.setEndDate(currentCalendar.get(Calendar.MONTH) + (isUpperHalfMonth ? 1 : 2) + "-" + (billDay - 1));
+                JSONArray unsettled = jsonObject.optJSONArray("unsettled");
+                if (unsettled != null) {
+                    JSONObject optJSONObject = unsettled.optJSONObject(0);
+                    if (optJSONObject != null) {
+                        JSONArray unsettledArr = optJSONObject.optJSONArray("o_details");
+                        //LogUtils.e("未出账数据->" + unsettledArr.toString());
+                        if (unsettledArr != null) {
+                            for (int i = 0; i < unsettledArr.length(); i++) {
+                                JSONObject object = unsettledArr.optJSONObject(i);
+                                BillDetailItem item = new BillDetailItem();
+                                //LogUtils.e("未出账详细信息->" + object.optString("bd_description") + ", " + object.optString("bd_money")
+                                //        + ", " + object.optString("bd_date"));
+                                item.setMsg(object.optString("bd_description"));
+                                item.setMoney(object.optDouble("bd_money"));
+                                item.setTime(object.optString("bd_date"));
+                                unsettledSummary.addSubItem(0, item);
+                            }
+                        }
+                    }
                 }
+                mList.add(0, unsettledSummary);
             }
-            mList.add(0, unsettledSummary);
         } catch (JSONException e) {
             e.printStackTrace();
         }

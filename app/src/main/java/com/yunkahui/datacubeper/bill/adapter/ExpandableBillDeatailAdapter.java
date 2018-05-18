@@ -23,6 +23,7 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
+    private List<MultiItemEntity> data;
 
     private Context mContext;
 
@@ -30,6 +31,7 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
 
     public ExpandableBillDeatailAdapter(Context context, List<MultiItemEntity> data) {
         super(data);
+        this.data = data;
         mContext = context;
         addItemType(TYPE_LEVEL_0, R.layout.layout_list_header_bill_detail_section);
         addItemType(TYPE_LEVEL_1, R.layout.layout_list_item_trade_record_detail);
@@ -48,17 +50,19 @@ public class ExpandableBillDeatailAdapter extends BaseMultiItemQuickAdapter<Mult
                     helper.setTextColor(R.id.tv_month, Color.BLACK);
                 }
                 helper.setText(R.id.tv_year, summary.getYear())
-                        .setText(R.id.tv_date, String.format(mContext.getResources().getString(R.string.date_format), summary.getStartDate(), summary.getEndDate()))
-                        .setImageResource(R.id.iv_icon, summary.isExpanded() ? R.mipmap.ic_drop : R.mipmap.ic_pull);
+                        .setText(R.id.tv_date, String.format(mContext.getResources().getString(R.string.date_format), summary.getStartDate(), summary.getEndDate()));
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int position = helper.getAdapterPosition();
                         if (summary.isExpanded()) {
-                            collapse(position);
+                            if (data.size() > 1)
+                                collapse(helper.getAdapterPosition());
                         } else {
-                            expand(position);
+                            if (data.size() > 1)
+                                expand(helper.getAdapterPosition());
                         }
+                        summary.setExpanded(!summary.isExpanded());
+                        helper.setImageResource(R.id.iv_icon, summary.isExpanded() ? R.mipmap.ic_drop : R.mipmap.ic_pull);
                     }
                 });
                 break;

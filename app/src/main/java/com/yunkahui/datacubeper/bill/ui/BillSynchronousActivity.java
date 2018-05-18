@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-
 //账单同步
 public class BillSynchronousActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
@@ -270,9 +269,12 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                             .putExtra("bank_card_num", getIntent().getStringExtra("bank_card_num"))
                             .putExtra("account", mEditTextAccount.getText().toString())
                             .putExtra("password", mEditTextPassword.getText().toString());
+                    if (mIsBind) {
+                        unbindService(mServiceConnection);
+                    }
                     bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-                    mIsBind = true;
                     mTvError.setText("");
+                    mIsBind = true;
                 } else {
                     ToastUtils.show(getApplicationContext(), "请完善信息");
                 }

@@ -33,7 +33,7 @@ public class BillSynchronousService extends Service {
     public static final String RADIO_SEND_MESSAGE = "RADIO_SEND_MESSAGE";       //发送数据
 
     private LocalBroadcastManager mBroadcastManager;
-    private final String mHost = "192.168.1.167";
+    private final String mHost = "118.190.232.176";
     private final int mPort = 7002;
 
     private WeakReference<Socket> mSocketWeakReference;

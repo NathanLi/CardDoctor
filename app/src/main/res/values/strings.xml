@@ -5,6 +5,7 @@
     <string name="card_test">卡·测评</string>
     <string name="share">分享</string>
     <string name="mine">我的</string>
+    <string name="share_app">分享卡医生</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_agreement">《卡医生服务协议》</string>
     <string name="share_policy_1"><![CDATA[ 邀请您的好友升级VIP可获得<font color="#000000">100元直接奖励+交易分润万分之10</font> ]]></string>

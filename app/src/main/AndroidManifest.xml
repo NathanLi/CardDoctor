@@ -25,7 +25,7 @@
         <!-- 蒲公英 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="165b77b065d6a33a43c8430b8a22ce9f" >
+            android:value="{update_id}" >
         </meta-data>
 
         <!-- 支付宝支付 start -->

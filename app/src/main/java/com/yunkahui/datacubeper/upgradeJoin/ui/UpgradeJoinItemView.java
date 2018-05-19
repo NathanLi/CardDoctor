@@ -80,6 +80,7 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
 
     public void setData(VipPackage vipPackage) {
         if (vipPackage != null) {
+            this.setVisibility(VISIBLE);
             mTextViewTitle.setText(vipPackage.getName());
             mTextViewSubTitle.setText(vipPackage.getShortDesc());
             mTextViewIconTitle.setText((vipPackage.getPrice() + "").split("\\.")[0] + "元");
@@ -106,6 +107,8 @@ public class UpgradeJoinItemView extends RelativeLayout implements View.OnClickL
                     break;
             }
 
+        }else{
+            this.setVisibility(GONE);
         }
     }
 

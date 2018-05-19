@@ -145,7 +145,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 LogUtils.e("卡片详情数据->" + billCreditCardBaseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(billCreditCardBaseBean.getRespCode())) {
                     BillCreditCard.CreditCard creditCard = billCreditCardBaseBean.getRespData().getCardDetail().get(0);
-                    mTvRepay.setText("还款日：" + creditCard.getRepayDayDate());
+                    mTvRepay.setText("还款日：" + TimeUtils.format("MM-dd",  creditCard.getRepayDayDate()));
                     mTvAccount.setText("账单日：" + TimeUtils.format("MM-dd", creditCard.getBillDayDate()));
                 }
 

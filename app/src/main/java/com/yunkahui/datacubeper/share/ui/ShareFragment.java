@@ -1,6 +1,9 @@
 package com.yunkahui.datacubeper.share.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.text.ClipboardManager;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -12,9 +15,11 @@ import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
+import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.HomeProfitActivity;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
@@ -129,19 +134,46 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         toolbar.getRoot().setBackgroundResource(0);
     }
 
+    //激活码弹窗
+    private void showActiveDialog(String code) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.layout_dialog_activate_code, null);
+        final TextView textView = view.findViewById(R.id.text_view_code);
+        textView.setText(code);
+        view.findViewById(R.id.button_submit).setOnClickListener(new OnDoManyClickListener() {
+            @Override
+            public void onDoManyClick(View view) {
+                ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(textView.getText());
+                ToastUtils.show(getActivity(),"已复制到剪切板");
+            }
+        });
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .create();
+        dialog.show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_produce_code:
+                LoadingViewDialog.getInstance().show(getActivity());
                 mShareLogic.createActivationCode(mActivity, new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {
+                        LoadingViewDialog.getInstance().dismiss();
                         LogUtils.e("生成激活码->" + baseBean.getJsonObject().toString());
-                        Toast.makeText(mActivity, baseBean.getRespDesc(), Toast.LENGTH_SHORT).show();
+                        if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                            showActiveDialog(baseBean.getJsonObject().optString("respData"));
+                        } else {
+                            ToastUtils.show(getActivity(), baseBean.getRespDesc());
+                        }
+
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        LoadingViewDialog.getInstance().dismiss();
                         Toast.makeText(mActivity, "生成激活码失败", Toast.LENGTH_SHORT).show();
                     }
                 });

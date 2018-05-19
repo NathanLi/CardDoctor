@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text_view_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30pt"
+        android:layout_marginBottom="20pt"
+        android:lines="1"
+        android:textColor="@color/text_color_orange_ff5c03"
+        android:textSize="40pt" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20pt"
+        android:textColor="@color/black"
+        android:text="激活码24小时内有效"/>
+
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:layout_margin="20pt"
+        android:background="@drawable/bg_border_orange_soild_white"
+        android:text="复    制"
+        android:textColor="@color/white"
+        android:textSize="25pt" />
+
+
+</LinearLayout>

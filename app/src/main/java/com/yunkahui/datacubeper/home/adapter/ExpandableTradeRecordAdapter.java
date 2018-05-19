@@ -55,9 +55,9 @@ public class ExpandableTradeRecordAdapter extends BaseMultiItemQuickAdapter<Mult
                 helper.setText(R.id.show_money, lv1.getMoney()+"");
                 int colorID;
                 if ("03".equals(lv1.getTradeType())) {
-                    colorID = mContext.getResources().getColor(R.color.colorPrimary);
-                } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
+                } else {
+                    colorID = mContext.getResources().getColor(R.color.colorPrimary);
                 }
                 helper.getView(R.id.iv_qr).setBackground(TintUtils.createColorShape(colorID, 20, 20, 20, 20));
                 break;

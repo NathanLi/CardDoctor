@@ -85,6 +85,10 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                     mUpgradeJoinItemView1.setData(mVipPackages.get(0));
                     mUpgradeJoinItemView2.setData(mVipPackages.get(1));
                     mUpgradeJoinItemView3.setData(mVipPackages.get(2));
+                }else{
+                    mUpgradeJoinItemView1.setVisibility(View.GONE);
+                    mUpgradeJoinItemView2.setVisibility(View.GONE);
+                    mUpgradeJoinItemView3.setVisibility(View.GONE);
                 }
             }
 

@@ -90,7 +90,8 @@ public class TradeDetailsFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.expandAll();
+        mAdapter.expandAll(0,true);
+
     }
 
     //******** 获取交易详情 ********

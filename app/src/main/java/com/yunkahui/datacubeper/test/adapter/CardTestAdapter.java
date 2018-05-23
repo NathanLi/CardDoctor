@@ -9,6 +9,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.bean.MineItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class CardTestAdapter extends BaseQuickAdapter<CardTestItem, BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder helper, CardTestItem item) {
-        helper.setBackgroundRes(R.id.iv_bank_icon, DataUtils.getBankIconMap().get(item.getCard().getBank_name()));
+
+        helper.setBackgroundRes(R.id.iv_bank_icon, DataUtils.getBankIconForName(item.getCard().getBank_name()));
         helper.setText(R.id.tv_user_name, item.getCard().getCardholder());
         helper.setText(R.id.tv_bank_name, item.getCard().getBank_name());
         helper.setText(R.id.tv_bank_id, item.getCard().getBankcard_num());

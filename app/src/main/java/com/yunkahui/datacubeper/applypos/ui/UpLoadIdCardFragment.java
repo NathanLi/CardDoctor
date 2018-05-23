@@ -23,6 +23,7 @@ import com.yunkahui.datacubeper.applypos.logic.ApplyPosLogic;
 import com.yunkahui.datacubeper.applypos.logic.UpLoadImageLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
+import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -79,11 +80,13 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
                         String path1 = images.get(0).path;
                         upLoadImageFile("0", path1);
                         GlideApp.with(this).load(path1).into(mImageViewFront);
+                        compress("0", path1);
                         break;
                     case RESULT_CODE_IMAGE_BACK:
                         String path2 = images.get(0).path;
-                        upLoadImageFile("1", path2);
+//                        upLoadImageFile("1", path2);
                         GlideApp.with(this).load(path2).into(mImageViewBack);
+                        compress("1", path2);
                         break;
                 }
             }
@@ -117,11 +120,24 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
         Glide.with(getActivity()).load(respData.getIdentity_back_img()).thumbnail(0.1f).into(mImageViewBack);
     }
 
+
+    //压缩图片
+    private void compress(final String type, String path) {
+        LoadingViewDialog.getInstance().show(getActivity());
+        ImageCompress.compress(path, new ImageCompress.onCompressListener() {
+            @Override
+            public void onFinish(String path) {
+                upLoadImageFile(type, path);
+            }
+        });
+    }
+
     //上传文件
     private void upLoadImageFile(final String type, String path) {
         File file = new File(path);
         if (!file.exists()) {
             ToastUtils.show(getActivity(), "图片文件获取失败", Toast.LENGTH_SHORT);
+            LoadingViewDialog.getInstance().dismiss();
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());
@@ -175,8 +191,8 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
                     LoadingViewDialog.getInstance().dismiss();
                     LogUtils.e("身份证提交->" + baseBean.getJsonObject().toString());
                     JSONObject object = baseBean.getJsonObject();
-                    ToastUtils.show(getActivity(),object.optString("respDesc"));
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                    ToastUtils.show(getActivity(), object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         getActivity().setResult(getActivity().RESULT_OK);
                         getActivity().finish();
                     }
@@ -184,10 +200,11 @@ public class UpLoadIdCardFragment extends Fragment implements View.OnClickListen
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
     }

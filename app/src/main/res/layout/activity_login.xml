@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="30pt"
     android:paddingRight="30pt"
+    android:background="@color/white"
     tools:context="com.yunkahui.datacubeper.login.ui.LoginActivity">
 
 

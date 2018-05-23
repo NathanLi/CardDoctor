@@ -13,6 +13,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.ShareUtils;
+import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +43,7 @@ public class AboutUsActivity extends AppCompatActivity implements IActivityStatu
     public void initView() {
         findViewById(R.id.rl_share_app).setOnClickListener(this);
         findViewById(R.id.rl_check_update).setOnClickListener(this);
+        findViewById(R.id.show_protocol).setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +65,12 @@ public class AboutUsActivity extends AppCompatActivity implements IActivityStatu
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.show_protocol:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("title", "协议");
+                intent.putExtra("url", "file:///android_asset/resistrate_agreement.html");
+                startActivity(intent);
                 break;
             case R.id.rl_check_update:
                 PgyUpdateManager.register(this);

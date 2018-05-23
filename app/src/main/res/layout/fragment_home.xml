@@ -10,7 +10,8 @@
     <com.yunkahui.datacubeper.common.view.SimpleToolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

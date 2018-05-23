@@ -61,9 +61,9 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
 //                    if (!"1".equals(json.optString("identify_status"))) {
 //                        ToastUtils.show(activity, "请先实名认证");
 //                    } else
-                    if (!"1".equals(json.optString("VIP_status"))) {
-                        ToastUtils.show(activity, "请先升级VIP");
-                    } else {
+//                    if (!"1".equals(json.optString("VIP_status"))) {
+//                        ToastUtils.show(activity, "请先升级VIP");
+//                    } else {}
                         switch (json.optString("tua_status")) {
                             case "-1":  //落地POS没开通
                                 showDialog(activity);
@@ -90,7 +90,6 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
                             default:
                                 break;
                         }
-                    }
                 } else {
                     ToastUtils.show(activity, baseBean.getRespDesc());
                 }

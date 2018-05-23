@@ -21,6 +21,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.logic.UpLoadImageLogic;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -95,13 +96,13 @@ public class UpLoadSettleImageFragment extends Fragment implements View.OnClickL
                 String path = images.get(0).path;
                 switch (mType) {
                     case TYPE_IMAGE_ID_CARD:
-                        upLoadImageFile("0", path);
+                        compress("0",path);
                         break;
                     case TYPE_IMAGE_BANK_CARD:
-                        upLoadImageFile("3", path);
+                        compress("3",path);
                         break;
                     case TYPE_IMAGE_HAND_BANK_CARD:
-                        upLoadImageFile("6",path);
+                        compress("6",path);
                         break;
                 }
                 GlideApp.with(this).load(path).into(mImageViewImage);
@@ -109,10 +110,23 @@ public class UpLoadSettleImageFragment extends Fragment implements View.OnClickL
         }
     }
 
+    //压缩图片
+    private void compress(final String type, String path) {
+        LoadingViewDialog.getInstance().show(getActivity());
+        ImageCompress.compress(path, new ImageCompress.onCompressListener() {
+            @Override
+            public void onFinish(String path) {
+                upLoadImageFile(type, path);
+            }
+        });
+    }
+
+    //上传图片
     private void upLoadImageFile(final String type, String path) {
         File file = new File(path);
         if (!file.exists()) {
             ToastUtils.show(getActivity(), "图片文件获取失败", Toast.LENGTH_SHORT);
+            LoadingViewDialog.getInstance().dismiss();
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());

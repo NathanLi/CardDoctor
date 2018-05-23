@@ -15,7 +15,14 @@
     <string name="org_number">Y100000000146</string>
 
     <!--升级加盟-->
-    <string name="upgrade_mess">升级VIP会员，享受蜂鸟普惠所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
+    <!--<string name="upgrade_mess">升级专员，享受蜂鸟普惠所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>-->
+    <!--<string name="upgrade_vip">专员</string>-->
+    <!--<string name="upgrade_vip_content">三大套餐，解锁不同功能</string>-->
+    <!--<string name="upgrade_agent">分销商</string>-->
+    <string name="upgrade_agent_content">创客合伙人、创投合伙人、战略合伙人</string>
+    <!--<string name="upgrade_vip_package">专员套餐</string>-->
+    <!--<string name="open_vip">升级专员</string>-->
+
 
     <!-- 通用 -->
     <string name="loading">加载中...</string>

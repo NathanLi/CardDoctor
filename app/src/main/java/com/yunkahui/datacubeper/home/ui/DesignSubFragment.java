@@ -138,6 +138,21 @@ public class DesignSubFragment extends BaseFragment {
             mRecyclerView.setSwipeMenuItemClickListener(swipeMenuItemClickListener);
         }
         mDesignSubAdapter = new DesignSubAdapter(getActivity(), R.layout.layout_list_item_design_sub, mIsTodayOperation ? mTodayOperationSubList : mPlanListList, mIsPos);
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(getActivity().getResources().getColor(R.color.bg_color_gray_f5f5f5)));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mDesignSubAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                LogUtils.e("-------------上拉加载--------");
+                if (mIsTodayOperation) {
+                    getTodayOperation(mSize, mCurrentPage);
+                } else {
+                    getPlanList(mSize, mCurrentPage);
+                }
+            }
+        }, mRecyclerView);
+        mDesignSubAdapter.disableLoadMoreIfNotFullPage();
+        mDesignSubAdapter.setEnableLoadMore(true);
         mDesignSubAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -166,20 +181,6 @@ public class DesignSubFragment extends BaseFragment {
             }
         });
 
-        mDesignSubAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                LogUtils.e("上啦加载--------");
-                if (mIsTodayOperation) {
-                    getTodayOperation(mSize, mCurrentPage);
-                } else {
-                    getPlanList(mSize, mCurrentPage);
-                }
-            }
-        }, mRecyclerView);
-//        mDesignSubAdapter.disableLoadMoreIfNotFullPage();
-        mRecyclerView.addItemDecoration(new DefaultItemDecoration(getActivity().getResources().getColor(R.color.bg_color_gray_f5f5f5)));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mDesignSubAdapter);
     }
 
@@ -261,14 +262,14 @@ public class DesignSubFragment extends BaseFragment {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
                     }
+                    mPlanListList.addAll(baseBean.getRespData().getList());
+                    mDesignSubAdapter.notifyDataSetChanged();
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
                     } else {
                         mDesignSubAdapter.loadMoreEnd();
                     }
                     mCurrentPage++;
-                    mPlanListList.addAll(baseBean.getRespData().getList());
-                    mDesignSubAdapter.notifyDataSetChanged();
                     if (mPlanListList.size() > 0) {
                         mImageViewNoData.setVisibility(View.GONE);
                     } else {
@@ -301,14 +302,15 @@ public class DesignSubFragment extends BaseFragment {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
                     }
+                    mTodayOperationSubList.addAll(baseBean.getRespData().getList());
+                    mDesignSubAdapter.notifyDataSetChanged();
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
                     } else {
+                        LogUtils.e("------------  loadMoreEnd --------------------");
                         mDesignSubAdapter.loadMoreEnd();
                     }
                     mCurrentPage++;
-                    mTodayOperationSubList.addAll(baseBean.getRespData().getList());
-                    mDesignSubAdapter.notifyDataSetChanged();
                     if (mTodayOperationSubList.size() > 0) {
                         mImageViewNoData.setVisibility(View.GONE);
                     } else {

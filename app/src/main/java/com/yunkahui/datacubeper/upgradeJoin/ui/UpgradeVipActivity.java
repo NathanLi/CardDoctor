@@ -44,7 +44,7 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_upgrade_vip);
         super.onCreate(savedInstanceState);
-        setTitle("VIP会员套餐");
+        setTitle(getResources().getString(R.string.upgrade_vip_package));
         mUpgradeJoinItemView1 = findViewById(R.id.upgrade_join_item_view1);
         mUpgradeJoinItemView2 = findViewById(R.id.upgrade_join_item_view2);
         mUpgradeJoinItemView3 = findViewById(R.id.upgrade_join_item_view3);
@@ -58,19 +58,8 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
 
         mLogic = new UpgradeVipLogic();
 
-        initActionBar();
         loadData();
     }
-
-    private void initActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        this.setTitle("VIP会员套餐");
-    }
-
 
     private void loadData() {
         LoadingViewDialog.getInstance().show(this);

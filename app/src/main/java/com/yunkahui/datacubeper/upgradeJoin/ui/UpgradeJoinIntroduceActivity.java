@@ -33,11 +33,11 @@ public class UpgradeJoinIntroduceActivity extends AppCompatActivity implements I
         switch (mType) {
             case TYPE_VIP:
                 setContentView(R.layout.activity_upgrade_join_introduce);
-                setTitle("VIP会员");
+                setTitle(getResources().getString(R.string.upgrade_vip));
                 break;
             case TYPE_AGENT:
                 setContentView(R.layout.activity_upgrade_join_agent_introduce);
-                setTitle("代理商");
+                setTitle(getResources().getString(R.string.upgrade_agent));
                 break;
             case TYPE_OEM:
                 setContentView(R.layout.activity_upgrade_join_oem_introduce);
@@ -88,7 +88,10 @@ public class UpgradeJoinIntroduceActivity extends AppCompatActivity implements I
             case TYPE_VIP:
                 String text5 = "直接推荐朋友升级VIP，享受<font color='#0085ff'>100元</font>+<font color='#0085ff'>万分之10</font>奖励；" +
                         "\n间接推荐朋友升级VIP，享受<font color='#0085ff'>50元</font>+<font color='#0085ff'>万分之5</font>奖励。";
-                ((TextView) findViewById(R.id.textView5)).setText(Html.fromHtml(text5));
+                TextView textView=findViewById(R.id.textView5);
+                if(textView!=null){
+                    textView.setText(Html.fromHtml(text5));
+                }
                 break;
             case TYPE_AGENT:
 

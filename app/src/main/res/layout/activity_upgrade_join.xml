@@ -32,8 +32,8 @@
         android:paddingRight="15dp"
         app:uj_button_text="升级"
         app:uj_icon="@mipmap/ic_upgrade_vip_1"
-        app:uj_sub_title="三大套餐，解锁不同功能"
-        app:uj_title="VIP会员" />
+        app:uj_sub_title="@string/upgrade_vip_content"
+        app:uj_title="@string/upgrade_vip" />
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
         android:id="@+id/upgrade_join_item_view2"
@@ -45,8 +45,8 @@
         android:paddingRight="15dp"
         app:uj_button_text="申请"
         app:uj_icon="@mipmap/ic_upgrade_agent"
-        app:uj_sub_title="创客、运营商、合伙人"
-        app:uj_title="代理商" />
+        app:uj_sub_title="@string/upgrade_agent_content"
+        app:uj_title="@string/upgrade_agent" />
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView
         android:id="@+id/upgrade_join_item_view3"
@@ -56,7 +56,7 @@
         android:elevation="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:uj_button_text="申请"
         app:uj_icon="@mipmap/ic_upgrade_oem"
         app:uj_sub_title="代理、销售、推广等技术支持"

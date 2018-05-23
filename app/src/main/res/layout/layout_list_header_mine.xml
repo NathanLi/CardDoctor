@@ -27,8 +27,8 @@
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="岑年"
                 android:textColor="@color/white"
+                android:text="-"
                 android:textSize="16pt" />
 
             <TextView
@@ -36,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4pt"
-                android:text="14123432532"
                 android:textColor="@color/white"
+                android:text="-"
                 android:textSize="16pt" />
         </LinearLayout>
     </LinearLayout>
@@ -66,7 +66,7 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3423534" />
+            android:text="-" />
 
         <TextView
             android:textSize="16pt"
@@ -86,6 +86,6 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="文艺范" />
+            android:text="-" />
     </LinearLayout>
 </LinearLayout>

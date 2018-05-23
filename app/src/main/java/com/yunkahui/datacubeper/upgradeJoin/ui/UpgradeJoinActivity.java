@@ -9,6 +9,7 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.other.OENType;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -45,6 +46,11 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
         mUpgradeJoinItemView1.setOnChildClickListener(this);
         mUpgradeJoinItemView2.setOnChildClickListener(this);
         mUpgradeJoinItemView3.setOnChildClickListener(this);
+
+        if (OENType.currentType() == OENType.yindian) {
+            mUpgradeJoinItemView3.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -59,19 +65,23 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, UpgradeJoinIntroduceActivity.class);
         switch (v.getId()) {
             case R.id.upgrade_join_item_view1:
-                intent.putExtra("type", UpgradeJoinIntroduceActivity.TYPE_VIP);
+                startActivity(new Intent(this, UpgradeJoinIntroduceActivity.class)
+                        .putExtra("type", UpgradeJoinIntroduceActivity.TYPE_VIP));
                 break;
             case R.id.upgrade_join_item_view2:
-                intent.putExtra("type", UpgradeJoinIntroduceActivity.TYPE_AGENT);
+                if (OENType.currentType() != OENType.fengniao) {
+                    startActivity(new Intent(this, UpgradeJoinIntroduceActivity.class)
+                            .putExtra("type", UpgradeJoinIntroduceActivity.TYPE_AGENT));
+                }
                 break;
             case R.id.upgrade_join_item_view3:
-                intent.putExtra("type", UpgradeJoinIntroduceActivity.TYPE_OEM);
+                startActivity(new Intent(this, UpgradeJoinIntroduceActivity.class)
+                        .putExtra("type", UpgradeJoinIntroduceActivity.TYPE_OEM));
                 break;
         }
-        startActivity(intent);
+
     }
 
     /**

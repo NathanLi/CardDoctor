@@ -19,10 +19,17 @@ import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.ShareUtils;
+import com.yunkahui.datacubeper.common.utils.StringUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QrShareActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,7 +48,7 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initData() {
-        images = new Integer[]{R.mipmap.ic_qr_share_01, R.mipmap.ic_qr_share_02, R.mipmap.ic_qr_share_03, R.mipmap.ic_qr_share_04, R.mipmap.ic_qr_share_05};
+        images =getQrImage();
         colors = new Integer[]{Color.parseColor("#6f82ec"), Color.parseColor("#0e0507"), Color.parseColor("#ffcc01"), Color.parseColor("#7070e3"), Color.parseColor("#ffef75")};
         mTvCode.setText(String.format("邀请码：%s", getIntent().getStringExtra("code")));
         changeImgBg();
@@ -60,6 +67,22 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    //读取本地json,获取分享图片名字
+    private Integer[] getQrImage() {
+        String qrs = StringUtils.getJsonForLocation(this, "qr_share.json");
+        try {
+            JSONArray array = new JSONArray(qrs);
+            List<Integer> images = new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                images.add(getResources().getIdentifier(array.getString(i), "mipmap", getPackageName()));
+            }
+            return images.toArray(new Integer[]{});
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new Integer[]{};
     }
 
     @Override

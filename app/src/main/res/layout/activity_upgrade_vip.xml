@@ -19,7 +19,7 @@
         android:drawablePadding="20dp"
         android:gravity="center"
         android:layout_marginTop="50dp"
-        android:text="VIP会员套餐"/>
+        android:text="@string/upgrade_vip_package"/>
 
 
     <com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinItemView

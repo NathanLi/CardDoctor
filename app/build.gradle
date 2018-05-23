@@ -3,6 +3,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.yunkahui.datacubeper"
         minSdkVersion 16
@@ -10,11 +11,37 @@ android {
         versionCode 1
         versionName "1.011"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                abiFilters 'armeabi-v7a', 'armeabi'
+            }
+        }
+
+        ndk {
+            //打包进APK的ABI类型
+            abiFilters 'armeabi-v7a'
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            jniDebuggable true
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs 'src/java'
+            jniLibs.srcDirs = ['libs']
         }
     }
 
@@ -27,19 +54,21 @@ android {
             versionCode 1
             versionName "1.001"
             manifestPlaceholders = [
-                    app_name: "卡医生_java",
-                    update_id:"165b77b065d6a33a43c8430b8a22ce9f"
+                    app_name   : "卡医生_java",
+                    authorities: "com.yunkahui.datacubeper.java.fileprovider",
+                    update_id  : "165b77b065d6a33a43c8430b8a22ce9f"
             ]
         }
         fengniao {   //蜂鸟普惠
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "17"
             applicationId "com.fengniao.datacubeper"
-            versionCode 2
-            versionName "1.001"
+            versionCode 6
+            versionName "1.006"
             manifestPlaceholders = [
-                    app_name: "蜂鸟普惠",
-                    update_id:"113f4affb9d8f1397911355dfd7b940a"
+                    app_name   : "蜂鸟普惠",
+                    authorities: "com.fengniao.datacubeper.fileprovider",
+                    update_id  : "113f4affb9d8f1397911355dfd7b940a"
             ]
         }
     }

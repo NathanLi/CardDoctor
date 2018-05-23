@@ -108,9 +108,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10pt"
         android:text="@string/service_agreement"
-        android:textColor="#666666"
+        android:textColor="@color/colorPrimary"
         android:textSize="13sp" />
 
 </RelativeLayout>

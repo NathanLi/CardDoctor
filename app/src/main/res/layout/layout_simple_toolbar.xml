@@ -3,8 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary">
+    android:layout_height="?attr/actionBarSize">
+
+    <TextView
+        android:id="@+id/text_view_left_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:text="22pt"
+        android:visibility="gone"
+        android:layout_marginLeft="15pt"/>
 
     <TextView
         android:id="@+id/tv_toolbar_title"

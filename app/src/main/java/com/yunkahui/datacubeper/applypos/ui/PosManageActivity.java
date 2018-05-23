@@ -75,9 +75,9 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                 if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                     JSONObject json = object.optJSONObject("respData");
                     DataUtils.getInfo().setTruename(json.optString("truename"));
-                    if (!"1".equals(json.optString("VIP_status"))) {
-                        ToastUtils.show(activity, "请先升级VIP");
-                    } else {
+//                    if (!"1".equals(json.optString("VIP_status"))) {
+//                        ToastUtils.show(activity, "请先升级VIP");
+//                    } else {}
                         switch (json.optString("tua_status")) {
                             case "-1":
                                 showDialog(activity);
@@ -95,7 +95,6 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                                 break;
                         }
                     }
-                }
             }
 
             @Override

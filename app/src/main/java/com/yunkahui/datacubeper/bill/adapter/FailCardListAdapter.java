@@ -25,7 +25,7 @@ public class FailCardListAdapter extends BaseQuickAdapter<FailBankCard, BaseView
     @Override
     protected void convert(BaseViewHolder helper, FailBankCard item) {
 
-        helper.setImageResource(R.id.image_view_icon, DataUtils.getBankIconMap().get(item.getBankcard_name()));
+        helper.setImageResource(R.id.image_view_icon, DataUtils.getBankIconForName(item.getBankcard_name()));
         helper.setText(R.id.text_view_title, item.getBankcard_name() + "[" + item.getBankcard_num() + "]");
 
         helper.addOnClickListener(R.id.text_view_right_desc)

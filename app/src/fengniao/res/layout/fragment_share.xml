@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_share_header"
+                android:layout_width="match_parent"
+                android:layout_height="150pt"
+                android:src="@mipmap/ic_share_top" />
+
+            <com.yunkahui.datacubeper.common.view.SimpleToolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+        <com.yunkahui.datacubeper.common.view.DoubleBlockView
+            android:id="@+id/double_block_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:leftTitle="我的钱包"
+            app:rightTitle="累计分润" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2pt"
+            android:layout_marginTop="4pt"
+            android:background="@color/bg_color_gray_f5f5f5" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20pt"
+            android:layout_marginRight="20pt"
+            android:orientation="horizontal"
+            android:paddingBottom="8pt"
+            android:paddingTop="8pt">
+
+            <ImageView
+                android:id="@+id/iv_activation_code"
+                android:layout_width="24pt"
+                android:layout_height="19pt"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/default_content_description"
+                android:src="@mipmap/ic_icon_bar_code" />
+
+            <TextView
+                android:id="@+id/tv_rest_activation_code_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10pt"
+                android:layout_marginStart="10pt"
+                android:layout_toEndOf="@id/iv_activation_code"
+                android:layout_toRightOf="@id/iv_activation_code"
+                android:text="@string/rest_activation_code"
+                android:textColor="@color/text_color_gray_a4aab3"
+                android:textSize="17pt" />
+
+            <TextView
+                android:id="@+id/tv_rest_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_rest_activation_code_text"
+                android:layout_toRightOf="@id/tv_rest_activation_code_text"
+                android:text="3000"
+                android:textColor="@color/bg_color_orange_ff5a00"
+                android:textSize="17pt" />
+
+            <TextView
+                android:id="@+id/btn_produce_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_create_code_button"
+                android:padding="8pt"
+                android:text="@string/produce_activation_code"
+                android:textColor="@color/white"
+                android:textSize="12pt" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10pt"
+            android:background="@color/bg_color_gray_f5f5f5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4pt"
+            android:layout_marginLeft="20pt"
+            android:layout_marginStart="20pt"
+            android:layout_marginTop="4pt">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_activation_code"
+                android:textColor="@color/black"
+                android:textSize="17pt" />
+
+            <TextView
+                android:id="@+id/tv_my_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="24pt" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2pt"
+            android:layout_marginBottom="12pt"
+            android:layout_marginTop="4pt"
+            android:background="@color/bg_color_gray_f5f5f5" />
+
+        <com.yunkahui.datacubeper.common.view.DoubleBlockView
+            android:id="@+id/double_block_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:leftTitle="普通会员"
+            app:rightTitle="VIP会员" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16pt"
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt"
+            android:layout_marginTop="16pt"
+            android:visibility="gone"
+            android:background="@drawable/bg_dotted_line"
+            android:orientation="vertical"
+            android:padding="10pt">
+
+            <TextView
+                android:id="@+id/text_view_share_policy_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/text_view_share_policy_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10pt"
+                android:textSize="10pt" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10pt"
+            android:background="@color/bg_color_gray_f5f5f5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20pt"
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt"
+            android:layout_marginTop="20pt">
+
+            <TextView
+                android:id="@+id/tv_link_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
+                android:text="@string/link_share"
+                android:textColor="@color/bg_color_orange_ff5a00"
+                android:textSize="15pt" />
+
+            <TextView
+                android:id="@+id/tv_qr_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20pt"
+                android:layout_marginStart="20pt"
+                android:layout_weight="1"
+                android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
+                android:text="@string/qr_share"
+                android:textColor="@color/bg_color_orange_ff5a00"
+                android:textSize="15pt" />
+
+            <TextView
+                android:id="@+id/tv_vip_course"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20pt"
+                android:layout_marginStart="20pt"
+                android:layout_weight="1"
+                android:background="@drawable/bg_share_button"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingBottom="15pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:paddingTop="15pt"
+                android:text="@string/vip_course"
+                android:textColor="@color/bg_color_orange_ff5a00"
+                android:textSize="15pt" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

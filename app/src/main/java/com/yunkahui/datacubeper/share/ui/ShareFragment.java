@@ -10,9 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.yunkahui.datacubeper.BuildConfig;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.other.OENType;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.OnDoManyClickListener;
@@ -181,16 +183,21 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
             case R.id.tv_link_share:
                 startActivity(new Intent(mActivity, WebViewActivity.class)
                         .putExtra("title", "链接分享")
-                        .putExtra("url", "http://pic.test.hangmuxitong.com/demo/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim() + "&org_number=" + getResources().getString(R.string.org_number)));
+                        .putExtra("url", "http://jpers.file.hangmuxitong.com/xinyongka/index.html?user_unique_code=" + mTvMyCode.getText().toString().trim() + "&org_number=" + getResources().getString(R.string.org_number)));
                 break;
             case R.id.tv_qr_share:
                 startActivity(new Intent(mActivity, QrShareActivity.class)
                         .putExtra("code", mTvMyCode.getText().toString()));
                 break;
             case R.id.tv_vip_course:
-                startActivity(new Intent(mActivity, WebViewActivity.class)
-                        .putExtra("title", "VIP教程")
-                        .putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));
+                if (OENType.currentType()==OENType.yindian){
+                    startActivity(new Intent(mActivity, WebViewActivity.class)
+                            .putExtra("title", "VIP教程")
+                            .putExtra("url", "http://mp.weixin.qq.com/s/SuvG3G3lW7JC8RjFUT9MVw"));
+                }else{
+                    ToastUtils.show(getActivity(),"正在升级中...");
+                }
+
                 break;
         }
     }

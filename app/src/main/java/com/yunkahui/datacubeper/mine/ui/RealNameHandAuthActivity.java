@@ -20,6 +20,7 @@ import com.yunkahui.datacubeper.GlideApp;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.StringUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -227,12 +228,22 @@ public class RealNameHandAuthActivity extends AppCompatActivity implements IActi
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 switch (requestCode) {
                     case RESULT_CODE_IMAGE_FRONT:
-                        mFront = images.get(0).path;
-                        GlideApp.with(this).load(mFront).into(mImageViewIdCardFront);
+                        GlideApp.with(this).load(images.get(0).path).into(mImageViewIdCardFront);
+                        ImageCompress.compress(images.get(0).path, new ImageCompress.onCompressListener() {
+                            @Override
+                            public void onFinish(String path) {
+                                mFront = path;
+                            }
+                        });
                         break;
                     case RESULT_CODE_IMAGE_BACK:
-                        mBack = images.get(0).path;
-                        GlideApp.with(this).load(mBack).into(mImageViewIdCardBack);
+                        GlideApp.with(this).load(images.get(0).path).into(mImageViewIdCardBack);
+                        ImageCompress.compress(images.get(0).path, new ImageCompress.onCompressListener() {
+                            @Override
+                            public void onFinish(String path) {
+                                mBack = path;
+                            }
+                        });
                         break;
                 }
             }

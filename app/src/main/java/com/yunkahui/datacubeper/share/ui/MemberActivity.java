@@ -54,6 +54,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
             }
         }, mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setEnableLoadMore(true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -64,14 +65,14 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                 LogUtils.e("成员列表->" + baseBean.toString());
                 mAVLoadingIndicatorView.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    mPage++;
+                    mList.addAll(baseBean.getRespData().getList());
+                    mAdapter.notifyDataSetChanged();
                     if (baseBean.getRespData().getPages() > mPage) {
                         mAdapter.loadMoreComplete();
                     } else {
                         mAdapter.loadMoreEnd();
                     }
-                    mPage++;
-                    mList.addAll(baseBean.getRespData().getList());
-                    mAdapter.notifyDataSetChanged();
                 }
             }
 

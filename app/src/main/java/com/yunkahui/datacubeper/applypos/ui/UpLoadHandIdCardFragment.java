@@ -25,6 +25,7 @@ import com.yunkahui.datacubeper.applypos.logic.ApplyPosLogic;
 import com.yunkahui.datacubeper.applypos.logic.UpLoadImageLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
+import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -95,12 +96,24 @@ public class UpLoadHandIdCardFragment extends Fragment implements View.OnClickLi
                 switch (requestCode) {
                     case RESULT_CODE_IMAGE_FRONT:
                         String path1 = images.get(0).path;
-                        upLoadImageFile("2", path1);
+//                        upLoadImageFile("2", path1);
                         GlideApp.with(this).load(path1).into(mImageViewFront);
+                        compress("2",path1);
                         break;
                 }
             }
         }
+    }
+
+    //压缩图片
+    private void compress(final String type, String path){
+        LoadingViewDialog.getInstance().show(getActivity());
+        ImageCompress.compress(path, new ImageCompress.onCompressListener() {
+            @Override
+            public void onFinish(String path) {
+                upLoadImageFile(type,path);
+            }
+        });
     }
 
     //上传文件
@@ -108,6 +121,7 @@ public class UpLoadHandIdCardFragment extends Fragment implements View.OnClickLi
         File file = new File(path);
         if (!file.exists()) {
             ToastUtils.show(getActivity(), "图片文件获取失败", Toast.LENGTH_SHORT);
+            LoadingViewDialog.getInstance().dismiss();
             return;
         }
         LoadingViewDialog.getInstance().show(getActivity());

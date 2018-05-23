@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.wang.avi.AVLoadingIndicatorView;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +32,8 @@ public class LoadingViewDialog extends DialogFragment {
 
     private String mTitle;
     private static LoadingViewDialog mViewDialog;
+
+    private boolean isShow;
 
 
     public static LoadingViewDialog getInstance() {
@@ -93,14 +96,20 @@ public class LoadingViewDialog extends DialogFragment {
                 mAVLoadingIndicatorView.show();
             }
         }
-        super.show(activity.getFragmentManager(), "LoadingViewDialog");
+        if (!isShow) {
+            isShow = true;
+            super.show(activity.getFragmentManager(), "LoadingViewDialog");
+        }
     }
 
     public void dismiss() {
-        if (mAVLoadingIndicatorView != null) {
-            mAVLoadingIndicatorView.hide();
+        if(isShow){
+            if (mAVLoadingIndicatorView != null) {
+                mAVLoadingIndicatorView.hide();
+            }
+            super.dismiss();
+            isShow = false;
         }
-        super.dismiss();
     }
 
     @Override

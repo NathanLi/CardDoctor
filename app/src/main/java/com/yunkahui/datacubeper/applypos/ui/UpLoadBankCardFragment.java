@@ -2,9 +2,14 @@ package com.yunkahui.datacubeper.applypos.ui;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.lzy.imagepicker.ImagePicker;
@@ -23,6 +30,7 @@ import com.yunkahui.datacubeper.applypos.logic.ApplyPosLogic;
 import com.yunkahui.datacubeper.applypos.logic.UpLoadImageLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
+import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
@@ -53,15 +61,15 @@ public class UpLoadBankCardFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_up_load_bank_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_up_load_bank_card, container, false);
 
-        mImageViewFront=view.findViewById(R.id.image_view_bank_card_front);
-        mImageViewBack=view.findViewById(R.id.image_view_bank_card_back);
+        mImageViewFront = view.findViewById(R.id.image_view_bank_card_front);
+        mImageViewBack = view.findViewById(R.id.image_view_bank_card_back);
 
         view.findViewById(R.id.button_submit).setOnClickListener(this);
         mImageViewFront.setOnClickListener(this);
         mImageViewBack.setOnClickListener(this);
-        mLogic=new UpLoadImageLogic();
+        mLogic = new UpLoadImageLogic();
         loadData();
         return view;
     }
@@ -74,14 +82,16 @@ public class UpLoadBankCardFragment extends Fragment implements View.OnClickList
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 switch (requestCode) {
                     case RESULT_CODE_IMAGE_FRONT:
-                        String path1 = images.get(0).path;
-                        upLoadImageFile("3", path1);
+                        final String path1 = images.get(0).path;
                         GlideApp.with(this).load(path1).into(mImageViewFront);
+                        compress("3",path1);
+//                        upLoadImageFile("3",path1);
                         break;
                     case RESULT_CODE_IMAGE_BACK:
-                        String path2 = images.get(0).path;
-                        upLoadImageFile("4", path2);
+                        final String path2 = images.get(0).path;
                         GlideApp.with(this).load(path2).into(mImageViewBack);
+                        compress("4",path2);
+//                        upLoadImageFile("4",path2);
                         break;
                 }
             }
@@ -116,13 +126,26 @@ public class UpLoadBankCardFragment extends Fragment implements View.OnClickList
         Glide.with(getActivity()).load(respData.getBank_card_back()).thumbnail(0.1f).into(mImageViewBack);
     }
 
+    //压缩图片
+    private void compress(final String type, String path){
+        LoadingViewDialog.getInstance().show(getActivity());
+        ImageCompress.compress(path, new ImageCompress.onCompressListener() {
+            @Override
+            public void onFinish(String path) {
+                upLoadImageFile(type,path);
+            }
+        });
+    }
+
     //上传文件
     private void upLoadImageFile(final String type, String path) {
         File file = new File(path);
         if (!file.exists()) {
             ToastUtils.show(getActivity(), "图片文件获取失败", Toast.LENGTH_SHORT);
+            LoadingViewDialog.getInstance().dismiss();
             return;
         }
+        LogUtils.e("上传文件大小为->"+file.length());
         LoadingViewDialog.getInstance().show(getActivity());
         mLogic.upLoadImageFile(getActivity(), type, file, new SimpleCallBack<BaseBean>() {
             @Override
@@ -174,8 +197,8 @@ public class UpLoadBankCardFragment extends Fragment implements View.OnClickList
                     LoadingViewDialog.getInstance().dismiss();
                     LogUtils.e("身份证提交->" + baseBean.getJsonObject().toString());
                     JSONObject object = baseBean.getJsonObject();
-                    ToastUtils.show(getActivity(),object.optString("respDesc"));
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
+                    ToastUtils.show(getActivity(), object.optString("respDesc"));
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
                         getActivity().setResult(getActivity().RESULT_OK);
                         getActivity().finish();
                     }
@@ -183,19 +206,19 @@ public class UpLoadBankCardFragment extends Fragment implements View.OnClickList
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
     }
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_submit:
                 if (TextUtils.isEmpty(mFront) || TextUtils.isEmpty(mBack)) {
                     ToastUtils.show(getActivity(), "请先完善信息");

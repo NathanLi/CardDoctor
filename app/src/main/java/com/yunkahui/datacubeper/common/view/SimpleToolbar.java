@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.common.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,25 +17,39 @@ import com.yunkahui.datacubeper.R;
  */
 public class SimpleToolbar extends LinearLayout {
 
-    private Context mContext;
     private TextView mTitle;
+    private TextView mTextViewLeftText;
     private ImageView mRightIcon;
     private TextView mTextViewAngle;
     private RelativeLayout mRelativeLayoutRoot;
 
-    public SimpleToolbar(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        this.mContext = context;
-        init();
+    public SimpleToolbar(Context context) {
+        this(context, null);
     }
 
-    public void init() {
-        LayoutInflater.from(mContext).inflate(R.layout.layout_simple_toolbar, this);
+    public SimpleToolbar(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        inflate(context, R.layout.layout_simple_toolbar, this);
         mTitle = findViewById(R.id.tv_toolbar_title);
         mRightIcon = findViewById(R.id.iv_toolbar_right_icon);
         mRelativeLayoutRoot = findViewById(R.id.root);
         mTextViewAngle = findViewById(R.id.text_view_angle);
+        mTextViewLeftText = findViewById(R.id.text_view_left_text);
+
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SimpleToolbar);
+        if (ta.hasValue(R.styleable.SimpleToolbar_tool_title)) {
+            mTitle.setText(ta.getString(R.styleable.SimpleToolbar_tool_title));
+        }
+        if (ta.hasValue(R.styleable.SimpleToolbar_tool_left_text)) {
+            mTextViewLeftText.setVisibility(VISIBLE);
+            mTextViewLeftText.setText(ta.getString(R.styleable.SimpleToolbar_tool_left_text));
+        }
+        if (ta.hasValue(R.styleable.SimpleToolbar_tool_right_icon)) {
+            mRightIcon.setImageResource(ta.getResourceId(R.styleable.SimpleToolbar_tool_right_icon, 0));
+        }
+        ta.recycle();
     }
+
 
     public SimpleToolbar setTitleName(String titleName) {
         mTitle.setText(titleName);
@@ -50,11 +65,11 @@ public class SimpleToolbar extends LinearLayout {
         return this;
     }
 
-    public void setAngle(int number){
-        if(number>0){
-            mTextViewAngle.setText(number+"");
+    public void setAngle(int number) {
+        if (number > 0) {
+            mTextViewAngle.setText(number + "");
             mTextViewAngle.setVisibility(VISIBLE);
-        }else{
+        } else {
             mTextViewAngle.setVisibility(GONE);
         }
     }

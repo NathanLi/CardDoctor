@@ -5,15 +5,21 @@
     <string name="card_test">卡·测评</string>
     <string name="share">分享</string>
     <string name="mine">我的</string>
+    <string name="tutorial">教程</string>
     <string name="share_app">分享卡医生</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_agreement">《卡医生服务协议》</string>
     <string name="share_policy_1"><![CDATA[ 邀请您的好友升级VIP可获得<font color="#000000">100元直接奖励+交易分润万分之10</font> ]]></string>
     <string name="share_policy_2"><![CDATA[ 您好友邀请好友升级VIP，您可获得<font color="#000000">50元间接奖励+交易分润万分之5</font> ]]></string>
-    <string name="org_number">Y1000000001</string>
-
+    <string name="org_number">Y1000000006</string>
     <!--升级加盟-->
     <string name="upgrade_mess">升级VIP会员，享受卡医生所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>
+    <string name="upgrade_vip">VIP会员</string>
+    <string name="upgrade_vip_content">三大套餐，解锁不同功能</string>
+    <string name="upgrade_agent">代理商</string>
+    <string name="upgrade_agent_content">创客、运营商、合伙人</string>
+    <string name="upgrade_vip_package">VIP会员套餐</string>
+    <string name="open_vip">升级VIP会员</string>
 
     <!-- 通用 -->
     <string name="loading">加载中...</string>

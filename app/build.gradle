@@ -21,6 +21,7 @@ android {
             //打包进APK的ABI类型
             abiFilters 'armeabi-v7a'
         }
+
     }
 
     buildTypes {
@@ -69,6 +70,18 @@ android {
                     app_name   : "蜂鸟普惠",
                     authorities: "com.fengniao.datacubeper.fileprovider",
                     update_id  : "113f4affb9d8f1397911355dfd7b940a"
+            ]
+        }
+        xinyongdashi {   //信用大师
+            dimension "environment"
+            buildConfigField "int", "ENV_TYPE", "18"
+            applicationId "com.xinyongdashi.datacubeper"
+            versionCode 1
+            versionName "1.008"
+            manifestPlaceholders = [
+                    app_name   : "信用大师",
+                    authorities: "com.xinyongdashi.datacubeper.fileprovider",
+                    update_id  : "da32d2895d948f26592aace5c063165a"
             ]
         }
     }

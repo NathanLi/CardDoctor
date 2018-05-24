@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
+import com.yunkahui.datacubeper.common.bean.BankCard;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 
 import org.json.JSONException;

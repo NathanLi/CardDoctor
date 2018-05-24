@@ -118,5 +118,6 @@
     <string name="withdrawals_money">提现金额：</string>
     <string name="input_money">请输入提现金额</string>
     <string name="sure_commit">确认提交</string>
-
+    <string name="account_balance"><![CDATA[ <font color="#FF5A00"><big>%s</big></font><br/><small>账户余额</small> ]]></string>
+    <string name="add_up_FenRun"><![CDATA[ <font color="#FF5A00"><big>%s</big></font><br/><small>累计分润</small> ]]></string>
 </resources>

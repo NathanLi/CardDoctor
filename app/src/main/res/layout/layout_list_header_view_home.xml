@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_home_banner"
+        android:background="@color/white"
+        android:adjustViewBounds="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingTop="15pt"
+        android:paddingBottom="25pt">
+
+        <TextView
+            android:id="@+id/text_view_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16pt"
+            android:textColor="@color/black"
+            android:text="@string/account_balance"/>
+
+        <TextView
+            android:id="@+id/text_view_FenRun"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16pt"
+            android:textColor="@color/black"
+            android:text="@string/account_balance"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_menu"
+        android:layout_width="match_parent"
+        android:layout_height="200pt"/>
+
+</LinearLayout>

@@ -65,6 +65,7 @@ public class LoadingViewDialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().setCanceledOnTouchOutside(false);
 
+
         View view = inflater.inflate(R.layout.layout_loading_view, null);
         mAVLoadingIndicatorView = view.findViewById(R.id.av_loading_view);
         mTextViewTitle = view.findViewById(R.id.text_view_loading_title);

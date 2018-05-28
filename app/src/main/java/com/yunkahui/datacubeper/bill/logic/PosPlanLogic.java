@@ -18,11 +18,11 @@ import java.util.Map;
 
 public class PosPlanLogic {
 
-    public void confirmPosPlan(Context context, int cardId, String planDatas, SimpleCallBack<BaseBean> callBack) {
+    public void confirmPosPlan(Context context, int cardId, String planDatas, String requestNo, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bankcard_id", String.valueOf(cardId))
                 .addParams("planning_datas", planDatas)
-                .addParams("request_no", "2")
+                .addParams("request_no", requestNo)
                 .create();
 //        HttpManager.getInstance().addConverterFactory(CustomConverterFactory.create()).newBuilder().baseUrl("http://192.168.5.132:8014").build()
 //                .create(ApiService.class).confirmPosPlan(params).compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
@@ -33,8 +33,8 @@ public class PosPlanLogic {
     public void generatePosPlan(Context context, int cardId, String totalMoney, String repayDates, String totalCount, SimpleCallBack<BaseBean<GeneratePlan>> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("bankcard_id", String.valueOf(cardId))
-                .addParams("repay_total_money", totalMoney)
                 .addParams("repay_dates", repayDates)
+                .addParams("repay_total_money", totalMoney)
                 .addParams("repay_total_count", totalCount)
                 .create();
         HttpManager.getInstance().create(ApiService.class).generatePosPlan(params)

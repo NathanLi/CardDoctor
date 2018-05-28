@@ -132,8 +132,13 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.tv_link_share).setOnClickListener(this);
         view.findViewById(R.id.tv_qr_share).setOnClickListener(this);
         view.findViewById(R.id.tv_vip_course).setOnClickListener(this);
-
         toolbar.getRoot().setBackgroundResource(0);
+
+        if(OENType.currentType()==OENType.xinyongdashi){
+            TextView textView=view.findViewById(R.id.text_view_share_policy_3);
+            textView.setText(Html.fromHtml(getResources().getString(R.string.share_policy_3)));
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 
     //激活码弹窗

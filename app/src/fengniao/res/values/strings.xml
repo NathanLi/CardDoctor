@@ -29,7 +29,7 @@
     <string name="default_content_description" />
 
     <!--登陆注册页面-->
-    <string name="login">登陆</string>
+    <string name="login">登录</string>
     <string name="fast_register">快速注册</string>
     <string name="agreement_tips">登陆/注册即表示您已经阅读和同意</string>
     <string name="phone">手机号</string>

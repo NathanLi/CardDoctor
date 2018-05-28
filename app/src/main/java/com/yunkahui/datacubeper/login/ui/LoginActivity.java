@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("登陆->" + baseBean.getJsonObject().toString());
+                    LogUtils.e("登录->" + baseBean.getJsonObject().toString());
                     JSONObject object = baseBean.getJsonObject();
                     ToastUtils.show(getApplicationContext(), object.optString("respDesc"));
                     if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getApplicationContext(), "登陆失败");
+                ToastUtils.show(getApplicationContext(), "登录失败");
             }
         });
 

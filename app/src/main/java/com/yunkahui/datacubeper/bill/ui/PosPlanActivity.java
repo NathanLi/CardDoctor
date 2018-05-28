@@ -44,6 +44,7 @@ import com.yunkahui.datacubeper.home.ui.AdjustPlanActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PosPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
@@ -60,6 +61,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
     private GenerateDataAdapter mAdapter;
     private BaseBean<GeneratePlan> mBaseBean;
     private int mLastClickPosition;
+    private StringBuilder sb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,7 +161,18 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                     bottomSheetDialog.dismiss();
                     LoadingViewDialog.getInstance().show(PosPlanActivity.this);
                     Log.e("JsonTest", "onClick: " + new Gson().toJson(mBaseBean.getRespData()));
-                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
+                    if (sb == null) {
+                        sb = new StringBuilder();
+                    } else {
+                        sb.setLength(0);
+                    }
+                    sb.append(System.currentTimeMillis());
+                    Random random = new Random();
+                    for (int i = sb.length(); i < 20; i++) {
+                        sb.append(random.nextInt(10));
+                    }
+                    LogUtils.e("sb's length "+sb.length());
+                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), sb.toString(), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();

@@ -86,8 +86,7 @@ public class UpgradeJoinIntroduceActivity extends AppCompatActivity implements I
     public void initView() {
         switch (mType) {
             case TYPE_VIP:
-                String text5 = "直接推荐朋友升级VIP，享受<font color='#0085ff'>100元</font>+<font color='#0085ff'>万分之10</font>奖励；" +
-                        "\n间接推荐朋友升级VIP，享受<font color='#0085ff'>50元</font>+<font color='#0085ff'>万分之5</font>奖励。";
+                String text5 = getResources().getString(R.string.vip_policy_1);
                 TextView textView=findViewById(R.id.textView5);
                 if(textView!=null){
                     textView.setText(Html.fromHtml(text5));

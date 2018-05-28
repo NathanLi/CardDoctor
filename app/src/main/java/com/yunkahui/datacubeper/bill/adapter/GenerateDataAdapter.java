@@ -34,7 +34,7 @@ public class GenerateDataAdapter extends BaseQuickAdapter<GeneratePlanItem, Base
             helper.getView(R.id.tv_msg).setVisibility(View.GONE);
         }
         helper.setText(R.id.tv_card_id, mCardId);
-        helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", item.getTimeStamp()));
+        helper.setText(R.id.tv_time, TimeUtils.format(TimeUtils.DEFAULT_PATTERN_WITH_HM, item.getTimeStamp()));
         helper.setText(R.id.tv_spend_amount, String.valueOf(item.getMoney()));
         if (mIsPos) {
             helper.setText(R.id.tv_status, "调整 >");

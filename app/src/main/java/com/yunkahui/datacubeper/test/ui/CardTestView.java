@@ -56,7 +56,7 @@ public class CardTestView extends LinearLayout {
     }
 
     public void setData(CardTestItem.Card card) {
-        mImageViewIcon.setImageResource(DataUtils.getBankIconMap().get(card.getBank_name()));
+        mImageViewIcon.setImageResource(DataUtils.getBankIconMap().containsKey(card.getBank_name()) ? DataUtils.getBankIconMap().get(card.getBank_name()) : R.mipmap.bank_other);
         mTextViewName.setText(card.getCardholder());
         mTextViewBankName.setText(card.getBank_name());
         mTextViewType.setText(card.getCard_level());

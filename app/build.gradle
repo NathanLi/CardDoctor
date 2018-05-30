@@ -64,8 +64,8 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "17"
             applicationId "com.fengniao.datacubeper"
-            versionCode 6
-            versionName "1.006"
+            versionCode 7
+            versionName "3.000"
             manifestPlaceholders = [
                     app_name   : "蜂鸟普惠",
                     authorities: "com.fengniao.datacubeper.fileprovider",
@@ -77,7 +77,7 @@ android {
             buildConfigField "int", "ENV_TYPE", "18"
             applicationId "com.xinyongdashi.datacubeper"
             versionCode 1
-            versionName "1.008"
+            versionName "3.000"
             manifestPlaceholders = [
                     app_name   : "信用大师",
                     authorities: "com.xinyongdashi.datacubeper.fileprovider",

@@ -8,17 +8,17 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_home_banner"
+        android:adjustViewBounds="true"
         android:background="@color/white"
-        android:adjustViewBounds="true"/>
+        android:src="@mipmap/ic_home_banner" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:background="@color/white"
-        android:paddingTop="15pt"
-        android:paddingBottom="25pt">
+        android:gravity="center_vertical"
+        android:paddingBottom="25pt"
+        android:paddingTop="15pt">
 
         <TextView
             android:id="@+id/text_view_balance"
@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="16pt"
+            android:text="@string/account_balance"
             android:textColor="@color/black"
-            android:text="@string/account_balance"/>
+            android:textSize="16pt" />
 
         <TextView
             android:id="@+id/text_view_FenRun"
@@ -36,15 +36,156 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="16pt"
+            android:text="@string/account_balance"
             android:textColor="@color/black"
-            android:text="@string/account_balance"/>
+            android:textSize="16pt" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_menu"
         android:layout_width="match_parent"
-        android:layout_height="200pt"/>
+        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8pt"
+        android:layout_marginRight="8pt"
+        android:layout_marginTop="15pt"
+        android:layout_marginBottom="15pt">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11pt"
+                android:layout_marginTop="11pt"
+                android:text="信用卡"
+                android:textColor="@color/black"
+                android:textSize="18pt" />
+
+            <TextView
+                android:id="@+id/text_view_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11pt"
+                android:layout_marginTop="60pt"
+                android:background="@drawable/bg_round_shape_orange"
+                android:paddingTop="5pt"
+                android:paddingBottom="5pt"
+                android:paddingLeft="10pt"
+                android:paddingRight="10pt"
+                android:text="卡号"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/edit_text_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/text_view_card_title"
+                android:layout_marginLeft="15pt"
+                android:layout_marginRight="15pt"
+                android:layout_toRightOf="@+id/text_view_card_title"
+                android:background="@null"
+                android:hint="8888 8888 8888"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="16pt" />
+
+            <TextView
+                android:id="@+id/text_view_add_card_aap_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_card_title"
+                android:layout_marginLeft="11pt"
+                android:layout_marginTop="20pt"
+                android:text="@string/add_card_app_name"
+                android:textColor="@color/black"
+                android:textSize="16pt" />
+
+            <TextView
+                android:id="@+id/text_view_add_card_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/text_view_add_card_aap_name"
+                android:layout_marginLeft="15pt"
+                android:layout_marginRight="15pt"
+                android:layout_toRightOf="@+id/text_view_add_card_aap_name"
+                android:text="@string/add_card_content"
+                android:textColor="#212c68"
+                android:textSize="12pt" />
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_add_card_content"
+                android:layout_marginTop="15pt"
+                android:paddingBottom="10pt">
+
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="0.7dp"
+                    android:layout_height="40pt"
+                    android:layout_marginBottom="10pt"
+                    android:layout_marginTop="10pt"
+                    android:background="@color/line_gray_DDDDDD"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_view_card_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10pt"
+                    android:drawableRight="@mipmap/ic_icon_card_test"
+                    android:gravity="center"
+                    android:text="卡片测评"
+                    android:textColor="#212c68"
+                    android:textSize="20pt"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@+id/view_line"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_view_add_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10pt"
+                    android:drawableRight="@mipmap/ic_icon_add_card"
+                    android:gravity="center"
+                    android:text="添加卡片"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20pt"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@+id/view_line"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_view_card_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:gravity="center_vertical"
+        android:padding="15pt"
+        android:text="我的卡片"
+        android:textColor="@color/black"
+        android:textSize="20pt" />
+
 
 </LinearLayout>

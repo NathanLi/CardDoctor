@@ -122,4 +122,12 @@
     <string name="sure_commit">确认提交</string>
     <string name="account_balance"><![CDATA[ <font color="#FF5A00"><big>%s</big></font><br/><small>账户余额</small> ]]></string>
     <string name="add_up_FenRun"><![CDATA[ <font color="#FF5A00"><big>%s</big></font><br/><small>累计分润</small> ]]></string>
+
+
+    <!--新版首页-->
+    <string name="add_card_app_name">卡医生</string>
+    <string name="add_card_content">绑定卡片可前往卡片测评、进行POS消费、自动规划、账单同步等功能，规避风险，信用管理</string>
+    <string name="smart_plan_instructions">1、添加信用卡进行智能规划；\n2、银行直联，账单同步；自动还款，智能消费；\n3、线下POS规划，一机万户，全国落地，24小时秒到。</string>
+
+
 </resources>

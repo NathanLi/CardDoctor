@@ -188,6 +188,11 @@ public class PlanList {
             return amount;
         }
 
+        @Override
+        public String getAmountString() {
+            return amountString;
+        }
+
         public void setAmount(float amount) {
             this.amount = amount;
         }
@@ -312,9 +317,6 @@ public class PlanList {
             this.business_name = business_name;
         }
 
-        public String getAmountString() {
-            return amountString;
-        }
 
         public void setAmountString(String amountString) {
             this.amountString = amountString;

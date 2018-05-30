@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="93.75pt"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -8,7 +8,8 @@
         android:id="@+id/image_view_icon"
         android:layout_width="30pt"
         android:layout_height="30pt"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="10pt"
+        android:layout_centerHorizontal="true"
         android:scaleType="fitXY"/>
 
     <TextView
@@ -16,8 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="15pt"
+        android:layout_marginBottom="10pt"
+        android:layout_centerHorizontal="true"
         android:textSize="14pt"
         android:layout_below="@+id/image_view_icon"/>
 

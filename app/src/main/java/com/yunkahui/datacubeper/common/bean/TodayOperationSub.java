@@ -139,6 +139,11 @@ public class TodayOperationSub {
             return amount;
         }
 
+        @Override
+        public String getAmountString() {
+            return amountString;
+        }
+
         public void setAmount(int amount) {
             this.amount = amount;
         }
@@ -263,9 +268,6 @@ public class TodayOperationSub {
             this.business_name = business_name;
         }
 
-        public String getAmountString() {
-            return amountString;
-        }
 
         public void setAmountString(String amountString) {
             this.amountString = amountString;

@@ -7,6 +7,7 @@ public interface DesignSub {
     String getBankCardNum();
     long getDate();
     float getAmount();
+    String getAmountString();
     String getOperation();
     String getBusiness_name();
 }

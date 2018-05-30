@@ -172,7 +172,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                         sb.append(random.nextInt(10));
                     }
                     LogUtils.e("sb's length "+sb.length());
-                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), sb.toString(), new Gson().toJson(mBaseBean.getRespData()), new SimpleCallBack<BaseBean>() {
+                    mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), sb.toString(), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {
                             LoadingViewDialog.getInstance().dismiss();

@@ -30,7 +30,6 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
         String bankCardName = item.getBankCardName();
         String bankNum=item.getBankCardNum();
         long date = item.getDate();
-        double amount = item.getAmount();
         String operation = item.getOperation();
 
         helper.setBackgroundRes(R.id.iv_icon, type.equals("消费") ? R.mipmap.ic_spending : R.mipmap.ic_repay);
@@ -51,7 +50,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
             helper.setText(R.id.tv_type, "pos");
             helper.setBackgroundRes(R.id.tv_type, R.drawable.bg_design_sub_pos);
         }
-        helper.setText(R.id.tv_spend_amount, String.valueOf(amount));
+        helper.setText(R.id.tv_spend_amount, item.getAmountString());
         String status = "";
         int textColor = 0;
         switch (operation) {

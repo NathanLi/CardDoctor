@@ -20,7 +20,7 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
 import com.yunkahui.datacubeper.bill.ui.BillFragment;
 import com.yunkahui.datacubeper.home.ui.HomeNewFragment;
-import com.yunkahui.datacubeper.test.ui.AnCardTestFragment;
+import com.yunkahui.datacubeper.plan.ui.PlanFragment;
 import com.yunkahui.datacubeper.test.ui.CardTestFragment;
 import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         mUnSelectedColor = ColorStateList.valueOf(getResources().getColor(R.color.bg_color_gray_88888888));
 
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
-        fragments.add(new BillFragment());
-        fragments.add(new AnCardTestFragment());
+        fragments.add(new HomeNewFragment());
+        fragments.add(new PlanFragment());
+        fragments.add(new CardTestFragment());
         fragments.add(new ShareFragment());
         fragments.add(new MineFragment());
 

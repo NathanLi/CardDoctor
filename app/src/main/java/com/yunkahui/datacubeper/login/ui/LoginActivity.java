@@ -40,14 +40,12 @@ public class LoginActivity extends AppCompatActivity implements IActivityBase, V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PgyUpdateManager.unregister();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
-        PgyUpdateManager.register(this);
         new RxPermissions(this)
                 .requestEach(Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,

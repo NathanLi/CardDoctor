@@ -90,7 +90,6 @@ public class TradeDetailsFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.expandAll(0,true);
 
     }
 
@@ -107,6 +106,11 @@ public class TradeDetailsFragment extends BaseFragment {
                     initSuspensionBar();
                     mAdapter.notifyDataSetChanged();
                     mSuspensionBar.setVisibility(mList.size() > 0 ? View.VISIBLE : View.GONE);
+
+                    if(mCurrentPage==1){
+                        mAdapter.expandAll(0,true);
+                    }
+
                 } else {
                     mSuspensionBar.setVisibility(View.GONE);
                 }

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.gson.JsonObject;
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -45,6 +47,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
     private SimpleTextView mSimpleTextViewBranchAddress;
     private SimpleTextView mSimpleTextViewBranch;
     private SimpleTextView mSimpleTextViewBranchNumber;
+    private LinearLayout mLinearLayoutPosData;
 
     private PosManageLogic mLogic;
     private PosApplyInfo mApplyInfo;
@@ -78,23 +81,23 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
 //                    if (!"1".equals(json.optString("VIP_status"))) {
 //                        ToastUtils.show(activity, "请先升级VIP");
 //                    } else {}
-                        switch (json.optString("tua_status")) {
-                            case "-1":
-                                showDialog(activity);
-                                break;
-                            case "7":   //完成
-                            case "10":
-                            case "12":
-                            case "13":
-                            case "14":
-                                Intent intent = new Intent(activity, PosManageActivity.class);
-                                activity.startActivity(intent);
-                                break;
-                            default:
-                                ToastUtils.show(activity.getApplicationContext(), "请先申请POS终端");
-                                break;
-                        }
+                    switch (json.optString("tua_status")) {
+                        case "-1":
+                            showDialog(activity);
+                            break;
+                        case "7":   //完成
+                        case "10":
+                        case "12":
+                        case "13":
+                        case "14":
+                            Intent intent = new Intent(activity, PosManageActivity.class);
+                            activity.startActivity(intent);
+                            break;
+                        default:
+                            ToastUtils.show(activity.getApplicationContext(), "请先申请POS终端");
+                            break;
                     }
+                }
             }
 
             @Override
@@ -144,6 +147,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
         mSimpleTextViewBranchAddress = findViewById(R.id.simple_text_view_branch_area);
         mSimpleTextViewBranch = findViewById(R.id.simple_text_view_branch_name);
         mSimpleTextViewBranchNumber = findViewById(R.id.simple_text_view_branch_number);
+        mLinearLayoutPosData = findViewById(R.id.linear_layout_pos_data);
 
         mSimpleTextViewBankCardNumber.setOnClickListener(this);
         mSimpleTextViewPhone.setOnClickListener(this);
@@ -158,21 +162,26 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
 
     private void updateData(PosApplyInfo info) {
 
+        if (!TextUtils.isEmpty(info.getBank_card_num())) {
+            mLinearLayoutPosData.setVisibility(View.VISIBLE);
+            mSimpleTextViewApplyName.setText(info.getLegal_name());
+            mSimpleTextViewIdType.setText("身份证");
+            mSimpleTextViewIdCard.setText(info.getLegal_identity_num());
+            mSimpleTextViewPhone.setText(info.getLegal_phone());
+            mSimpleTextViewApplyArea.setText(info.getLegal_province() + "-" + info.getLegal_city());
+            mSimpleTextViewBusAddress.setText(info.getManage_address());
+
+            mSimpleTextViewAccountName.setText(info.getLegal_name());//TODO POS管理  账户名称待修改
+            mSimpleTextViewBankCardNumber.setText(info.getBank_card_num());
+            mSimpleTextViewBankCardName.setText(info.getBank_card_name());
+            mSimpleTextViewBranchAddress.setText(info.getDeposit_province() + "-" + info.getDeposit_city());
+            mSimpleTextViewBranch.setText(info.getDeposit_bank());
+            mSimpleTextViewBranchNumber.setText(info.getCouplet_num());
+        }
+
         mSimpleTextViewBusinessNumber.setText(info.getMerchant_number());
         mSimpleTextViewTerminalNumber.setText(info.getTerminal_number());
-        mSimpleTextViewApplyName.setText(info.getLegal_name());
-        mSimpleTextViewIdType.setText("身份证");
-        mSimpleTextViewIdCard.setText(info.getLegal_identity_num());
-        mSimpleTextViewPhone.setText(info.getLegal_phone());
-        mSimpleTextViewApplyArea.setText(info.getLegal_province() + "-" + info.getLegal_city());
-        mSimpleTextViewBusAddress.setText(info.getManage_address());
 
-        mSimpleTextViewAccountName.setText(info.getLegal_name());//TODO POS管理  账户名称待修改
-        mSimpleTextViewBankCardNumber.setText(info.getBank_card_num());
-        mSimpleTextViewBankCardName.setText(info.getBank_card_name());
-        mSimpleTextViewBranchAddress.setText(info.getDeposit_province() + "-" + info.getDeposit_city());
-        mSimpleTextViewBranch.setText(info.getDeposit_bank());
-        mSimpleTextViewBranchNumber.setText(info.getCouplet_num());
 
     }
 

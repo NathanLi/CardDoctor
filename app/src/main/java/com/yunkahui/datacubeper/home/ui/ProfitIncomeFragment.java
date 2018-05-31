@@ -46,10 +46,9 @@ public class ProfitIncomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        mType = getArguments().getString("type","");
+        mType = getArguments().getString("type", "");
         mLogic = new ProfitIncomeLogic();
         mList = new ArrayList<>();
-        getProfitIncomeData();
         mAdapter = new ExpandableProfitIncomeAdapter(mActivity, mList);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -94,8 +93,8 @@ public class ProfitIncomeFragment extends BaseFragment {
         mAdapter.disableLoadMoreIfNotFullPage();
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
-        mAdapter.expandAll();
         mRecyclerView.setAdapter(mAdapter);
+        getProfitIncomeData();
     }
 
     //******** 查询分润收入 分佣收入********
@@ -113,6 +112,9 @@ public class ProfitIncomeFragment extends BaseFragment {
                         initSuspensionBar();
                         if (mAdapter != null) {
                             mAdapter.notifyDataSetChanged();
+                        }
+                        if (mCurrentPage == 1) {
+                            mAdapter.expandAll();
                         }
                     } else {
                         mSuspensionBar.setVisibility(View.GONE);

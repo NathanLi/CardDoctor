@@ -36,6 +36,8 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         if (!TextUtils.isEmpty(remarks)) {
             if (remarks.contains("失败"))
                 mTvRemarks.setTextColor(Color.RED);
+        }
+        if(!TextUtils.isEmpty(status)){
             mTvStatus.setText(status);
             if (status.contains("失败"))
                 mTvStatus.setTextColor(Color.RED);

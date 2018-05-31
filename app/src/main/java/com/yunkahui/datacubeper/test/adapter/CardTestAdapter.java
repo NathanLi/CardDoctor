@@ -24,16 +24,22 @@ public class CardTestAdapter extends BaseQuickAdapter<CardTestItem, BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder helper, CardTestItem item) {
+        if (item != null) {
+            helper.getView(R.id.iv_sample).setVisibility(View.GONE);
+            helper.getView(R.id.ll_tips).setVisibility(View.GONE);
+            helper.setBackgroundRes(R.id.iv_bank_icon, DataUtils.getBankIconForName(item.getCard().getBank_name()));
+            helper.setText(R.id.tv_user_name, item.getCard().getCardholder());
+            helper.setText(R.id.tv_bank_name, item.getCard().getBank_name());
+            helper.setText(R.id.tv_bank_id, item.getCard().getBankcard_num());
+            helper.setText(R.id.tv_card_nick_name, item.getCard().getCard_brand());
+            helper.setText(R.id.tv_card_type, item.getCard().getCard_name());
 
-        helper.setBackgroundRes(R.id.iv_bank_icon, DataUtils.getBankIconForName(item.getCard().getBank_name()));
-        helper.setText(R.id.tv_user_name, item.getCard().getCardholder());
-        helper.setText(R.id.tv_bank_name, item.getCard().getBank_name());
-        helper.setText(R.id.tv_bank_id, item.getCard().getBankcard_num());
-        helper.setText(R.id.tv_card_nick_name, item.getCard().getCard_brand());
-        helper.setText(R.id.tv_card_type, item.getCard().getCard_name());
-
-        helper.addOnClickListener(R.id.text_view_report)
-                .addOnClickListener(R.id.btn_run_test);
+            helper.addOnClickListener(R.id.text_view_report)
+                    .addOnClickListener(R.id.btn_run_test);
+        } else {
+            helper.setVisible(R.id.iv_sample, true);
+            helper.setVisible(R.id.ll_tips, true);
+        }
     }
 
 }

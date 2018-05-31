@@ -74,6 +74,7 @@
         <attr name="tool_title" format="string|reference"/>
         <attr name="tool_left_text" format="string|reference"/>
         <attr name="tool_right_icon" format="reference"/>
+        <attr name="tool_left_icon" format="reference"/>
     </declare-styleable>
 
 </resources>

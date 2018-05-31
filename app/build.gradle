@@ -76,7 +76,7 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "18"
             applicationId "com.xinyongdashi.datacubeper"
-            versionCode 1
+            versionCode 3
             versionName "3.000"
             manifestPlaceholders = [
                     app_name   : "信用大师",

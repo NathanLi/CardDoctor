@@ -21,7 +21,7 @@ public class BillSynchronousLogic {
 
         List<Bank> bankList = new ArrayList<>();
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"中国银行", "中行"}));
-        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"中国工商银行", "工商银行", "工行"}));
+        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"中国工商银行", "工商银行", "工行","工商"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"中国农业银行", "农业银行", "农业"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER, BillSynchronousActivity.TYPE_USER}, new String[]{"民生银行", "民生"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"广发银行", "广发"}));

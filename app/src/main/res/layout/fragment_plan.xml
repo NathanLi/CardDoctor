@@ -1,105 +1,112 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.yunkahui.datacubeper.plan.ui.PlanFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <com.yunkahui.datacubeper.common.view.SimpleToolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat">
+        android:background="@drawable/bg_blue_gradient"
+        app:tool_right_icon="@mipmap/icon_add"
+        app:tool_title="规划" />
 
-        <com.yunkahui.datacubeper.common.view.SimpleToolbar
-            android:id="@+id/tool_bar"
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll"
-            app:tool_right_icon="@mipmap/icon_add"
-            app:tool_title="规划" />
+            android:theme="@style/ThemeOverlay.AppCompat">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_1"
+            <LinearLayout
+                android:id="@+id/linear_layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="120pt"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_blue_gradient"
+                app:layout_scrollFlags="scroll">
+
+                <TextView
+                    android:id="@+id/text_view_pos_plan"
+                    style="@style/style_plan_top_menu"
+                    android:drawableTop="@mipmap/ic_icon_pos_plan"
+                    android:text="POS规划" />
+
+                <TextView
+                    android:id="@+id/text_view_auto_refund"
+                    style="@style/style_plan_top_menu"
+                    android:drawableTop="@mipmap/ic_icon_auto_plan"
+                    android:text="自动还款" />
+
+                <TextView
+                    android:id="@+id/text_view_no_card_pay"
+                    style="@style/style_plan_top_menu"
+                    android:drawableTop="@mipmap/ic_icon_no_card_pay"
+                    android:text="无卡消费" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.yunkahui.datacubeper.common.view.PlanSpinner
+                    android:id="@+id/plan_spinner_data_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:spinner_title="全部" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10pt"
+                    android:background="@color/line_gray_DDDDDD" />
+
+                <com.yunkahui.datacubeper.common.view.PlanSpinner
+                    android:id="@+id/plan_spinner_list_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:spinner_title="全部" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10pt"
+                    android:background="@color/line_gray_DDDDDD" />
+
+                <com.yunkahui.datacubeper.common.view.PlanSpinner
+                    android:id="@+id/plan_spinner_card_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:spinner_title="全部" />
+
+            </LinearLayout>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:gravity="center_vertical"
-            app:layout_scrollFlags="scroll">
-
-            <TextView
-                android:id="@+id/text_view_pos_plan"
-                style="@style/style_plan_top_menu"
-                android:drawableTop="@mipmap/ic_icon_pos_plan"
-                android:text="POS规划" />
-
-            <TextView
-                android:id="@+id/text_view_auto_refund"
-                style="@style/style_plan_top_menu"
-                android:drawableTop="@mipmap/ic_icon_auto_plan"
-                android:text="自动还款" />
-
-            <TextView
-                android:id="@+id/text_view_no_card_pay"
-                style="@style/style_plan_top_menu"
-                android:drawableTop="@mipmap/ic_icon_no_card_pay"
-                android:text="无卡消费" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50pt"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <com.yunkahui.datacubeper.common.view.PlanSpinner
-                android:id="@+id/plan_spinner_data_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                app:spinner_title="全部"/>
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/line_gray_DDDDDD"
-                android:layout_margin="10pt"/>
-
-            <com.yunkahui.datacubeper.common.view.PlanSpinner
-                android:id="@+id/plan_spinner_list_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                app:spinner_title="全部"/>
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/line_gray_DDDDDD"
-                android:layout_margin="10pt"/>
-
-            <com.yunkahui.datacubeper.common.view.PlanSpinner
-                android:id="@+id/plan_spinner_card_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                app:spinner_title="全部"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-    </android.support.design.widget.AppBarLayout>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         mUnSelectedColor = ColorStateList.valueOf(getResources().getColor(R.color.bg_color_gray_88888888));
 
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
-        fragments.add(new BillFragment());
+        fragments.add(new HomeNewFragment());
+        fragments.add(new PlanFragment());
         fragments.add(new CardTestFragment());
         fragments.add(new ShareFragment());
         fragments.add(new MineFragment());

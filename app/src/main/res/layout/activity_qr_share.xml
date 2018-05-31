@@ -56,12 +56,11 @@
             android:layout_marginTop="28pt"
             android:background="@drawable/bg_qr_share_button"
             android:gravity="center"
-            android:paddingBottom="9dp"
             android:paddingLeft="48pt"
             android:paddingRight="48pt"
             android:paddingTop="9dp"
             android:text="分享二维码"
-            android:textColor="#ffffff"
+            android:textColor="@color/share_button_text_color"
             android:textSize="24sp"
             app:layout_constraintVertical_bias="0.94" />
 

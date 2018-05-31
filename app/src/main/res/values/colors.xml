@@ -48,4 +48,5 @@
     <color name="bg_corlor_orange_ffe6bc">#ffe6bc</color>
 
     <color name="text_color_black_212c68">#212c68</color>
+    <color name="share_button_text_color">#FFFFFF</color>
 </resources>

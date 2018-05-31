@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.Message;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.view.PlanSpinner;
 import com.yunkahui.datacubeper.mine.ui.MessageItemView;
 
@@ -56,6 +57,16 @@ public class PlanFragment extends Fragment implements PlanSpinner.OnSpinnerClick
         MyAdapter adapter = new MyAdapter(R.layout.layout_list_item_message, datas);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                mPlanSpinnerDataType.updatePopupWindow();
+                mPlanSpinnerListType.updatePopupWindow();
+                mPlanSpinnerCardType.updatePopupWindow();
+            }
+        });
+
         return view;
     }
 

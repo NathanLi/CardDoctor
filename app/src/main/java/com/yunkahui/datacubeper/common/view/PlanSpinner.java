@@ -3,13 +3,17 @@ package com.yunkahui.datacubeper.common.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -19,10 +23,13 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.ThreadPoolProxyFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * 规划fragment 下拉列表按钮
@@ -41,6 +48,9 @@ public class PlanSpinner extends RelativeLayout {
     private List<String> mSpinnerList;
     private OnItemSelectListener mSelectListener;
     private OnSpinnerClickListener mSpinnerClickListener;
+
+    private View mView;
+    private int mPopupWindowY;
 
     public PlanSpinner(Context context) {
         this(context, null);
@@ -69,20 +79,34 @@ public class PlanSpinner extends RelativeLayout {
                 if (mSpinnerClickListener != null) {
                     mSpinnerClickListener.onSpinnerClick();
                 }
+                mView = v;
                 showDown(v);
             }
         });
 
     }
 
+    //更新弹窗位置
+    public void updatePopupWindow() {
+        mPopupWindowList.update(mView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
     private void initPopupWindow(Context context) {
         mSpinnerList = new ArrayList<>();
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_plan_spinner_popup_window, null);
+        contentView.findViewById(R.id.linear_layout_spinner_bg).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindowList != null) {
+                    mPopupWindowList.dismiss();
+                }
+            }
+        });
         mRecyclerViewList = contentView.findViewById(R.id.recycler_view);
         mRecyclerViewList.setLayoutManager(new LinearLayoutManager(context));
         mListAdapter = new DataListAdapter(R.layout.layout_list_item_plan_spinner, mSpinnerList);
         mRecyclerViewList.setAdapter(mListAdapter);
-        mPopupWindowList = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindowList = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mPopupWindowList.setOutsideTouchable(true);
         mPopupWindowList.setBackgroundDrawable(new BitmapDrawable());
 
@@ -129,7 +153,7 @@ public class PlanSpinner extends RelativeLayout {
 
     public void showDown(View view) {
         mImageViewArrow.setRotation(mImageViewArrow.getRotation() == 0 ? 180 : 0);
-        mPopupWindowList.showAsDropDown(view);
+        mPopupWindowList.showAsDropDown(view, 0, 0);
     }
 
 

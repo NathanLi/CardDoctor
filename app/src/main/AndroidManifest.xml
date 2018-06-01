@@ -142,6 +142,9 @@
         <activity android:name=".bill.ui.FailCardWhyActivity" />
         <activity android:name=".bill.ui.ActivatePlanActivity" />
         <activity android:name=".mine.ui.RealNameHandAuthActivity"/>
+        <activity android:name=".mine.ui.MyCreditCardActivity" >
+        </activity>
+        <activity android:name=".mine.ui.MySavingCardActivity" />
     </application>
 
 </manifest>

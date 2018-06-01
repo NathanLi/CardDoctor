@@ -46,7 +46,7 @@
     <color name="bg_color_gray_fafafa">#fafafa</color>
     <color name="bg_color_gray_e2e2e2">#e2e2e2</color>
     <color name="bg_corlor_orange_ffe6bc">#ffe6bc</color>
-
     <color name="text_color_black_212c68">#212c68</color>
     <color name="share_button_text_color">#FFFFFF</color>
+    <color name="text_color_dark_gray_404040">#404040</color>
 </resources>

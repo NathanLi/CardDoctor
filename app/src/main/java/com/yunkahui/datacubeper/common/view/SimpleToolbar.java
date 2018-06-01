@@ -22,6 +22,7 @@ public class SimpleToolbar extends LinearLayout {
     private ImageView mRightIcon;
     private TextView mTextViewAngle;
     private RelativeLayout mRelativeLayoutRoot;
+    private ImageView mLeftIcon;
 
     public SimpleToolbar(Context context) {
         this(context, null);
@@ -31,6 +32,7 @@ public class SimpleToolbar extends LinearLayout {
         super(context, attrs);
         inflate(context, R.layout.layout_simple_toolbar, this);
         mTitle = findViewById(R.id.tv_toolbar_title);
+        mLeftIcon = findViewById(R.id.iv_toolbar_left_icon);
         mRightIcon = findViewById(R.id.iv_toolbar_right_icon);
         mRelativeLayoutRoot = findViewById(R.id.root);
         mTextViewAngle = findViewById(R.id.text_view_angle);
@@ -43,6 +45,9 @@ public class SimpleToolbar extends LinearLayout {
         if (ta.hasValue(R.styleable.SimpleToolbar_tool_left_text)) {
             mTextViewLeftText.setVisibility(VISIBLE);
             mTextViewLeftText.setText(ta.getString(R.styleable.SimpleToolbar_tool_left_text));
+        }
+        if (ta.hasValue(R.styleable.SimpleToolbar_tool_left_icon)) {
+            mLeftIcon.setImageResource(ta.getResourceId(R.styleable.SimpleToolbar_tool_left_icon, 0));
         }
         if (ta.hasValue(R.styleable.SimpleToolbar_tool_right_icon)) {
             mRightIcon.setImageResource(ta.getResourceId(R.styleable.SimpleToolbar_tool_right_icon, 0));
@@ -76,6 +81,11 @@ public class SimpleToolbar extends LinearLayout {
 
     public SimpleToolbar setRightIconClickListener(OnClickListener listener) {
         mRightIcon.setOnClickListener(listener);
+        return this;
+    }
+
+    public SimpleToolbar setLeftIconClickListener(OnClickListener listener) {
+        mLeftIcon.setOnClickListener(listener);
         return this;
     }
 }

@@ -1,126 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="12pt"
     android:layout_marginRight="12pt"
-    android:layout_marginTop="3pt"
-    android:layout_marginBottom="3pt"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5px"
-    app:cardMaxElevation="5dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="3pt"
+        android:layout_marginTop="3pt"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5px"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14pt">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_bank_icon"
-                android:layout_width="32pt"
-                android:layout_height="32pt" />
-
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="14pt"
-                android:layout_toRightOf="@+id/iv_bank_icon"
-                android:text="武韩"
-                android:textColor="@color/black"
-                android:textSize="16pt"
-                android:textStyle="bold" />
+                android:padding="14pt">
 
-            <TextView
-                android:id="@+id/tv_bank_name"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_bank_icon"
+                    android:layout_width="32pt"
+                    android:layout_height="32pt"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/bank_zhongguo" />
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14pt"
+                    android:layout_toRightOf="@+id/iv_bank_icon"
+                    android:text="武韩"
+                    android:textColor="@color/black"
+                    android:textSize="16pt"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_bank_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16pt"
+                    android:layout_toRightOf="@+id/tv_user_name"
+                    android:text="中国银行"
+                    android:textColor="@color/black"
+                    android:textSize="16pt" />
+
+                <ImageView
+                    android:id="@+id/iv_sample"
+                    android:layout_width="42pt"
+                    android:layout_height="32pt"
+                    android:layout_marginRight="12pt"
+                    android:layout_toLeftOf="@+id/text_view_report"
+                    android:background="@mipmap/ic_sample_red"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/text_view_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="28pt"
+                    android:text="报告"
+                    android:textColor="@color/text_color_gray_a4aab3"
+                    android:textSize="15pt" />
+
+                <ImageView
+                    android:layout_width="16pt"
+                    android:layout_height="16pt"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12pt"
+                    android:background="@mipmap/ic_next_gray" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1pt"
+                android:background="@color/bg_color_gray_f5f5f5" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16pt"
-                android:layout_toRightOf="@+id/tv_user_name"
-                android:text="中国银行"
-                android:textColor="@color/black"
-                android:textSize="16pt" />
+                android:padding="14pt">
 
-            <TextView
-                android:id="@+id/text_view_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="28pt"
-                android:text="报告"
-                android:textColor="@color/text_color_gray_a4aab3"
-                android:textSize="15pt" />
+                <TextView
+                    android:id="@+id/tv_bank_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="888888"
+                    android:textColor="@color/black"
+                    android:textSize="16pt" />
 
-            <ImageView
-                android:layout_width="16pt"
-                android:layout_height="16pt"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12pt"
-                android:background="@mipmap/ic_next_gray" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_card_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_bank_id"
+                    android:layout_marginTop="14pt"
+                    android:text="VSA"
+                    android:textColor="@color/red"
+                    android:textSize="14pt" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1pt"
-            android:background="@color/bg_color_gray_f5f5f5" />
+                <TextView
+                    android:id="@+id/tv_card_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_bank_id"
+                    android:layout_marginLeft="14pt"
+                    android:layout_marginTop="14pt"
+                    android:layout_toRightOf="@+id/tv_card_nick_name"
+                    android:text="长城双币贷记卡"
+                    android:textColor="@color/black"
+                    android:textSize="14pt" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="14pt">
+                <Button
+                    android:id="@+id/btn_run_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35pt"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_circle_shape_blue"
+                    android:text="立刻测评"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_bank_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="888888"
-                android:textColor="@color/black"
-                android:textSize="16pt" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/tv_card_nick_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_bank_id"
-                android:layout_marginTop="14pt"
-                android:text="VSA"
-                android:textColor="@color/red"
-                android:textSize="14pt" />
+    <LinearLayout
+        android:id="@+id/ll_tips"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginLeft="6pt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14pt"
+        android:layout_marginTop="10pt"
+        android:text="温馨提示"
+        android:textColor="@color/bill_card_item_extend_text_color_gray_666666"
+        android:textSize="20pt" />
 
-            <TextView
-                android:id="@+id/tv_card_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_bank_id"
-                android:layout_marginLeft="14pt"
-                android:layout_marginTop="14pt"
-                android:layout_toRightOf="@+id/tv_card_nick_name"
-                android:text="长城双币贷记卡"
-                android:textColor="@color/black"
-                android:textSize="14pt" />
-
-            <Button
-                android:id="@+id/btn_run_test"
-                android:layout_width="wrap_content"
-                android:layout_height="35pt"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="立刻测评"
-                android:background="@drawable/bg_circle_shape_blue"
-                android:textColor="@color/white" />
-        </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/tips"
+        android:textColor="@color/bg_color_gray_88888888"
+        android:textSize="14pt" />
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>

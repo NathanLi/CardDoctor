@@ -17,9 +17,8 @@ import com.yunkahui.datacubeper.common.bean.CardTestItem;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
-import com.yunkahui.datacubeper.common.view.CardTestView;
-import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
-import com.yunkahui.datacubeper.common.view.SimpleToolbar;
+import com.yunkahui.datacubeper.common.view.*;
+import com.yunkahui.datacubeper.mine.ui.MyCreditCardActivity;
 import com.yunkahui.datacubeper.test.adapter.CardTestAdapter;
 import com.yunkahui.datacubeper.test.logic.CardTestLogic;
 
@@ -29,15 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pc1994 on 2018/3/22.
+ * Created by Administrator on 2018/5/31 0031.
  */
 
-public class CardTestFragment extends BaseFragment implements View.OnClickListener {
+public class AnCardTestFragment extends BaseFragment implements View.OnClickListener {
 
     private final int RESULT_CODE_UPDATE = 1001;
 
-    private AVLoadingIndicatorView mLoadingIndicatorView;
     private RecyclerView mRecyclerView;
+    private AVLoadingIndicatorView mLoadingIndicatorView;
+    private com.yunkahui.datacubeper.common.view.CardTestView mCardTestView;
 
     private CardTestLogic mLogic;
     private List<CardTestItem> mCardTestItems;
@@ -49,12 +49,11 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         mCardTestItems = new ArrayList<>();
         mCardTestAdapter = new CardTestAdapter(R.layout.layout_list_item_card_test, mCardTestItems);
         mCardTestAdapter.bindToRecyclerView(mRecyclerView);
-        View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_card_test, null);
-
+        View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_list_header_an_card_test, null);
         header.findViewById(R.id.btn_run_test).setOnClickListener(this);
         header.findViewById(R.id.text_view_example).setOnClickListener(this);
         header.findViewById(R.id.text_view_history_test).setOnClickListener(this);
-
+        mCardTestView = header.findViewById(R.id.card_test_view);
         mCardTestAdapter.addHeaderView(header);
         mCardTestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -63,7 +62,6 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mCardTestAdapter);
-
         mCardTestAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -80,22 +78,20 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                 }
             }
         });
-        loadData();
+        mCardTestItems.add(null);
+        //loadData();
     }
 
     @Override
     public void initView(View view) {
-        SimpleToolbar toolbar = view.findViewById(R.id.tool_bar);
-        toolbar.setTitleName(getString(R.string.card_test));
-        mLoadingIndicatorView = view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mLoadingIndicatorView = view.findViewById(R.id.av_loading_view);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_card_test;
+        return R.layout.fragment_an_card_test;
     }
-
 
     //查询用户测评过的卡片列表
     public void loadData() {
@@ -115,11 +111,14 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                     mCardTestItems.clear();
                     mCardTestItems.addAll(items);
                     mCardTestAdapter.notifyDataSetChanged();
+                } else {
+                    mCardTestItems.add(null);
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
+                mCardTestItems.add(null);
                 mLoadingIndicatorView.setVisibility(View.GONE);
                 LogUtils.e("获取测评卡片列表失败 " + throwable.toString());
             }
@@ -157,6 +156,14 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
                 ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            mCardTestView.runScore(80);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override

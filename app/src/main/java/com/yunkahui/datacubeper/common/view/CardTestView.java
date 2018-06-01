@@ -85,7 +85,7 @@ public class CardTestView extends FrameLayout {
             public void run() {
                 try {
                     while (score < destScore) {
-                        Thread.sleep(50);
+                        Thread.sleep(24);
                         score += 0.8;
                         currentAngle += 1.7;
                         if (score >= destScore) { //******** 防止越界 ********

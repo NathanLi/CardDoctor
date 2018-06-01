@@ -15,6 +15,15 @@
         android:visibility="gone"
         android:layout_marginLeft="15pt"/>
 
+    <ImageView
+        android:id="@+id/iv_toolbar_left_icon"
+        android:layout_width="24pt"
+        android:layout_height="24pt"
+        android:layout_marginLeft="20pt"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true" />
+
     <TextView
         android:id="@+id/tv_toolbar_title"
         android:textSize="24pt"

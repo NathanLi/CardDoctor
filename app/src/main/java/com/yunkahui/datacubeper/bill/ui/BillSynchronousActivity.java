@@ -320,6 +320,7 @@ public class BillSynchronousActivity extends AppCompatActivity implements IActiv
                         if ("failed".equals(object.optString("result")) && object.toString().contains("reason")) {
                             LoadingViewDialog.getInstance().dismiss();
                             mTvError.setText(object.optString("reason"));
+                            unbindService(mServiceConnection);
                         }
                     }
                 } catch (JSONException e) {

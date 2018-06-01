@@ -13,6 +13,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +29,12 @@ import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.HomeItem;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.PagingScrollHelper;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
+import com.yunkahui.datacubeper.common.view.PageRecyclerView.PageRecyclerView;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.adapter.HomeNewAdapter;
 import com.yunkahui.datacubeper.home.adapter.HomeNewItemAdapter;
@@ -45,12 +49,15 @@ import java.util.List;
  */
 public class HomeNewFragment extends Fragment {
 
+    private static final int HOME_MENU_PAGE_SIZE = 4;  //首页菜单每页数量
+
     private SimpleToolbar mSimpleToolBar;
     private RecyclerView mRecyclerView;
 
     private TextView mTextViewBalance;
     private TextView mTextViewFenRun;
     private RecyclerView mRecyclerViewMenu;
+    private RadioGroup mRadioGroupIndicator;
 
     private HomeNewAdapter mAdapter;
     private List<HomeItem> mMenuHomeItems;
@@ -67,7 +74,7 @@ public class HomeNewFragment extends Fragment {
 
         mLogic = new HomeLogic();
         mMenuHomeItems = new ArrayList<>();
-        mCreditCardList =new ArrayList<>();
+        mCreditCardList = new ArrayList<>();
         mAdapter = new HomeNewAdapter(R.layout.layout_list_item_bill_card, mCreditCardList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
@@ -81,7 +88,7 @@ public class HomeNewFragment extends Fragment {
     }
 
     //adapter点击事件
-    private void adapterClickEvent(){
+    private void adapterClickEvent() {
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -90,8 +97,8 @@ public class HomeNewFragment extends Fragment {
                 }
                 switch (view.getId()) {
                     case R.id.btn_bill_sync:
-                        if(BillSynchronousLogic.judgeBank(mCreditCardList.get(position).getBankCardName()).length==0){
-                            ToastUtils.show(getActivity(),"暂不支持该银行");
+                        if (BillSynchronousLogic.judgeBank(mCreditCardList.get(position).getBankCardName()).length == 0) {
+                            ToastUtils.show(getActivity(), "暂不支持该银行");
                             return;
                         }
                         Intent intent = new Intent(getActivity(), BillSynchronousActivity.class);
@@ -139,9 +146,11 @@ public class HomeNewFragment extends Fragment {
         mTextViewBalance = view.findViewById(R.id.text_view_balance);
         mTextViewFenRun = view.findViewById(R.id.text_view_FenRun);
         mRecyclerViewMenu = view.findViewById(R.id.recycler_view_menu);
+        mRadioGroupIndicator = view.findViewById(R.id.radio_group_indicator);
         mAdapter.addHeaderView(view);
         mTextViewBalance.setText(Html.fromHtml(String.format(getResources().getString(R.string.account_balance), "-")));
         mTextViewFenRun.setText(Html.fromHtml(String.format(getResources().getString(R.string.add_up_FenRun), "-")));
+
     }
 
     //添加尾部
@@ -153,6 +162,10 @@ public class HomeNewFragment extends Fragment {
     //初始化滑动菜单
     private void initMenuRecyclerView() {
         mMenuHomeItems.addAll(mLogic.parsingJSONForHomeItem(getActivity()));
+        int addSize = HOME_MENU_PAGE_SIZE - mMenuHomeItems.size() % HOME_MENU_PAGE_SIZE;
+        for (int i = 0; i < addSize; i++) {
+            mMenuHomeItems.add(new HomeItem());
+        }
         HomeNewItemAdapter adapter = new HomeNewItemAdapter(R.layout.layout_list_item_home_menu, mMenuHomeItems);
         mRecyclerViewMenu.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewMenu.setAdapter(adapter);
@@ -162,6 +175,9 @@ public class HomeNewFragment extends Fragment {
 
             }
         });
+        PagingScrollHelper helper = new PagingScrollHelper();
+        helper.setUpRecycleView(mRecyclerViewMenu);
+        helper.setIndicator(getActivity(), mRadioGroupIndicator, mMenuHomeItems.size() / HOME_MENU_PAGE_SIZE, R.drawable.ic_radio_indicator_selector);
     }
 
     //标题栏滑动背景事件

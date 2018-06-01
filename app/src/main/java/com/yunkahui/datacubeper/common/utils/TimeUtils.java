@@ -24,7 +24,7 @@ public class TimeUtils {
     }
 
     public static String format(String pattern, long time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.CANADA);
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

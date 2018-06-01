@@ -42,7 +42,7 @@ public class DesignSubAdapter extends BaseQuickAdapter<DesignSub, BaseViewHolder
             helper.setText(R.id.tv_msg,item.getBusiness_name());
         }
 
-        helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd hh:mm:ss", date));
+        helper.setText(R.id.tv_time, TimeUtils.format("yyyy-MM-dd HH:mm:ss", date));
         if ("10".equals(mIsPos)) {
             helper.setText(R.id.tv_type, "自动");
             helper.setBackgroundRes(R.id.tv_type, R.drawable.bg_design_sub_auto);

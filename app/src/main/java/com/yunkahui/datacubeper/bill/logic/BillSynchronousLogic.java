@@ -29,8 +29,8 @@ public class BillSynchronousLogic {
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_ID_CARD}, new String[]{"招商银行", "招商"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_PHONE}, new String[]{"中信银行", "中信"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_USER, BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"平安银行", "平安"}));
-        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_USER, BillSynchronousActivity.TYPE_ID_CARD}, new String[]{"建设银行", "建设", "建行"}));
-        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_ID_CARD_NO_PASSWORD}, new String[]{"浦发银行", "浦发"}));
+        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_USER, BillSynchronousActivity.TYPE_ID_CARD}, new String[]{"中国建设银行","建设银行", "建设", "建行"}));
+        bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_ID_CARD_NO_PASSWORD}, new String[]{"上海浦发银行","浦发银行", "浦发"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_USER, BillSynchronousActivity.TYPE_CARD_NUMBER}, new String[]{"兴业银行", "兴业"}));
         bankList.add(new Bank(new int[]{BillSynchronousActivity.TYPE_ID_CARD_NO_PASSWORD}, new String[]{"光大银行", "光大"}));
 

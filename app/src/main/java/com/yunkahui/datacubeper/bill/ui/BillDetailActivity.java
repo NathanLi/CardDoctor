@@ -21,6 +21,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.bill.adapter.ExpandableBillDeatailAdapter;
 import com.yunkahui.datacubeper.bill.logic.BillDetailLogic;
+import com.yunkahui.datacubeper.bill.logic.BillSynchronousLogic;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.BillCreditCard;
 import com.yunkahui.datacubeper.common.bean.BillDetailSummary;
@@ -145,7 +146,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 LogUtils.e("卡片详情数据->" + billCreditCardBaseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(billCreditCardBaseBean.getRespCode())) {
                     BillCreditCard.CreditCard creditCard = billCreditCardBaseBean.getRespData().getCardDetail().get(0);
-                    mTvRepay.setText("还款日：" + TimeUtils.format("MM-dd",  creditCard.getRepayDayDate()));
+                    mTvRepay.setText("还款日：" + TimeUtils.format("MM-dd", creditCard.getRepayDayDate()));
                     mTvAccount.setText("账单日：" + TimeUtils.format("MM-dd", creditCard.getBillDayDate()));
                 }
 
@@ -196,7 +197,7 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtils.e("我知道你回来了 "+resultCode);
+        LogUtils.e("我知道你回来了 " + resultCode);
         if (resultCode == RESULT_OK && requestCode == RESULT_CODE_UPDATE) {
             getBillDetailTop();
             getCardDetailData();
@@ -218,6 +219,10 @@ public class BillDetailActivity extends AppCompatActivity implements IActivitySt
                 startActivityForResult(intent, RESULT_CODE_UPDATE);
                 break;
             case R.id.ll_update:
+                if (BillSynchronousLogic.judgeBank(getIntent().getStringExtra("bank_card_name")).length == 0) {
+                    ToastUtils.show(this, "暂不支持该银行");
+                    return;
+                }
                 ArrayList<String> tabs = new ArrayList<>();
                 tabs.add("用户名");
                 tabs.add("卡号");

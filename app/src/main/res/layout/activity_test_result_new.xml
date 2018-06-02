@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunkahui.datacubeper.test.ui.TestResultNewActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.TestResultCardView
+                android:id="@+id/test_result_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginRight="15pt"
+                android:layout_marginTop="30pt" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.RiskTestView
+                android:id="@+id/risk_test_view_cash_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:risk_result_background="@drawable/bg_test_risk_result_pick"
+                app:risk_tips="·因为银行无法去根据消费场景判断持卡人消费行为是否属于套现行为，所以银行风控系统会根据单笔消费金额大小判断，因此刷卡金额要模拟真实交易，大小金额相间。"
+                app:risk_title="套现风险评估" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.RiskTestView
+                android:id="@+id/risk_test_view_overdue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:risk_result_background="@drawable/bg_test_risk_result_orange"
+                app:risk_tips="·逾期是指你按照规定时间内款项没有按照合同履行还款到账的记录。累计逾期超过5次（含），两年内银行不提额度；因此不要欠款，即使欠款，也要还最低还款额，或者申请账单分期"
+                app:risk_title="逾期风险评估" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.RiskTestView
+                android:id="@+id/risk_test_view_continuous_overdue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:risk_result_background="@drawable/bg_test_risk_result_green"
+                app:risk_tips="·连续逾期是指连续两个月以上账单的最低还款额都没还上连续逾期超过3次（含），个人信用下降，银行开始打电话催收；连续逾期超过5次（含），银行开始打电话给家里、公司、紧急联系人催收；欠款超过5000元，且连续逾期的，可以提起民事诉讼；欠款超过1万，且连续逾期的，银行可以向法院提起上诉，追究刑事责任。因此从某种意义上连续逾期的情节比累计逾期要严重，连续周期长将会定义成恶性。"
+                app:risk_title="连续逾期风险" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.TestRefundCountView
+                android:id="@+id/text_refund_count_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:refund_tips="·信用卡还款额一般是账单金额的10%，对于资金紧张又不想影响个人信用的持卡人来说无疑是一个优势；但是这是一把双刃剑，偶尔最低还款会增加银行的收益，次数过多则会影响持卡人在银行评分系统的评分，导致信用卡在短期内无法提额。"
+                app:refund_title="最低还款：6次" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.TestInterestView
+                android:id="@+id/test_interest_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:interest_title="产生利息" />
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.TestConsumerTrendsView
+                android:id="@+id/test_consumer_trends_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:consumer_title="消费趋势"
+                app:consumer_tips="·信用卡消费笔数一天最好不要超过3笔，早中晚分开交易，一个账单周期的消费笔数在18-25笔之间，消费金额在信用额度的50%-70%之间，并且是多种商户类型交易，消费多样化。"/>
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.RiskTestView
+                android:id="@+id/risk_test_view_money_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:risk_result_background="@drawable/bg_test_risk_result_blue"
+                app:risk_tips="·银行发行信用卡的目的并非公益，而是为了盈利，给到持卡人额度当然希望持卡人交易，只要有了消费，银行就能盈利，其次消费了，说明持卡人有资金需求，有利于提高额度。总的来说，最合理的资金使用范围应该在50%-70%之间。使用率不应低于20%"
+                app:risk_title="资金使用率" />
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

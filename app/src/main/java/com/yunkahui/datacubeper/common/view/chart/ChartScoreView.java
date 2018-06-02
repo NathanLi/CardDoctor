@@ -57,6 +57,10 @@ public class ChartScoreView extends View {
         this.mScores = mScores;
     }
 
+    public List<Score> getScores(){
+        return mScores;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

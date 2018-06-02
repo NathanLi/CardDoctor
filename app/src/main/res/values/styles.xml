@@ -20,10 +20,10 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
 
-    <declare-styleable name="FillSpinnerView" >
-        <attr name="title"/>
-        <attr name="isLine"/>
-        <attr name="src"/>
+    <declare-styleable name="FillSpinnerView">
+        <attr name="title" />
+        <attr name="isLine" />
+        <attr name="src" />
         <attr name="entries" format="reference" />
     </declare-styleable>
 
@@ -81,7 +81,7 @@
         <item name="actionMenuTextColor">@color/white</item> <!--  敲定颜色-->
         <!--<item name="android:textSize">18sp</item> &lt;!&ndash;  搞掂字体大小&ndash;&gt;-->
     </style>
-    
+
 
     <style name="style_plan_top_menu">
         <item name="android:layout_width">0dp</item>
@@ -92,8 +92,6 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:drawablePadding">10pt</item>
     </style>
-    
-    
 
 
     <declare-styleable name="ChartSingleView">
@@ -102,21 +100,41 @@
         <attr name="lightRatio" />
         <attr name="cornerRadius" format="dimension" />
     </declare-styleable>
-    <declare-styleable name="ChartCircleView" >
+    <declare-styleable name="ChartCircleView">
         <attr name="lightColor" />
         <attr name="darkColor" />
         <attr name="lightRatio" />
-        <attr name="centerTitle" format="string" />
-        <attr name="centerSize" format="dimension" />
-        <attr name="centerColor" format="color" />
-        <attr name="circleWidth" format="dimension" />
+        <attr name="centerTitle" format="string|reference" />
+        <attr name="centerSize" format="dimension|reference" />
+        <attr name="centerColor" format="color|reference" />
+        <attr name="circleWidth" format="dimension|reference" />
     </declare-styleable>
 
     <declare-styleable name="ChartTypeView">
         <attr name="lightColor" />
         <attr name="colorType">
-            <enum name="point" value="1"/>
+            <enum name="point" value="1" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RiskTestView">
+        <attr name="risk_title" format="string|reference" />
+        <attr name="risk_tips" format="string|reference" />
+        <attr name="risk_result_background" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TestRefundCountView">
+        <attr name="refund_title" format="string|reference" />
+        <attr name="refund_tips" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TestInterestView">
+        <attr name="interest_title" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TestConsumerTrendsView">
+        <attr name="consumer_title" format="string|reference" />
+        <attr name="consumer_tips" format="string|reference" />
     </declare-styleable>
 
 </resources>

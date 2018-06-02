@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <com.yunkahui.datacubeper.common.view.chart.ChartScoreView
+        android:id="@+id/chart_score_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30pt"
+        android:layout_marginLeft="50pt"
+        android:layout_marginRight="50pt"
+        android:layout_marginBottom="25pt"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/text_view_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16pt"/>
+
+        <TextView
+            android:id="@+id/text_view_message"
+            android:layout_width="120pt"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:layout_marginLeft="30pt"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="14pt" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a"
+        android:layout_below="@+id/linear_layout_result"/>
+
+</LinearLayout>

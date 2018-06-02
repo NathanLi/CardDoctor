@@ -24,7 +24,7 @@ public class ChartCircleView extends View implements ChartAniInterface {
     private Context mContext;
     private int lightColor, darkColor, centerColor;
     private float lightRatio, circleWidth;
-    private String centerTitle;
+    private CharSequence centerTitle;
     private float centerSize;
     float showRatio = 0;
 
@@ -119,10 +119,10 @@ public class ChartCircleView extends View implements ChartAniInterface {
     }
 
     public String getCenterTitle() {
-        return centerTitle;
+        return centerTitle.toString();
     }
 
-    public void setCenterTitle(String centerTitle) {
+    public void setCenterTitle(CharSequence centerTitle) {
         this.centerTitle = centerTitle;
     }
 

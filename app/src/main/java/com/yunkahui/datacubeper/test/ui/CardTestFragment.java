@@ -164,6 +164,7 @@ public class CardTestFragment extends BaseFragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_run_test:
                 loadTestMoney(null);
+//                startActivity(new Intent(getActivity(),TestResultNewActivity.class));
                 break;
             case R.id.text_view_example:
                 TestResultActivity.actionStart(getActivity(), null, System.currentTimeMillis());

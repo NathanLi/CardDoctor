@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10pt"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_result"
+        android:layout_width="match_parent"
+        android:layout_height="110pt"
+        android:layout_below="@+id/text_view_title"
+        android:layout_marginBottom="10pt"
+        android:layout_marginLeft="30pt"
+        android:layout_marginTop="10pt"
+        android:layout_toRightOf="@+id/chart_circle_view"
+        android:orientation="vertical"
+        android:padding="15pt">
+
+
+        <TextView
+            android:id="@+id/text_view_result_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:textSize="18pt"/>
+
+        <TextView
+            android:id="@+id/text_view_result_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5pt"
+            android:lineSpacingExtra="3pt"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:textSize="14pt"/>
+
+    </LinearLayout>
+
+    <com.yunkahui.datacubeper.common.view.chart.ChartCircleView
+        android:id="@+id/chart_circle_view"
+        android:layout_width="100pt"
+        android:layout_height="100pt"
+        android:layout_alignBottom="@+id/linear_layout_result"
+        android:layout_alignTop="@+id/linear_layout_result"
+        app:centerSize="14dp"
+        app:centerColor="#666666"
+        app:circleWidth="8dp" />
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a"
+        android:layout_below="@+id/linear_layout_result"/>
+
+</RelativeLayout>

@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".base.CardDoctorApplication"
@@ -21,13 +21,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        tools:replace="label"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="label">
+
         <!-- 蒲公英 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="${update_id}" >
-        </meta-data>
+            android:value="${update_id}"></meta-data>
 
         <!-- 支付宝支付 start -->
         <activity
@@ -46,15 +46,15 @@
 
 
         <!-- 原生分享配置  start -->
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="{authorities}"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/file_paths" />-->
-        <!--</provider>-->
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="{authorities}" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths" /> -->
+        <!-- </provider> -->
         <!-- 原生分享配置  end -->
 
         <activity
@@ -67,6 +67,7 @@
         <activity android:name=".login.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -141,10 +142,10 @@
         <activity android:name=".home.ui.BanksActivity" />
         <activity android:name=".bill.ui.FailCardWhyActivity" />
         <activity android:name=".bill.ui.ActivatePlanActivity" />
-        <activity android:name=".mine.ui.RealNameHandAuthActivity"/>
-        <activity android:name=".mine.ui.MyCreditCardActivity" >
-        </activity>
+        <activity android:name=".mine.ui.RealNameHandAuthActivity" />
+        <activity android:name=".mine.ui.MyCreditCardActivity"></activity>
         <activity android:name=".mine.ui.MySavingCardActivity" />
+        <activity android:name=".test.ui.TestResultNewActivity"></activity>
     </application>
 
 </manifest>

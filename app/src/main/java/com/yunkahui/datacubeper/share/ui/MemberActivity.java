@@ -65,7 +65,6 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                 LogUtils.e("成员列表->" + baseBean.toString());
                 mAVLoadingIndicatorView.setVisibility(View.GONE);
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    mPage++;
                     mList.addAll(baseBean.getRespData().getList());
                     mAdapter.notifyDataSetChanged();
                     if (baseBean.getRespData().getPages() > mPage) {
@@ -73,6 +72,7 @@ public class MemberActivity extends AppCompatActivity implements IActivityStatus
                     } else {
                         mAdapter.loadMoreEnd();
                     }
+                    mPage++;
                 }
             }
 

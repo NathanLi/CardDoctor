@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <TextView
+        android:id="@+id/text_view_sub_title_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_title"
+        android:layout_marginLeft="15pt"
+        android:layout_marginTop="20pt"
+        android:drawableLeft="@mipmap/ic_icon_test_result_cricle"
+        android:drawablePadding="15pt"
+        android:text="负责率："
+        android:textColor="@color/text_color_gray_666666"
+        android:textSize="16pt" />
+
+
+    <TextView
+        android:id="@+id/text_view_sub_title_1_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_view_sub_title_1"
+        android:layout_alignTop="@+id/text_view_sub_title_1"
+        android:layout_marginLeft="5pt"
+        android:layout_toRightOf="@+id/text_view_sub_title_1"
+        android:background="@drawable/bg_stroke_shape_gray_dddddd"
+        android:gravity="center"
+        android:paddingLeft="10pt"
+        android:paddingRight="10pt"
+        android:textColor="#4a90e2"
+        android:textSize="14pt" />
+
+    <TextView
+        android:id="@+id/text_view_sub_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_sub_title_1"
+        android:layout_marginLeft="15pt"
+        android:layout_marginTop="15pt"
+        android:drawableLeft="@mipmap/ic_icon_test_result_cricle"
+        android:drawablePadding="15pt"
+        android:text="单日最高消费笔数："
+        android:textColor="@color/text_color_gray_666666"
+        android:textSize="16pt" />
+
+
+    <TextView
+        android:id="@+id/text_view_sub_title_2_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_view_sub_title_2"
+        android:layout_alignTop="@+id/text_view_sub_title_2"
+        android:layout_marginLeft="5pt"
+        android:layout_toRightOf="@+id/text_view_sub_title_2"
+        android:background="@drawable/bg_stroke_shape_gray_dddddd"
+        android:gravity="center"
+        android:paddingLeft="10pt"
+        android:paddingRight="10pt"
+        android:textSize="14pt" />
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a"
+        android:layout_below="@+id/text_view_sub_title_2"/>
+</RelativeLayout>

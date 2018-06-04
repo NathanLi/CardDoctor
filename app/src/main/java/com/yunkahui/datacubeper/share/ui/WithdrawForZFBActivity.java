@@ -92,7 +92,11 @@ public class WithdrawForZFBActivity extends AppCompatActivity implements IActivi
         findViewById(R.id.btn_commit).setOnClickListener(new OnDoManyClickListener() {
             @Override
             public void onDoManyClick(View view) {
-                getWithdrawFee();
+                if (TextUtils.isEmpty(mEtInputMoney.getText().toString())) {
+                    ToastUtils.show(getApplicationContext(), "请输入提现金额");
+                } else {
+                    getWithdrawFee();
+                }
             }
         });
     }

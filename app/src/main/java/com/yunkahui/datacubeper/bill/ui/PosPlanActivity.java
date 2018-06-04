@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//POS规划
 public class PosPlanActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
@@ -171,7 +172,7 @@ public class PosPlanActivity extends AppCompatActivity implements IActivityStatu
                     for (int i = sb.length(); i < 20; i++) {
                         sb.append(random.nextInt(10));
                     }
-                    LogUtils.e("sb's length "+sb.length());
+                    LogUtils.e("sb's length " + sb.length() + "  " + sb.toString());
                     mLogic.confirmPosPlan(PosPlanActivity.this, getIntent().getIntExtra("user_credit_card_id", 0), new Gson().toJson(mBaseBean.getRespData()), sb.toString(), new SimpleCallBack<BaseBean>() {
                         @Override
                         public void onSuccess(BaseBean baseBean) {

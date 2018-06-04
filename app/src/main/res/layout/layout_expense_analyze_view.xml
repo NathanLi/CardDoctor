@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25pt"
+        android:gravity="center">
+
+        <View
+            android:layout_width="10pt"
+            android:layout_height="10pt"
+            android:background="#5ac7fa" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10pt"
+            android:text="消费金额"
+            android:textColor="@color/black"
+            android:textSize="12pt" />
+
+        <View
+            android:layout_width="10pt"
+            android:layout_height="10pt"
+            android:layout_marginLeft="40pt"
+            android:background="#ff9500" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10pt"
+            android:text="消费笔数"
+            android:textColor="@color/black"
+            android:textSize="12pt" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:textSize="12pt"
+        android:textColor="@color/black"
+        android:text="单位：千元"/>
+
+    <com.yunkahui.datacubeper.common.view.chart.ChartLinearView
+        android:id="@+id/chart_liner_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15pt" />
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a" />
+
+</LinearLayout>

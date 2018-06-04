@@ -85,11 +85,11 @@
         android:text="@string/sure_commit"
         android:layout_marginTop="48pt"
         android:textColor="@color/white"
+        android:textColorHint="@color/text_color_gray_9d9d9d"
         android:paddingTop="14pt"
         android:paddingBottom="14pt"
         android:paddingLeft="120pt"
         android:paddingRight="120pt"
-        android:enabled="false"
         android:background="@drawable/bg_recharge_button_clickable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

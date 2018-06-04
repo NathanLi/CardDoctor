@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt"
+    android:id="@+id/linear_layout_root">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30pt"
+        android:layout_marginBottom="15pt">
+
+        <TextView
+            android:layout_width="50pt"
+            android:layout_height="wrap_content"
+            android:text="月份"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12pt"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消费笔数"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:textSize="12pt"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消费金额(元)"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/black"
+            android:textSize="12pt"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a" />
+
+</LinearLayout>

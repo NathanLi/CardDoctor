@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15pt"
+    android:paddingRight="15pt">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_icon_test_result_head"
+        android:drawablePadding="10pt"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="10pt"
+        android:paddingTop="10pt"
+        android:textColor="@color/black"
+        android:textSize="22pt" />
+
+    <TextView
+        android:id="@+id/text_view_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="25pt"
+        android:textSize="13pt"
+        android:lineSpacingExtra="3pt"
+        android:textColor="#4a4a4a" />
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_view_icon1"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginTop="25pt"
+                android:layout_marginBottom="25pt"
+                android:layout_marginLeft="30pt"
+                android:src="@mipmap/ic_icon_auto_plan"/>
+
+            <TextView
+                android:id="@+id/text_view_card_title_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18pt"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/image_view_icon1"
+                android:layout_marginLeft="30pt"
+                android:layout_marginTop="20pt"
+                android:text="自动规划"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线上自动还自动刷"
+                android:drawablePadding="10pt"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="12pt"
+                android:layout_alignLeft="@+id/text_view_card_title_1"
+                android:layout_below="@+id/text_view_card_title_1"
+                android:layout_marginTop="6pt"
+                android:drawableRight="@mipmap/ic_question_mark"/>
+
+            <Button
+                android:id="@+id/button_next_1"
+                android:layout_width="wrap_content"
+                android:layout_height="30pt"
+                android:text="前往"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10pt"
+                android:textSize="12pt"
+                android:background="@drawable/bg_circle_shape_blue"
+                android:textColor="@color/white"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20pt"
+        android:layout_marginBottom="40pt">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_view_icon2"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginTop="25pt"
+                android:layout_marginBottom="25pt"
+                android:layout_marginLeft="30pt"
+                android:src="@mipmap/ic_icon_pos_plan"/>
+
+            <TextView
+                android:id="@+id/text_view_card_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18pt"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/image_view_icon2"
+                android:layout_marginLeft="30pt"
+                android:layout_marginTop="20pt"
+                android:text="POS规划"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="落地真实商户，完美账单"
+                android:drawablePadding="10pt"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="12pt"
+                android:layout_alignLeft="@+id/text_view_card_title_2"
+                android:layout_below="@+id/text_view_card_title_2"
+                android:layout_marginTop="6pt"
+                android:drawableRight="@mipmap/ic_question_mark"/>
+
+            <Button
+                android:id="@+id/button_next_2"
+                android:layout_width="wrap_content"
+                android:layout_height="30pt"
+                android:text="前往"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10pt"
+                android:textSize="12pt"
+                android:background="@drawable/bg_circle_shape_blue"
+                android:textColor="@color/white"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -80,6 +80,34 @@
                 app:risk_tips="·银行发行信用卡的目的并非公益，而是为了盈利，给到持卡人额度当然希望持卡人交易，只要有了消费，银行就能盈利，其次消费了，说明持卡人有资金需求，有利于提高额度。总的来说，最合理的资金使用范围应该在50%-70%之间。使用率不应低于20%"
                 app:risk_title="资金使用率" />
 
+            <com.yunkahui.datacubeper.test.ui.cardResult.ExpenseFeatureView
+                android:id="@+id/expense_feature_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ef_title="消费特征"
+                app:ef_tips="·如果信用卡长期使用了信用额度的80%，则反映出持卡人资金需求量大，负债率高，则不利于提高额度，除此之外，还会影响贷款额度。因此要掌握3个技巧：1、提前还款，在账单日前还款，降低账单金额；2、适当分期，可以降低个人还款压力，同时隐藏个人负债率；3、适当持卡量，一般一个人正常持卡量为3-4张，切勿过多办理各家银行信用卡。\n·最佳的单日消费笔数为3笔。"/>
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.ExpenseDistributeView
+                android:id="@+id/expense_distribute_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ed_title="周末时间消费发布"
+                app:ed_tips="·在浏览各大银行官网、APP的时候，不难发现，在周末时间各大银行都层出不穷各种满减、双倍积分等活动，原因是周末持卡人消费活跃度高的时间段，因此在周末期间理应增加消费笔数和消费金额。"/>
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.ExpenseAnalyzeView
+                android:id="@+id/expense_analyze_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ea_title="节假日消费分析"
+                app:ea_tips="·国家设定法定节假日一些是为了缅怀、纪念，有部分是为了拉动经济，不管那种目的，放假绝对是刺激消费好手段。节假日的消费尽量偏向旅游、酒店、景点、酒楼等餐娱类商户类型，因为要让银行知道您是有钱人！"/>
+
+            <com.yunkahui.datacubeper.test.ui.cardResult.ReportAdviceView
+                android:id="@+id/report_advice_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ra_title="报告综合分析和建议："
+                app:ra_tips="·国家设定法定节假日一些是为了缅怀、纪念，有部分是为了拉动经济，不管那种目的，放假绝对是刺激消费好手段。节假日的消费尽量偏向旅游、酒店、景点、酒楼等餐娱类商户类型，因为要让银行知道您是有钱人！"/>
+
         </LinearLayout>
 
 

@@ -73,12 +73,32 @@
     <declare-styleable name="SimpleToolbar">
         <attr name="tool_title" format="string|reference" />
         <attr name="tool_left_text" format="string|reference" />
-        <attr name="tool_left_icon" format="reference"/>
+        <attr name="tool_left_icon" format="reference" />
         <attr name="tool_right_icon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="PlanSpinner">
         <attr name="spinner_title" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpenseFeatureView">
+        <attr name="ef_title" format="string|reference" />
+        <attr name="ef_tips" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpenseDistributeView">
+        <attr name="ed_title" format="string|reference" />
+        <attr name="ed_tips" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpenseAnalyzeView">
+        <attr name="ea_title" format="string|reference" />
+        <attr name="ea_tips" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ReportAdviceView">
+        <attr name="ra_title" format="string|reference" />
+        <attr name="ra_tips" format="string|reference" />
     </declare-styleable>
 
 </resources>

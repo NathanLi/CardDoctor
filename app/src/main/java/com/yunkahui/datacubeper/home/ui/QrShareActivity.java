@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.ShareUtils;
 import com.yunkahui.datacubeper.common.utils.StringUtils;
@@ -31,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QrShareActivity extends AppCompatActivity implements View.OnClickListener {
+public class QrShareActivity extends AppCompatActivity implements IActivityStatusBar, View.OnClickListener {
 
     private ImageView mBgQr;
     private ImageView mIvQr;
@@ -43,11 +44,12 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_qr_share);
         super.onCreate(savedInstanceState);
+        setTitle("二维码分享");
         initView();
         initData();
     }
 
-    private void initData() {
+    public void initData() {
         images =getQrImage();
         colors = new Integer[]{Color.parseColor("#6f82ec"), Color.parseColor("#0e0507"), Color.parseColor("#ffcc01"), Color.parseColor("#7070e3"), Color.parseColor("#ffef75")};
         mTvCode.setText(String.format("邀请码：%s", getIntent().getStringExtra("code")));
@@ -55,18 +57,13 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
         Glide.with(this).load(DataUtils.getInfo().getUser_qrcode_img()).into(mIvQr);
     }
 
-    private void initView() {
+    public void initView() {
         mBgQr = findViewById(R.id.bg_qr);
         mIvQr = findViewById(R.id.iv_qr);
         mTvCode = findViewById(R.id.tv_code);
         mBgQr.setOnClickListener(this);
         findViewById(R.id.tv_share).setOnClickListener(this);
 
-        Toolbar toolbar = findViewById(R.id.show_tool);
-        toolbar.setTitle("二维码分享");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //读取本地json,获取分享图片名字
@@ -115,10 +112,10 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
 
     private void changeImgBg() {
         int randomNumber = (int) (Math.random() * images.length);
-        if (Build.VERSION.SDK_INT > 21) {
-            getWindow().setStatusBarColor(colors[randomNumber]);
-        }
-        mBgQr.setBackgroundResource(images[randomNumber]);
+//        if (Build.VERSION.SDK_INT > 21) {
+//            getWindow().setStatusBarColor(colors[randomNumber]);
+//        }
+        mBgQr.setImageResource(images[randomNumber]);
     }
 
     @Override
@@ -130,5 +127,10 @@ public class QrShareActivity extends AppCompatActivity implements View.OnClickLi
             break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.colorPrimary);
     }
 }

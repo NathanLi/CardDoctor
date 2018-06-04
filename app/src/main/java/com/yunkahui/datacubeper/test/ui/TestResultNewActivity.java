@@ -8,6 +8,9 @@ import android.text.Html;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.test.ui.cardResult.ExpenseAnalyzeView;
+import com.yunkahui.datacubeper.test.ui.cardResult.ExpenseDistributeView;
+import com.yunkahui.datacubeper.test.ui.cardResult.ExpenseFeatureView;
 import com.yunkahui.datacubeper.test.ui.cardResult.RiskTestView;
 import com.yunkahui.datacubeper.test.ui.cardResult.TestConsumerItemView;
 import com.yunkahui.datacubeper.test.ui.cardResult.TestConsumerTrendsView;
@@ -27,6 +30,9 @@ public class TestResultNewActivity extends AppCompatActivity implements IActivit
     private TestInterestView mTestInterestView;
     private TestConsumerTrendsView mTestConsumerTrendsView;
     private RiskTestView mRiskTestViewMoneyUse;
+    private ExpenseFeatureView mExpenseFeatureView;
+    private ExpenseDistributeView mExpenseDistributeView;
+    private ExpenseAnalyzeView mExpenseAnalyzeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,20 @@ public class TestResultNewActivity extends AppCompatActivity implements IActivit
         mRiskTestViewMoneyUse.setCenterText(Html.fromHtml("<font><big>30%</big></font>"));
         mRiskTestViewMoneyUse.setResultTitle("使用率低");
         mRiskTestViewMoneyUse.setResultContent("可适当提高使用信用卡消费频次，提高资金的使用率");
+
+        //消费特征
+        mExpenseFeatureView.setResult1("高");
+        mExpenseFeatureView.setResult2("3笔");
+
+        //周末时间消费发布
+        mExpenseDistributeView.setData();
+
+        //节假日消费分析
+        //
+
+
+
+
     }
 
     //获取消费趋势的数据
@@ -152,7 +172,10 @@ public class TestResultNewActivity extends AppCompatActivity implements IActivit
         mTestRefundCountView = findViewById(R.id.text_refund_count_view);
         mTestInterestView = findViewById(R.id.test_interest_view);
         mTestConsumerTrendsView = findViewById(R.id.test_consumer_trends_view);
-        mRiskTestViewMoneyUse=findViewById(R.id.risk_test_view_money_use);
+        mRiskTestViewMoneyUse = findViewById(R.id.risk_test_view_money_use);
+        mExpenseFeatureView = findViewById(R.id.expense_feature_view);
+        mExpenseDistributeView = findViewById(R.id.expense_distribute_view);
+        mExpenseAnalyzeView = findViewById(R.id.expense_analyze_view);
     }
 
     @Override

@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -44,6 +48,7 @@ import java.util.List;
 public class DesignSubFragment extends BaseFragment {
 
     private SwipeMenuRecyclerView mRecyclerView;
+    private SmartRefreshLayout mSmartRefreshLayout;
     private View mLayoutLoading;
     private ImageView mImageViewNoData;
 
@@ -182,6 +187,18 @@ public class DesignSubFragment extends BaseFragment {
         });
 
         mRecyclerView.setAdapter(mDesignSubAdapter);
+        mSmartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mCurrentPage = 1;
+                if (mIsTodayOperation) {
+                    getTodayOperation(mSize, mCurrentPage, true);
+                } else {
+                    getPlanList(mSize, mCurrentPage, true);
+                }
+            }
+        });
     }
 
     @Override
@@ -252,6 +269,11 @@ public class DesignSubFragment extends BaseFragment {
 
     //******** 查询规划列表 ********
     private void getPlanList(int pageSize, int pageNum) {
+        getPlanList(pageSize, pageNum, false);
+    }
+
+    //******** 查询规划列表 ********
+    private void getPlanList(int pageSize, int pageNum, final boolean isRefresh) {
         mLogic.requestPlanList(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<PlanList>>() {
             @Override
             public void onSuccess(BaseBean<PlanList> baseBean) {
@@ -261,6 +283,10 @@ public class DesignSubFragment extends BaseFragment {
                     if (baseBean.getRespData() == null) {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
+                    }
+                    if (isRefresh) {
+                        mPlanListList.clear();
+                        mSmartRefreshLayout.finishRefresh(true);
                     }
                     mPlanListList.addAll(baseBean.getRespData().getList());
                     mDesignSubAdapter.notifyDataSetChanged();
@@ -289,8 +315,14 @@ public class DesignSubFragment extends BaseFragment {
         });
     }
 
+
     //******** 查询今日操作 ********
     private void getTodayOperation(int pageSize, int pageNum) {
+        getTodayOperation(pageSize, pageNum, false);
+    }
+
+    //******** 查询今日操作 ********
+    private void getTodayOperation(int pageSize, int pageNum, final boolean isRefresh) {
         mLogic.requestTodayOperation(mActivity, mIsPos, pageSize, pageNum, new SimpleCallBack<BaseBean<TodayOperationSub>>() {
 
             @Override
@@ -302,12 +334,15 @@ public class DesignSubFragment extends BaseFragment {
                         mDesignSubAdapter.loadMoreEnd();
                         return;
                     }
+                    if (isRefresh) {
+                        mTodayOperationSubList.clear();
+                        mSmartRefreshLayout.finishRefresh(true);
+                    }
                     mTodayOperationSubList.addAll(baseBean.getRespData().getList());
                     mDesignSubAdapter.notifyDataSetChanged();
                     if (baseBean.getRespData().getPages() > mCurrentPage) {
                         mDesignSubAdapter.loadMoreComplete();
                     } else {
-                        LogUtils.e("------------  loadMoreEnd --------------------");
                         mDesignSubAdapter.loadMoreEnd();
                     }
                     mCurrentPage++;
@@ -334,6 +369,7 @@ public class DesignSubFragment extends BaseFragment {
         mLayoutLoading = view.findViewById(R.id.rl_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mImageViewNoData = view.findViewById(R.id.iv_no_data);
+        mSmartRefreshLayout = view.findViewById(R.id.smart_refresh_layout);
     }
 
     @Override

@@ -27,7 +27,7 @@
         <!-- 蒲公英 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="${update_id}"></meta-data>
+            android:value="${update_id}" />
 
         <!-- 支付宝支付 start -->
         <activity
@@ -143,9 +143,10 @@
         <activity android:name=".bill.ui.FailCardWhyActivity" />
         <activity android:name=".bill.ui.ActivatePlanActivity" />
         <activity android:name=".mine.ui.RealNameHandAuthActivity" />
-        <activity android:name=".mine.ui.MyCreditCardActivity"></activity>
+        <activity android:name=".mine.ui.MyCreditCardActivity" />
         <activity android:name=".mine.ui.MySavingCardActivity" />
-        <activity android:name=".test.ui.TestResultNewActivity"></activity>
+        <activity android:name=".test.ui.TestResultNewActivity" />
+        <activity android:name=".base.WenViewActivity"></activity>
     </application>
 
 </manifest>

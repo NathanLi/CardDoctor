@@ -17,6 +17,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yunkahui.datacubeper.base.MainActivity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.IActivityBase;
+import com.yunkahui.datacubeper.base.WenViewActivity;
 import com.yunkahui.datacubeper.common.api.BaseUrl;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/5/31 0031.
+ * 我的信用卡（新）
  */
 
 public class MyCreditCardActivity extends AppCompatActivity implements IActivityStatusBar {

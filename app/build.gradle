@@ -64,8 +64,8 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "17"
             applicationId "com.fengniao.datacubeper"
-            versionCode 9
-            versionName "3.002"
+            versionCode 10
+            versionName "3.003"
             manifestPlaceholders = [
                     app_name   : "蜂鸟普惠",
                     authorities: "com.fengniao.datacubeper.fileprovider",
@@ -76,7 +76,7 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "18"
             applicationId "com.xinyongdashi.datacubeper"
-            versionCode 5
+            versionCode 6
             versionName "3.002"
             manifestPlaceholders = [
                     app_name   : "信用大师",
@@ -127,5 +127,6 @@ dependencies {
     compile 'com.yanzhenjie:recyclerview-swipe:1.1.4'
     implementation files('libs/alipaySdk-20180403.jar')
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.pgyersdk:sdk:2.8.1'
 }

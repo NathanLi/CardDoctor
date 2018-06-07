@@ -21,6 +21,7 @@ import com.yunkahui.datacubeper.home.ui.HomeFragment;
 import com.yunkahui.datacubeper.bill.ui.BillFragment;
 import com.yunkahui.datacubeper.home.ui.HomeNewFragment;
 import com.yunkahui.datacubeper.plan.ui.PlanFragment;
+import com.yunkahui.datacubeper.share.ui.ShareNewFragment;
 import com.yunkahui.datacubeper.test.ui.CardTestFragment;
 import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         fragments.add(new HomeFragment());
         fragments.add(new BillFragment());
         fragments.add(new CardTestFragment());
-        fragments.add(new ShareFragment());
+        fragments.add(new ShareNewFragment());
         fragments.add(new MineFragment());
 
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};

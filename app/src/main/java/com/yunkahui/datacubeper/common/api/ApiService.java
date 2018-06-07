@@ -14,6 +14,7 @@ import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.bean.MessageGroup;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
+import com.yunkahui.datacubeper.common.bean.Records;
 import com.yunkahui.datacubeper.common.bean.TodayOperationSub;
 import com.yunkahui.datacubeper.common.bean.PersonalInfo;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
@@ -400,4 +401,11 @@ public interface ApiService {
     @POST("/app/pos/change_deposit")        //【POS管理】修改结算信息
     Observable<BaseBean> updateSettleData(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/detail/posExpenseDetail")    //线下POS消费分润明细
+    Observable<BaseBean> loadPosFenRunData(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/detail/pointsDetail")  // 获取积分明细
+    Observable<BaseBean<Records>> loadIntegralData(@FieldMap Map<String,String> params);
 }

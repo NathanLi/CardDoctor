@@ -33,7 +33,9 @@
     <View
         android:layout_width="1pt"
         android:layout_height="match_parent"
-        android:background="@color/line_gray_e6e6e6" />
+        android:background="@color/line_gray_e6e6e6"
+        android:layout_marginTop="15pt"
+        android:layout_marginBottom="15pt"/>
 
     <LinearLayout
         android:id="@+id/ll_right_block"

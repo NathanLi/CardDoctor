@@ -39,7 +39,7 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
 
     private DoubleBlockView mDoubleBlockView1;
     private DoubleBlockView mDoubleBlockView2;
-
+    private DoubleBlockView mDoubleBlockView3;
     private ShareLogic mShareLogic;
     private TextView mTvRestCode;
     private TextView mTvMyCode;
@@ -78,6 +78,8 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                             .setRightValue(respData.optString("userFenruns"));
                     mDoubleBlockView2.setLeftValue(String.valueOf(respData.optInt("commonMemberCount")))
                             .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
+                    mDoubleBlockView3.setLeftValue(respData.optString("posFenruns"))
+                            .setRightValue(respData.optString("userUniqueCode"));
                     mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                     mTvMyCode.setText(respData.optString("userUniqueCode"));
                     DataUtils.setInvitateCode(respData.optString("userUniqueCode"));
@@ -125,6 +127,17 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), MemberActivity.class).putExtra("isVip", true));
             }
         });
+        mDoubleBlockView3.setOnLeftBlockClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PosFenRunListActivity.class));
+            }
+        }).setOnRightBlockClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
+            }
+        });
     }
 
     public void initView(View view) {
@@ -132,6 +145,7 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
         toolbar.setTitleName(getString(R.string.share));
         mDoubleBlockView1 = view.findViewById(R.id.double_block_view_1);
         mDoubleBlockView2 = view.findViewById(R.id.double_block_view_2);
+        mDoubleBlockView3 = view.findViewById(R.id.double_block_view_3);
         mTvRestCode = view.findViewById(R.id.tv_rest_code);
         mTvMyCode = view.findViewById(R.id.tv_my_code);
         mTextViewPolicy1 = view.findViewById(R.id.text_view_share_policy_1);

@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.plan.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -18,6 +19,7 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.Message;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.view.PlanSpinner;
+import com.yunkahui.datacubeper.home.ui.CardPlanActivity;
 import com.yunkahui.datacubeper.mine.ui.MessageItemView;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlanFragment extends Fragment implements PlanSpinner.OnSpinnerClickListener {
+public class PlanFragment extends Fragment implements PlanSpinner.OnSpinnerClickListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private TextView mTextViewPosPlan;
@@ -47,6 +49,9 @@ public class PlanFragment extends Fragment implements PlanSpinner.OnSpinnerClick
         mPlanSpinnerListType = view.findViewById(R.id.plan_spinner_list_type);
         mPlanSpinnerCardType = view.findViewById(R.id.plan_spinner_card_type);
         mAppBarLayout = view.findViewById(R.id.app_bar_layout);
+
+        view.findViewById(R.id.text_view_pos_plan).setOnClickListener(this);
+
 
         initSpinner();
 
@@ -93,6 +98,16 @@ public class PlanFragment extends Fragment implements PlanSpinner.OnSpinnerClick
     @Override
     public void onSpinnerClick() {
         mAppBarLayout.setExpanded(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.text_view_pos_plan:
+                //测试
+                startActivity(new Intent(getActivity(), CardPlanActivity.class));
+                break;
+        }
     }
 
 

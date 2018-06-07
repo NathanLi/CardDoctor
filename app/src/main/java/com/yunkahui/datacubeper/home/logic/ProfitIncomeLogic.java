@@ -28,6 +28,18 @@ import java.util.Map;
 
 public class ProfitIncomeLogic {
 
+    //POS分润
+    public void getPosFenRunData(Context context, int pageSize, int pageNum, String type, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("pageSize", String.valueOf(pageSize))
+                .addParams("pageNum", String.valueOf(pageNum))
+                .addParams("type", type)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadPosFenRunData(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
+
     //******** 查询分润收入 ********
     public void getProfitIncome(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
@@ -103,7 +115,8 @@ public class ProfitIncomeLogic {
     private void summaryInfo(TradeRecordSummary summary) {
         double pay = 0, back = 0;
         for (TradeRecordDetail detail : summary.getSubItems()) {
-            if ("03".equals(detail.getTradeType()) || "00".equals(detail.getTradeType())) {
+            double money = Double.parseDouble(detail.getMoney());
+            if (money > 0) {
                 back += Double.parseDouble(detail.getMoney());
             } else {
                 pay += Double.parseDouble(detail.getMoney());

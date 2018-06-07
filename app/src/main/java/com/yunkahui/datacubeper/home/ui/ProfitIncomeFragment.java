@@ -27,6 +27,8 @@ public class ProfitIncomeFragment extends BaseFragment {
     public static final String TYPE_FUN_RUN = "fenruns";      //分润收入
     public static final String TYPE_COMMISSION = "commission";    //分佣收入
 
+    public static final String TYPE_POS_FEN_RUN = "gain";  //pos分润
+
 
     private ConstraintLayout mSuspensionBar;
     private RecyclerView mRecyclerView;
@@ -53,13 +55,11 @@ public class ProfitIncomeFragment extends BaseFragment {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (mCurrentPage >= mAllPage) {
-                    mAdapter.loadMoreEnd();
-                } else {
-                    getProfitIncomeData();
-                }
+                    loadData();
             }
         }, mRecyclerView);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setEnableLoadMore(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -94,43 +94,68 @@ public class ProfitIncomeFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
-        getProfitIncomeData();
+        loadData();
     }
+
+
+    private void loadData() {
+        switch (mType) {
+            case TYPE_POS_FEN_RUN:
+                getPosFenRunData();
+                break;
+            case TYPE_COMMISSION:
+            case TYPE_FUN_RUN:
+                getProfitIncomeData();
+                break;
+        }
+    }
+
+    //POS分润数据
+    private void getPosFenRunData() {
+        mLogic.getPosFenRunData(getActivity(), 20, ++mCurrentPage, mType, new InnerCallBack());
+    }
+
 
     //******** 查询分润收入 分佣收入********
     private void getProfitIncomeData() {
-        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, mType, new SimpleCallBack<BaseBean>() {
-            @Override
-            public void onSuccess(BaseBean baseBean) {
-                mLayoutLoading.setVisibility(View.GONE);
-                LogUtils.e(mType + "收入->" + baseBean.getJsonObject().toString());
-                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                    List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
-                    if (entityList.size() > 0) {
-                        mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
-                        mList.addAll(entityList);
-                        initSuspensionBar();
-                        if (mAdapter != null) {
-                            mAdapter.notifyDataSetChanged();
-                        }
-                        if (mCurrentPage == 1) {
-                            mAdapter.expandAll();
-                        }
-                    } else {
-                        mSuspensionBar.setVisibility(View.GONE);
+        mLogic.getProfitIncome(mActivity, 20, ++mCurrentPage, mType, new InnerCallBack());
+    }
+
+    //请求回调
+    class InnerCallBack extends SimpleCallBack<BaseBean>{
+        @Override
+        public void onSuccess(BaseBean baseBean) {
+            mLayoutLoading.setVisibility(View.GONE);
+            LogUtils.e(mType + "收入->" + baseBean.getJsonObject().toString());
+            if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
+                if (entityList.size() > 0) {
+                    mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                    mList.addAll(entityList);
+                    initSuspensionBar();
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    if (mCurrentPage == 1) {
+                        mAdapter.expandAll();
+                    }
+                    if(mCurrentPage==mAllPage){
+                        mAdapter.loadMoreEnd();
                     }
                 } else {
                     mSuspensionBar.setVisibility(View.GONE);
                 }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                mLayoutLoading.setVisibility(View.GONE);
+            } else {
                 mSuspensionBar.setVisibility(View.GONE);
-                Toast.makeText(mActivity, "获取分润收入失败->" + throwable.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }
+
+        @Override
+        public void onFailure(Throwable throwable) {
+            mLayoutLoading.setVisibility(View.GONE);
+            mSuspensionBar.setVisibility(View.GONE);
+            Toast.makeText(mActivity, "请求失败 " + throwable.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     //******** 初始化悬浮条信息 ********

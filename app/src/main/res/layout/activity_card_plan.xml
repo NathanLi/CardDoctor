@@ -6,13 +6,7 @@
     android:orientation="vertical"
     tools:context="com.yunkahui.datacubeper.plan.ui.PlanFragment">
 
-    <com.yunkahui.datacubeper.common.view.SimpleToolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_blue_gradient"
-        app:tool_right_icon="@mipmap/icon_add"
-        app:tool_title="规划" />
+    <include layout="@layout/layout_toolbar" />
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -22,14 +16,74 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_blue_gradient"
             android:theme="@style/ThemeOverlay.AppCompat">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="95pt"
+                app:layout_scrollFlags="scroll">
+
+                <TextView
+                    android:id="@+id/text_view_should_money"
+                    android:layout_width="140pt"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30pt"
+                    android:layout_marginTop="30pt"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="3000.00"
+                    android:textColor="@color/white"
+                    android:textSize="24pt" />
+
+                <TextView
+                    android:id="@+id/text_view_should_money_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_view_should_money"
+                    android:layout_marginLeft="30pt"
+                    android:layout_marginTop="5pt"
+                    android:text="19天后应还"
+                    android:textColor="@color/white"
+                    android:textSize="12pt" />
+
+                <TextView
+                    android:id="@+id/text_view_bill_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/text_view_should_money"
+                    android:textColor="@color/white"
+                    android:textSize="12pt"
+                    android:layout_marginTop="38pt"
+                    android:text="账单日：05/08"/>
+
+                <TextView
+                    android:id="@+id/text_view_refund_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/text_view_should_money"
+                    android:layout_below="@+id/text_view_bill_day"
+                    android:textColor="@color/white"
+                    android:textSize="12pt"
+                    android:layout_marginTop="5pt"
+                    android:text="还款日：05/27"/>
+
+                <ImageView
+                    android:id="@+id/image_view_edit"
+                    android:layout_width="20pt"
+                    android:layout_height="20pt"
+                    android:layout_marginRight="30pt"
+                    android:layout_marginTop="47pt"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/ic_icon_card_edit"/>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/linear_layout_1"
                 android:layout_width="match_parent"
                 android:layout_height="120pt"
                 android:gravity="center_vertical"
-                android:background="@drawable/bg_blue_gradient"
                 app:layout_scrollFlags="scroll">
 
                 <TextView
@@ -97,9 +151,7 @@
 
             </LinearLayout>
 
-
         </android.support.design.widget.AppBarLayout>
-
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

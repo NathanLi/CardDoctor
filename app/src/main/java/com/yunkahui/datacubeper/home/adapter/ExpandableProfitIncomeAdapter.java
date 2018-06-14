@@ -4,12 +4,15 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 
@@ -28,14 +31,17 @@ public class ExpandableProfitIncomeAdapter extends BaseMultiItemQuickAdapter<Mul
         addItemType(TYPE_LEVEL_1, R.layout.layout_list_item_trade_record_detail);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void convert(final BaseViewHolder helper, final MultiItemEntity item) {
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
                 final TradeRecordSummary lv0 = (TradeRecordSummary) item;
                 helper.setText(R.id.tv_time, lv0.getTime());
-                helper.setText(R.id.tv_mess, lv0.getMessage());
+                if (!TextUtils.isEmpty(lv0.getBack())) {
+                    helper.setText(R.id.tv_mess, String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), lv0.getBack(), lv0.getPay()));
+                } else {
+                    helper.setText(R.id.tv_mess, lv0.getMessage());
+                }
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

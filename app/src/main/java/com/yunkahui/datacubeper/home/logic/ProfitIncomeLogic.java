@@ -15,7 +15,9 @@ import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
+import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ProfitIncomeLogic {
+
+    JSONArray jsonArrayData;
 
     //POS分润
     public void getPosFenRunData(Context context, int pageSize, int pageNum, String type, SimpleCallBack<BaseBean> callBack) {
@@ -51,6 +55,18 @@ public class ProfitIncomeLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
+    //统计收入/支出
+    public void loadStatisticalMoney(Context context, String year, String month,
+                                     String accountType, String statistType, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("y_month", year + "-" + month)
+                .addParams("account_type", accountType)
+                .addParams("static_type", statistType)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadStatisticalMoney(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
     public List<MultiItemEntity> parsingJSONForProfitIncome(BaseBean baseBean) {
         List<MultiItemEntity> list = null;
         try {
@@ -58,26 +74,26 @@ public class ProfitIncomeLogic {
             JSONObject object = baseBean.getJsonObject();
             JSONObject respData = object.optJSONObject("respData");
             JSONArray jsonArray = respData.optJSONArray("list");
+
+            if (jsonArrayData == null) {
+                jsonArrayData = new JSONArray(jsonArray.toString());
+            } else {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonArrayData.put(jsonArray.optJSONObject(i));
+                }
+            }
+
             TradeRecordDetail item;
             TradeRecordSummary summary = new TradeRecordSummary();
             TradeRecordDetail lastItem = null;
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject j = new JSONObject(jsonArray.opt(i).toString());
+            for (int i = 0; i < jsonArrayData.length(); i++) {
+                JSONObject j = new JSONObject(jsonArrayData.opt(i).toString());
                 item = new TradeRecordDetail();
                 item.setTimeStamp(j.optLong("create_time"));
                 item.setTradeType(j.optString("trade_type"));
                 item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("MM-dd hh:mm", j.optLong("create_time")));
-                item.setMoney(j.optDouble("change_amount") + "");
+                item.setMoney(j.optString("change_amount") + "");
                 item.setTitle(j.optString("trade_type_desc"));
-
-//                switch (item.getTradeType()){
-//                    case "消费分润":
-//                        item.setTitle("分润收入");
-//                        break;
-//                    case "02":
-//                        item.setTitle("分佣收入");
-//                        break;
-//                }
 
                 if (lastItem != null) {
                     if (item.getTime().startsWith("0") && lastItem.getTime().startsWith("0") &&
@@ -97,7 +113,7 @@ public class ProfitIncomeLogic {
                 } else {
                     summary.addSubItem(item);
                 }
-                if (i == jsonArray.length() - 1) {
+                if (i == jsonArrayData.length() - 1) {
                     summaryInfo(summary);
                     list.add(summary);
                 } else {
@@ -124,6 +140,8 @@ public class ProfitIncomeLogic {
         }
         DecimalFormat df = new java.text.DecimalFormat("0.00");
         summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
-        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(pay)), String.valueOf(df.format(back))));
+        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(back)), String.valueOf(df.format(pay))));
+        summary.setYear(TimeUtils.format("yyyy", summary.getSubItem(0).getTimeStamp()));
+        summary.setMonth(TimeUtils.format("MM", summary.getSubItem(0).getTimeStamp()));
     }
 }

@@ -128,19 +128,19 @@ public class BranchInformationActivity extends AppCompatActivity implements IAct
             @Override
             public void onSuccess(BaseBean<List<Branch>> branchBaseBeanList) {
                 LoadingViewDialog.getInstance().dismiss();
-
+                LogUtils.e("支行信息-->"+branchBaseBeanList.toString());
+                mBranches.clear();
                 if(RequestUtils.SUCCESS.equals(branchBaseBeanList.getRespCode())){
-                    mBranches.clear();
                     if(branchBaseBeanList.getRespData().size()>0){
                         mBranches.addAll(branchBaseBeanList.getRespData());
                     }
                 }
+                mViewAdapter.notifyDataSetChanged();
                 if(mBranches.size()>0){
                     mImageViewNoData.setVisibility(View.GONE);
                 }else{
                     mImageViewNoData.setVisibility(View.VISIBLE);
                 }
-
 
             }
 

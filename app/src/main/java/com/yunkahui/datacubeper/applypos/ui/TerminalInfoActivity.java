@@ -14,6 +14,7 @@ import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.PosApplyInfo;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.StateUtil;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DialogSub;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
@@ -159,6 +160,7 @@ public class TerminalInfoActivity extends AppCompatActivity implements IActivity
                 }
                 break;
             case R.id.text_view_area:
+                StateUtil.endAllEdit(this);
                 mDialogArea.showLocalCityPicker(new DialogSub.CityPickerListener() {
                     @Override public void picker(String province, String city) {
                         mProvince = province;

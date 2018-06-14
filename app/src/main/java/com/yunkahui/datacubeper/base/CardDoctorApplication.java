@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+//import android.support.multidex.MultiDex;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,8 @@ import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2018/3/22.
@@ -64,6 +67,10 @@ public class CardDoctorApplication extends Application {
         super.onCreate();
         mContext=getApplicationContext();
         final Context context = this;
+//        MultiDex.install(this);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
         HttpManager.baseUrl(BaseUrl.HOME);
         HttpManager.setFactory(CustomConverterFactory.create());
         initImagePicker();

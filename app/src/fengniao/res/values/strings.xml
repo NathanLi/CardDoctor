@@ -12,7 +12,7 @@
     <string name="share_sub_run">推荐好友扫码下载 蜂鸟普惠APP  赚取分润</string>
     <string name="share_policy_1"><![CDATA[ 邀请您的好友升级VIP可获得<font color="#000000">100元直接奖励+交易分润万分之10</font> ]]></string>
     <string name="share_policy_2"><![CDATA[ 您好友邀请好友升级VIP，您可获得<font color="#000000">50元间接奖励+交易分润万分之5</font> ]]></string>
-    <string name="org_number">Y100000000146</string>
+    <string name="org_number">Y1000000006</string>
 
     <!--升级加盟-->
     <!--<string name="upgrade_mess">升级专员，享受蜂鸟普惠所有功能和服务，享有区别于普通会员的高级权限，一次升级终身服务。</string>-->
@@ -110,7 +110,7 @@
     <!--首页-->
     <string name="pos">pos</string>
     <string name="sign">标记</string>
-    <string name="pay_back_format">支出：-%s 收入：%s</string>
+    <string name="pay_back_format">收入：%s 支出：%s</string>
     <string name="trade_time_format">交易时间：%s</string>
     <string name="trade_status_format">交易状态：%s</string>
     <string name="recharge_success">充值成功</string>

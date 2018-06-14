@@ -30,6 +30,8 @@ import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.logic.HomeWalletLogic;
 import com.yunkahui.datacubeper.home.logic.RechargeLogic;
 import com.yunkahui.datacubeper.share.adapter.WalletAdapter;
+import com.yunkahui.datacubeper.share.logic.RecordType;
+import com.yunkahui.datacubeper.share.ui.RecordListActivity;
 
 import org.json.JSONObject;
 
@@ -179,7 +181,10 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                startActivity(new Intent(this, TradeRecordActivity.class));
+//                startActivity(new Intent(this, TradeRecordActivity.class));
+                startActivity(new Intent(this, RecordListActivity.class)
+                        .putExtra("type", RecordType.balance_all)
+                        .putExtra("title", "交易记录"));
                 break;
         }
         return super.onOptionsItemSelected(item);

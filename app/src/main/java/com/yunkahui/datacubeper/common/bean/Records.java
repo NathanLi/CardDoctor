@@ -1,12 +1,15 @@
 package com.yunkahui.datacubeper.common.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.yunkahui.datacubeper.share.adapter.RecordMultListAdapter;
+
 import java.util.List;
 
 /**
  * 记录列表bean
  */
 
-public class Records {
+public class Records  {
 
     private int total;
     private int lastPage;
@@ -16,7 +19,13 @@ public class Records {
     private int pageNum;
     private List<RecordData> list;
 
-    public class RecordData{
+    public class RecordData implements MultiItemEntity{
+
+        @Override
+        public int getItemType() {
+            return RecordMultListAdapter.LEVLE_HEADER;
+        }
+
         String change_amount;
         String trade_type_desc;
         long update_time;

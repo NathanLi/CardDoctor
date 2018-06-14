@@ -13,8 +13,12 @@ import android.widget.RadioGroup;
 
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.adapter.MainTabAdapter;
+import com.yunkahui.datacubeper.common.api.BaseUrl;
+import com.yunkahui.datacubeper.common.other.OENType;
+import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.ImageCompress;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
+import com.yunkahui.datacubeper.common.utils.SharedPreferencesUtils;
 import com.yunkahui.datacubeper.common.utils.TintUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.HomeFragment;
@@ -27,7 +31,11 @@ import com.yunkahui.datacubeper.share.ui.ShareFragment;
 import com.yunkahui.datacubeper.mine.ui.MineFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 主页框架
@@ -49,6 +57,17 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
         ImageCompress.deleteAllCompress();
+
+        //设置标题（JPush）
+        Set<String> tags = new HashSet<>();
+        tags.add(getResources().getString(R.string.org_number));
+        JPushInterface.setTags(this, 1001, tags);
+        //设置别名（JPush）
+        if (!BaseUrl.getUSER_ID().equals(SharedPreferencesUtils.getString(this, SharedPreferencesUtils.JPush_Alias))) {
+            JPushInterface.setAlias(this, 1002, BaseUrl.getUSER_ID());
+        }
+
+
     }
 
     @Override
@@ -78,7 +97,11 @@ public class MainActivity extends AppCompatActivity implements IActivityStatusBa
         fragments.add(new HomeFragment());
         fragments.add(new BillFragment());
         fragments.add(new CardTestFragment());
-        fragments.add(new ShareNewFragment());
+        if (OENType.currentType() == OENType.fengniao) {
+            fragments.add(new ShareNewFragment());
+        } else {
+            fragments.add(new ShareFragment());
+        }
         fragments.add(new MineFragment());
 
         String[] tabTitles = {"首页", "账单", "卡·测评", "分享", "我的"};

@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.PUT;
 
 public class TimeUtils {
 
@@ -21,6 +22,21 @@ public class TimeUtils {
         calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         calendar.setTimeInMillis(time);
         return calendar;
+    }
+
+    //月份前后计算
+    public static long getCalendarCompluteForMonth(int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime().getTime();
+    }
+
+    //获取当年1月1号时间
+    public static long getThisYear() {
+        String year = format("yyyy", System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.parseInt(year), 0, 1);
+        return calendar.getTime().getTime();
     }
 
     public static String format(String pattern, long time) {

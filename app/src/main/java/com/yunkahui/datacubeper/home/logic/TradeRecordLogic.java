@@ -16,6 +16,7 @@ import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.TimeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +30,8 @@ import java.util.Map;
 public class TradeRecordLogic {
 
     //******** 获取充值记录 ********
-    public void getRechargeRecord(Context context, String type, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
+    public void getRechargeRecord(Context context, String type, int pageSize, int pageNum, SimpleCallBack<BaseBean<RechargeRecord>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("recharge_type", type)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
@@ -41,8 +42,8 @@ public class TradeRecordLogic {
     }
 
     //******** 获取提现记录 ********
-    public void getWithdrawRecord(Context context ,String type, int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
+    public void getWithdrawRecord(Context context, String type, int pageSize, int pageNum, SimpleCallBack<BaseBean<WithdrawRecord>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("with_draw_type", type)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
@@ -53,8 +54,8 @@ public class TradeRecordLogic {
     }
 
     //******** 获取交易明细 ********
-    public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack){
-        Map<String,String> params= RequestUtils.newParams(context)
+    public void getTradeDetail(Context context, int pageSize, int pageNum, String checkType, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
                 .addParams("check_type", checkType)
@@ -63,6 +64,8 @@ public class TradeRecordLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
 
     }
+
+    JSONArray mJSONArrayData;
 
     public List<MultiItemEntity> parsingJSONForTradeDetail(BaseBean baseBean) {
         List<MultiItemEntity> list = null;
@@ -74,8 +77,17 @@ public class TradeRecordLogic {
             TradeRecordDetail item;
             TradeRecordSummary summary = new TradeRecordSummary();
             TradeRecordDetail lastItem = null;
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject j = new JSONObject(jsonArray.opt(i).toString());
+
+            if (mJSONArrayData == null) {
+                mJSONArrayData = new JSONArray(jsonArray.toString());
+            } else {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    mJSONArrayData.put(jsonArray.optJSONObject(i));
+                }
+            }
+
+            for (int i = 0; i < mJSONArrayData.length(); i++) {
+                JSONObject j = new JSONObject(mJSONArrayData.opt(i).toString());
                 item = new TradeRecordDetail();
                 item.setTimeStamp(j.optLong("create_time"));
                 item.setTradeType(j.optString("trade_type"));
@@ -100,7 +112,7 @@ public class TradeRecordLogic {
                 } else {
                     summary.addSubItem(item);
                 }
-                if (i == jsonArray.length() - 1) {
+                if (i == mJSONArrayData.length() - 1) {
                     summaryInfo(summary);
                     list.add(summary);
                 } else {
@@ -118,7 +130,7 @@ public class TradeRecordLogic {
     private void summaryInfo(TradeRecordSummary summary) {
         double pay = 0, back = 0;
         for (TradeRecordDetail detail : summary.getSubItems()) {
-            if ("00".equals(detail.getTradeType())) {
+            if (Double.parseDouble(detail.getMoney()) >= 0) {
                 back += Double.parseDouble(detail.getMoney());
             } else {
                 pay += Double.parseDouble(detail.getMoney());
@@ -126,6 +138,8 @@ public class TradeRecordLogic {
         }
         DecimalFormat df = new java.text.DecimalFormat("0.00");
         summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
-        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(pay)), String.valueOf(df.format(back))));
+        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(back)), String.valueOf(df.format(pay))));
+        summary.setYear(TimeUtils.format("yyyy",summary.getSubItem(0).getTimeStamp()));
+        summary.setMonth(TimeUtils.format("MM",summary.getSubItem(0).getTimeStamp()));
     }
 }

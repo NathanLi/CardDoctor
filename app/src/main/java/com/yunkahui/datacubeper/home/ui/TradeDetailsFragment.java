@@ -45,16 +45,7 @@ public class TradeDetailsFragment extends BaseFragment {
         mList = new ArrayList<>();
         getTradeDetailsData();
         mAdapter = new ExpandableTradeRecordAdapter(mActivity, mList);
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                if (mCurrentPage >= mAllPage) {
-                    mAdapter.loadMoreEnd();
-                } else {
-                    getTradeDetailsData();
-                }
-            }
-        }, mRecyclerView);
+
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -85,12 +76,19 @@ public class TradeDetailsFragment extends BaseFragment {
                 }
             }
         });
-        mAdapter.setEnableLoadMore(true);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getTradeDetailsData();
+            }
+        }, mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setEnableLoadMore(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
 
+        mSuspensionBar.setVisibility(View.GONE);
     }
 
     //******** 获取交易详情 ********
@@ -102,13 +100,16 @@ public class TradeDetailsFragment extends BaseFragment {
                 LogUtils.e("全部交易记录->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                    mList.clear();
                     mList.addAll(mLogic.parsingJSONForTradeDetail(baseBean));
                     initSuspensionBar();
                     mAdapter.notifyDataSetChanged();
-                    mSuspensionBar.setVisibility(mList.size() > 0 ? View.VISIBLE : View.GONE);
 
-                    if(mCurrentPage==1){
-                        mAdapter.expandAll(0,true);
+                    mAdapter.expandAll();
+                    if (mCurrentPage >= mAllPage) {
+                        mAdapter.loadMoreEnd();
+                    }else{
+                        mAdapter.loadMoreComplete();
                     }
 
                 } else {

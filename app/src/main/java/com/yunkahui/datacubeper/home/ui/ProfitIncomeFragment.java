@@ -3,6 +3,7 @@ package com.yunkahui.datacubeper.home.ui;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,11 +14,16 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.home.adapter.ExpandableProfitIncomeAdapter;
 import com.yunkahui.datacubeper.home.logic.ProfitIncomeLogic;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +51,7 @@ public class ProfitIncomeFragment extends BaseFragment {
     private int mCurrentPosition;
 
     private String mType;
+    private int mLostSummaryPosition;
 
     @Override
     public void initData() {
@@ -52,14 +59,6 @@ public class ProfitIncomeFragment extends BaseFragment {
         mLogic = new ProfitIncomeLogic();
         mList = new ArrayList<>();
         mAdapter = new ExpandableProfitIncomeAdapter(mActivity, mList);
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                    loadData();
-            }
-        }, mRecyclerView);
-        mAdapter.disableLoadMoreIfNotFullPage();
-        mAdapter.setEnableLoadMore(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -89,12 +88,20 @@ public class ProfitIncomeFragment extends BaseFragment {
                 }
             }
         });
-        mAdapter.setEnableLoadMore(true);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                LogUtils.e("明细-->加载更多");
+                loadData();
+            }
+        }, mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setEnableLoadMore(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
         loadData();
+        mSuspensionBar.setVisibility(View.GONE);
     }
 
 
@@ -122,7 +129,7 @@ public class ProfitIncomeFragment extends BaseFragment {
     }
 
     //请求回调
-    class InnerCallBack extends SimpleCallBack<BaseBean>{
+    class InnerCallBack extends SimpleCallBack<BaseBean> {
         @Override
         public void onSuccess(BaseBean baseBean) {
             mLayoutLoading.setVisibility(View.GONE);
@@ -131,17 +138,24 @@ public class ProfitIncomeFragment extends BaseFragment {
                 List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
                 if (entityList.size() > 0) {
                     mAllPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
+                    mList.clear();
                     mList.addAll(entityList);
                     initSuspensionBar();
-                    if (mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                    if (mCurrentPage == 1) {
-                        mAdapter.expandAll();
-                    }
-                    if(mCurrentPage==mAllPage){
+                    mAdapter.notifyDataSetChanged();
+                    mAdapter.expandAll();
+                    if (mCurrentPage >= mAllPage) {
                         mAdapter.loadMoreEnd();
+                    } else {
+                        mAdapter.loadMoreComplete();
                     }
+                    for (int i = mList.size() - 1; i >= 0; i--) {
+                        if (mList.get(i) instanceof TradeRecordSummary) {
+                            mLostSummaryPosition = i;
+                            loadStatisticalMoney(mList.size() > 0 ? (TradeRecordSummary) mList.get(i) : null);
+                            break;
+                        }
+                    }
+
                 } else {
                     mSuspensionBar.setVisibility(View.GONE);
                 }
@@ -156,6 +170,42 @@ public class ProfitIncomeFragment extends BaseFragment {
             mSuspensionBar.setVisibility(View.GONE);
             Toast.makeText(mActivity, "请求失败 " + throwable.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //获取统计收入/支出
+    private void loadStatisticalMoney(TradeRecordSummary summary) {
+        if (summary == null || !TextUtils.isEmpty(summary.getBack()) || !TextUtils.isEmpty(summary.getPay())) {
+            return;
+        }
+        mLogic.loadStatisticalMoney(getActivity(), summary.getYear(), summary.getMonth(), mType, "all", new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("统计收入-->" + baseBean.toString());
+
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    try {
+                        JSONArray array = new JSONObject(baseBean.getJsonObject().toString()).optJSONArray("respData");
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject object = array.optJSONObject(i);
+                            if ("in".equals(object.optString("static_type"))) {
+                                ((TradeRecordSummary) mList.get(mLostSummaryPosition)).setBack(object.optString("amount"));
+                            } else {
+                                ((TradeRecordSummary) mList.get(mLostSummaryPosition)).setPay(object.optString("amount"));
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LogUtils.e("统计收入-->" + "请求失败 " + throwable.toString());
+            }
+        });
     }
 
     //******** 初始化悬浮条信息 ********

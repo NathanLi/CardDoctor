@@ -398,6 +398,10 @@ public interface ApiService {
     Observable<BaseBean<RechargeRecord>> loadRechargeOrder(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
+    @POST("/app/userUpgradec/getRechargeOrder") //查询用户余额/卡测评充值订单
+    Observable<BaseBean<WithdrawRecord>> loadRechargeOrder2(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
     @POST("/app/pos/change_deposit")        //【POS管理】修改结算信息
     Observable<BaseBean> updateSettleData(@FieldMap Map<String,String> params);
 
@@ -408,4 +412,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/app/detail/pointsDetail")  // 获取积分明细
     Observable<BaseBean<Records>> loadIntegralData(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("/app/user/staticInEx")   //统计收入支出
+    Observable<BaseBean> loadStatisticalMoney(@FieldMap Map<String,String> params);
+
 }

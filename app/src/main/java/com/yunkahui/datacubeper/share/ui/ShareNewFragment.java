@@ -27,6 +27,7 @@ import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
+import com.yunkahui.datacubeper.share.logic.RecordType;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
 import org.json.JSONObject;
@@ -79,7 +80,7 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                     mDoubleBlockView2.setLeftValue(String.valueOf(respData.optInt("commonMemberCount")))
                             .setRightValue(String.valueOf(respData.optInt("vipMemberCount")));
                     mDoubleBlockView3.setLeftValue(respData.optString("posFenruns"))
-                            .setRightValue(respData.optString("userUniqueCode"));
+                            .setRightValue(respData.optString("userPoints"));
                     mTvRestCode.setText(String.valueOf(respData.optInt("reNum")));
                     mTvMyCode.setText(respData.optString("userUniqueCode"));
                     DataUtils.setInvitateCode(respData.optString("userUniqueCode"));
@@ -102,8 +103,11 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-                    startActivity(new Intent(getActivity(), ShareWalletActivity.class)
-                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
+//                    startActivity(new Intent(getActivity(), ShareWalletActivity.class)
+//                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.MyWallet_come)
+                            .putExtra("title", "分佣明细"));
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
@@ -112,7 +116,10 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-                    startActivity(new Intent(getActivity(), ShareProfitActivity.class));
+//                    startActivity(new Intent(getActivity(), ShareProfitActivity.class));
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.online_come)
+                            .putExtra("title", "线上分润明细"));
                 }
             }
         });
@@ -130,12 +137,16 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
         mDoubleBlockView3.setOnLeftBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PosFenRunListActivity.class));
+//                startActivity(new Intent(getActivity(), PosFenRunListActivity.class));
+                startActivity(new Intent(getActivity(), RecordListActivity.class)
+                        .putExtra("type", RecordType.pos_come)
+                        .putExtra("title", "POS分润明细"));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
+//                startActivity(new Intent(getActivity(),RecordListActivity.class));
             }
         });
     }

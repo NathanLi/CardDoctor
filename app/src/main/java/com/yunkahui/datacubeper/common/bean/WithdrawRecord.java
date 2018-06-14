@@ -247,6 +247,7 @@ public class WithdrawRecord {
         private String withdraw_type;
         private String order_state;
         private String withdraw_amount;
+        private String amount;
         private double fee;
         private int channel_cost;
         private int ope_cost;
@@ -255,6 +256,7 @@ public class WithdrawRecord {
         private String third_party_trade_sn;
         private String third_party_res_code;
         private String third_party_msg;
+        private String callback_msg;
         private long create_time;
         private long update_time;
         private String bank_name;
@@ -383,6 +385,14 @@ public class WithdrawRecord {
             this.third_party_msg = third_party_msg;
         }
 
+        public String getAmount() {
+            return amount;
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
         public long getCreate_time() {
             return create_time;
         }
@@ -501,6 +511,14 @@ public class WithdrawRecord {
 
         public void setDescr(String descr) {
             this.descr = descr;
+        }
+
+        public String getCallback_msg() {
+            return callback_msg;
+        }
+
+        public void setCallback_msg(String callback_msg) {
+            this.callback_msg = callback_msg;
         }
     }
 }

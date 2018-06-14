@@ -26,6 +26,7 @@ import com.yunkahui.datacubeper.common.view.SimpleToolbar;
 import com.yunkahui.datacubeper.home.ui.HomeProfitActivity;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
 import com.yunkahui.datacubeper.home.ui.HomeWalletActivity;
+import com.yunkahui.datacubeper.share.logic.RecordType;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
 import org.json.JSONObject;
@@ -90,8 +91,10 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
-                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
+//                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
+//                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
+                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.MyWallet_come));
+
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
@@ -100,7 +103,8 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
+//                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
+                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.online_come));
                 }
             }
         });

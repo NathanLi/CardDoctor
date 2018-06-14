@@ -21,4 +21,8 @@ public class LogUtils {
         }
     }
 
+    public static void d(String key,String value){
+        Log.d(key,value);
+    }
+
 }

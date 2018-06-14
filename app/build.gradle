@@ -11,12 +11,12 @@ android {
         versionCode 1
         versionName "1.011"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        multiDexEnabled true
         externalNativeBuild {
             cmake {
                 abiFilters 'armeabi-v7a', 'armeabi'
             }
         }
-
         ndk {
             //打包进APK的ABI类型
             abiFilters 'armeabi-v7a'
@@ -55,29 +55,35 @@ android {
             versionCode 1
             versionName "1.001"
             manifestPlaceholders = [
-                    app_name   : "卡医生_java",
-                    authorities: "com.yunkahui.datacubeper.java.fileprovider",
-                    update_id  : "165b77b065d6a33a43c8430b8a22ce9f"
+                    app_name     : "卡医生_java",
+                    authorities  : "com.yunkahui.datacubeper.java.fileprovider",
+                    update_id    : "165b77b065d6a33a43c8430b8a22ce9f",
+                    JPUSH_PKGNAME: "com.yunkahui.datacubeper.java",
+                    JPUSH_APPKEY : "23632d488742c3d4c01d4691", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default"
             ]
         }
         fengniao {   //蜂鸟普惠
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "17"
             applicationId "com.fengniao.datacubeper"
-            versionCode 10
-            versionName "3.003"
+            versionCode 11
+            versionName "3.004"
             manifestPlaceholders = [
-                    app_name   : "蜂鸟普惠",
-                    authorities: "com.fengniao.datacubeper.fileprovider",
-                    update_id  : "113f4affb9d8f1397911355dfd7b940a"
+                    app_name     : "蜂鸟普惠",
+                    authorities  : "com.fengniao.datacubeper.fileprovider",
+                    update_id    : "113f4affb9d8f1397911355dfd7b940a",
+                    JPUSH_PKGNAME: "com.fengniao.datacubeper",
+                    JPUSH_APPKEY : "3851482c45a2a1cc282a983a", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default"
             ]
         }
         xinyongdashi {   //信用大师
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "18"
             applicationId "com.xinyongdashi.datacubeper"
-            versionCode 6
-            versionName "3.002"
+            versionCode 8
+            versionName "3.004"
             manifestPlaceholders = [
                     app_name   : "信用大师",
                     authorities: "com.xinyongdashi.datacubeper.fileprovider",
@@ -128,5 +134,8 @@ dependencies {
     implementation files('libs/alipaySdk-20180403.jar')
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'cn.jiguang.sdk:jpush:3.1.1'  // 此处以JPush 3.1.1 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.1.9'  // 此处以JCore 1.1.9 版本为例。
+//    implementation "com.android.support:multidex:1.0.0"
     compile 'com.pgyersdk:sdk:2.8.1'
 }

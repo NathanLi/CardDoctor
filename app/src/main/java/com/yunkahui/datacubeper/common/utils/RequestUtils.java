@@ -116,6 +116,11 @@ public class RequestUtils {
             return this;
         }
 
+        public InnerParam addParams(String key,long value){
+            mMap.put(key,value+"");
+            return this;
+        }
+
         public Map<String,String> create(){
             String signature=encryptParam(mMap);
             mMap.put("signature",signature);

@@ -29,6 +29,8 @@ import com.yunkahui.datacubeper.home.logic.HomeLogic;
 import com.yunkahui.datacubeper.home.other.NotScrollGridLayoutManager;
 import com.yunkahui.datacubeper.mine.logic.MineLogic;
 import com.yunkahui.datacubeper.mine.ui.RealNameAuthActivity;
+import com.yunkahui.datacubeper.share.logic.RecordType;
+import com.yunkahui.datacubeper.share.ui.RecordListActivity;
 import com.yunkahui.datacubeper.share.ui.WebViewActivity;
 import com.yunkahui.datacubeper.upgradeJoin.ui.UpgradeJoinActivity;
 
@@ -65,7 +67,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-                    startActivity(new Intent(mActivity, HomeProfitActivity.class));
+//                    startActivity(new Intent(mActivity, HomeProfitActivity.class));
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.online_come)
+                            .putExtra("title", "线上分润明细"));
                 }
             }
         });

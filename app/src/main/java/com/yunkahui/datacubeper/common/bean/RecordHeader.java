@@ -2,7 +2,7 @@ package com.yunkahui.datacubeper.common.bean;
 
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.yunkahui.datacubeper.share.adapter.RecordMultListAdapter;
+import com.yunkahui.datacubeper.share.adapter.AllRecordMultListAdapter;
 
 /**
  * Created by Administrator on 2018/6/12.
@@ -45,6 +45,6 @@ public class RecordHeader extends AbstractExpandableItem<Records.RecordData> imp
 
     @Override
     public int getItemType() {
-        return RecordMultListAdapter.LEVLE_HEADER;
+        return AllRecordMultListAdapter.LEVLE_HEADER;
     }
 }

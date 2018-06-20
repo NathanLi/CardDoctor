@@ -21,7 +21,7 @@
     <color name="line_gray_949494">#d8d8d8</color>
     <color name="line_gray_DDDDDD">#DDDDDD</color>
     <color name="line_gray_e6e6e6">#e6e6e6</color>
-    <color name="line_gray_f7f6f6">#f7f6f6</color>
+    <color name="line_gray_f7f7f7">#f7f7f7</color>
     <color name="line_gray_dedede">#dedede</color>
     <color name="bg_fragment_normal_efefef">#efefef</color>
     <color name="add_card_text_color_gray_9d9d9d">#9d9d9d</color>
@@ -49,4 +49,5 @@
     <color name="text_color_black_212c68">#212c68</color>
     <color name="share_button_text_color">#FFFFFF</color>
     <color name="text_color_dark_gray_404040">#404040</color>
+    <color name="text_color_gray_999999">#999999</color>
 </resources>

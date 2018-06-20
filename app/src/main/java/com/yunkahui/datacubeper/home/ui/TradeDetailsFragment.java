@@ -145,7 +145,7 @@ public class TradeDetailsFragment extends BaseFragment {
     public void initView(View view) {
         mLayoutLoading = view.findViewById(R.id.av_loading_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        mSuspensionBar = view.findViewById(R.id.suspension_bar);
+        //mSuspensionBar = view.findViewById(R.id.suspension_bar);
         mTvTime = view.findViewById(R.id.tv_time);
         mTvMessage = view.findViewById(R.id.tv_mess);
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
@@ -23,15 +24,18 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
     private TextView mTvStatus;
     private TextView mTvRemarks;
     private TextView mTvFee;
+    private ImageView mIvIcon;
 
     @Override
     public void initData() {
+        double money = Double.parseDouble(getIntent().getStringExtra("money"));
+        mIvIcon.setBackgroundResource(money > 0 ? R.mipmap.ic_trade_detail : R.mipmap.ic_withdraw);
         mTvType.setText(getIntent().getStringExtra("action"));
         mTvMoney.setText(getIntent().getStringExtra("money"));
         mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), getIntent().getStringExtra("time")));
         String status = String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status"));
         String remarks = getIntent().getStringExtra("remarks");
-        String remarksSub = TextUtils.isEmpty(remarks) ? "" : remarks.substring(remarks.lastIndexOf("：") + 1);
+        String remarksSub = TextUtils.isEmpty(remarks) ? "-" : remarks.substring(remarks.lastIndexOf("：") + 1);
         mTvRemarks.setText("备        注：" + remarksSub);
         if (!TextUtils.isEmpty(remarks)) {
             if (remarks.contains("失败"))
@@ -43,7 +47,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
                 mTvStatus.setTextColor(Color.RED);
         }
         String fee = getIntent().getStringExtra("fee");
-        mTvFee.setText("手  续  费：" + (TextUtils.isEmpty(fee) ? "" : fee));
+        mTvFee.setText("手  续  费：" + (TextUtils.isEmpty(fee) ? "0.00" : fee));
     }
 
     @Override
@@ -55,6 +59,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
 
     @Override
     public void initView() {
+        mIvIcon = findViewById(R.id.iv_icon);
         mTvType = findViewById(R.id.tv_type);
         mTvMoney = findViewById(R.id.tv_money);
         mTvTime = findViewById(R.id.tv_time);

@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.share.logic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.HttpManager;
@@ -10,7 +11,6 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Records;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
@@ -33,9 +33,8 @@ import java.util.Map;
  */
 
 public class RecordListLogic {
-    JSONArray jsonArrayData;
-    private OnLoadDataListener mListener;
 
+    JSONArray jsonArrayData;
 
     //统计收入/支出
     public void loadStatisticalMoney(Context context, String year, String month,
@@ -62,12 +61,13 @@ public class RecordListLogic {
 
     //******** 获取全部明细（余额充值和提现） ********
     public void loadTradeDetail(Context context, int pageSize, int pageNum, String checkType,
-                               long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
+                                long startTime, long endTime, String detailType, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
-                .addParams("check_type", checkType);
-        if (startTime > 0) {
+                .addParams("check_type", checkType)
+                .addParams("detail_type", detailType);
+        if (startTime > 0 && endTime > 0) {
             innerParam.addParams("begin_time", startTime);
             innerParam.addParams("end_time", endTime);
         }
@@ -216,21 +216,38 @@ public class RecordListLogic {
             }
         }
         DecimalFormat df = new java.text.DecimalFormat("0.00");
-        summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
+        summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy-MM", summary.getSubItem(0).getTimeStamp()));
         summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(back)), String.valueOf(df.format(pay))));
         summary.setYear(TimeUtils.format("yyyy", summary.getSubItem(0).getTimeStamp()));
         summary.setMonth(TimeUtils.format("MM", summary.getSubItem(0).getTimeStamp()));
     }
 
-
-    public void setOnLoadDataListener(OnLoadDataListener listener) {
-        this.mListener = listener;
-    }
-
-    public interface OnLoadDataListener {
-        void onSuccess();
-
-        void onFailure();
+    public List<MultiItemEntity> parseTradeData(List<WithdrawRecord.WithdrawDetail> withdrawDetails) {
+        List<MultiItemEntity> list = new ArrayList<>();
+        List<WithdrawRecord.WithdrawDetail> detailList = withdrawDetails;
+        TradeRecordSummary summary = new TradeRecordSummary();
+        TradeRecordDetail item;
+        String date = null;
+        for (int i = 0; i < detailList.size(); i++) {
+            String substring = TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()).substring(0, 7);
+            if (!substring.equals(date)) {
+                list.add(summary);
+                summary = new TradeRecordSummary();
+                summary.setTime(substring.substring(0, 4) + "-" + substring.substring(5));
+                summary.setYear(substring.substring(0, 4));
+                summary.setMonth(substring.substring(5));
+            }
+            item = new TradeRecordDetail();
+            item.setTitle(detailList.get(i).getDescr());
+            item.setTime(TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()));
+            item.setMoney(TextUtils.isEmpty(detailList.get(i).getWithdraw_amount()) ? detailList.get(i).getAmount() : detailList.get(i).getWithdraw_amount());
+            item.setOrderStatus(detailList.get(i).getOrder_state());
+            summary.addSubItem(item);
+            date = TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()).substring(0, 7);
+        }
+        list.remove(0);
+        list.add(summary);
+        return list;
     }
 
 }

@@ -10,17 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
+import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
-import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
-import com.yunkahui.datacubeper.share.adapter.RecordMultListAdapter;
+import com.yunkahui.datacubeper.share.adapter.AllRecordMultListAdapter;
+import com.yunkahui.datacubeper.share.adapter.IncomePayMultListAdapter;
 import com.yunkahui.datacubeper.share.logic.RecordListLogic;
 import com.yunkahui.datacubeper.share.logic.RecordType;
 
@@ -29,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -38,32 +39,41 @@ import java.util.List;
 public class RecordListNewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
+
     private List<MultiItemEntity> mItemEntities;
-    private RecordMultListAdapter mAdapter;
+    private BaseMultiItemQuickAdapter mAdapter;
     private RecordListLogic mLogic;
     private RecordType mRecordType;
 
     private int mCurrentPage = 1;
     private int mPageSize = 20;
-
     private long mStartTime;
     private long mEndTime;
-    private int mLostSummaryPosition;
+    private int mLastSummaryPosition;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_record_list_new, container, false);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mLogic = new RecordListLogic();
-        initRecycler();
         update();
         return view;
     }
 
-    private void initRecycler() {
-        mItemEntities = new ArrayList<>();
-        mAdapter = new RecordMultListAdapter(mItemEntities);
+    public void update() {
+        mCurrentPage = 1;
+        mLogic.update();
+        mRecordType = ((RecordListActivity) getActivity()).getRecordType();
+        if (mItemEntities == null) {
+            mItemEntities = new ArrayList<>();
+        } else {
+            mItemEntities.clear();
+        }
+        if (mRecordType == RecordType.balance_come || mRecordType == RecordType.balance_withdraw) {
+            mAdapter = new IncomePayMultListAdapter(getActivity(), mItemEntities);
+        } else {
+            mAdapter = new AllRecordMultListAdapter(getActivity(), mItemEntities);
+        }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -75,19 +85,12 @@ public class RecordListNewFragment extends Fragment {
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_no_data);
         mRecyclerView.setAdapter(mAdapter);
-    }
-
-    public void update() {
-        mCurrentPage = 1;
-        mLogic.update();
-        mRecordType = ((RecordListActivity) getActivity()).getRecordType();
         mStartTime = ((RecordListActivity) getActivity()).getStartTime();
         mEndTime = ((RecordListActivity) getActivity()).getEndTime();
         loadData();
     }
 
     private void loadData() {
-
         switch (mRecordType) {
             case MyWallet_come:
             case online_come:
@@ -97,18 +100,22 @@ public class RecordListNewFragment extends Fragment {
                 mLogic.loadPosFenRunData(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerCallBack());
                 break;
             case balance_all:
-                mLogic.loadTradeDetail(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerCallBack());
+                mLogic.loadTradeDetail(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, "all", new InnerCallBack());
+                break;
+            case balance_come:
+                mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerNewCallBack());
+                break;
+            case balance_withdraw:
+                mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerNewCallBack());
                 break;
         }
-
     }
-
 
     private class InnerCallBack extends SimpleCallBack<BaseBean> {
 
         @Override
         public void onSuccess(BaseBean baseBean) {
-            LogUtils.e("loadProfitIncome->" + baseBean.getJsonObject().toString());
+            LogUtils.e("所有明细->" + baseBean.getJsonObject().toString());
             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                 List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
                 int allPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
@@ -116,6 +123,7 @@ public class RecordListNewFragment extends Fragment {
                 mItemEntities.addAll(entityList);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.expandAll();
+                LogUtils.e("当前总页数->"+allPage);
                 if (mCurrentPage >= allPage) {
                     mAdapter.loadMoreEnd();
                 } else {
@@ -125,8 +133,42 @@ public class RecordListNewFragment extends Fragment {
 
                 for (int i = mItemEntities.size() - 1; i >= 0; i--) {
                     if (mItemEntities.get(i) instanceof TradeRecordSummary) {
-                        mLostSummaryPosition = i;
-                        loadStatisticalMoney(mItemEntities.size() > 0 ? (TradeRecordSummary) mItemEntities.get(i) : null);
+                        mLastSummaryPosition = i;
+                        loadStatisticalMoney(mItemEntities.size() > 0 ? (TradeRecordSummary) mItemEntities.get(i) : null, "all");
+                        break;
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Throwable throwable) {
+            mAdapter.loadMoreFail();
+            ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
+        }
+    }
+
+    class InnerNewCallBack extends SimpleCallBack<BaseBean<WithdrawRecord>> {
+
+        @Override
+        public void onSuccess(BaseBean<WithdrawRecord> withdrawRecordBaseBean) {
+            LogUtils.e("收入记录->"+withdrawRecordBaseBean.getJsonObject().toString());
+            if (RequestUtils.SUCCESS.equals(withdrawRecordBaseBean.getRespCode())) {
+                mItemEntities.clear();
+                mItemEntities.addAll(mLogic.parseTradeData(withdrawRecordBaseBean.getRespData().getList()));
+                mAdapter.notifyDataSetChanged();
+                mAdapter.expandAll();
+                int allPages = withdrawRecordBaseBean.getRespData().getPages();
+                if (mCurrentPage >= allPages) {
+                    mAdapter.loadMoreEnd();
+                } else {
+                    mAdapter.loadMoreComplete();
+                }
+                mCurrentPage++;
+                for (int i = mItemEntities.size() - 1; i >= 0; i--) {
+                    if (mItemEntities.get(i) instanceof TradeRecordSummary) {
+                        mLastSummaryPosition = i;
+                        loadStatisticalMoney(mItemEntities.size() > 0 ? (TradeRecordSummary) mItemEntities.get(i) : null, mRecordType == RecordType.balance_come ? "in" : "out");
                         break;
                     }
                 }
@@ -141,11 +183,12 @@ public class RecordListNewFragment extends Fragment {
     }
 
     //获取统计收入/支出
-    private void loadStatisticalMoney(TradeRecordSummary summary) {
+    private void loadStatisticalMoney(TradeRecordSummary summary, String staticType) {
+        LogUtils.e("准备获取->"+staticType);
         if (summary == null || !TextUtils.isEmpty(summary.getBack()) || !TextUtils.isEmpty(summary.getPay())) {
             return;
         }
-        mLogic.loadStatisticalMoney(getActivity(), summary.getYear(), summary.getMonth(), mRecordType.getType(), "all", new SimpleCallBack<BaseBean>() {
+        mLogic.loadStatisticalMoney(getActivity(), summary.getYear(), summary.getMonth(), mRecordType.getType(), staticType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LogUtils.e("统计收入-->" + baseBean.toString());
@@ -155,9 +198,9 @@ public class RecordListNewFragment extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject object = array.optJSONObject(i);
                             if ("in".equals(object.optString("static_type"))) {
-                                ((TradeRecordSummary) mItemEntities.get(mLostSummaryPosition)).setBack(object.optString("amount"));
+                                ((TradeRecordSummary) mItemEntities.get(mLastSummaryPosition)).setBack(object.optString("amount"));
                             } else {
-                                ((TradeRecordSummary) mItemEntities.get(mLostSummaryPosition)).setPay(object.optString("amount"));
+                                ((TradeRecordSummary) mItemEntities.get(mLastSummaryPosition)).setPay(object.optString("amount"));
                             }
                         }
                         mAdapter.notifyDataSetChanged();

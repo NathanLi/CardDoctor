@@ -1,7 +1,7 @@
 package com.yunkahui.datacubeper.common.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.yunkahui.datacubeper.share.adapter.RecordMultListAdapter;
+import com.yunkahui.datacubeper.share.adapter.AllRecordMultListAdapter;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Records  {
 
         @Override
         public int getItemType() {
-            return RecordMultListAdapter.LEVLE_HEADER;
+            return AllRecordMultListAdapter.LEVLE_HEADER;
         }
 
         String change_amount;

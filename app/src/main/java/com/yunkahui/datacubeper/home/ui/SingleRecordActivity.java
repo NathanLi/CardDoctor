@@ -34,7 +34,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
         mIvIcon.setBackgroundResource(Double.parseDouble(singleRecord.getMoney()) > 0 ? R.mipmap.ic_trade_detail : R.mipmap.ic_withdraw);
         mTvType.setText(singleRecord.getAction());
         String amount = singleRecord.getMoney().startsWith("+") || singleRecord.getMoney().startsWith("-") ? singleRecord.getMoney().substring(1) : singleRecord.getMoney();
-        mTvMoney.setText(String.format(CardDoctorApplication.getContext().getString(R.string.income_format), amount));
+        mTvMoney.setText(String.format(CardDoctorApplication.getContext().getString(R.string.amount_format), amount));
         mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), singleRecord.getTime()));
         String status = String.format(getResources().getString(R.string.trade_status_format), singleRecord.getStatus());
         String remarks = singleRecord.getRemarks();

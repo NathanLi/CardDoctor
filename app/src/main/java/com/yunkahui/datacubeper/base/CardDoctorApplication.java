@@ -67,7 +67,9 @@ public class CardDoctorApplication extends Application {
         super.onCreate();
         mContext=getApplicationContext();
         final Context context = this;
+
 //        MultiDex.install(this);
+
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 

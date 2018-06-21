@@ -101,7 +101,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
 //                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
-                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.online_come));
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.online_all)
+                            .putExtra("title", "线上分润明细"));
                 }
             }
         });

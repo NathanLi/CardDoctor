@@ -12,11 +12,13 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.bean.RecordHeader;
+import com.yunkahui.datacubeper.common.bean.SingleRecord;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.home.ui.SingleRecordActivity;
+import com.yunkahui.datacubeper.share.logic.RecordType;
 
 import java.util.List;
 
@@ -29,10 +31,12 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
     public static final int LEVLE_HEADER = 0;
     public static final int LEVEL_ITEM = 1;
 
+    private RecordType mRecordType;
     private boolean mIsBalanceAll;
 
-    public AllRecordMultListAdapter(List<MultiItemEntity> data, boolean isBalanceAll) {
+    public AllRecordMultListAdapter(List<MultiItemEntity> data, RecordType recordType, boolean isBalanceAll) {
         super(data);
+        this.mRecordType = recordType;
         mIsBalanceAll = isBalanceAll;
         addItemType(LEVLE_HEADER, R.layout.layout_list_header_trade_record_summary);
         addItemType(LEVEL_ITEM, R.layout.layout_list_item_trade_record);
@@ -66,7 +70,7 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 helper.setText(R.id.tv_title, lv1.getTitle());
                 helper.setText(R.id.tv_time, lv1.getTime());
                 helper.setText(R.id.tv_money, lv1.getMoney());
-                int colorID;
+                final int colorID;
                 if (Double.parseDouble(lv1.getMoney()) >= 0) {
                     colorID = mContext.getResources().getColor(R.color.colorPrimary);
                 } else {
@@ -77,11 +81,13 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 helper.getView(R.id.layout_trade_item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SingleRecord record = new SingleRecord();
+                        record.setTime(lv1.getTime());
+                        record.setMoney(lv1.getMoney());
+                        record.setStatus("成功");
+                        record.setAction(mRecordType.getSub() + (colorID == mContext.getResources().getColor(R.color.colorPrimary) ? "收入" : "提现"));
                         mContext.startActivity(new Intent(mContext, SingleRecordActivity.class)
-                                .putExtra("time", TimeUtils.format("yyyy-MM-dd hh:mm:ss", lv1.getTimeStamp()))
-                                .putExtra("money", lv1.getMoney())
-                                .putExtra("status", "成功")
-                                .putExtra("action", Double.parseDouble(lv1.getMoney()) > 0 ? "成功" : "提现成功"));
+                                .putExtra("info", record));
                     }
                 });
                 break;

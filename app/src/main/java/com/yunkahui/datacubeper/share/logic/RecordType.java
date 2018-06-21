@@ -17,32 +17,32 @@ public enum RecordType implements Serializable {
     //    public static final int integral_come = 7;  //积分-收入
     //    public static final int integral_withdraw = 8;   //积分-提现
 
-    balance_all("balance", 9),  //余额-全部
-    balance_come("balance", 10),       //余额充值
-    balance_withdraw("02", 11),   //余额提现
+    balance_all("balance", "余额"),   //余额-全部
+    balance_come("balance", "余额"),  //余额充值
+    balance_withdraw("02", "余额"),   //余额提现
 
-    online_all("fenruns", 9),   //线上分润-全部
-    online_come("fenruns", 3),     //线上分润-收入
-    online_withdraw("01", 4),      //线上分润-提现
+    online_all("fenruns", "线上分润"),  //线上分润-全部
+    online_come("fenruns", "线上分润"), //线上分润-收入
+    online_withdraw("01", "线上分润"),  //线上分润-提现
 
-    myWallet_all("commission", 9),   //我的钱包-全部
-    myWallet_come("commission", 1),     //我的钱包-收入
-    myWallet_withdraw("00", 2),       //我的钱包-提现
+    myWallet_all("commission", "佣金"),   //佣金-全部
+    myWallet_come("commission", "佣金"),  //佣金-收入
+    myWallet_withdraw("00", "佣金"),  //佣金-提现
 
-    pos_all("gain", 9),   //POS分润-全部
-    pos_come("gain", 5),        //POS分润-收入
-    pos_withdraw("withdraw", 6),        //POS分润-提现
+    pos_all("gain", "POS 分润"),  //POS分润-全部
+    pos_come("gain", "POS 分润"), //POS分润-收入
+    pos_withdraw("withdraw", "POS 分润"), //POS分润-提现
 
-    integral_all("points", 9),
-    integral_come("points", 7),   //积分-收入
-    integral_withdraw("", 8);   //积分-提现
+    integral_all("points", "积分"),   //积分-全部
+    integral_come("points", "积分"),  //积分-收入
+    integral_withdraw("expend", "积分");    //积分-支出
 
     private String type;
-    private int index;
+    private String sub;
 
-    RecordType(String type, int index) {
+    RecordType(String type, String sub) {
         this.type = type;
-        this.index = index;
+        this.sub = sub;
     }
 
     public String getType() {
@@ -53,11 +53,11 @@ public enum RecordType implements Serializable {
         this.type = type;
     }
 
-    public int getIndex() {
-        return index;
+    public String getSub() {
+        return sub;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setSub(String sub) {
+        this.sub = sub;
     }
 }

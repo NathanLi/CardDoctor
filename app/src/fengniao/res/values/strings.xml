@@ -113,6 +113,7 @@
     <string name="pay_back_format">收入：%s    支出：%s</string>
     <string name="income_format">收入：%s</string>
     <string name="pay_format">支出：%s</string>
+    <string name="amount_format">￥：%s</string>
     <string name="trade_time_format">交易时间：%s</string>
     <string name="trade_status_format">交易状态：%s</string>
     <string name="recharge_success">充值成功</string>

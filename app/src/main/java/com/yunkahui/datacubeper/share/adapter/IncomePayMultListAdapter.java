@@ -12,11 +12,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
+import com.yunkahui.datacubeper.common.bean.SingleRecord;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.home.ui.SingleRecordActivity;
+import com.yunkahui.datacubeper.share.logic.RecordType;
 
 import java.util.List;
 
@@ -29,8 +31,11 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
     public static final int LEVLE_HEADER = 0;
     public static final int LEVEL_ITEM = 1;
 
-    public IncomePayMultListAdapter(List<MultiItemEntity> data) {
+    private RecordType mRecordType;
+
+    public IncomePayMultListAdapter(List<MultiItemEntity> data, RecordType recordType) {
         super(data);
+        this.mRecordType = recordType;
         addItemType(LEVLE_HEADER, R.layout.layout_list_header_trade_record_summary);
         addItemType(LEVEL_ITEM, R.layout.layout_list_item_trade_record);
     }
@@ -60,17 +65,11 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 helper.setText(R.id.tv_title, lv1.getTitle());
                 helper.setText(R.id.tv_time, lv1.getTime());
                 helper.setText(R.id.tv_money, lv1.getMoney());
-                int shapeColor;
-                if (Double.parseDouble(lv1.getMoney()) > 0) {
-                    shapeColor = mContext.getResources().getColor(R.color.colorPrimary);
-                } else {
-                    shapeColor = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
-                }
-                helper.getView(R.id.iv_indicator).setBackground(createColorShape(shapeColor, 20, 20, 20, 20));
-
+                helper.getView(R.id.iv_indicator).setBackground(createColorShape(
+                        mContext.getResources().getColor(R.color.bg_color_orange_ff6633), 20, 20, 20, 20));
                 final String status;
                 int color;
-                switch (lv1.getOrderStatus()) {
+                switch (lv1.getOrderStatus() == null ? "" : lv1.getOrderStatus()) {
                     case "0":
                         status = Double.parseDouble(lv1.getMoney()) < 0 ? "提现处理中" : "充值处理中";
                         color = Color.parseColor("#0085FF");
@@ -93,11 +92,13 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 helper.getView(R.id.layout_trade_item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SingleRecord record = new SingleRecord();
+                        record.setTime(lv1.getTime());
+                        record.setMoney(lv1.getMoney());
+                        record.setStatus(status);
+                        record.setAction(mRecordType.getSub() + (mRecordType == RecordType.integral_withdraw ? "支出" : "提现"));
                         mContext.startActivity(new Intent(mContext, SingleRecordActivity.class)
-                                .putExtra("time", TimeUtils.format("yyyy-MM-dd hh:mm:ss", lv1.getTimeStamp()))
-                                .putExtra("money", lv1.getMoney())
-                                .putExtra("status", status)
-                                .putExtra("action", Double.parseDouble(lv1.getMoney()) > 0 ? "充值" : "提现"));
+                                .putExtra("info", record));
                     }
                 });
                 break;

@@ -49,11 +49,11 @@ public class RecordListLogic {
     }
 
     //获取积分数据
-    public void loadIntegealData(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack) {
+    public void loadIntegealData(Context context, String checkType, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("pageSize", pageSize)
                 .addParams("pageNum", pageNum)
-                .addParams("type", "expend")
+                .addParams("type", checkType)
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadIntegralData(params)
                 .compose(HttpManager.<BaseBean<Records>>applySchedulers()).subscribe(callBack);
@@ -136,7 +136,7 @@ public class RecordListLogic {
                 item = new TradeRecordDetail();
                 item.setTimeStamp(j.optLong("create_time"));
                 item.setTradeType(j.optString("trade_type"));
-                item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("MM-dd hh:mm", j.optLong("create_time")));
+                item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy-MM-dd hh:mm:ss", j.optLong("create_time")));
                 item.setMoney(j.optString("change_amount") + "");
                 item.setTitle(j.optString("trade_type_desc"));
 

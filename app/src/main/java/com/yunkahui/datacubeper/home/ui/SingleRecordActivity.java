@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
+import com.yunkahui.datacubeper.common.bean.SingleRecord;
 
 public class SingleRecordActivity extends AppCompatActivity implements IActivityStatusBar {
 
@@ -28,13 +30,14 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
 
     @Override
     public void initData() {
-        double money = Double.parseDouble(getIntent().getStringExtra("money"));
-        mIvIcon.setBackgroundResource(money > 0 ? R.mipmap.ic_trade_detail : R.mipmap.ic_withdraw);
-        mTvType.setText(getIntent().getStringExtra("action"));
-        mTvMoney.setText(getIntent().getStringExtra("money"));
-        mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), getIntent().getStringExtra("time")));
-        String status = String.format(getResources().getString(R.string.trade_status_format), getIntent().getStringExtra("status"));
-        String remarks = getIntent().getStringExtra("remarks");
+        SingleRecord singleRecord = getIntent().getParcelableExtra("info");
+        mIvIcon.setBackgroundResource(Double.parseDouble(singleRecord.getMoney()) > 0 ? R.mipmap.ic_trade_detail : R.mipmap.ic_withdraw);
+        mTvType.setText(singleRecord.getAction());
+        String amount = singleRecord.getMoney().startsWith("+") || singleRecord.getMoney().startsWith("-") ? singleRecord.getMoney().substring(1) : singleRecord.getMoney();
+        mTvMoney.setText(String.format(CardDoctorApplication.getContext().getString(R.string.income_format), amount));
+        mTvTime.setText(String.format(getResources().getString(R.string.trade_time_format), singleRecord.getTime()));
+        String status = String.format(getResources().getString(R.string.trade_status_format), singleRecord.getStatus());
+        String remarks = singleRecord.getRemarks();
         String remarksSub = TextUtils.isEmpty(remarks) ? "-" : remarks.substring(remarks.lastIndexOf("：") + 1);
         mTvRemarks.setText("备        注：" + remarksSub);
         if (!TextUtils.isEmpty(remarks)) {
@@ -46,7 +49,7 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
             if (status.contains("失败"))
                 mTvStatus.setTextColor(Color.RED);
         }
-        String fee = getIntent().getStringExtra("fee");
+        String fee = singleRecord.getFee();
         mTvFee.setText("手  续  费：" + (TextUtils.isEmpty(fee) ? "0.00" : fee));
     }
 

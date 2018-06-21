@@ -3,7 +3,6 @@ package com.yunkahui.datacubeper.share.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,18 +18,15 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.WithdrawRecord;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.SingleRecordActivity;
-import com.yunkahui.datacubeper.share.adapter.RecordMultListAdapter;
 import com.yunkahui.datacubeper.share.logic.RecordListLogic;
 import com.yunkahui.datacubeper.share.logic.RecordType;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -84,7 +80,7 @@ public class RecordListNew2Fragment extends Fragment {
                 WithdrawRecord.WithdrawDetail detail = mItemEntities.get(position);
                 String action = "";
                 switch (mRecordType) {
-                    case MyWallet_withdraw:
+                    case myWallet_withdraw:
                         action = "分佣提现";
                         break;
                     case online_withdraw:
@@ -144,16 +140,16 @@ public class RecordListNew2Fragment extends Fragment {
 
     private void loadData() {
         switch (mRecordType) {
-            case MyWallet_withdraw:
-            case online_withdraw:
+            case myWallet_withdraw:
             case balance_withdraw:
+            case online_withdraw:
                 mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
                 break;
             case pos_withdraw:
-                mLogic.loadPosFenRunData(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerPosWithdrawCallBack());
+                mLogic.loadPosFenRunData(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerPosWithdrawCallBack());
                 break;
             case balance_come:
-                mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
+                //mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
                 break;
         }
 
@@ -257,14 +253,6 @@ public class RecordListNew2Fragment extends Fragment {
             }
             helper.setTextColor(R.id.tv_status, color);
             helper.setText(R.id.tv_status, status);
-        }
-
-        private GradientDrawable createColorShape(int color, float topLeft, float topRight, float bottomRight, float bottomLeft) {
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setShape(GradientDrawable.RECTANGLE);
-            drawable.setCornerRadii(new float[]{topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft, bottomLeft});
-            drawable.setColor(color);
-            return drawable;
         }
     }
 

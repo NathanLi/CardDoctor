@@ -42,12 +42,9 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
     private PlanSpinner mPlanSpinnerRecordType;
     private PlanSpinner mPlanSpinnerRecordTime;
     private RecordListNewFragment mRecordListNewFragment;
-    private RecordListNew2Fragment mRecordListNew2Fragment;
 
     private RecordType mRecordType;
-
     private List<RecordType> mTypes;
-
     private long mStartTime;
     private long mEndTime;
 
@@ -68,12 +65,11 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
 
         mList = new ArrayList<>();
         List<String> types = new ArrayList<>();
-        if (mRecordType == RecordType.balance_all) {
-            types.add("全部");
-            types.add("充值");
-            types.add("提现");
+        types.add("所有明细");
+        types.add("收入");
+        if (mRecordType == RecordType.integral_all) {
+            types.add("支出");
         } else {
-            types.add("收入");
             types.add("提现");
         }
 
@@ -86,12 +82,11 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
         mPlanSpinnerRecordType.setList(types);
         mPlanSpinnerRecordTime.setList(times);
         mRecordListNewFragment = new RecordListNewFragment();
-        mRecordListNew2Fragment = new RecordListNew2Fragment();
 
         mStartTime = TimeUtils.getCalendarCompluteForMonth(-3);
         mEndTime = System.currentTimeMillis();
 
-        selectPage();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mRecordListNewFragment).commitNowAllowingStateLoss();
 
         mPlanSpinnerRecordTime.setOnItemSelectListener(new PlanSpinner.OnItemSelectListener() {
             @Override
@@ -114,26 +109,14 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
                         mEndTime = 0;
                         break;
                 }
-                if (mRecordListNewFragment.isVisible()) {
-                    mRecordListNewFragment.update();
-                }
-                if (mRecordListNew2Fragment.isVisible()) {
-                    mRecordListNew2Fragment.update();
-                }
-
+                mRecordListNewFragment.update();
             }
         });
         mPlanSpinnerRecordType.setOnItemSelectListener(new PlanSpinner.OnItemSelectListener() {
             @Override
             public void onItemSelect(int position, String text) {
                 mRecordType = mTypes.get(position);
-                selectPage();
-                if (mRecordListNewFragment.isVisible()) {
-                    mRecordListNewFragment.update();
-                }
-                if (mRecordListNew2Fragment.isVisible()) {
-                    mRecordListNew2Fragment.update();
-                }
+                mRecordListNewFragment.update();
             }
         });
 
@@ -142,52 +125,38 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
     public void initTypes() {
         mTypes = new ArrayList<>();
         switch (mRecordType) {
-            case MyWallet_come:
-                mTypes.add(RecordType.MyWallet_come);
-                mTypes.add(RecordType.MyWallet_withdraw);
-                break;
-            case online_come:
-                mTypes.add(RecordType.online_come);
-                mTypes.add(RecordType.online_withdraw);
-                break;
-            case pos_come:
-                mTypes.add(RecordType.pos_come);
-                mTypes.add(RecordType.pos_withdraw);
-                break;
             case balance_all:
                 mTypes.add(RecordType.balance_all);
                 mTypes.add(RecordType.balance_come);
                 mTypes.add(RecordType.balance_withdraw);
                 break;
+            case online_all:
+                mTypes.add(RecordType.online_all);
+                mTypes.add(RecordType.online_come);
+                mTypes.add(RecordType.online_withdraw);
+                break;
+            case myWallet_all:
+                mTypes.add(RecordType.myWallet_all);
+                mTypes.add(RecordType.myWallet_come);
+                mTypes.add(RecordType.myWallet_withdraw);
+                break;
+            case pos_all:
+                mTypes.add(RecordType.pos_all);
+                mTypes.add(RecordType.pos_come);
+                mTypes.add(RecordType.pos_withdraw);
+                break;
+            case integral_all:
+                mTypes.add(RecordType.integral_all);
+                mTypes.add(RecordType.integral_come);
+                mTypes.add(RecordType.integral_withdraw);
+                break;
         }
     }
-
 
     @Override
     public void initView() {
         mPlanSpinnerRecordType = findViewById(R.id.plan_spinner_record_type);
         mPlanSpinnerRecordTime = findViewById(R.id.plan_spinner_record_time);
-    }
-
-    //选择列表页面(分组或不分组)
-    public void selectPage() {
-        switch (mRecordType) {
-            case MyWallet_come:
-            case online_come:
-            case pos_come:
-            case balance_all:
-                LogUtils.e("替换页面1");
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mRecordListNewFragment).commitNowAllowingStateLoss();
-                break;
-            case MyWallet_withdraw:
-            case online_withdraw:
-            case pos_withdraw:
-            case balance_come:
-            case balance_withdraw:
-                LogUtils.e("替换页面2");
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mRecordListNew2Fragment).commitNowAllowingStateLoss();
-                break;
-        }
     }
 
     public long getStartTime() {
@@ -197,7 +166,6 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
     public long getEndTime() {
         return mEndTime;
     }
-
 
     public RecordType getRecordType() {
         return mRecordType;
@@ -212,8 +180,8 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         switch (mRecordType) {
-            case MyWallet_come:
-            case online_come:
+            case myWallet_all:
+            case online_all:
                 menu.add(1, 1, 1, "提现").setIcon(R.mipmap.ic_withdraw_text).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
                 break;
         }
@@ -225,10 +193,10 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
         switch (item.getItemId()) {
             case 1:
                 switch (mRecordType) {
-                    case MyWallet_come:
+                    case myWallet_all:
                         checkUserZFB();
                         break;
-                    case online_come:
+                    case online_all:
                         queryCreditCardList();
                         break;
                 }

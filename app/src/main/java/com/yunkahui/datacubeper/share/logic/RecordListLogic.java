@@ -2,6 +2,7 @@ package com.yunkahui.datacubeper.share.logic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellokiki.rrorequest.HttpManager;
@@ -10,7 +11,6 @@ import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.CardDoctorApplication;
 import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.bean.RechargeRecord;
 import com.yunkahui.datacubeper.common.bean.Records;
 import com.yunkahui.datacubeper.common.bean.TradeRecordDetail;
 import com.yunkahui.datacubeper.common.bean.TradeRecordSummary;
@@ -29,13 +29,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2018/6/7.
+ * Created by Administrator on 2018/6/7
  */
 
 public class RecordListLogic {
-    JSONArray jsonArrayData;
-    private OnLoadDataListener mListener;
 
+    private JSONArray jsonArrayData;
 
     //统计收入/支出
     public void loadStatisticalMoney(Context context, String year, String month,
@@ -50,46 +49,31 @@ public class RecordListLogic {
     }
 
     //获取积分数据
-    public void loadIntegealData(Context context, int pageSize, int pageNum, String type, SimpleCallBack<BaseBean<Records>> callBack) {
+    public void loadIntegealData(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("pageSize", pageSize)
                 .addParams("pageNum", pageNum)
-                .addParams("type", type)
+                .addParams("type", "expend")
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadIntegralData(params)
                 .compose(HttpManager.<BaseBean<Records>>applySchedulers()).subscribe(callBack);
     }
 
     //******** 获取全部明细（余额充值和提现） ********
-    public void loadTradeDetail(Context context, int pageSize, int pageNum, String checkType,
-                               long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
+    public void loadTradeDetail(Context context, String checkType, int pageSize, int pageNum,
+                                long startTime, long endTime, String detailType, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
                 .addParams("pageNum", String.valueOf(pageNum))
-                .addParams("check_type", checkType);
-        if (startTime > 0) {
+                .addParams("check_type", checkType)
+                .addParams("detail_type", detailType);
+        if (startTime > 0 && endTime > 0) {
             innerParam.addParams("begin_time", startTime);
             innerParam.addParams("end_time", endTime);
         }
         Map<String, String> params = innerParam.create();
         HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
-    //******** 获取充值记录 ********
-    public void loadRechargeRecord(Context context, String type, int pageSize, int pageNum,
-                                   long startTime, long endTime, SimpleCallBack<BaseBean<WithdrawRecord>> callBack) {
-        RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
-                .addParams("recharge_type", type)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum));
-        if (startTime > 0) {
-            innerParam.addParams("begin_time", startTime);
-            innerParam.addParams("end_time", endTime);
-        }
-        Map<String, String> params = innerParam.create();
-        HttpManager.getInstance().create(ApiService.class).loadRechargeOrder2(params)
-                .compose(HttpManager.<BaseBean<WithdrawRecord>>applySchedulers()).subscribe(callBack);
     }
 
     //******** 获取提现记录 ********
@@ -109,7 +93,7 @@ public class RecordListLogic {
     }
 
     //POS分润收入
-    public void loadPosFenRunData(Context context, int pageSize, int pageNum, String type,
+    public void loadPosFenRunData(Context context, String type, int pageSize, int pageNum,
                                   long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
@@ -124,27 +108,11 @@ public class RecordListLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
-    //******** 查询分润收入 、 分佣收入 ********
-    public void loadProfitIncome(Context context, int pageSize, int pageNum, String checkType,
-                                 long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
-        RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum))
-                .addParams("check_type", checkType);
-        if (startTime > 0) {
-            innerParam.addParams("begin_time", startTime);
-            innerParam.addParams("end_time", endTime);
-        }
-        Map<String, String> params = innerParam.create();
-        HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
     public void update() {
         jsonArrayData = null;
     }
 
-    public List<MultiItemEntity> parsingJSONForProfitIncome(BaseBean baseBean) {
+    public List<MultiItemEntity> parsingJSONForAll(BaseBean baseBean) {
         List<MultiItemEntity> list = null;
         try {
             list = new ArrayList<>();
@@ -216,21 +184,48 @@ public class RecordListLogic {
             }
         }
         DecimalFormat df = new java.text.DecimalFormat("0.00");
-        summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy年MM月", summary.getSubItem(0).getTimeStamp()));
-        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(back)), String.valueOf(df.format(pay))));
+        summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy-MM", summary.getSubItem(0).getTimeStamp()));
+        summary.setBack(df.format(back));
+        summary.setPay(df.format(pay).substring(1));
+        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), df.format(back), df.format(pay)));
         summary.setYear(TimeUtils.format("yyyy", summary.getSubItem(0).getTimeStamp()));
         summary.setMonth(TimeUtils.format("MM", summary.getSubItem(0).getTimeStamp()));
     }
 
-
-    public void setOnLoadDataListener(OnLoadDataListener listener) {
-        this.mListener = listener;
+    public List<MultiItemEntity> parseJsonForTradeWithdraw(List<WithdrawRecord.WithdrawDetail> withdrawDetails) {
+        List<MultiItemEntity> list = new ArrayList<>();
+        List<WithdrawRecord.WithdrawDetail> detailList = withdrawDetails;
+        TradeRecordSummary summary = new TradeRecordSummary();
+        TradeRecordDetail item;
+        String date = null;
+        for (int i = 0; i < detailList.size(); i++) {
+            String substring = TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()).substring(0, 7);
+            if (!substring.equals(date)) {
+                list.add(summary);
+                summary = new TradeRecordSummary();
+                summary.setTime(substring.substring(0, 4) + "-" + substring.substring(5));
+                summary.setYear(substring.substring(0, 4));
+                summary.setMonth(substring.substring(5));
+            }
+            item = new TradeRecordDetail();
+            item.setTitle(detailList.get(i).getDescr());
+            item.setTime(TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()));
+            item.setMoney(TextUtils.isEmpty(detailList.get(i).getWithdraw_amount()) ? detailList.get(i).getAmount() : detailList.get(i).getWithdraw_amount());
+            item.setOrderStatus(detailList.get(i).getOrder_state());
+            summary.addSubItem(item);
+            date = TimeUtils.format("yyyy-MM-dd HH:mm:ss", detailList.get(i).getCreate_time()).substring(0, 7);
+        }
+        list.remove(0);
+        list.add(summary);
+        for (MultiItemEntity entity : list) {
+            TradeRecordSummary s = (TradeRecordSummary) entity;
+            double pay = 0;
+            for (TradeRecordDetail detail : s.getSubItems()) {
+                pay += Double.parseDouble(detail.getMoney());
+            }
+            DecimalFormat df = new java.text.DecimalFormat("0.00");
+            s.setPay(df.format(pay));
+        }
+        return list;
     }
-
-    public interface OnLoadDataListener {
-        void onSuccess();
-
-        void onFailure();
-    }
-
 }

@@ -181,7 +181,6 @@ public class HomeWalletActivity extends AppCompatActivity implements IActivitySt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-//                startActivity(new Intent(this, TradeRecordActivity.class));
                 startActivity(new Intent(this, RecordListActivity.class)
                         .putExtra("type", RecordType.balance_all)
                         .putExtra("title", "交易记录"));

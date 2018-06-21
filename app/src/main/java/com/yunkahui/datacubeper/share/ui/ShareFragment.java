@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
-import com.yunkahui.datacubeper.BuildConfig;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
@@ -23,9 +22,7 @@ import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.DoubleBlockView;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.common.view.SimpleToolbar;
-import com.yunkahui.datacubeper.home.ui.HomeProfitActivity;
 import com.yunkahui.datacubeper.home.ui.QrShareActivity;
-import com.yunkahui.datacubeper.home.ui.HomeWalletActivity;
 import com.yunkahui.datacubeper.share.logic.RecordType;
 import com.yunkahui.datacubeper.share.logic.ShareLogic;
 
@@ -93,9 +90,8 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 } else {
 //                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
 //                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
-                    startActivity(new Intent(getActivity(), RecordListActivity.class)
-                            .putExtra("type", RecordType.MyWallet_come)
-                            .putExtra("title", "分佣明细"));
+                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.myWallet_come));
+
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
@@ -106,7 +102,7 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 } else {
 //                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
                     startActivity(new Intent(getActivity(), RecordListActivity.class)
-                            .putExtra("type", RecordType.online_come)
+                            .putExtra("type", RecordType.online_all)
                             .putExtra("title", "线上分润明细"));
                 }
             }

@@ -1,63 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp"
-    android:background="#f5f5f9"
-    android:tag="sticky"
-    android:id="@+id/suspension_bar">
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.0453"/>
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8813"/>
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9373"/>
+    android:background="@color/line_gray_f7f7f7"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/tv_time"
+        tools:text="abc"
+        android:textSize="14dp"
+        android:textColor="@color/text_color_dark_gray_404040"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentLeft="true"/>
 
     <TextView
-        android:id="@+id/tv_mess"
+        android:id="@+id/tv_income"
+        tools:text="abc"
+        android:textSize="14dp"
+        android:textColor="@color/text_color_dark_gray_404040"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+        android:layout_marginRight="12pt"
+        android:layout_toLeftOf="@+id/tv_pay"/>
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_mess"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@id/tv_time"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:srcCompat="@mipmap/ic_calendar" />
+    <TextView
+        android:id="@+id/tv_pay"
+        tools:text="abc"
+        android:textSize="14dp"
+        android:textColor="@color/text_color_dark_gray_404040"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

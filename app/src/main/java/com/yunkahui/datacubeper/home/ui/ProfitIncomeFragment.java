@@ -227,7 +227,7 @@ public class ProfitIncomeFragment extends BaseFragment {
     @Override
     public void initView(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        mSuspensionBar = view.findViewById(R.id.suspension_bar);
+        //mSuspensionBar = view.findViewById(R.id.suspension_bar);
         mTvTime = view.findViewById(R.id.tv_time);
         mTvMessage = view.findViewById(R.id.tv_mess);
         mLayoutLoading = view.findViewById(R.id.rl_loading_view);

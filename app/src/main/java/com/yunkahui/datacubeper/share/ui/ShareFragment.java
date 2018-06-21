@@ -93,8 +93,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 } else {
 //                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
 //                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
-                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.MyWallet_come));
-
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.MyWallet_come)
+                            .putExtra("title", "分佣明细"));
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
@@ -104,7 +105,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
 //                    startActivity(new Intent(mActivity, ShareProfitActivity.class));
-                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.online_come));
+                    startActivity(new Intent(getActivity(), RecordListActivity.class)
+                            .putExtra("type", RecordType.online_come)
+                            .putExtra("title", "线上分润明细"));
                 }
             }
         });

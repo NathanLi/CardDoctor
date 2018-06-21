@@ -10,7 +10,7 @@ public class BaseUrl {
     private static String USER_ID;
     private static String KEY;
 
-    public static String HOME = "http://120.77.233.89:8014";
+    public static String HOME = "http://192.168.1.168:8014";
 //    public static String HOME = "http://jpers.hangmuxitong.com";
 
     //验签密钥

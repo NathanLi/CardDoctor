@@ -60,7 +60,7 @@ public class RecordListLogic {
     }
 
     //******** 获取全部明细（余额充值和提现） ********
-    public void loadTradeDetail(Context context, int pageSize, int pageNum, String checkType,
+    public void loadTradeDetail(Context context, String checkType, int pageSize, int pageNum,
                                 long startTime, long endTime, String detailType, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
@@ -109,7 +109,7 @@ public class RecordListLogic {
     }
 
     //POS分润收入
-    public void loadPosFenRunData(Context context, int pageSize, int pageNum, String type,
+    public void loadPosFenRunData(Context context, String type, int pageSize, int pageNum,
                                   long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
@@ -125,7 +125,7 @@ public class RecordListLogic {
     }
 
     //******** 查询分润收入 、 分佣收入 ********
-    public void loadProfitIncome(Context context, int pageSize, int pageNum, String checkType,
+    public void loadProfitIncome(Context context, String checkType, int pageSize, int pageNum,
                                  long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
         RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
                 .addParams("pageSize", String.valueOf(pageSize))
@@ -144,7 +144,7 @@ public class RecordListLogic {
         jsonArrayData = null;
     }
 
-    public List<MultiItemEntity> parsingJSONForProfitIncome(BaseBean baseBean) {
+    public List<MultiItemEntity> parsingJSONForAll(BaseBean baseBean) {
         List<MultiItemEntity> list = null;
         try {
             list = new ArrayList<>();
@@ -217,7 +217,9 @@ public class RecordListLogic {
         }
         DecimalFormat df = new java.text.DecimalFormat("0.00");
         summary.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy-MM", summary.getSubItem(0).getTimeStamp()));
-        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), String.valueOf(df.format(back)), String.valueOf(df.format(pay))));
+        summary.setBack(df.format(back));
+        summary.setPay(df.format(pay).substring(1));
+        summary.setMessage(String.format(CardDoctorApplication.getContext().getString(R.string.pay_back_format), df.format(back), df.format(pay)));
         summary.setYear(TimeUtils.format("yyyy", summary.getSubItem(0).getTimeStamp()));
         summary.setMonth(TimeUtils.format("MM", summary.getSubItem(0).getTimeStamp()));
     }

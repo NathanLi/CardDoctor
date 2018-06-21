@@ -142,12 +142,12 @@ public class RecordListNew2Fragment extends Fragment {
     private void loadData() {
         switch (mRecordType) {
             case MyWallet_withdraw:
-            case online_withdraw:
             case balance_withdraw:
+            case online_withdraw:
                 mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
                 break;
             case pos_withdraw:
-                mLogic.loadPosFenRunData(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerPosWithdrawCallBack());
+                mLogic.loadPosFenRunData(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerPosWithdrawCallBack());
                 break;
             case balance_come:
                 mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());

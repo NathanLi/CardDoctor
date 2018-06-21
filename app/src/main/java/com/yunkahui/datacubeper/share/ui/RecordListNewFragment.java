@@ -45,11 +45,11 @@ public class RecordListNewFragment extends Fragment {
     private RecordListLogic mLogic;
     private RecordType mRecordType;
 
+    private int mModifyPos;
     private int mCurrentPage = 1;
     private int mPageSize = 20;
     private long mStartTime;
     private long mEndTime;
-    private int mLastSummaryPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,21 +92,24 @@ public class RecordListNewFragment extends Fragment {
 
     private void loadData() {
         switch (mRecordType) {
-            case MyWallet_come:
-            case online_come:
-                mLogic.loadProfitIncome(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerCallBack());
-                break;
-            case pos_come:
-                mLogic.loadPosFenRunData(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, new InnerCallBack());
-                break;
             case balance_all:
-                mLogic.loadTradeDetail(getActivity(), mPageSize, mCurrentPage, mRecordType.getType(), mStartTime, mEndTime, "all", new InnerCallBack());
+                mLogic.loadTradeDetail(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, "all", new InnerCallBack());
                 break;
             case balance_come:
                 mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerNewCallBack());
                 break;
             case balance_withdraw:
                 mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerNewCallBack());
+                break;
+            case MyWallet_come:
+            case online_come:
+                mLogic.loadProfitIncome(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
+                break;
+            case online_withdraw:
+                mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerNewCallBack());
+                break;
+            case pos_come:
+                mLogic.loadPosFenRunData(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
                 break;
         }
     }
@@ -117,13 +120,11 @@ public class RecordListNewFragment extends Fragment {
         public void onSuccess(BaseBean baseBean) {
             LogUtils.e("所有明细->" + baseBean.getJsonObject().toString());
             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
-                List<MultiItemEntity> entityList = mLogic.parsingJSONForProfitIncome(baseBean);
                 int allPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                 mItemEntities.clear();
-                mItemEntities.addAll(entityList);
+                mItemEntities.addAll(mLogic.parsingJSONForAll(baseBean));
                 mAdapter.notifyDataSetChanged();
                 mAdapter.expandAll();
-                LogUtils.e("当前总页数->"+allPage);
                 if (mCurrentPage >= allPage) {
                     mAdapter.loadMoreEnd();
                 } else {
@@ -131,11 +132,14 @@ public class RecordListNewFragment extends Fragment {
                 }
                 mCurrentPage++;
 
-                for (int i = mItemEntities.size() - 1; i >= 0; i--) {
-                    if (mItemEntities.get(i) instanceof TradeRecordSummary) {
-                        mLastSummaryPosition = i;
-                        loadStatisticalMoney(mItemEntities.size() > 0 ? (TradeRecordSummary) mItemEntities.get(i) : null, "all");
-                        break;
+                //******** 获取最后一个标题的统计数据 ********
+                if (mItemEntities.size() > 0) {
+                    for (int i = mItemEntities.size() - 1; i >= 0; i--) {
+                        if (mItemEntities.get(i) instanceof TradeRecordSummary) {
+                            mModifyPos = i;
+                            loadStatisticalMoney((TradeRecordSummary) mItemEntities.get(i), "all");
+                            break;
+                        }
                     }
                 }
             }
@@ -152,7 +156,7 @@ public class RecordListNewFragment extends Fragment {
 
         @Override
         public void onSuccess(BaseBean<WithdrawRecord> withdrawRecordBaseBean) {
-            LogUtils.e("收入记录->"+withdrawRecordBaseBean.getJsonObject().toString());
+            LogUtils.e("单类记录->"+withdrawRecordBaseBean.getJsonObject().toString());
             if (RequestUtils.SUCCESS.equals(withdrawRecordBaseBean.getRespCode())) {
                 mItemEntities.clear();
                 mItemEntities.addAll(mLogic.parseTradeData(withdrawRecordBaseBean.getRespData().getList()));
@@ -165,11 +169,15 @@ public class RecordListNewFragment extends Fragment {
                     mAdapter.loadMoreComplete();
                 }
                 mCurrentPage++;
-                for (int i = mItemEntities.size() - 1; i >= 0; i--) {
-                    if (mItemEntities.get(i) instanceof TradeRecordSummary) {
-                        mLastSummaryPosition = i;
-                        loadStatisticalMoney(mItemEntities.size() > 0 ? (TradeRecordSummary) mItemEntities.get(i) : null, mRecordType == RecordType.balance_come ? "in" : "out");
-                        break;
+
+                //******** 获取最后一个标题的统计数据 ********
+                if (mItemEntities.size() > 0) {
+                    for (int i = mItemEntities.size() - 1; i >= 0; i--) {
+                        if (mItemEntities.get(i) instanceof TradeRecordSummary) {
+                            mModifyPos = i;
+                            loadStatisticalMoney((TradeRecordSummary) mItemEntities.get(i), mRecordType == RecordType.balance_come ? "in" : "out");
+                            break;
+                        }
                     }
                 }
             }
@@ -184,23 +192,19 @@ public class RecordListNewFragment extends Fragment {
 
     //获取统计收入/支出
     private void loadStatisticalMoney(TradeRecordSummary summary, String staticType) {
-        LogUtils.e("准备获取->"+staticType);
-        if (summary == null || !TextUtils.isEmpty(summary.getBack()) || !TextUtils.isEmpty(summary.getPay())) {
-            return;
-        }
         mLogic.loadStatisticalMoney(getActivity(), summary.getYear(), summary.getMonth(), mRecordType.getType(), staticType, new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
-                LogUtils.e("统计收入-->" + baseBean.toString());
+                LogUtils.e("统计收入-->" + baseBean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                     try {
                         JSONArray array = new JSONObject(baseBean.getJsonObject().toString()).optJSONArray("respData");
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject object = array.optJSONObject(i);
                             if ("in".equals(object.optString("static_type"))) {
-                                ((TradeRecordSummary) mItemEntities.get(mLastSummaryPosition)).setBack(object.optString("amount"));
+                                ((TradeRecordSummary) mItemEntities.get(mModifyPos)).setBack(object.optString("amount"));
                             } else {
-                                ((TradeRecordSummary) mItemEntities.get(mLastSummaryPosition)).setPay(object.optString("amount"));
+                                ((TradeRecordSummary) mItemEntities.get(mModifyPos)).setPay(object.optString("amount"));
                             }
                         }
                         mAdapter.notifyDataSetChanged();

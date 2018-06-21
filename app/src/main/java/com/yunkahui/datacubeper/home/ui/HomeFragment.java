@@ -67,7 +67,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-//                    startActivity(new Intent(mActivity, HomeProfitActivity.class));
                     startActivity(new Intent(getActivity(), RecordListActivity.class)
                             .putExtra("type", RecordType.online_come)
                             .putExtra("title", "线上分润明细"));

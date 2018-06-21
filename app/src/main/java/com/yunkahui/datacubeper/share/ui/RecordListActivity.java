@@ -41,14 +41,9 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
         initTypes();
 
         List<String> types = new ArrayList<>();
-        if (mRecordType == RecordType.balance_all) {
-            types.add("所有明细");
-            types.add("收入");
-            types.add("提现");
-        } else {
-            types.add("收入");
-            types.add("提现");
-        }
+        types.add("所有明细");
+        types.add("收入");
+        types.add("提现");
 
         List<String> times = new ArrayList<>();
         times.add("近3个月");
@@ -107,6 +102,7 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
                 mTypes.add(RecordType.MyWallet_withdraw);
                 break;
             case online_come:
+                mTypes.add(RecordType.balance_all);
                 mTypes.add(RecordType.online_come);
                 mTypes.add(RecordType.online_withdraw);
                 break;

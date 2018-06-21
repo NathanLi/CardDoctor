@@ -43,7 +43,11 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
         List<String> types = new ArrayList<>();
         types.add("所有明细");
         types.add("收入");
-        types.add("提现");
+        if (mRecordType == RecordType.integral_all) {
+            types.add("支出");
+        } else {
+            types.add("提现");
+        }
 
         List<String> times = new ArrayList<>();
         times.add("近3个月");
@@ -97,23 +101,30 @@ public class RecordListActivity extends AppCompatActivity implements IActivitySt
     public void initTypes() {
         mTypes = new ArrayList<>();
         switch (mRecordType) {
-            case MyWallet_come:
-                mTypes.add(RecordType.MyWallet_come);
-                mTypes.add(RecordType.MyWallet_withdraw);
-                break;
-            case online_come:
-                mTypes.add(RecordType.balance_all);
-                mTypes.add(RecordType.online_come);
-                mTypes.add(RecordType.online_withdraw);
-                break;
-            case pos_come:
-                mTypes.add(RecordType.pos_come);
-                mTypes.add(RecordType.pos_withdraw);
-                break;
             case balance_all:
                 mTypes.add(RecordType.balance_all);
                 mTypes.add(RecordType.balance_come);
                 mTypes.add(RecordType.balance_withdraw);
+                break;
+            case online_all:
+                mTypes.add(RecordType.online_all);
+                mTypes.add(RecordType.online_come);
+                mTypes.add(RecordType.online_withdraw);
+                break;
+            case myWallet_all:
+                mTypes.add(RecordType.myWallet_all);
+                mTypes.add(RecordType.myWallet_come);
+                mTypes.add(RecordType.myWallet_withdraw);
+                break;
+            case pos_all:
+                mTypes.add(RecordType.pos_all);
+                mTypes.add(RecordType.pos_come);
+                mTypes.add(RecordType.pos_withdraw);
+                break;
+            case integral_all:
+                mTypes.add(RecordType.integral_all);
+                mTypes.add(RecordType.integral_come);
+                mTypes.add(RecordType.integral_withdraw);
                 break;
         }
     }

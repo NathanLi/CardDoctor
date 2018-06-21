@@ -29,9 +29,11 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
     public static final int LEVLE_HEADER = 0;
     public static final int LEVEL_ITEM = 1;
 
-    public AllRecordMultListAdapter(Context context, List<MultiItemEntity> data) {
+    private boolean mIsBalanceAll;
+
+    public AllRecordMultListAdapter(List<MultiItemEntity> data, boolean isBalanceAll) {
         super(data);
-        this.mContext = context;
+        mIsBalanceAll = isBalanceAll;
         addItemType(LEVLE_HEADER, R.layout.layout_list_header_trade_record_summary);
         addItemType(LEVEL_ITEM, R.layout.layout_list_item_trade_record);
     }
@@ -43,8 +45,10 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
             case LEVLE_HEADER:
                 final TradeRecordSummary lv0 = (TradeRecordSummary) item;
                 helper.setText(R.id.tv_time, lv0.getTime());
+                if (mIsBalanceAll) {
+                    helper.setText(R.id.tv_pay, String.format(CardDoctorApplication.getContext().getString(R.string.pay_format), lv0.getPay()));
+                }
                 helper.setText(R.id.tv_income, String.format(CardDoctorApplication.getContext().getString(R.string.income_format), lv0.getBack()));
-                helper.setText(R.id.tv_pay, String.format(CardDoctorApplication.getContext().getString(R.string.pay_format), lv0.getPay()));
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -63,15 +67,12 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                 helper.setText(R.id.tv_time, lv1.getTime());
                 helper.setText(R.id.tv_money, lv1.getMoney());
                 int colorID;
-                final String status;
                 if (Double.parseDouble(lv1.getMoney()) >= 0) {
                     colorID = mContext.getResources().getColor(R.color.colorPrimary);
-                    status = "成功";
                 } else {
                     colorID = mContext.getResources().getColor(R.color.bg_color_orange_ff6633);
-                    status = "提现成功";
                 }
-                helper.setText(R.id.tv_status, status);
+                helper.setText(R.id.tv_status, "成功");
                 helper.getView(R.id.iv_indicator).setBackground(createColorShape(colorID, 20, 20, 20, 20));
                 helper.getView(R.id.layout_trade_item).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -79,7 +80,7 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                         mContext.startActivity(new Intent(mContext, SingleRecordActivity.class)
                                 .putExtra("time", TimeUtils.format("yyyy-MM-dd hh:mm:ss", lv1.getTimeStamp()))
                                 .putExtra("money", lv1.getMoney())
-                                .putExtra("status", status)
+                                .putExtra("status", "成功")
                                 .putExtra("action", Double.parseDouble(lv1.getMoney()) > 0 ? "成功" : "提现成功"));
                     }
                 });

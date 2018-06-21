@@ -103,10 +103,8 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-//                    startActivity(new Intent(getActivity(), ShareWalletActivity.class)
-//                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
                     startActivity(new Intent(getActivity(), RecordListActivity.class)
-                            .putExtra("type", RecordType.MyWallet_come)
+                            .putExtra("type", RecordType.myWallet_all)
                             .putExtra("title", "分佣明细"));
                 }
             }
@@ -116,9 +114,8 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
                 if ("0".equals(DataUtils.getInfo().getVIP_status())) {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
-//                    startActivity(new Intent(getActivity(), ShareProfitActivity.class));
                     startActivity(new Intent(getActivity(), RecordListActivity.class)
-                            .putExtra("type", RecordType.online_come)
+                            .putExtra("type", RecordType.online_all)
                             .putExtra("title", "线上分润明细"));
                 }
             }
@@ -139,14 +136,15 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
 //                startActivity(new Intent(getActivity(), PosFenRunListActivity.class));
                 startActivity(new Intent(getActivity(), RecordListActivity.class)
-                        .putExtra("type", RecordType.pos_come)
+                        .putExtra("type", RecordType.pos_all)
                         .putExtra("title", "POS分润明细"));
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
-//                startActivity(new Intent(getActivity(),RecordListActivity.class));
+                //startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
+                startActivity(new Intent(getActivity(),RecordListActivity.class)
+                        .putExtra("type", RecordType.integral_all));
             }
         });
     }

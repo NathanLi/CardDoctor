@@ -29,9 +29,8 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
     public static final int LEVLE_HEADER = 0;
     public static final int LEVEL_ITEM = 1;
 
-    public IncomePayMultListAdapter(Context context, List<MultiItemEntity> data) {
+    public IncomePayMultListAdapter(List<MultiItemEntity> data) {
         super(data);
-        this.mContext = context;
         addItemType(LEVLE_HEADER, R.layout.layout_list_header_trade_record_summary);
         addItemType(LEVEL_ITEM, R.layout.layout_list_item_trade_record);
     }
@@ -43,16 +42,7 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
             case LEVLE_HEADER:
                 final TradeRecordSummary lv0 = (TradeRecordSummary) item;
                 helper.setText(R.id.tv_time, lv0.getTime());
-                if (!TextUtils.isEmpty(lv0.getBack())) {
-                    helper.setText(R.id.tv_income, String.format(CardDoctorApplication.getContext().getString(R.string.income_format), lv0.getBack()));
-                } else {
-                    helper.setText(R.id.tv_income, "");
-                }
-                if (!TextUtils.isEmpty(lv0.getPay())) {
-                    helper.setText(R.id.tv_pay, String.format(CardDoctorApplication.getContext().getString(R.string.pay_format), lv0.getPay()));
-                } else {
-                    helper.setText(R.id.tv_pay, "");
-                }
+                helper.setText(R.id.tv_pay, String.format(CardDoctorApplication.getContext().getString(R.string.pay_format), lv0.getPay()));
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

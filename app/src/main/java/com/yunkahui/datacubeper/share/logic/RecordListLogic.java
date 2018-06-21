@@ -29,12 +29,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2018/6/7.
+ * Created by Administrator on 2018/6/7
  */
 
 public class RecordListLogic {
 
-    JSONArray jsonArrayData;
+    private JSONArray jsonArrayData;
 
     //统计收入/支出
     public void loadStatisticalMoney(Context context, String year, String month,
@@ -49,11 +49,11 @@ public class RecordListLogic {
     }
 
     //获取积分数据
-    public void loadIntegealData(Context context, int pageSize, int pageNum, String type, SimpleCallBack<BaseBean<Records>> callBack) {
+    public void loadIntegealData(Context context, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
                 .addParams("pageSize", pageSize)
                 .addParams("pageNum", pageNum)
-                .addParams("type", type)
+                .addParams("type", "expend")
                 .create();
         HttpManager.getInstance().create(ApiService.class).loadIntegralData(params)
                 .compose(HttpManager.<BaseBean<Records>>applySchedulers()).subscribe(callBack);
@@ -74,22 +74,6 @@ public class RecordListLogic {
         Map<String, String> params = innerParam.create();
         HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
-    //******** 获取充值记录 ********
-    public void loadRechargeRecord(Context context, String type, int pageSize, int pageNum,
-                                   long startTime, long endTime, SimpleCallBack<BaseBean<WithdrawRecord>> callBack) {
-        RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
-                .addParams("recharge_type", type)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum));
-        if (startTime > 0) {
-            innerParam.addParams("begin_time", startTime);
-            innerParam.addParams("end_time", endTime);
-        }
-        Map<String, String> params = innerParam.create();
-        HttpManager.getInstance().create(ApiService.class).loadRechargeOrder2(params)
-                .compose(HttpManager.<BaseBean<WithdrawRecord>>applySchedulers()).subscribe(callBack);
     }
 
     //******** 获取提现记录 ********
@@ -121,22 +105,6 @@ public class RecordListLogic {
         }
         Map<String, String> params = innerParam.create();
         HttpManager.getInstance().create(ApiService.class).loadPosFenRunData(params)
-                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
-    }
-
-    //******** 查询分润收入 、 分佣收入 ********
-    public void loadProfitIncome(Context context, String checkType, int pageSize, int pageNum,
-                                 long startTime, long endTime, SimpleCallBack<BaseBean> callBack) {
-        RequestUtils.InnerParam innerParam = RequestUtils.newParams(context)
-                .addParams("pageSize", String.valueOf(pageSize))
-                .addParams("pageNum", String.valueOf(pageNum))
-                .addParams("check_type", checkType);
-        if (startTime > 0) {
-            innerParam.addParams("begin_time", startTime);
-            innerParam.addParams("end_time", endTime);
-        }
-        Map<String, String> params = innerParam.create();
-        HttpManager.getInstance().create(ApiService.class).loadTradeDetail(params)
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
@@ -224,7 +192,7 @@ public class RecordListLogic {
         summary.setMonth(TimeUtils.format("MM", summary.getSubItem(0).getTimeStamp()));
     }
 
-    public List<MultiItemEntity> parseTradeData(List<WithdrawRecord.WithdrawDetail> withdrawDetails) {
+    public List<MultiItemEntity> parseJsonForTradeWithdraw(List<WithdrawRecord.WithdrawDetail> withdrawDetails) {
         List<MultiItemEntity> list = new ArrayList<>();
         List<WithdrawRecord.WithdrawDetail> detailList = withdrawDetails;
         TradeRecordSummary summary = new TradeRecordSummary();
@@ -249,7 +217,15 @@ public class RecordListLogic {
         }
         list.remove(0);
         list.add(summary);
+        for (MultiItemEntity entity : list) {
+            TradeRecordSummary s = (TradeRecordSummary) entity;
+            double pay = 0;
+            for (TradeRecordDetail detail : s.getSubItems()) {
+                pay += Double.parseDouble(detail.getMoney());
+            }
+            DecimalFormat df = new java.text.DecimalFormat("0.00");
+            s.setPay(df.format(pay));
+        }
         return list;
     }
-
 }

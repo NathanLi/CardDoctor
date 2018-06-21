@@ -68,7 +68,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     ToastUtils.show(getActivity(), "请先升级VIP");
                 } else {
                     startActivity(new Intent(getActivity(), RecordListActivity.class)
-                            .putExtra("type", RecordType.online_come)
+                            .putExtra("type", RecordType.online_all)
                             .putExtra("title", "线上分润明细"));
                 }
             }

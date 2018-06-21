@@ -23,7 +23,6 @@ import com.yunkahui.datacubeper.common.utils.RequestUtils;
 import com.yunkahui.datacubeper.common.utils.TimeUtils;
 import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.home.ui.SingleRecordActivity;
-import com.yunkahui.datacubeper.share.adapter.AllRecordMultListAdapter;
 import com.yunkahui.datacubeper.share.logic.RecordListLogic;
 import com.yunkahui.datacubeper.share.logic.RecordType;
 
@@ -81,7 +80,7 @@ public class RecordListNew2Fragment extends Fragment {
                 WithdrawRecord.WithdrawDetail detail = mItemEntities.get(position);
                 String action = "";
                 switch (mRecordType) {
-                    case MyWallet_withdraw:
+                    case myWallet_withdraw:
                         action = "分佣提现";
                         break;
                     case online_withdraw:
@@ -141,7 +140,7 @@ public class RecordListNew2Fragment extends Fragment {
 
     private void loadData() {
         switch (mRecordType) {
-            case MyWallet_withdraw:
+            case myWallet_withdraw:
             case balance_withdraw:
             case online_withdraw:
                 mLogic.loadWithdrawRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
@@ -150,7 +149,7 @@ public class RecordListNew2Fragment extends Fragment {
                 mLogic.loadPosFenRunData(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerPosWithdrawCallBack());
                 break;
             case balance_come:
-                mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
+                //mLogic.loadRechargeRecord(getActivity(), mRecordType.getType(), mPageSize, mCurrentPage, mStartTime, mEndTime, new InnerCallBack());
                 break;
         }
 

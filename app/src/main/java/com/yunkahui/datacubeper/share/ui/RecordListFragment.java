@@ -89,7 +89,7 @@ public class RecordListFragment extends Fragment {
     }
 
     private void loadIntegralData() {
-        mLogic.loadIntegealData(getActivity(), PAGE_SIZE, mCurrentPage, mType, new InnerCallBack());
+        //mLogic.loadIntegealData(getActivity(), PAGE_SIZE, mCurrentPage, mType, new InnerCallBack());
     }
 
 

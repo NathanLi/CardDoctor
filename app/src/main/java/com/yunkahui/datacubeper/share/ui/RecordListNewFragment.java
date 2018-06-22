@@ -75,13 +75,13 @@ public class RecordListNewFragment extends Fragment {
         if (mRecordType == RecordType.balance_all || mRecordType == RecordType.online_all ||
                 mRecordType == RecordType.myWallet_all || mRecordType == RecordType.pos_all) {
             mIsAll = true;
-            mAdapter = new AllRecordMultListAdapter(mItemEntities, mIsAll);
+            mAdapter = new AllRecordMultListAdapter(mItemEntities, mRecordType, mIsAll);
         } else if (mRecordType == RecordType.balance_come || mRecordType == RecordType.online_come ||
                 mRecordType == RecordType.myWallet_come || mRecordType == RecordType.pos_come) {
             mIsAll = false;
-            mAdapter = new AllRecordMultListAdapter(mItemEntities, mIsAll);
+            mAdapter = new AllRecordMultListAdapter(mItemEntities, mRecordType, mIsAll);
         } else {
-            mAdapter = new IncomePayMultListAdapter(mItemEntities);
+            mAdapter = new IncomePayMultListAdapter(mItemEntities, mRecordType);
         }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -124,8 +124,8 @@ public class RecordListNewFragment extends Fragment {
                 mLogic.loadPosFenRunData(getActivity(), mRecordType.getType(), PAGE_SIZE, mCurrentPage, mStartTime,
                         mEndTime, new InnerPosWithdrawCallBack());
                 break;
-            case integral_withdraw:
-                mLogic.loadIntegealData(getActivity(), PAGE_SIZE, mCurrentPage, new InnerPosWithdrawCallBack());
+            case integral_withdraw: //积分 支出
+                mLogic.loadIntegealData(getActivity(), mRecordType.getType(), PAGE_SIZE, mCurrentPage, new InnerPosWithdrawCallBack());
                 break;
         }
     }
@@ -319,6 +319,9 @@ public class RecordListNewFragment extends Fragment {
                 break;
             case "withdraw":
                 type = "gain";
+                break;
+            case "expend":
+                type = "points";
                 break;
             default:
                 type = mRecordType.getType();

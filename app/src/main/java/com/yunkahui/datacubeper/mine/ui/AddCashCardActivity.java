@@ -127,7 +127,6 @@ public class AddCashCardActivity extends AppCompatActivity implements IActivityS
                         setResult(RESULT_OK);
                         finish();
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

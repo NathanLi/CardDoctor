@@ -97,6 +97,7 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                                 .putExtra("time", TimeUtils.format("yyyy-MM-dd hh:mm:ss", lv1.getTimeStamp()))
                                 .putExtra("money", lv1.getMoney())
                                 .putExtra("status", status)
+                                .putExtra("remark",lv1.getRemark())
                                 .putExtra("action", Double.parseDouble(lv1.getMoney()) > 0 ? "充值" : "提现"));
                     }
                 });

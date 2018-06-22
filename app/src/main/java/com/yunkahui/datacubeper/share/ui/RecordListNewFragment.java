@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,8 @@ public class RecordListNewFragment extends Fragment {
             case myWallet_come: //佣金收入
             case pos_all:
             case pos_come: //pos 收入
+            case integral_all:
+            case integral_come:
                 mLogic.loadTradeDetail(getActivity(), mRecordType.getType(), PAGE_SIZE, mCurrentPage, mStartTime,
                         mEndTime, mIsAll ? "all" : "in", new InnerCallBack());
                 break;
@@ -188,7 +191,7 @@ public class RecordListNewFragment extends Fragment {
                     for (int i = mItemEntities.size() - 1; i >= 0; i--) {
                         if (mItemEntities.get(i) instanceof TradeRecordSummary) {
                             mModifyPos = i;
-                            loadStatisticalMoney((TradeRecordSummary) mItemEntities.get(i), "out");
+                            loadStatisticalWithdrawMoney((TradeRecordSummary) mItemEntities.get(i));
                             break;
                         }
                     }
@@ -207,7 +210,7 @@ public class RecordListNewFragment extends Fragment {
 
         @Override
         public void onSuccess(BaseBean baseBean) {
-            LogUtils.e("所有明细->" + baseBean.getJsonObject().toString());
+            LogUtils.e("提现明细->" + baseBean.getJsonObject().toString());
             if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
                 int allPage = baseBean.getJsonObject().optJSONObject("respData").optInt("pages");
                 mItemEntities.clear();
@@ -226,7 +229,7 @@ public class RecordListNewFragment extends Fragment {
                     for (int i = mItemEntities.size() - 1; i >= 0; i--) {
                         if (mItemEntities.get(i) instanceof TradeRecordSummary) {
                             mModifyPos = i;
-                            loadStatisticalMoney((TradeRecordSummary) mItemEntities.get(i), "out");
+                            loadStatisticalWithdrawMoney((TradeRecordSummary) mItemEntities.get(i));
                             break;
                         }
                     }
@@ -272,6 +275,34 @@ public class RecordListNewFragment extends Fragment {
             }
         });
     }
+
+    private void loadStatisticalWithdrawMoney(TradeRecordSummary summary) {
+        mLogic.loadStatisticalWithdrawMoney(getActivity(), summary.getYear(), summary.getMonth(), getAccountType(), new SimpleCallBack<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean baseBean) {
+                LogUtils.e("统计提现-->" + baseBean.getJsonObject().toString());
+                if (RequestUtils.SUCCESS.equals(baseBean.getRespCode())) {
+                    try {
+                        JSONObject object = new JSONObject(baseBean.getJsonObject().toString()).optJSONObject("respData");
+                        if(!TextUtils.isEmpty(object.optString("amount"))){
+                            ((TradeRecordSummary) mItemEntities.get(mModifyPos)).setPay(object.optString("amount"));
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                LogUtils.e("统计提现-->" + "请求失败 " + throwable.toString());
+            }
+        });
+
+
+    }
+
 
     @NonNull
     private String getAccountType() {

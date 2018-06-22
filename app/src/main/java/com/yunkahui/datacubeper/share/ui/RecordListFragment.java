@@ -1,6 +1,7 @@
 package com.yunkahui.datacubeper.share.ui;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,10 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.hellokiki.rrorequest.HttpManager;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
+import com.yunkahui.datacubeper.common.api.ApiService;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.Records;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -24,6 +27,7 @@ import com.yunkahui.datacubeper.share.logic.RecordListLogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.PUT;
 
@@ -88,8 +92,18 @@ public class RecordListFragment extends Fragment {
 
     }
 
+    public void loadIntegealData(Context context, int pageSize, int pageNum,String type, SimpleCallBack<BaseBean<Records>> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("pageSize", pageSize)
+                .addParams("pageNum", pageNum)
+                .addParams("type", type)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadIntegralData(params)
+                .compose(HttpManager.<BaseBean<Records>>applySchedulers()).subscribe(callBack);
+    }
+
     private void loadIntegralData() {
-        //mLogic.loadIntegealData(getActivity(), PAGE_SIZE, mCurrentPage, mType, new InnerCallBack());
+        loadIntegealData(getActivity(), PAGE_SIZE, mCurrentPage, mType, new InnerCallBack());
     }
 
 

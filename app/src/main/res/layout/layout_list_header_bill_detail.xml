@@ -27,7 +27,6 @@
         android:layout_marginTop="8dp"
         android:textColor="#ffffff"
         android:textSize="16sp"
-
         app:layout_constraintLeft_toLeftOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 

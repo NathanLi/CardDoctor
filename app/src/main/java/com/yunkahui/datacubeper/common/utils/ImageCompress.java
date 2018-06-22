@@ -18,7 +18,7 @@ public class ImageCompress {
         System.loadLibrary("compress");
     }
 
-    public static final int quality = 10;
+    public static final int quality = 25;
 
     public static final String DIR = "/compressImage/";   //暂存压缩后图片的文件夹
 

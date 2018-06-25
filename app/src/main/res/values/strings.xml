@@ -88,6 +88,7 @@
     <string name="bank_card_tail_num">[%s]</string>
     <string name="income_format">收入：%s</string>
     <string name="pay_format">支出：%s</string>
+    <string name="amount_format">￥：%s</string>
     <string name="bill_sync">账单同步</string>
     <string name="smart_plan">智能规划</string>
     <string name="select_card">选择银行卡片</string>

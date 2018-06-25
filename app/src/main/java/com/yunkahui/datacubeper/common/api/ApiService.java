@@ -417,4 +417,8 @@ public interface ApiService {
     @POST("/app/user/staticInEx")   //统计收入支出
     Observable<BaseBean> loadStatisticalMoney(@FieldMap Map<String,String> params);
 
+    @FormUrlEncoded
+    @POST("/app/user/staticWithDraw")   //统计总提现金额
+    Observable<BaseBean> loadStatisticalWithdrawMoney(@FieldMap Map<String,String> params);
+
 }

@@ -86,6 +86,7 @@ public class AllRecordMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                         record.setMoney(lv1.getMoney());
                         record.setStatus("成功");
                         record.setAction(mRecordType.getSub() + (colorID == mContext.getResources().getColor(R.color.colorPrimary) ? "收入" : "提现"));
+                        record.setRemarks(lv1.getRemark());
                         mContext.startActivity(new Intent(mContext, SingleRecordActivity.class)
                                 .putExtra("info", record));
                     }

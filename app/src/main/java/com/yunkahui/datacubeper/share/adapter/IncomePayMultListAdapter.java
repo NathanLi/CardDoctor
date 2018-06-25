@@ -97,6 +97,7 @@ public class IncomePayMultListAdapter extends BaseMultiItemQuickAdapter<MultiIte
                         record.setMoney(lv1.getMoney());
                         record.setStatus(status);
                         record.setAction(mRecordType.getSub() + (mRecordType == RecordType.integral_withdraw ? "支出" : "提现"));
+                        record.setRemarks(lv1.getRemark());
                         mContext.startActivity(new Intent(mContext, SingleRecordActivity.class)
                                 .putExtra("info", record));
                     }

@@ -31,7 +31,7 @@
             android:id="@+id/double_block_view_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:leftTitle="我的钱包"
+            app:leftTitle="佣金账户"
             app:rightTitle="累计分润" />
 
         <View

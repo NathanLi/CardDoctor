@@ -90,8 +90,9 @@ public class ShareFragment extends BaseFragment implements View.OnClickListener 
                 } else {
 //                    startActivity(new Intent(mActivity, ShareWalletActivity.class)
 //                            .putExtra("money", mDoubleBlockView1.getLeftValue()));
-                    startActivity(new Intent(getActivity(),RecordListActivity.class).putExtra("type", RecordType.myWallet_come));
-
+                    startActivity(new Intent(getActivity(),RecordListActivity.class)
+                            .putExtra("type", RecordType.myWallet_all)
+                            .putExtra("title","分佣明细"));
                 }
             }
         }).setOnRightBlockClickListener(new View.OnClickListener() {

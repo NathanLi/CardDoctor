@@ -142,9 +142,10 @@ public class ShareNewFragment extends Fragment implements View.OnClickListener {
         }).setOnRightBlockClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
-                startActivity(new Intent(getActivity(),RecordListActivity.class)
-                        .putExtra("type", RecordType.integral_all));
+                startActivity(new Intent(getActivity(), IntegralRecordListActivity.class));
+//                startActivity(new Intent(getActivity(),RecordListActivity.class)
+//                        .putExtra("type", RecordType.integral_all)
+//                        .putExtra("title", "积分明细"));
             }
         });
     }

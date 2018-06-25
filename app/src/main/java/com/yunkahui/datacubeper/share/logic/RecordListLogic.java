@@ -48,6 +48,17 @@ public class RecordListLogic {
                 .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
     }
 
+    //统计总提现金额
+    public void loadStatisticalWithdrawMoney(Context context, String year, String month,
+                                     String accountType, SimpleCallBack<BaseBean> callBack) {
+        Map<String, String> params = RequestUtils.newParams(context)
+                .addParams("y_month", year + "-" + month)
+                .addParams("account_type", accountType)
+                .create();
+        HttpManager.getInstance().create(ApiService.class).loadStatisticalWithdrawMoney(params)
+                .compose(HttpManager.<BaseBean>applySchedulers()).subscribe(callBack);
+    }
+
     //获取积分数据
     public void loadIntegealData(Context context, String checkType, int pageSize, int pageNum, SimpleCallBack<BaseBean> callBack) {
         Map<String, String> params = RequestUtils.newParams(context)
@@ -139,6 +150,7 @@ public class RecordListLogic {
                 item.setTime(com.yunkahui.datacubeper.common.utils.TimeUtils.format("yyyy-MM-dd hh:mm:ss", j.optLong("create_time")));
                 item.setMoney(j.optString("change_amount") + "");
                 item.setTitle(j.optString("trade_type_desc"));
+                item.setRemark(j.optString("third_party_msg"));
 
                 if (lastItem != null) {
                     if (item.getTime().startsWith("0") && lastItem.getTime().startsWith("0") &&

@@ -31,6 +31,9 @@ public class SingleRecordActivity extends AppCompatActivity implements IActivity
     @Override
     public void initData() {
         SingleRecord singleRecord = getIntent().getParcelableExtra("info");
+        if(singleRecord==null){
+            return;
+        }
         mIvIcon.setBackgroundResource(Double.parseDouble(singleRecord.getMoney()) > 0 ? R.mipmap.ic_trade_detail : R.mipmap.ic_withdraw);
         mTvType.setText(singleRecord.getAction());
         String amount = singleRecord.getMoney().startsWith("+") || singleRecord.getMoney().startsWith("-") ? singleRecord.getMoney().substring(1) : singleRecord.getMoney();

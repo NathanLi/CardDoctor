@@ -158,7 +158,8 @@ public class FailCardWhyActivity extends AppCompatActivity implements IActivityS
                             startActivity(new Intent(FailCardWhyActivity.this, BillDetailActivity.class)
                                     .putExtra("user_credit_card_id", creditCard.getUserCreditCardId())
                                     .putExtra("card_holder", creditCard.getCardHolder())
-                                    .putExtra("card_num", creditCard.getBankCardNum())
+                                    .putExtra("bank_card_num", creditCard.getBankCardNum())
+                                    .putExtra("bank_card_name",creditCard.getBankCardName())
                                     .putExtra("reday_date", TimeUtils.format("MM-dd", creditCard.getRepayDayDate()))
                                     .putExtra("bill_date", creditCard.getBillDayDate()));
                             break;

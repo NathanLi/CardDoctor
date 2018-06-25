@@ -111,7 +111,7 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
         ViewGroup.LayoutParams lineParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         int paddingH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getActivity().getResources().getDisplayMetrics());
         int paddingV = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getActivity().getResources().getDisplayMetrics());
-        int textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8, getActivity().getResources().getDisplayMetrics());
+        int textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PT, 8, getActivity().getResources().getDisplayMetrics());
 
         mRadioGroupType.removeAllViews();
 

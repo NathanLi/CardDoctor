@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
+//import android.support.multidex.MultiDex;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,7 +68,7 @@ public class CardDoctorApplication extends Application {
         mContext=getApplicationContext();
         final Context context = this;
 
-        MultiDex.install(this);
+//        MultiDex.install(this);
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);

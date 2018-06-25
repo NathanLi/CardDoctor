@@ -54,7 +54,7 @@ public class UploadPhotoActivity extends AppCompatActivity implements IActivityS
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new UploadHandBankCardReceiptFragment()).commit();
                 break;
             case TYPE_HAND_POS:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new UpLoadHandPosFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new UpLoadHandPosFragment()).commit(); 
                 break;
             case TYPE_SETTLE_ID_CARD:
             case TYPE_SETTLE_BANK_CARD:

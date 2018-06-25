@@ -47,10 +47,7 @@ public class SimpleMenuItemView extends LinearLayout {
         if(ta.hasValue(R.styleable.SimpleMenuItemView_menu_right_icon)){
             mImageViewRightIcon.setImageResource(ta.getResourceId(R.styleable.SimpleMenuItemView_menu_right_icon,0));
         }
-
-
     }
-
 
     public void setTitle(String title){
         mTextViewTitle.setText(title);

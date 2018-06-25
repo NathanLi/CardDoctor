@@ -10,11 +10,10 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
-import com.pgyersdk.update.PgyUpdateManager;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
+import com.yunkahui.datacubeper.applyreceipt.ui.ReceiptActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
-import com.yunkahui.datacubeper.common.other.OENType;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -224,7 +223,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         view.findViewById(R.id.rl_scan).setOnClickListener(this);
         view.findViewById(R.id.rl_qr).setOnClickListener(this);
-        view.findViewById(R.id.rl_receive_money).setOnClickListener(this);
+        view.findViewById(R.id.rl_receipt).setOnClickListener(this);
         view.findViewById(R.id.iv_qr).setOnClickListener(this);
         view.findViewById(R.id.text_view_qr_code).setOnClickListener(this);
     }
@@ -242,7 +241,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_qr:
                 break;
-            case R.id.rl_receive_money:
+            case R.id.rl_receipt:
+                startActivity(new Intent(mActivity, ReceiptActivity.class));
                 break;
             case R.id.iv_qr:
             case R.id.text_view_qr_code:

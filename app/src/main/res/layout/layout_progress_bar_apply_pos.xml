@@ -12,8 +12,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -21,26 +21,26 @@
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:background="@drawable/bg_circle_gray_normal"
+                android:gravity="center"
                 android:text="1"
-                android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_view_title_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
-                android:text="申请"
+                android:layout_marginTop="5pt"
                 android:gravity="center"
-                android:layout_marginTop="5pt"/>
+                android:text="申请"
+                android:textSize="14pt" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -48,26 +48,26 @@
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:background="@drawable/bg_circle_gray_normal"
+                android:gravity="center"
                 android:text="2"
-                android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_view_title_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
-                android:text="上传资料"
+                android:layout_marginTop="5pt"
                 android:gravity="center"
-                android:layout_marginTop="5pt"/>
+                android:text="上传资料"
+                android:textSize="14pt" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -75,26 +75,26 @@
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:background="@drawable/bg_circle_gray_normal"
+                android:gravity="center"
                 android:text="3"
-                android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_view_title_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
-                android:text="审核"
+                android:layout_marginTop="5pt"
                 android:gravity="center"
-                android:layout_marginTop="5pt"/>
+                android:text="审核"
+                android:textSize="14pt" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -102,26 +102,26 @@
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:background="@drawable/bg_circle_gray_normal"
+                android:gravity="center"
                 android:text="4"
-                android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_view_title_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
-                android:text="邮寄"
+                android:layout_marginTop="5pt"
                 android:gravity="center"
-                android:layout_marginTop="5pt"/>
+                android:text="邮寄"
+                android:textSize="14pt" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -129,24 +129,21 @@
                 android:layout_width="30pt"
                 android:layout_height="30pt"
                 android:background="@drawable/bg_circle_gray_normal"
+                android:gravity="center"
                 android:text="5"
-                android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/text_view_title_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
-                android:text="完成"
+                android:layout_marginTop="5pt"
                 android:gravity="center"
-                android:layout_marginTop="5pt"/>
+                android:text="完成"
+                android:textSize="14pt" />
 
         </LinearLayout>
 
-
-
     </LinearLayout>
-
 
 </RelativeLayout>

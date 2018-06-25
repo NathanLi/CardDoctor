@@ -172,7 +172,11 @@
         <activity android:name=".home.ui.CardPlanActivity" />
         <activity android:name=".share.ui.PosFenRunListActivity" />
         <activity android:name=".share.ui.IntegralRecordListActivity" />
-        <activity android:name=".share.ui.RecordListActivity"></activity>
+        <activity android:name=".share.ui.RecordListActivity" />
+        <activity android:name=".applyreceipt.ui.ReceiptActivity" />
+        <activity android:name=".applyreceipt.ui.BaseReceiptInfoActivity" />
+        <activity android:name=".applyreceipt.ui.SettleReceiptInfoActivity" />
+        <activity android:name=".applyreceipt.ui.UploadPhotoActivity" />
     </application>
 
 </manifest>

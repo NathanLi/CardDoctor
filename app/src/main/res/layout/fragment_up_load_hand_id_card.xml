@@ -47,6 +47,32 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/relative_layout_hand_id_card_back"
+            android:layout_width="match_parent"
+            android:layout_height="190pt"
+            android:layout_marginTop="25pt"
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt"
+            android:background="@drawable/bg_dotted_line">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="20pt"
+                android:drawableTop="@mipmap/ic_icon_add_2"
+                android:gravity="center"
+                android:text="本人手持身份证反面照片" />
+
+            <ImageView
+                android:id="@+id/image_view_hand_id_card_back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
+
+        </RelativeLayout>
+
         <Button
             android:id="@+id/button_submit"
             android:layout_width="match_parent"

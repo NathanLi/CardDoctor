@@ -26,34 +26,34 @@ public class ProgressApplyPosView extends RelativeLayout {
     private TextView mTextViewTitle5;
 
     public ProgressApplyPosView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public ProgressApplyPosView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public ProgressApplyPosView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.layout_progress_bar_apply_pos,this);
+        inflate(context, R.layout.layout_progress_bar_apply_pos, this);
 
-        mTextViewCircle1=findViewById(R.id.text_view_circle_1);
-        mTextViewCircle2=findViewById(R.id.text_view_circle_2);
-        mTextViewCircle3=findViewById(R.id.text_view_circle_3);
-        mTextViewCircle4=findViewById(R.id.text_view_circle_4);
-        mTextViewCircle5=findViewById(R.id.text_view_circle_5);
-        mTextViewTitle1=findViewById(R.id.text_view_title_1);
-        mTextViewTitle2=findViewById(R.id.text_view_title_2);
-        mTextViewTitle3=findViewById(R.id.text_view_title_3);
-        mTextViewTitle4=findViewById(R.id.text_view_title_4);
-        mTextViewTitle5=findViewById(R.id.text_view_title_5);
+        mTextViewCircle1 = findViewById(R.id.text_view_circle_1);
+        mTextViewCircle2 = findViewById(R.id.text_view_circle_2);
+        mTextViewCircle3 = findViewById(R.id.text_view_circle_3);
+        mTextViewCircle4 = findViewById(R.id.text_view_circle_4);
+        mTextViewCircle5 = findViewById(R.id.text_view_circle_5);
+        mTextViewTitle1 = findViewById(R.id.text_view_title_1);
+        mTextViewTitle2 = findViewById(R.id.text_view_title_2);
+        mTextViewTitle3 = findViewById(R.id.text_view_title_3);
+        mTextViewTitle4 = findViewById(R.id.text_view_title_4);
+        mTextViewTitle5 = findViewById(R.id.text_view_title_5);
 
     }
 
 
-    public void setProgress(int progress){
+    public void setProgress(int progress) {
 
-        switch (progress){
+        switch (progress) {
             case 1:
                 mTextViewTitle1.setTextColor(Color.parseColor("#ff9d09"));
                 break;
@@ -71,23 +71,22 @@ public class ProgressApplyPosView extends RelativeLayout {
                 break;
         }
 
-        if(progress>4){
+        if (progress > 4) {
             mTextViewCircle5.setBackgroundResource(R.drawable.bg_circle_orange_select);
         }
-        if(progress>3){
+        if (progress > 3) {
             mTextViewCircle4.setBackgroundResource(R.drawable.bg_circle_orange_select);
         }
-        if(progress>2){
+        if (progress > 2) {
             mTextViewCircle3.setBackgroundResource(R.drawable.bg_circle_orange_select);
         }
-        if(progress>1){
+        if (progress > 1) {
             mTextViewCircle2.setBackgroundResource(R.drawable.bg_circle_orange_select);
         }
-        if(progress>0){
+        if (progress > 0) {
             mTextViewCircle1.setBackgroundResource(R.drawable.bg_circle_orange_select);
         }
     }
-
 
 
 }

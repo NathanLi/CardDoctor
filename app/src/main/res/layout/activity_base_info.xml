@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#efefef"
+    tools:context="com.yunkahui.datacubeper.applypos.ui.PosMailInfoActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12pt"
+                android:layout_marginLeft="15pt"
+                android:layout_marginRight="15pt"
+                android:layout_marginTop="30pt"
+                android:text="请如实填写基本资料"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/setv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="联系人姓名"
+                android:layout_marginTop="10pt"
+                app:item_edit_hint="请输入联系人姓名"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"
+                android:layout_marginLeft="15pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/setv_certificate_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="证件类型"
+                app:item_edit_input_type="number"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"
+                android:layout_marginLeft="15pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/setv_certificate_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="证件号码"
+                app:item_edit_hint="请输入证件号码" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"
+                android:layout_marginLeft="15pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/setv_phone_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="手机号码"
+                app:item_edit_hint="请输入手机号码" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/line_gray_DDDDDD"
+                android:layout_marginLeft="15pt"/>
+
+            <com.yunkahui.datacubeper.common.view.SimpleEditTextView
+                android:id="@+id/setv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_edit_title="邮箱地址"
+                app:item_edit_hint="请输入邮箱地址" />
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:layout_margin="40pt"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_button_blue_selector"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

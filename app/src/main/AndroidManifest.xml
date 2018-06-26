@@ -87,11 +87,7 @@
         <activity android:name=".login.ui.RegisterActivity" />
         <activity android:name=".login.ui.LoginActivity" />
         <activity android:name=".login.ui.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".bill.ui.AddCardActivity" />
         <activity android:name=".home.ui.TodayOperationActivity" />
@@ -174,9 +170,17 @@
         <activity android:name=".share.ui.IntegralRecordListActivity" />
         <activity android:name=".share.ui.RecordListActivity" />
         <activity android:name=".applyreceipt.ui.ReceiptActivity" />
+        <activity android:name=".applyreceipt.ui.ReceiptGuideActivity" />
         <activity android:name=".applyreceipt.ui.BaseReceiptInfoActivity" />
         <activity android:name=".applyreceipt.ui.SettleReceiptInfoActivity" />
         <activity android:name=".applyreceipt.ui.UploadPhotoActivity" />
+        <activity android:name=".applyreceipt.ui.QuickPayActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

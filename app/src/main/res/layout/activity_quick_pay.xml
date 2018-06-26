@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="match_parent"
+        android:layout_height="180pt"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:textSize="56pt"
+        android:textColor="@color/white"
+        tools:text="¥ 666"/>
+
+    <com.yunkahui.datacubeper.common.view.SimpleItemView
+        android:id="@+id/stv_order_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_amount"/>
+
+    <com.yunkahui.datacubeper.common.view.SimpleItemView
+        android:id="@+id/stv_order_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stv_order_num"/>
+
+    <com.yunkahui.datacubeper.common.view.SimpleItemView
+        android:id="@+id/stv_order_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stv_order_title"/>
+
+    <com.yunkahui.datacubeper.common.view.SimpleItemView
+        android:id="@+id/stv_order_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stv_order_deadline"/>
+
+</android.support.constraint.ConstraintLayout>

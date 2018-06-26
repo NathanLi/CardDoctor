@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
-import com.yunkahui.datacubeper.applyreceipt.ui.ReceiptActivity;
+import com.yunkahui.datacubeper.applyreceipt.ui.ReceiptGuideActivity;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.utils.DataUtils;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
@@ -242,7 +242,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_qr:
                 break;
             case R.id.rl_receipt:
-                startActivity(new Intent(mActivity, ReceiptActivity.class));
+                startActivity(new Intent(mActivity, ReceiptGuideActivity.class));
                 break;
             case R.id.iv_qr:
             case R.id.text_view_qr_code:

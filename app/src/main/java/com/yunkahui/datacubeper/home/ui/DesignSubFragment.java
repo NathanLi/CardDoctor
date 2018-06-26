@@ -179,6 +179,7 @@ public class DesignSubFragment extends BaseFragment {
                             startActivityForResult(new Intent(mActivity, AdjustPlanActivity.class)
                                     .putExtra("type", type)
                                     .putExtra("amount", String.valueOf(amount))
+                                    .putExtra("business_type", mIsTodayOperation ? mTodayOperationSubList.get(position).getBusiness_name() : mPlanListList.get(position).getBusiness_name())
                                     .putExtra("id", String.valueOf(id)), 1);
                         }
                         break;
@@ -209,7 +210,7 @@ public class DesignSubFragment extends BaseFragment {
                 if (mIsTodayOperation) {
                     mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
                 } else {
-                    mPlanListList.get(mPosition).setAmount(Integer.parseInt(amount));
+                    mPlanListList.get(mPosition).setAmount(Float.parseFloat(amount));
                 }
                 mDesignSubAdapter.notifyItemChanged(mPosition);
                 Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
@@ -219,7 +220,7 @@ public class DesignSubFragment extends BaseFragment {
                     mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
                     mTodayOperationSubList.get(mPosition).setBusiness_name(businessType);
                 } else {
-                    mPlanListList.get(mPosition).setAmount(Integer.parseInt(amount));
+                    mPlanListList.get(mPosition).setAmount(Float.parseFloat(amount));
                     mPlanListList.get(mPosition).setBusiness_name(businessType);
                 }
                 // TODO: 2018/4/18 0018 set business type

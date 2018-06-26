@@ -67,8 +67,8 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "17"
             applicationId "com.fengniao.datacubeper"
-            versionCode 14
-            versionName "3.007"
+            versionCode 15
+            versionName "3.008"
             manifestPlaceholders = [
                     app_name     : "蜂鸟普惠",
                     authorities  : "com.fengniao.datacubeper.fileprovider",
@@ -82,12 +82,15 @@ android {
             dimension "environment"
             buildConfigField "int", "ENV_TYPE", "18"
             applicationId "com.xinyongdashi.datacubeper"
-            versionCode 8
-            versionName "3.004"
+            versionCode 9
+            versionName "3.005"
             manifestPlaceholders = [
                     app_name   : "信用大师",
                     authorities: "com.xinyongdashi.datacubeper.fileprovider",
-                    update_id  : "da32d2895d948f26592aace5c063165a"
+                    update_id  : "da32d2895d948f26592aace5c063165a",
+                    JPUSH_PKGNAME: "com.xinyongdashi.datacubeper",
+                    JPUSH_APPKEY : "f9d75c0dd2213923aa9cb868", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default"
             ]
         }
     }

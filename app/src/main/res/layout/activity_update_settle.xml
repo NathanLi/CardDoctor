@@ -33,7 +33,6 @@
                 android:id="@+id/simple_input_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_edit_focusable="false"
                 app:item_edit_title="账户名称" />
 
             <View style="@style/common_line"/>

@@ -47,6 +47,8 @@ public class PosApplyInfo {
     private String manage_address;
     private String legal_province;
     private String legal_city;
+    private String account_name;
+    private String reason_msg;
 
     public int getTai_id() {
         return tai_id;
@@ -376,6 +378,22 @@ public class PosApplyInfo {
         this.legal_city = legal_city;
     }
 
+    public String getAccount_name() {
+        return account_name;
+    }
+
+    public void setAccount_name(String account_name) {
+        this.account_name = account_name;
+    }
+
+    public String getReason_msg() {
+        return reason_msg;
+    }
+
+    public void setReason_msg(String reason_msg) {
+        this.reason_msg = reason_msg;
+    }
+
     @Override
     public String toString() {
         return "PosApplyInfo{" +
@@ -420,6 +438,8 @@ public class PosApplyInfo {
                 ", manage_address='" + manage_address + '\'' +
                 ", legal_province='" + legal_province + '\'' +
                 ", legal_city='" + legal_city + '\'' +
+                ", account_name='" + account_name + '\'' +
+                ", reason_msg='" + reason_msg + '\'' +
                 '}';
     }
 }

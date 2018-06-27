@@ -242,7 +242,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_qr:
                 break;
             case R.id.rl_receipt:
-                startActivity(new Intent(mActivity, ReceiptActivity.class));
+//                startActivity(new Intent(mActivity, ReceiptActivity.class));
+                ToastUtils.show(getActivity(),"正在升级中...");
                 break;
             case R.id.iv_qr:
             case R.id.text_view_qr_code:

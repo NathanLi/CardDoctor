@@ -61,8 +61,9 @@ public class ApplyPosLogic {
     /**
      * 上传结算信息
      */
-    public void upLoadSettleInfo(Context context,String bankCardNumber,String bankCardName,String province,String city,String branchName,String branchNumber,SimpleCallBack<BaseBean> callBack){
+    public void upLoadSettleInfo(Context context,String account,String bankCardNumber,String bankCardName,String province,String city,String branchName,String branchNumber,SimpleCallBack<BaseBean> callBack){
         Map<String,String> params= RequestUtils.newParams(context)
+                .addParams("account_name",account)
                 .addParams("account_number",bankCardNumber)
                 .addParams("account_bank_name",bankCardName)
                 .addParams("deposit_bank",branchName)

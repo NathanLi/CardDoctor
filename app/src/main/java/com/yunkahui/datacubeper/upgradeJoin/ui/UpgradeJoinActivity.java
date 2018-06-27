@@ -71,7 +71,7 @@ public class UpgradeJoinActivity extends AppCompatActivity implements IActivityS
                         .putExtra("type", UpgradeJoinIntroduceActivity.TYPE_VIP));
                 break;
             case R.id.upgrade_join_item_view2:
-                if (OENType.currentType() != OENType.fengniao) {
+                if (OENType.currentType() != OENType.fengniao && OENType.currentType() != OENType.kabuluo) {
                     startActivity(new Intent(this, UpgradeJoinIntroduceActivity.class)
                             .putExtra("type", UpgradeJoinIntroduceActivity.TYPE_AGENT));
                 }

@@ -57,6 +57,10 @@ public class WebViewActivity extends AppCompatActivity implements IActivityStatu
                 .go(url);
         mWebView = mAgentWeb.getWebCreator().getWebView();
 
+        if(url.contains("<html>")){
+            mWebView.loadDataWithBaseURL(null, url.toString(), "text/html" , "utf-8", null);
+        }
+
         mAgentWeb.getWebCreator().getWebView().setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {

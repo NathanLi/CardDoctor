@@ -64,32 +64,32 @@ public class ApplyPosActivity extends AppCompatActivity implements IActivityStat
 //                    if (!"1".equals(json.optString("VIP_status"))) {
 //                        ToastUtils.show(activity, "请先升级VIP");
 //                    } else {}
-                        switch (json.optString("tua_status")) {
-                            case "-1":  //落地POS没开通
-                                showDialog(activity);
-                                break;
-                            case "0":   //已付款
-                            case "1":   //审核中
-                            case "2":   //审核通过
-                            case "3":   //审核不通过
-                            case "4":   //审核关闭
-                            case "5":   //已寄出
-                            case "9":   //手持POS照片提交成功
-                            case "10":  //手持POS照片审核通过
-                            case "11":  //手持POS照片审核不通过
-                            case "12":
-                            case "13":
-                            case "7":   //完成
-                                Intent intent = new Intent(activity, ApplyPosActivity.class);
-                                intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
-                                activity.startActivity(intent);
-                                if (isFinish) {
-                                    activity.finish();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
+                    switch (json.optString("tua_status")) {
+                        case "-1":  //落地POS没开通
+                            showDialog(activity);
+                            break;
+                        case "0":   //已付款
+                        case "1":   //审核中
+                        case "2":   //审核通过
+                        case "3":   //审核不通过
+                        case "4":   //审核关闭
+                        case "5":   //已寄出
+                        case "9":   //手持POS照片提交成功
+                        case "10":  //手持POS照片审核通过
+                        case "11":  //手持POS照片审核不通过
+                        case "12":
+                        case "13":
+                        case "7":   //完成
+                            Intent intent = new Intent(activity, ApplyPosActivity.class);
+                            intent.putExtra("type", Integer.parseInt(json.optString("tua_status")));
+                            activity.startActivity(intent);
+                            if (isFinish) {
+                                activity.finish();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 } else {
                     ToastUtils.show(activity, baseBean.getRespDesc());
                 }

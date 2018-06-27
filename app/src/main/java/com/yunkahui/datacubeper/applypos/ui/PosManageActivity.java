@@ -171,7 +171,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
             mSimpleTextViewApplyArea.setText(info.getLegal_province() + "-" + info.getLegal_city());
             mSimpleTextViewBusAddress.setText(info.getManage_address());
 
-            mSimpleTextViewAccountName.setText(info.getLegal_name());//TODO POS管理  账户名称待修改
+            mSimpleTextViewAccountName.setText(info.getAccount_name());//TODO POS管理  账户名称待修改
             mSimpleTextViewBankCardNumber.setText(info.getBank_card_num());
             mSimpleTextViewBankCardName.setText(info.getBank_card_name());
             mSimpleTextViewBranchAddress.setText(info.getDeposit_province() + "-" + info.getDeposit_city());
@@ -229,7 +229,7 @@ public class PosManageActivity extends AppCompatActivity implements IActivitySta
                         case "13":  //pos结算信息修改审核通过
                         case "14":  //pos结算信息修改审核不通过 //TODO POS管理  账户名称待修改
                             Intent intent = new Intent(PosManageActivity.this, UpdateSettleActivity.class);
-                            intent.putExtra("name", mApplyInfo.getLegal_name());
+                            intent.putExtra("name", mApplyInfo.getAccount_name());
                             startActivity(intent);
                             break;
                         case "12":  //pos结算信息修改审核中

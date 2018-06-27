@@ -31,16 +31,16 @@ import org.json.JSONObject;
  */
 public class PosApplyStatusFragment extends Fragment implements View.OnClickListener {
 
-    public static final int TYPE_DISPOSE_RUNNING=101;   //审核中
-    public static final int TYPE_DISPOSE_FAIL=102;  //审核不过
-    public static final int TYPE_DISPOSE_SUCCESS=103;   //审核通过
-    public static final int TYPE_HAVE_MAIL=104;     //已邮寄
-    public static final int TYPE_HAND_POS_DISPOSE_RUNNING=105;  //手持POS机照片审核中
-    public static final int TYPE_HAND_POS_DISPOSE_SUCCESS=106;  //手持POS机照片审核通过（完成）
-    public static final int TYPE_HAND_POS_DISPOSE_FAIL=107;     //手持POS机照片审核不通过
+    public static final int TYPE_DISPOSE_RUNNING = 101;   //审核中
+    public static final int TYPE_DISPOSE_FAIL = 102;  //审核不过
+    public static final int TYPE_DISPOSE_SUCCESS = 103;   //审核通过
+    public static final int TYPE_HAVE_MAIL = 104;     //已邮寄
+    public static final int TYPE_HAND_POS_DISPOSE_RUNNING = 105;  //手持POS机照片审核中
+    public static final int TYPE_HAND_POS_DISPOSE_SUCCESS = 106;  //手持POS机照片审核通过（完成）
+    public static final int TYPE_HAND_POS_DISPOSE_FAIL = 107;     //手持POS机照片审核不通过
 
 
-    private final int RESULT_CODE_HAND_POS=1001;
+    private final int RESULT_CODE_HAND_POS = 1001;
 
     private ProgressApplyPosView mProgressApplyPosView;
     private ImageView mImageViewIcon;
@@ -53,18 +53,18 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_pos_apply_status, container, false);
-        mProgressApplyPosView=view.findViewById(R.id.progress_bar_apply_pos);
-        mImageViewIcon=view.findViewById(R.id.image_view_dispose_result);
-        mTextViewResult=view.findViewById(R.id.text_view_result);
-        mTextViewMessage=view.findViewById(R.id.text_view_message);
-        mButtonSubmit=view.findViewById(R.id.button_submit);
+        View view = inflater.inflate(R.layout.fragment_pos_apply_status, container, false);
+        mProgressApplyPosView = view.findViewById(R.id.progress_bar_apply_pos);
+        mImageViewIcon = view.findViewById(R.id.image_view_dispose_result);
+        mTextViewResult = view.findViewById(R.id.text_view_result);
+        mTextViewMessage = view.findViewById(R.id.text_view_message);
+        mButtonSubmit = view.findViewById(R.id.button_submit);
 
         mButtonSubmit.setOnClickListener(this);
-        mType=getArguments().getInt("type");
-        if(mType==TYPE_DISPOSE_FAIL){
+        mType = getArguments().getInt("type");
+        if (mType == TYPE_DISPOSE_FAIL) {
             loadData();
-        }else if(mType==TYPE_HAVE_MAIL){
+        } else if (mType == TYPE_HAVE_MAIL) {
             checkMailInfo();
         }
         initData();
@@ -78,10 +78,12 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
             @Override
             public void onSuccess(BaseBean<PosApplyInfo> bean) {
                 LoadingViewDialog.getInstance().dismiss();
+                LogUtils.e("已上传资料->"+bean.getJsonObject().toString());
                 if (RequestUtils.SUCCESS.equals(bean.getRespCode())) {
-                    mTextViewMessage.setText(bean.getRespData().getContent());
+                    mTextViewMessage.setText(bean.getRespData().getReason_msg());
                 }
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
@@ -91,17 +93,17 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
     }
 
     //查询邮寄信息
-    private void checkMailInfo(){
+    private void checkMailInfo() {
         LoadingViewDialog.getInstance().show(getActivity());
         new ApplyPosLogic().checkHaveMailInfo(getActivity(), new SimpleCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    LogUtils.e("pos邮寄信息->"+baseBean.getJsonObject().toString());
-                    JSONObject object=baseBean.getJsonObject();
-                    if(RequestUtils.SUCCESS.equals(object.optString("respCode"))){
-                        mTextViewResult.setText("POS机邮寄中\n"+object.optJSONObject("respData").optString("kd_company")+"\n快递单号："+object.optJSONObject("respData").optString("kd_number"));
+                    LogUtils.e("pos邮寄信息->" + baseBean.getJsonObject().toString());
+                    JSONObject object = baseBean.getJsonObject();
+                    if (RequestUtils.SUCCESS.equals(object.optString("respCode"))) {
+                        mTextViewResult.setText("POS机邮寄中\n" + object.optJSONObject("respData").optString("kd_company") + "\n快递单号：" + object.optJSONObject("respData").optString("kd_number"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -111,15 +113,14 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
             @Override
             public void onFailure(Throwable throwable) {
                 LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(),"请求失败 "+throwable.toString());
+                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
             }
         });
     }
 
 
-
-    private void initData(){
-        switch (mType){
+    private void initData() {
+        switch (mType) {
             case TYPE_DISPOSE_RUNNING:
                 mProgressApplyPosView.setProgress(3);
                 mImageViewIcon.setImageResource(R.mipmap.ic_dispose_result);
@@ -174,24 +175,24 @@ public class PosApplyStatusFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==getActivity().RESULT_OK&&requestCode==RESULT_CODE_HAND_POS){
-            ((ApplyPosActivity)getActivity()).startToHandPosDisposeRunning();
+        if (resultCode == getActivity().RESULT_OK && requestCode == RESULT_CODE_HAND_POS) {
+            ((ApplyPosActivity) getActivity()).startToHandPosDisposeRunning();
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_submit:
-                switch (mType){
+                switch (mType) {
                     case TYPE_DISPOSE_FAIL:
-                        ((ApplyPosActivity)getActivity()).startToApplyPos();
+                        ((ApplyPosActivity) getActivity()).startToApplyPos();
                         break;
                     case TYPE_HAVE_MAIL:
                     case TYPE_HAND_POS_DISPOSE_FAIL:
-                        Intent intent=new Intent(getActivity(),UpLoadImageActivity.class);
-                        intent.putExtra("type",UpLoadImageActivity.TYPE_HAND_POS);
-                        startActivityForResult(intent,RESULT_CODE_HAND_POS);
+                        Intent intent = new Intent(getActivity(), UpLoadImageActivity.class);
+                        intent.putExtra("type", UpLoadImageActivity.TYPE_HAND_POS);
+                        startActivityForResult(intent, RESULT_CODE_HAND_POS);
                         break;
                 }
                 break;

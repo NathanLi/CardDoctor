@@ -48,7 +48,7 @@ public class ApplyPosSecondFragment extends Fragment implements View.OnClickList
 
         mProgressApplyPosView = view.findViewById(R.id.progress_bar_apply_pos);
         mMenuItemViewPosMail = view.findViewById(R.id.simple_menu_pos_mail);
-        mMenuItemViewTerminalInfo = view.findViewById(R.id.simple_menu_settle_info);
+        mMenuItemViewTerminalInfo = view.findViewById(R.id.simple_menu_terminal_info);
         mMenuItemViewSettleInfo = view.findViewById(R.id.simple_menu_settle_info);
         mMenuItemViewIdCard = view.findViewById(R.id.simple_menu_id_card_photo);
         mMenuItemViewHandIdCard = view.findViewById(R.id.simple_menu_hand_id_card_photo);

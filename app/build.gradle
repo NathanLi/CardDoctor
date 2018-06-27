@@ -93,6 +93,21 @@ android {
                     JPUSH_CHANNEL: "developer-default"
             ]
         }
+        kabuluo {   //卡部落
+            dimension "environment"
+            buildConfigField "int", "ENV_TYPE", "19"
+            applicationId "com.kabuluo.datacubeper"
+            versionCode 1
+            versionName "3.000"
+            manifestPlaceholders = [
+                    app_name   : "卡部落",
+                    authorities: "com.kabuluo.datacubeper.fileprovider",
+                    update_id  : "969bff4349995c74fe3beb6bab26178a",
+                    JPUSH_PKGNAME: "com.kabuluo.datacubeper",
+                    JPUSH_APPKEY : "b4d754df728a48642be13240", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default"
+            ]
+        }
     }
 
 

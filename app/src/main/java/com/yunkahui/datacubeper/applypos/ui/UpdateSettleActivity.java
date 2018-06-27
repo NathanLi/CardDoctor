@@ -167,7 +167,7 @@ public class UpdateSettleActivity extends AppCompatActivity implements IActivity
             array.put(jsonObject);
         }
         LoadingViewDialog.getInstance().show(this);
-        mLogic.updataSettleData(this, mEditTextViewNewBankCard.getText(), mEditTextViewBankCardName.getText(), mSimpleTextViewBranch.getText(),
+        mLogic.updataSettleData(this,mEditTextViewAccountName.getText(), mEditTextViewNewBankCard.getText(), mEditTextViewBankCardName.getText(), mSimpleTextViewBranch.getText(),
                 mProvince, mCity, mEditTextViewBranchNumber.getText(), array.toString(), new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {

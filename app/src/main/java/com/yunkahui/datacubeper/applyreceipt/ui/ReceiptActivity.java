@@ -30,7 +30,7 @@ public class ReceiptActivity extends AppCompatActivity implements IActivityStatu
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_receipt);
         super.onCreate(savedInstanceState);
-        setTitle("申请开通收付款");
+        setTitle("申请开通收款");
     }
 
     @Override

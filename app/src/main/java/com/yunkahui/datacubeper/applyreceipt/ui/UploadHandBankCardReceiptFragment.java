@@ -63,22 +63,6 @@ public class UploadHandBankCardReceiptFragment extends Fragment implements View.
 
     //查询已上传数据
     private void loadData() {
-        LoadingViewDialog.getInstance().show(getActivity());
-        new ApplyPosLogic().checkPosApplyUploadData(getActivity(), new SimpleCallBack<BaseBean<PosApplyInfo>>() {
-            @Override
-            public void onSuccess(BaseBean<PosApplyInfo> bean) {
-                LoadingViewDialog.getInstance().dismiss();
-                if (RequestUtils.SUCCESS.equals(bean.getRespCode())) {
-                    updateData(bean.getRespData());
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                LoadingViewDialog.getInstance().dismiss();
-                ToastUtils.show(getActivity(), "请求失败 " + throwable.toString());
-            }
-        });
 
     }
 

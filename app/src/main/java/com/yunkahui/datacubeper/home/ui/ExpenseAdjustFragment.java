@@ -25,6 +25,8 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.ExpenseAdjustLogic;
 
@@ -74,15 +76,18 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
             public void onSuccess(BaseBean baseBean) {
                 LoadingViewDialog.getInstance().dismiss();
                 try {
-                    JSONObject object = baseBean.getJsonObject();
-                    Log.e(TAG, "onSuccess: "+object.toString());
-                    JSONArray array = object.getJSONArray("respData");
-                    mTypeList.clear();
-                    for (int i = 0; i < array.length(); i++) {
-                        mTypeList.add(array.getString(i));
+                    if (baseBean.getRespCode().equals(RequestUtils.SUCCESS)) {
+                        JSONObject object = baseBean.getJsonObject();
+                        Log.e(TAG, "onSuccess: " + object.toString());
+                        JSONArray array = object.getJSONArray("respData");
+                        mTypeList.clear();
+                        for (int i = 0; i < array.length(); i++) {
+                            mTypeList.add(array.getString(i));
+                        }
+                        updateRadioButton();
+                        initView();
                     }
-                    updateRadioButton();
-                    initView();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -164,7 +169,12 @@ public class ExpenseAdjustFragment extends BaseFragment implements View.OnClickL
             mLogic.updatePlanningInfo(mActivity, ((AdjustPlanActivity) getActivity()).getId(), mTypeList.get(mIndex), mEditTextInputMoney.getText().toString(), new SimpleCallBack<BaseBean>() {
                 @Override
                 public void onSuccess(BaseBean baseBean) {
-                    finishSelf();
+                    LoadingViewDialog.getInstance().dismiss();
+                    ToastUtils.show(getActivity(), baseBean.getRespDesc());
+                    if (baseBean.getRespCode().equals(RequestUtils.SUCCESS)) {
+                        finishSelf();
+                    }
+
                 }
 
                 @Override

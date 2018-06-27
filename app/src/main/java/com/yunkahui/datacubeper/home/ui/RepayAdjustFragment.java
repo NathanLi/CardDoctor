@@ -13,6 +13,8 @@ import com.hellokiki.rrorequest.SimpleCallBack;
 import com.yunkahui.datacubeper.R;
 import com.yunkahui.datacubeper.base.BaseFragment;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
+import com.yunkahui.datacubeper.common.utils.RequestUtils;
+import com.yunkahui.datacubeper.common.utils.ToastUtils;
 import com.yunkahui.datacubeper.common.view.LoadingViewDialog;
 import com.yunkahui.datacubeper.home.logic.ExpenseAdjustLogic;
 import com.yunkahui.datacubeper.home.logic.RepayAdjustLogic;
@@ -45,7 +47,10 @@ public class RepayAdjustFragment extends BaseFragment implements View.OnClickLis
                 @Override
                 public void onSuccess(BaseBean baseBean) {
                     LoadingViewDialog.getInstance().dismiss();
-                    finishSelf();
+                    ToastUtils.show(getActivity(),baseBean.getRespDesc());
+                    if(baseBean.getRespCode().equals(RequestUtils.SUCCESS)){
+                        finishSelf();
+                    }
                 }
 
                 @Override

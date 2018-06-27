@@ -57,7 +57,6 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
     public void initData() {
         mLogic = new ApplyPosLogic();
         mDialogArea = new DialogSub(this);
-        mEditTextViewName.setText(DataUtils.getInfo().getTruename());
         loadData();
     }
 
@@ -133,6 +132,7 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
     }
 
     private void updateData(PosApplyInfo respData) {
+        mEditTextViewName.setText(respData.getAccount_name());
         mProvince = respData.getDeposit_province();
         mCity = respData.getDeposit_city();
         mEditTextViewBankCardNumber.setText(respData.getBank_card_num());
@@ -143,6 +143,10 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
     }
 
     private boolean check() {
+        if(TextUtils.isEmpty(mEditTextViewName.getText())){
+            ToastUtils.show(getApplicationContext(), "请输入账户名称");
+            return false;
+        }
         if (TextUtils.isEmpty(mEditTextViewBankCardNumber.getText())) {
             ToastUtils.show(getApplicationContext(), "请输入银行卡号");
             return false;
@@ -164,7 +168,7 @@ public class SettleInfoActivity extends AppCompatActivity implements IActivitySt
 
     private void upLoadSettleInfo() {
         LoadingViewDialog.getInstance().show(this);
-        mLogic.upLoadSettleInfo(this, mEditTextViewBankCardNumber.getText(), mEditTextViewBankCardName.getText(), mProvince, mCity, mTextViewBranch.getText().toString(),
+        mLogic.upLoadSettleInfo(this, mEditTextViewName.getText(), mEditTextViewBankCardNumber.getText(), mEditTextViewBankCardName.getText(), mProvince, mCity, mTextViewBranch.getText().toString(),
                 mEditTextViewBranchNumber.getText(), new SimpleCallBack<BaseBean>() {
                     @Override
                     public void onSuccess(BaseBean baseBean) {

@@ -171,14 +171,14 @@ public class DesignSubFragment extends BaseFragment {
                             String type = mIsTodayOperation ?
                                     mTodayOperationSubList.get(position).getPlan_type().equals("00") ? "消费" : "还款" :
                                     mPlanListList.get(position).getPlan_type().equals("00") ? "消费" : "还款";
-                            double amount = mIsTodayOperation ?
-                                    mTodayOperationSubList.get(position).getAmount() : mPlanListList.get(position).getAmount();
+                            String amount = mIsTodayOperation ?
+                                    mTodayOperationSubList.get(position).getAmountString() : mPlanListList.get(position).getAmountString();
                             int id = mIsTodayOperation ?
                                     mTodayOperationSubList.get(position).getAp_id() : mPlanListList.get(position).getAp_id();
                             mPosition = position;
                             startActivityForResult(new Intent(mActivity, AdjustPlanActivity.class)
                                     .putExtra("type", type)
-                                    .putExtra("amount", String.valueOf(amount))
+                                    .putExtra("amount", amount)
                                     .putExtra("business_type", mIsTodayOperation ? mTodayOperationSubList.get(position).getBusiness_name() : mPlanListList.get(position).getBusiness_name())
                                     .putExtra("id", String.valueOf(id)), 1);
                         }
@@ -206,11 +206,22 @@ public class DesignSubFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && data != null) {
             String amount = data.getStringExtra("amount");
+
+            if (amount.contains(".")) {
+                int point = amount.indexOf(".");
+                if (amount.substring(point, amount.length()).length() > 3) {
+                    amount = amount.substring(0, point + 3);
+                }
+            }
+
+            Log.e("2018", "------------" + amount + "----------------");
             if ("repay".equals(data.getStringExtra("type"))) {
                 if (mIsTodayOperation) {
                     mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
+                    mTodayOperationSubList.get(mPosition).setAmountString(amount);
                 } else {
                     mPlanListList.get(mPosition).setAmount(Float.parseFloat(amount));
+                    mPlanListList.get(mPosition).setAmountString(amount);
                 }
                 mDesignSubAdapter.notifyItemChanged(mPosition);
                 Toast.makeText(mActivity, "信息更新完毕", Toast.LENGTH_SHORT).show();
@@ -219,9 +230,11 @@ public class DesignSubFragment extends BaseFragment {
                 if (mIsTodayOperation) {
                     mTodayOperationSubList.get(mPosition).setAmount(Integer.parseInt(amount));
                     mTodayOperationSubList.get(mPosition).setBusiness_name(businessType);
+                    mTodayOperationSubList.get(mPosition).setAmountString(amount);
                 } else {
                     mPlanListList.get(mPosition).setAmount(Float.parseFloat(amount));
                     mPlanListList.get(mPosition).setBusiness_name(businessType);
+                    mPlanListList.get(mPosition).setAmountString(amount);
                 }
                 // TODO: 2018/4/18 0018 set business type
                 mDesignSubAdapter.notifyItemChanged(mPosition);

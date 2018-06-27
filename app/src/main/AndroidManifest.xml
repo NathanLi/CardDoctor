@@ -174,9 +174,11 @@
         <activity android:name=".share.ui.IntegralRecordListActivity" />
         <activity android:name=".share.ui.RecordListActivity" />
         <activity android:name=".applyreceipt.ui.ReceiptActivity" />
+        <activity android:name=".applyreceipt.ui.ReceiptGuideActivity" />
         <activity android:name=".applyreceipt.ui.BaseReceiptInfoActivity" />
         <activity android:name=".applyreceipt.ui.SettleReceiptInfoActivity" />
         <activity android:name=".applyreceipt.ui.UploadPhotoActivity" />
+        <activity android:name=".applyreceipt.ui.QuickPayActivity" />
     </application>
 
 </manifest>

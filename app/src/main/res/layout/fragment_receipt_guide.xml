@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15pt"
+        android:layout_marginTop="20pt"
+        android:text="请填写如下资料："
+        android:textSize="14pt" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginTop="8pt"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_base_info"
+        app:menu_title="1、基本信息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_settle_info"
+        app:menu_title="2、结算信息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10pt"
+        android:layout_marginLeft="15pt"
+        android:layout_marginTop="10pt"
+        android:text="请如实上传如下资料"
+        android:textSize="14pt" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_id_card_photo"
+        app:menu_title="1、身份证正、反面照片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_hand_id_card_photo"
+        app:menu_title="2、手持身份证正面照片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_bank_card_photo"
+        app:menu_title="3、银行卡正、反面照片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <com.yunkahui.datacubeper.common.view.SimpleMenuItemView
+        android:id="@+id/simple_menu_hand_bank_card_photo"
+        app:menu_title="4、手持银行卡正、反面照片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/line_gray_DDDDDD" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50pt"
+        android:layout_margin="35pt"
+        android:background="@drawable/bg_button_blue_selector"
+        android:text="提交审核"
+        android:textColor="@color/white" />
+
+</LinearLayout>

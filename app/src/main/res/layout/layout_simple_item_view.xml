@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30pt"
+        android:paddingRight="30pt"
+        android:paddingTop="12pt"
+        android:paddingBottom="12pt">
+        <TextView
+            android:id="@+id/tv_left"
+            tools:text="菜单选项"
+            android:textSize="16pt"
+            android:textColor="@color/text_color_dark_gray_404040"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" />
+        <TextView
+            android:id="@+id/tv_right"
+            tools:text="菜单选项"
+            android:textSize="16pt"
+            android:textColor="@color/text_color_gray_a4a4a4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5pt"
+        android:background="@color/line_gray_e8e8e8"/>
+
+</LinearLayout>

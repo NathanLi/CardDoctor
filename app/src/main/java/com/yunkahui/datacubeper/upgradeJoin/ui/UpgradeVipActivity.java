@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.hellokiki.rrorequest.SimpleCallBack;
@@ -14,6 +15,7 @@ import com.yunkahui.datacubeper.applypos.ui.ApplyPosActivity;
 import com.yunkahui.datacubeper.base.IActivityStatusBar;
 import com.yunkahui.datacubeper.common.bean.BaseBean;
 import com.yunkahui.datacubeper.common.bean.VipPackage;
+import com.yunkahui.datacubeper.common.other.OENType;
 import com.yunkahui.datacubeper.common.utils.LogUtils;
 import com.yunkahui.datacubeper.common.utils.PayHelper;
 import com.yunkahui.datacubeper.common.utils.RequestUtils;
@@ -73,8 +75,13 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                     mVipPackages.addAll(vipPackageBaseBeanList.getRespData());
                     mUpgradeJoinItemView1.setData(mVipPackages.get(0));
                     mUpgradeJoinItemView2.setData(mVipPackages.get(1));
-                    mUpgradeJoinItemView3.setData(mVipPackages.get(2));
-                }else{
+
+                    if (OENType.currentType() == OENType.kabuluo) {
+                        mUpgradeJoinItemView3.setData(null);
+                    }else{
+                        mUpgradeJoinItemView3.setData(mVipPackages.get(2));
+                    }
+                } else {
                     mUpgradeJoinItemView1.setVisibility(View.GONE);
                     mUpgradeJoinItemView2.setVisibility(View.GONE);
                     mUpgradeJoinItemView3.setVisibility(View.GONE);
@@ -144,8 +151,8 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
         dialog.create().show();
     }
 
-    public void showPosApplyDialog(){
-        AlertDialog dialog=new AlertDialog.Builder(this)
+    public void showPosApplyDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage("是否前往POS申请?")
                 .setPositiveButton("前往", new DialogInterface.OnClickListener() {
                     @Override
@@ -153,7 +160,7 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                         ApplyPosActivity.startAction(UpgradeVipActivity.this);
                     }
                 })
-                .setNeutralButton("取消",null)
+                .setNeutralButton("取消", null)
                 .create();
         dialog.show();
     }
@@ -260,7 +267,7 @@ public class UpgradeVipActivity extends AppCompatActivity implements IActivitySt
                     startActivityForResult(intentVip1, RESULT_CODE_VIP1);
                     break;
                 case R.id.upgrade_join_item_view2:
-                    switch (mVipPackages.get(1).getOpenState()){
+                    switch (mVipPackages.get(1).getOpenState()) {
                         case "00":
                             loadVipData(RESULT_CODE_VIP2);
                             break;

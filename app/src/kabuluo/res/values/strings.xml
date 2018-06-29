@@ -9,7 +9,7 @@
     <string name="share_app">分享卡部落</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_agreement">《卡部落服务协议》</string>
-    <string name="share_policy_1"><![CDATA[ 邀请您的好友升级钻石代理可获得<font color="#000000">298元直接奖励+交易分润</font> ]]></string>
+    <string name="share_policy_1"><![CDATA[ 邀请您的好友升级钻石代理可获得<font color="#000000">248元直接奖励+交易分润</font> ]]></string>
     <string name="share_policy_2"><![CDATA[ 您好友邀请好友升级VIP，您可获得<font color="#000000">50元间接奖励+交易分润万分之3</font> ]]></string>
     <string name="share_policy_3"><![CDATA[线下pos机会员激活6个月内<font color="#000000">消费60万，返回298元</font>。]]></string>
     <string name="vip_policy_1"><![CDATA[线上VIP会员直接推荐VIP会员<font color="#0000ff">现金奖励100元，分润为万分之5</font>（线上交易部分，线下pos机交易无）；
@@ -20,7 +20,7 @@
     <string name="upgrade_vip">VIP会员</string>
     <string name="upgrade_vip_content">三大套餐，解锁不同功能</string>
     <string name="upgrade_agent">代理商</string>
-    <string name="upgrade_agent_content">铂金合伙人，白金合伙人，钻石合伙人</string>
+    <string name="upgrade_agent_content">铂金合伙人，白金合伙人</string>
     <string name="upgrade_vip_package">VIP会员套餐</string>
     <string name="open_vip">升级VIP会员</string>
 

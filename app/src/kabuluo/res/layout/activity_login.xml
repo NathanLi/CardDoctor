@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30pt"
+    android:paddingRight="30pt"
+    android:background="@color/white"
+    tools:context="com.yunkahui.datacubeper.login.ui.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="160pt"
+        android:layout_height="160pt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10pt"
+        android:contentDescription="@string/default_content_description"
+        android:src="@mipmap/ic_logo_200" />
+
+
+    <EditText
+        android:id="@+id/edit_text_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view_logo"
+        android:layout_marginTop="50pt"
+        android:background="@null"
+        android:drawableLeft="@mipmap/ic_username"
+        android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_username"
+        android:hint="@string/input_phone_num"
+        android:inputType="number"
+        android:lines="1"
+        android:text="13800138000"
+        android:textColorHint="@color/text_color_gray_949494"
+        android:textSize="18pt"
+        tools:ignore="TextFields" />
+
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/edit_text_phone"
+        android:layout_marginTop="15pt"
+        android:background="#b90191cf" />
+
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line1"
+        android:layout_marginTop="15pt"
+        android:background="@null"
+        android:drawableLeft="@mipmap/ic_password"
+        android:drawablePadding="15pt"
+        android:drawableStart="@mipmap/ic_password"
+        android:hint="@string/psd_tips"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:text="123456"
+        android:textColorHint="@color/text_color_gray_949494"
+        android:textSize="18pt" />
+
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/edit_text_password"
+        android:layout_marginTop="15pt"
+        android:background="#b90191cf" />
+
+    <TextView
+        android:id="@+id/text_view_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_line2"
+        android:layout_marginBottom="10pt"
+        android:layout_marginTop="10pt"
+        android:text="@string/forget_psd"
+        android:textSize="14pt" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="45pt"
+        android:layout_below="@+id/text_view_forget_password"
+        android:layout_margin="10pt"
+        android:background="@drawable/bg_button_login_selector"
+        android:text="@string/login"
+        android:textColor="#FFFFFF"
+        android:textSize="16pt" />
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="45pt"
+        android:layout_below="@+id/button_login"
+        android:layout_margin="10pt"
+        android:background="@drawable/bg_button_register_normal"
+        android:text="@string/fast_register"
+        android:textColor="@color/text_color_blue_0d55ff"
+        android:textSize="16pt" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15pt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agreement_tips"
+            android:textSize="12pt" />
+
+        <TextView
+            android:id="@+id/text_view_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agreement"
+            android:textColor="@color/text_color_blue_0d55ff"
+            android:textSize="12pt" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

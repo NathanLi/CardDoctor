@@ -1,8 +1,10 @@
 package com.yunkahui.datacubeper.applyreceipt.ui;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.yunkahui.datacubeper.R;

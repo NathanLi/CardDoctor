@@ -75,7 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="3、邀请您的好友升级钻石代理可获得298元直接奖励+交易分润"
+        android:text="3、邀请您的好友升级钻石代理可获得248元直接奖励+交易分润"
         android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
